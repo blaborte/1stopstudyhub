@@ -1,257 +1,784 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Wireshark Filters Reference — BL</title>
-<style>
-  :root {
-    --bg: #0d1117; --bg2: #161b22; --bg3: #21262d;
-    --border: #30363d; --text: #e6edf3; --muted: #8b949e;
-    --blue: #58a6ff; --green: #3fb950; --amber: #d29922; --red: #f85149;
-    --cyan: #39d3f2; --purple: #bc8cff;
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; font-size: 14px; min-height: 100vh; }
-  header { background: var(--bg2); border-bottom: 1px solid var(--border); padding: 18px 24px; display: flex; align-items: center; gap: 14px; position: sticky; top: 0; z-index: 10; }
-  .logo { width: 38px; height: 38px; background: #1565c0; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
-  h1 { font-size: 18px; font-weight: 600; }
-  .tagline { font-size: 12px; color: var(--muted); margin-top: 2px; }
-  .badge-brand { margin-left: auto; font-size: 11px; color: var(--cyan); background: rgba(57,211,242,0.1); border: 1px solid rgba(57,211,242,0.25); padding: 3px 10px; border-radius: 20px; }
-  main { max-width: 1100px; margin: 0 auto; padding: 24px; }
-  .controls { display: flex; gap: 10px; margin-bottom: 18px; flex-wrap: wrap; align-items: center; }
-  .search-wrap { position: relative; flex: 1; min-width: 200px; }
-  .search-wrap svg { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); opacity: 0.5; }
-  input[type=text] { width: 100%; background: var(--bg2); border: 1px solid var(--border); color: var(--text); padding: 8px 12px 8px 34px; border-radius: 6px; font-size: 13px; }
-  input[type=text]:focus { outline: none; border-color: var(--blue); }
-  .tabs { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 16px; }
-  .tab { padding: 5px 13px; border-radius: 20px; border: 1px solid var(--border); font-size: 12px; cursor: pointer; background: transparent; color: var(--muted); transition: all 0.15s; }
-  .tab:hover { color: var(--text); border-color: #8b949e; }
-  .tab.active { background: rgba(88,166,255,0.1); border-color: rgba(88,166,255,0.4); color: var(--blue); }
-  .col-header { display: grid; grid-template-columns: 2fr 100px 1.5fr; gap: 12px; padding: 6px 12px; margin-bottom: 6px; }
-  .col-h { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; font-weight: 600; }
-  .grid { display: grid; grid-template-columns: 1fr; gap: 3px; }
-  .row { display: grid; grid-template-columns: 2fr 100px 1.5fr; gap: 12px; align-items: start; padding: 9px 12px; border-radius: 6px; border: 1px solid transparent; cursor: pointer; transition: all 0.12s; }
-  .row:hover { background: var(--bg2); border-color: var(--border); }
-  .row:active { background: rgba(57,211,242,0.05); }
-  .fcode { font-family: 'Cascadia Code', 'Consolas', monospace; font-size: 12.5px; color: var(--cyan); word-break: break-all; }
-  .fdesc { font-size: 12.5px; color: var(--muted); }
-  .badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: 600; }
-  .badge-c { background: rgba(63,185,80,0.15); color: var(--green); border: 1px solid rgba(63,185,80,0.3); }
-  .badge-d { background: rgba(88,166,255,0.12); color: var(--blue); border: 1px solid rgba(88,166,255,0.3); }
-  .badge-b { background: rgba(210,153,34,0.15); color: var(--amber); border: 1px solid rgba(210,153,34,0.3); }
-  .count { color: var(--muted); font-size: 12px; margin-top: 14px; text-align: right; }
-  .copy-toast { position: fixed; bottom: 20px; right: 20px; background: var(--bg3); border: 1px solid var(--border); color: var(--green); padding: 8px 16px; border-radius: 8px; font-size: 13px; opacity: 0; transition: opacity 0.25s; pointer-events: none; z-index: 99; }
-  .copy-toast.show { opacity: 1; }
-  .no-results { text-align: center; padding: 40px; color: var(--muted); }
-  section.group { margin-bottom: 28px; }
-  .section-title { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; color: var(--muted); margin-bottom: 8px; padding-left: 2px; }
-  footer { text-align: center; padding: 24px; color: var(--muted); font-size: 12px; border-top: 1px solid var(--border); margin-top: 32px; }
-</style>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Wireshark Filters Reference | BL Cert Hub</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    :root{
+      --navy:#0B1D3A;--blue:#1A5276;--accent:#2E86C1;--sky:#5DADE2;
+      --light:#EAF4FB;--mid:#D6EAF8;--white:#fff;--text:#0B1D3A;--muted:#5D7A8C;
+      --border:rgba(30,80,130,0.13);--shadow:0 2px 12px rgba(11,29,58,0.08);
+      --c1:#117A65;--c2:#1A5276;--c3:#6C3483;--c4:#C0392B;--c5:#B8860B;--c6:#2E7D32;--c7:#0E7A8A;--c8:#7D3C98;--c9:#D35400;--c10:#1F618D;--c11:#196F3D;
+    }
+    html{scroll-behavior:smooth}
+    body{font-family:"DM Sans",sans-serif;background:var(--light);color:var(--text);min-height:100vh;display:flex;flex-direction:column}
+
+    /* NAV */
+    nav{background:var(--navy);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:56px;position:sticky;top:0;z-index:200;border-bottom:1px solid rgba(93,173,226,0.15)}
+    .nav-brand{display:flex;align-items:center;gap:10px;text-decoration:none}
+    .bl-circle{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#2E86C1,#5DADE2);display:flex;align-items:center;justify-content:center;font-family:"Space Mono",monospace;font-size:10px;font-weight:700;color:#fff;flex-shrink:0}
+    .nav-brand span{font-size:13px;font-weight:500;color:rgba(255,255,255,0.85);letter-spacing:.02em}
+    .nav-links{display:flex;gap:6px;align-items:center}
+    .nav-links a{font-size:12px;font-weight:500;color:rgba(255,255,255,0.6);text-decoration:none;padding:6px 12px;border-radius:6px;transition:all .18s}
+    .nav-links a:hover{color:#fff;background:rgba(255,255,255,0.08)}
+    .nav-links a.active{color:var(--sky);background:rgba(93,173,226,0.12)}
+    .theme-btn{width:34px;height:34px;border-radius:8px;border:1px solid rgba(255,255,255,0.18);background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.75);cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;transition:all .18s;flex-shrink:0}
+    .theme-btn:hover{background:rgba(255,255,255,0.15);color:#fff}
+
+    /* HERO */
+    .hero{background:linear-gradient(135deg,#0B1D3A 0%,#117A65 55%,#1A8C75 100%);padding:3.5rem 2rem 3rem;position:relative;overflow:hidden}
+    .hero-gp{position:absolute;inset:0;background-image:linear-gradient(rgba(93,173,226,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(93,173,226,0.04) 1px,transparent 1px);background-size:32px 32px;pointer-events:none}
+    .hero-ring{position:absolute;border-radius:50%;border:40px solid rgba(93,173,226,0.07);pointer-events:none}
+    .hero-ring.r1{width:320px;height:320px;top:-80px;right:-60px}
+    .hero-ring.r2{width:180px;height:180px;bottom:-60px;left:38%;border-width:22px}
+    .hero-inner{position:relative;max-width:900px;margin:0 auto}
+    .exam-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.18);border-radius:20px;padding:5px 14px 5px 5px;margin-bottom:1.25rem}
+    .exam-badge .bl-circle{width:26px;height:26px;font-size:9px}
+    .exam-badge span{font-size:12px;color:rgba(255,255,255,0.8);font-weight:500}
+    .hero h1{font-family:"Space Mono",monospace;font-size:clamp(24px,4vw,42px);font-weight:700;color:#fff;line-height:1.15;margin-bottom:.6rem}
+    .hero h1 .accent{color:#5DDED4}
+    .hero-sub{font-size:14px;color:rgba(255,255,255,0.6);line-height:1.7;max-width:560px;margin-bottom:1.5rem}
+    .hero-pills{display:flex;gap:8px;flex-wrap:wrap}
+    .pill{font-size:11px;font-weight:500;padding:5px 12px;border-radius:6px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:rgba(255,255,255,0.8)}
+
+    /* LAYOUT */
+    .page-body{display:flex;max-width:1100px;margin:0 auto;padding:2.5rem 2rem 4rem;gap:32px;flex:1;width:100%}
+
+    /* SIDEBAR TOC */
+    .toc-sidebar{width:240px;flex-shrink:0}
+    .toc-sticky{position:sticky;top:72px;max-height:calc(100vh - 90px);overflow-y:auto;padding-right:4px}
+    .toc-sticky::-webkit-scrollbar{width:3px}
+    .toc-sticky::-webkit-scrollbar-thumb{background:var(--mid);border-radius:2px}
+    .toc-title{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:12px;padding-bottom:8px;border-bottom:2px solid var(--border)}
+    .toc-domain{margin-bottom:4px}
+    .toc-domain-link{display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:8px;text-decoration:none;font-size:12px;font-weight:600;color:var(--text);transition:all .18s;border:1px solid transparent}
+    .toc-domain-link:hover{background:var(--white);border-color:var(--border)}
+    .toc-domain-link.active{color:#fff;border-color:transparent}
+    .toc-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+    .toc-progress{height:2px;background:var(--mid);border-radius:1px;margin-top:14px;overflow:hidden}
+    .toc-progress-fill{height:100%;background:linear-gradient(90deg,var(--c1),#5DDED4);border-radius:1px;transition:width .3s;width:0%}
+
+    /* SEARCH BAR */
+    .filter-search-wrap{margin-bottom:1.5rem;position:relative}
+    .filter-search-wrap svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);opacity:0.4;pointer-events:none}
+    .filter-search{width:100%;padding:9px 14px 9px 36px;border:1px solid var(--border);border-radius:8px;background:var(--white);color:var(--text);font-size:13px;font-family:"DM Sans",sans-serif;transition:border-color .18s}
+    .filter-search:focus{outline:none;border-color:var(--accent)}
+
+    /* MAIN CONTENT */
+    .notes-main{flex:1;min-width:0}
+
+    /* DOMAIN SECTION */
+    .domain-section{margin-bottom:3.5rem}
+    .domain-header{display:flex;align-items:center;gap:16px;margin-bottom:1.75rem;padding-bottom:1rem;border-bottom:2px solid var(--border);position:relative}
+    .domain-header::after{content:"";position:absolute;bottom:-2px;left:0;width:80px;height:2px;background:var(--d-color)}
+    .domain-num-badge{font-family:"Space Mono",monospace;font-size:11px;font-weight:700;padding:4px 12px;border-radius:6px;color:#fff;flex-shrink:0}
+    .domain-title-text{font-family:"Space Mono",monospace;font-size:clamp(17px,2.5vw,22px);font-weight:700;color:var(--text)}
+    .domain-count{font-family:"Space Mono",monospace;font-size:11px;font-weight:700;padding:4px 10px;border-radius:6px;background:var(--mid);color:var(--blue);margin-left:auto;flex-shrink:0}
+
+    /* TOPIC CARD */
+    .topic-card{background:var(--white);border:1px solid var(--border);border-radius:14px;margin-bottom:1.25rem;overflow:hidden;box-shadow:var(--shadow)}
+    .topic-card-header{display:flex;align-items:center;gap:12px;padding:14px 20px;cursor:pointer;user-select:none;transition:background .15s;border-left:4px solid var(--d-color)}
+    .topic-card-header:hover{background:rgba(46,134,193,0.03)}
+    .topic-card-icon{font-size:16px;flex-shrink:0}
+    .topic-card-title{font-size:14px;font-weight:600;color:var(--text);flex:1}
+    .topic-chevron{font-size:11px;color:var(--muted);transition:transform .25s;flex-shrink:0}
+    .topic-chevron.open{transform:rotate(180deg)}
+    .topic-card-body{display:none;padding:20px 24px 24px;border-top:1px solid var(--border);background:rgba(234,244,251,0.3)}
+    .topic-card-body.open{display:block}
+
+    /* NOTE CONTENT */
+    .note-intro{font-family:"Merriweather",serif;font-size:13.5px;line-height:1.85;color:var(--muted);margin-bottom:1.25rem;font-weight:300;font-style:italic;padding:12px 16px;border-left:3px solid var(--d-color);background:rgba(234,244,251,0.5);border-radius:0 8px 8px 0}
+    .note-section{margin-bottom:1.5rem}
+    .note-section:last-child{margin-bottom:0}
+    .note-section-title{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--d-color);margin-bottom:.75rem;display:flex;align-items:center;gap:8px}
+    .note-section-title::after{content:"";flex:1;height:1px;background:rgba(46,134,193,0.15)}
+    .note-p{font-size:13px;line-height:1.75;color:var(--text);margin-bottom:.75rem}
+
+    /* FILTER TABLE */
+    .filter-table-wrap{overflow-x:auto;margin-bottom:.75rem}
+    .filter-table{width:100%;border-collapse:collapse;font-size:12.5px}
+    .filter-table th{background:var(--navy);color:rgba(255,255,255,0.75);padding:9px 12px;text-align:left;font-size:11px;font-weight:600;letter-spacing:.04em}
+    .filter-table th:first-child{border-radius:6px 0 0 0}
+    .filter-table th:last-child{border-radius:0 6px 0 0}
+    .filter-table td{padding:9px 12px;border-bottom:1px solid var(--border);color:var(--text);vertical-align:top}
+    .filter-table tr:last-child td{border-bottom:none}
+    .filter-table tr:hover td{background:rgba(46,134,193,0.04)}
+    .filter-table tr.hidden-row{display:none}
+    .fcode{font-family:"Space Mono",monospace;font-size:11.5px;color:var(--accent);word-break:break-all;cursor:pointer;transition:color .15s}
+    .fcode:hover{color:var(--sky)}
+    .fdesc{font-size:12px;line-height:1.55;color:var(--muted)}
+
+    /* TYPE BADGES */
+    .badge{display:inline-block;padding:2px 8px;border-radius:5px;font-size:10px;font-weight:600;white-space:nowrap}
+    .badge-c{background:rgba(39,174,96,0.12);color:#239B56;border:1px solid rgba(39,174,96,0.25)}
+    .badge-d{background:rgba(46,134,193,0.12);color:#1A5276;border:1px solid rgba(46,134,193,0.25)}
+    .badge-b{background:rgba(211,84,0,0.1);color:#A04000;border:1px solid rgba(211,84,0,0.22)}
+
+    /* CALLOUT */
+    .callout{border-radius:10px;padding:12px 16px;margin-bottom:.75rem;display:flex;gap:10px;align-items:flex-start}
+    .callout.tip{background:rgba(39,174,96,0.08);border:1px solid rgba(39,174,96,0.2)}
+    .callout.warn{background:rgba(243,156,18,0.08);border:1px solid rgba(243,156,18,0.25)}
+    .callout.key{background:rgba(46,134,193,0.08);border:1px solid rgba(46,134,193,0.2)}
+    .callout.exam{background:rgba(192,57,43,0.07);border:1px solid rgba(192,57,43,0.2)}
+    .callout-icon{font-size:14px;flex-shrink:0;margin-top:1px}
+    .callout-body{font-size:12.5px;line-height:1.65;color:var(--text)}
+    .callout-body strong{font-weight:600}
+
+    /* TOAST */
+    .copy-toast{position:fixed;bottom:20px;right:20px;background:var(--navy);border:1px solid rgba(93,173,226,0.3);color:#5DDED4;padding:8px 16px;border-radius:8px;font-size:13px;opacity:0;transition:opacity .25s;pointer-events:none;z-index:999;font-family:"Space Mono",monospace}
+    .copy-toast.show{opacity:1}
+
+    /* DARK MODE */
+    html.dark{--light:#131b27;--mid:#1a2535;--white:#1e2a3a;--text:#d4e6f7;--muted:#7aa3c0;--border:rgba(93,173,226,0.14)}
+    html.dark body{background:var(--light);color:var(--text)}
+    html.dark nav,html.dark footer{background:#0a1220}
+    html.dark .topic-card{background:var(--white);border-color:var(--border)}
+    html.dark .topic-card-body{background:rgba(0,0,0,0.15)}
+    html.dark .note-intro{background:rgba(0,0,0,0.2)}
+    html.dark .filter-table td{border-color:var(--border);color:var(--text)}
+    html.dark .filter-table tr:hover td{background:rgba(93,173,226,0.04)}
+    html.dark .filter-table th{background:#0a1220}
+    html.dark .toc-domain-link:hover{background:var(--mid)}
+    html.dark .filter-search{background:var(--mid);border-color:var(--border);color:var(--text)}
+    html.dark .filter-search:focus{background:var(--white)}
+    html.dark .badge-d{color:#5DADE2;border-color:rgba(93,173,226,0.3)}
+    html.dark .badge-c{color:#58D68D}
+    html.dark .badge-b{color:#F0A500}
+    html.dark .fcode{color:#5DADE2}
+    html.dark .fcode:hover{color:#5DDED4}
+    html.dark .domain-title-text,.theme-btn{color:var(--text)}
+    html.dark .domain-count{background:var(--mid)}
+
+    footer{background:var(--navy);padding:1.25rem 2rem;text-align:center;border-top:1px solid rgba(93,173,226,0.12)}
+    footer p{font-size:12px;color:rgba(255,255,255,0.3)}
+    footer a{color:var(--sky);text-decoration:none}
+
+    @media(max-width:768px){
+      .toc-sidebar{display:none}
+      .page-body{padding:1.5rem 1.25rem 3rem}
+      nav{padding:0 1.25rem}
+      .hero{padding:2rem 1.25rem 2rem}
+    }
+  </style>
 </head>
 <body>
+<script>
+(function(){const K="bl-theme";function apply(d){document.documentElement.classList.toggle("dark",d);const b=document.getElementById("theme-btn");if(b)b.textContent=d?"☀":"☾"}apply(localStorage.getItem(K)==="dark");window.__toggleTheme=function(){const d=!document.documentElement.classList.contains("dark");localStorage.setItem(K,d?"dark":"light");apply(d)};window.addEventListener("storage",function(e){if(e.key===K)apply(e.newValue==="dark")});})();
+</script>
 
-<header>
-  <div class="logo">🦈</div>
-  <div>
-    <h1>Wireshark Filters Reference</h1>
-    <div class="tagline">Capture &amp; Display filters — click any row to copy</div>
+<nav>
+  <a class="nav-brand" href="index.html"><div class="bl-circle">BL</div><span>BL Cert Hub</span></a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="secplus-home.html">Security+</a>
+    <a href="#" class="active">Wireshark Filters</a>
+    <button class="theme-btn" id="theme-btn" onclick="__toggleTheme()">☾</button>
   </div>
-  <div class="badge-brand">BL Security+</div>
-</header>
+</nav>
 
-<main>
-  <div class="controls">
-    <div class="search-wrap">
-      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-      <input type="text" id="search" placeholder="Search filters, protocols, descriptions…" oninput="filterRows()">
+<div class="hero">
+  <div class="hero-gp"></div>
+  <div class="hero-ring r1"></div>
+  <div class="hero-ring r2"></div>
+  <div class="hero-inner">
+    <div class="exam-badge"><div class="bl-circle">BL</div><span>Packet Analysis Reference</span></div>
+    <h1>Wireshark <span class="accent">Filters</span></h1>
+    <p class="hero-sub">Complete capture and display filter reference. Click any filter to copy it. Organized by protocol category — from IP and ports to TLS, DNS, TCP flags, and advanced analysis.</p>
+    <div class="hero-pills">
+      <span class="pill">🟢 Capture Filters</span>
+      <span class="pill">🔵 Display Filters</span>
+      <span class="pill">🟠 Both</span>
+      <span class="pill">100+ Filters</span>
     </div>
   </div>
+</div>
 
-  <div class="tabs" id="tabs">
-    <button class="tab active" onclick="setTab('all',this)">All</button>
-    <button class="tab" onclick="setTab('ip',this)">IP / Host</button>
-    <button class="tab" onclick="setTab('port',this)">Ports</button>
-    <button class="tab" onclick="setTab('proto',this)">Protocols</button>
-    <button class="tab" onclick="setTab('http',this)">HTTP/Web</button>
-    <button class="tab" onclick="setTab('dns',this)">DNS</button>
-    <button class="tab" onclick="setTab('tls',this)">TLS/SSL</button>
-    <button class="tab" onclick="setTab('ops',this)">Operators</button>
-    <button class="tab" onclick="setTab('flags',this)">TCP Flags</button>
-    <button class="tab" onclick="setTab('arp',this)">ARP/ICMP</button>
-    <button class="tab" onclick="setTab('adv',this)">Advanced</button>
-  </div>
+<div class="page-body">
+  <!-- TOC SIDEBAR -->
+  <aside class="toc-sidebar">
+    <div class="toc-sticky">
+      <div class="toc-title">Categories</div>
+      <div class="toc-domain"><a class="toc-domain-link" href="#sec_ip" data-color="#117A65"><span class="toc-dot" style="background:#117A65"></span>IP &amp; Host</a></div>
+      <div class="toc-domain"><a class="toc-domain-link" href="#sec_port" data-color="#1A5276"><span class="toc-dot" style="background:#1A5276"></span>Ports</a></div>
+      <div class="toc-domain"><a class="toc-domain-link" href="#sec_proto" data-color="#6C3483"><span class="toc-dot" style="background:#6C3483"></span>Protocols</a></div>
+      <div class="toc-domain"><a class="toc-domain-link" href="#sec_http" data-color="#C0392B"><span class="toc-dot" style="background:#C0392B"></span>HTTP / Web</a></div>
+      <div class="toc-domain"><a class="toc-domain-link" href="#sec_dns" data-color="#B8860B"><span class="toc-dot" style="background:#B8860B"></span>DNS</a></div>
+      <div class="toc-domain"><a class="toc-domain-link" href="#sec_tls" data-color="#2E7D32"><span class="toc-dot" style="background:#2E7D32"></span>TLS / SSL</a></div>
+      <div class="toc-domain"><a class="toc-domain-link" href="#sec_ops" data-color="#0E7A8A"><span class="toc-dot" style="background:#0E7A8A"></span>Operators &amp; Logic</a></div>
+      <div class="toc-domain"><a class="toc-domain-link" href="#sec_flags" data-color="#7D3C98"><span class="toc-dot" style="background:#7D3C98"></span>TCP Flags</a></div>
+      <div class="toc-domain"><a class="toc-domain-link" href="#sec_arp" data-color="#D35400"><span class="toc-dot" style="background:#D35400"></span>ARP &amp; ICMP</a></div>
+      <div class="toc-domain"><a class="toc-domain-link" href="#sec_adv" data-color="#1F618D"><span class="toc-dot" style="background:#1F618D"></span>Advanced Analysis</a></div>
+      <div class="toc-progress"><div class="toc-progress-fill" id="read-progress"></div></div>
+    </div>
+  </aside>
 
-  <div class="col-header">
-    <div class="col-h">Filter / Syntax</div>
-    <div class="col-h">Type</div>
-    <div class="col-h">Description</div>
-  </div>
+  <!-- MAIN CONTENT -->
+  <main class="notes-main" id="notes-main">
 
-  <div class="grid" id="grid"></div>
-  <div class="count" id="count"></div>
-</main>
+    <!-- GLOBAL SEARCH -->
+    <div class="filter-search-wrap">
+      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input class="filter-search" type="text" id="globalSearch" placeholder="Search any filter, protocol, or description…" oninput="globalFilter()">
+    </div>
 
-<footer>BL Cybersecurity Reference · blaborte.github.io · Wireshark Filters Cheat Sheet</footer>
-<div class="copy-toast" id="toast">✓ Copied to clipboard</div>
+    <!-- IP & HOST -->
+    <section class="domain-section" id="sec_ip" style="--d-color:#117A65">
+      <div class="domain-header">
+        <span class="domain-num-badge" style="background:#117A65">01</span>
+        <span class="domain-title-text">IP &amp; Host Filters</span>
+        <span class="domain-count" id="cnt_ip">—</span>
+      </div>
+
+      <div class="topic-card">
+        <div class="topic-card-header" onclick="toggleTopic(this)">
+          <span class="topic-card-icon">📡</span>
+          <span class="topic-card-title">Display Filters — IP Address Matching</span>
+          <span class="topic-chevron">▼</span>
+        </div>
+        <div class="topic-card-body">
+          <div class="note-intro">Display filters are applied after capture in the Wireshark UI. They do not affect what is recorded — only what is shown. IP display filters are the most commonly used for isolating specific hosts in a capture file.</div>
+          <div class="filter-table-wrap">
+            <table class="filter-table"><thead><tr><th>Filter</th><th>Type</th><th>Description</th></tr></thead>
+            <tbody id="tbl_ip_disp"></tbody></table>
+          </div>
+          <div class="callout tip"><span class="callout-icon">💡</span><div class="callout-body"><strong>Tip:</strong> <code>ip.addr</code> matches both source and destination. Use <code>ip.src</code> or <code>ip.dst</code> to be direction-specific. CIDR notation works: <code>ip.addr == 10.0.0.0/8</code></div></div>
+        </div>
+      </div>
+
+      <div class="topic-card">
+        <div class="topic-card-header" onclick="toggleTopic(this)">
+          <span class="topic-card-icon">🎣</span>
+          <span class="topic-card-title">Capture Filters — Host &amp; Network</span>
+          <span class="topic-chevron">▼</span>
+        </div>
+        <div class="topic-card-body">
+          <div class="note-intro">Capture filters use BPF (Berkeley Packet Filter) syntax and are set before capturing starts. They reduce file size and resource usage by only recording matching traffic. Use these when you know exactly what you're looking for.</div>
+          <div class="filter-table-wrap">
+            <table class="filter-table"><thead><tr><th>Filter</th><th>Type</th><th>Description</th></tr></thead>
+            <tbody id="tbl_ip_cap"></tbody></table>
+          </div>
+          <div class="callout warn"><span class="callout-icon">⚠️</span><div class="callout-body"><strong>Important:</strong> Capture filters cannot be changed mid-capture. When in doubt, capture everything and use display filters to analyze. BPF syntax differs from display filter syntax — <code>host</code> not <code>ip.addr</code>.</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PORTS -->
+    <section class="domain-section" id="sec_port" style="--d-color:#1A5276">
+      <div class="domain-header">
+        <span class="domain-num-badge" style="background:#1A5276">02</span>
+        <span class="domain-title-text">Port Filters</span>
+        <span class="domain-count" id="cnt_port">—</span>
+      </div>
+      <div class="topic-card">
+        <div class="topic-card-header" onclick="toggleTopic(this)">
+          <span class="topic-card-icon">🔌</span>
+          <span class="topic-card-title">TCP &amp; UDP Port Filtering</span>
+          <span class="topic-chevron">▼</span>
+        </div>
+        <div class="topic-card-body">
+          <div class="note-intro">Port filters let you isolate traffic for a specific service. Display filters use <code>tcp.port</code> and <code>udp.port</code>. Capture filters use the keyword <code>port</code>. The <code>in {}</code> set syntax is display-filter only.</div>
+          <div class="filter-table-wrap">
+            <table class="filter-table"><thead><tr><th>Filter</th><th>Type</th><th>Description</th></tr></thead>
+            <tbody id="tbl_port"></tbody></table>
+          </div>
+          <div class="callout key"><span class="callout-icon">🔑</span><div class="callout-body"><strong>Common ports to know:</strong> 20/21 FTP · 22 SSH · 23 Telnet · 25 SMTP · 53 DNS · 67/68 DHCP · 80 HTTP · 110 POP3 · 143 IMAP · 443 HTTPS · 3389 RDP · 3306 MySQL · 5985 WinRM</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROTOCOLS -->
+    <section class="domain-section" id="sec_proto" style="--d-color:#6C3483">
+      <div class="domain-header">
+        <span class="domain-num-badge" style="background:#6C3483">03</span>
+        <span class="domain-title-text">Protocol Filters</span>
+        <span class="domain-count" id="cnt_proto">—</span>
+      </div>
+      <div class="topic-card">
+        <div class="topic-card-header" onclick="toggleTopic(this)">
+          <span class="topic-card-icon">🌐</span>
+          <span class="topic-card-title">Protocol-Level Filters</span>
+          <span class="topic-chevron">▼</span>
+        </div>
+        <div class="topic-card-body">
+          <div class="note-intro">Wireshark understands hundreds of protocols. Type the protocol name as a display filter to isolate all matching traffic. Many protocol names work as both capture and display filters. Useful for initial triage of a large capture file.</div>
+          <div class="filter-table-wrap">
+            <table class="filter-table"><thead><tr><th>Filter</th><th>Type</th><th>Description</th></tr></thead>
+            <tbody id="tbl_proto"></tbody></table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- HTTP -->
+    <section class="domain-section" id="sec_http" style="--d-color:#C0392B">
+      <div class="domain-header">
+        <span class="domain-num-badge" style="background:#C0392B">04</span>
+        <span class="domain-title-text">HTTP / Web Filters</span>
+        <span class="domain-count" id="cnt_http">—</span>
+      </div>
+      <div class="topic-card">
+        <div class="topic-card-header" onclick="toggleTopic(this)">
+          <span class="topic-card-icon">🌍</span>
+          <span class="topic-card-title">HTTP Request &amp; Response Filters</span>
+          <span class="topic-chevron">▼</span>
+        </div>
+        <div class="topic-card-body">
+          <div class="note-intro">HTTP filters are display-only (HTTP is an application layer protocol). They're invaluable for web traffic analysis, hunting credentials in cleartext, tracing exfiltration, or debugging API calls. HTTPS/TLS requires decryption keys to inspect payload.</div>
+          <div class="filter-table-wrap">
+            <table class="filter-table"><thead><tr><th>Filter</th><th>Type</th><th>Description</th></tr></thead>
+            <tbody id="tbl_http"></tbody></table>
+          </div>
+          <div class="callout exam"><span class="callout-icon">🎯</span><div class="callout-body"><strong>Security note:</strong> HTTP (port 80) traffic is unencrypted. Credentials, session tokens, and sensitive data can be extracted directly from captures. Always use HTTPS. Filter <code>http.request.method == "POST"</code> to hunt for credential submission over cleartext.</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DNS -->
+    <section class="domain-section" id="sec_dns" style="--d-color:#B8860B">
+      <div class="domain-header">
+        <span class="domain-num-badge" style="background:#B8860B">05</span>
+        <span class="domain-title-text">DNS Filters</span>
+        <span class="domain-count" id="cnt_dns">—</span>
+      </div>
+      <div class="topic-card">
+        <div class="topic-card-header" onclick="toggleTopic(this)">
+          <span class="topic-card-icon">🔍</span>
+          <span class="topic-card-title">DNS Query &amp; Response Filters</span>
+          <span class="topic-chevron">▼</span>
+        </div>
+        <div class="topic-card-body">
+          <div class="note-intro">DNS is a critical protocol to monitor for security. DNS tunneling, domain generation algorithms (DGA), and C2 beaconing all leave traces in DNS traffic. Wireshark's DNS dissector exposes query names, record types, and response codes.</div>
+          <div class="filter-table-wrap">
+            <table class="filter-table"><thead><tr><th>Filter</th><th>Type</th><th>Description</th></tr></thead>
+            <tbody id="tbl_dns"></tbody></table>
+          </div>
+          <div class="callout warn"><span class="callout-icon">⚠️</span><div class="callout-body"><strong>DNS Tunneling detection:</strong> Look for unusually long query names, high query volume to a single domain, or TXT record queries. Filter: <code>dns.qry.type == 16</code> for TXT queries, and <code>frame.len > 200 &amp;&amp; dns</code> for suspiciously large DNS packets.</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TLS -->
+    <section class="domain-section" id="sec_tls" style="--d-color:#2E7D32">
+      <div class="domain-header">
+        <span class="domain-num-badge" style="background:#2E7D32">06</span>
+        <span class="domain-title-text">TLS / SSL Filters</span>
+        <span class="domain-count" id="cnt_tls">—</span>
+      </div>
+      <div class="topic-card">
+        <div class="topic-card-header" onclick="toggleTopic(this)">
+          <span class="topic-card-icon">🔒</span>
+          <span class="topic-card-title">TLS Handshake &amp; Version Filters</span>
+          <span class="topic-chevron">▼</span>
+        </div>
+        <div class="topic-card-body">
+          <div class="note-intro">TLS filters are useful for identifying encryption versions, detecting weak cipher negotiation, and finding SNI hostnames without decrypting traffic. You can identify the destination domain from Client Hello even in encrypted sessions.</div>
+          <div class="filter-table-wrap">
+            <table class="filter-table"><thead><tr><th>Filter</th><th>Type</th><th>Description</th></tr></thead>
+            <tbody id="tbl_tls"></tbody></table>
+          </div>
+          <div class="callout key"><span class="callout-icon">🔑</span><div class="callout-body"><strong>TLS versions:</strong> 0x0300 = SSLv3 (broken) · 0x0301 = TLS 1.0 (deprecated) · 0x0302 = TLS 1.1 (deprecated) · 0x0303 = TLS 1.2 · 0x0304 = TLS 1.3. Filter for old versions to find compliance gaps: <code>tls.record.version &lt; 0x0303</code></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- OPERATORS -->
+    <section class="domain-section" id="sec_ops" style="--d-color:#0E7A8A">
+      <div class="domain-header">
+        <span class="domain-num-badge" style="background:#0E7A8A">07</span>
+        <span class="domain-title-text">Operators &amp; Logic</span>
+        <span class="domain-count" id="cnt_ops">—</span>
+      </div>
+      <div class="topic-card">
+        <div class="topic-card-header" onclick="toggleTopic(this)">
+          <span class="topic-card-icon">⚙️</span>
+          <span class="topic-card-title">Filter Syntax — Operators &amp; Comparisons</span>
+          <span class="topic-chevron">▼</span>
+        </div>
+        <div class="topic-card-body">
+          <div class="note-intro">Wireshark display filters support rich boolean logic and comparison operators. Combining filters with AND/OR/NOT lets you build precise expressions. Capture filters use BPF syntax with slightly different keywords.</div>
+          <div class="filter-table-wrap">
+            <table class="filter-table"><thead><tr><th>Filter / Operator</th><th>Type</th><th>Description</th></tr></thead>
+            <tbody id="tbl_ops"></tbody></table>
+          </div>
+          <div class="callout tip"><span class="callout-icon">💡</span><div class="callout-body"><strong>Combining filters:</strong> <code>ip.src == 10.0.0.1 &amp;&amp; tcp.port == 443</code> — HTTPS from a specific host. <code>http || dns</code> — all HTTP or DNS. <code>!arp &amp;&amp; !icmp</code> — exclude noise. Parentheses group: <code>(ip.src==10.0.0.1 || ip.src==10.0.0.2) &amp;&amp; tcp.port==80</code></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TCP FLAGS -->
+    <section class="domain-section" id="sec_flags" style="--d-color:#7D3C98">
+      <div class="domain-header">
+        <span class="domain-num-badge" style="background:#7D3C98">08</span>
+        <span class="domain-title-text">TCP Flag Filters</span>
+        <span class="domain-count" id="cnt_flags">—</span>
+      </div>
+      <div class="topic-card">
+        <div class="topic-card-header" onclick="toggleTopic(this)">
+          <span class="topic-card-icon">🚩</span>
+          <span class="topic-card-title">SYN, ACK, FIN, RST, PSH, URG</span>
+          <span class="topic-chevron">▼</span>
+        </div>
+        <div class="topic-card-body">
+          <div class="note-intro">TCP flag filters are essential for security analysis. Port scans, SYN floods, RST injection, and connection teardown patterns all reveal themselves through flag combinations. The hex bitmask approach lets you match exact flag states.</div>
+          <div class="filter-table-wrap">
+            <table class="filter-table"><thead><tr><th>Filter</th><th>Type</th><th>Description</th></tr></thead>
+            <tbody id="tbl_flags"></tbody></table>
+          </div>
+          <div class="callout exam"><span class="callout-icon">🎯</span><div class="callout-body"><strong>TCP 3-way handshake:</strong> SYN (0x002) → SYN-ACK (0x012) → ACK (0x010). A stream of SYN-only packets with no SYN-ACK response is a classic SYN scan (nmap -sS). An RST flood or many RST-ACK responses indicate connection refused or firewall blocking.</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ARP & ICMP -->
+    <section class="domain-section" id="sec_arp" style="--d-color:#D35400">
+      <div class="domain-header">
+        <span class="domain-num-badge" style="background:#D35400">09</span>
+        <span class="domain-title-text">ARP &amp; ICMP Filters</span>
+        <span class="domain-count" id="cnt_arp">—</span>
+      </div>
+      <div class="topic-card">
+        <div class="topic-card-header" onclick="toggleTopic(this)">
+          <span class="topic-card-icon">📢</span>
+          <span class="topic-card-title">ARP Requests, Replies &amp; ICMP Types</span>
+          <span class="topic-chevron">▼</span>
+        </div>
+        <div class="topic-card-body">
+          <div class="note-intro">ARP and ICMP are fundamental network protocols that also serve as common attack vectors. ARP spoofing, ARP poisoning, and ICMP-based reconnaissance are all detectable in Wireshark captures with the right filters.</div>
+          <div class="filter-table-wrap">
+            <table class="filter-table"><thead><tr><th>Filter</th><th>Type</th><th>Description</th></tr></thead>
+            <tbody id="tbl_arp"></tbody></table>
+          </div>
+          <div class="callout warn"><span class="callout-icon">⚠️</span><div class="callout-body"><strong>ARP Poisoning detection:</strong> Multiple ARP replies with different MAC addresses for the same IP, or gratuitous ARPs not following a reboot, are red flags. Filter: <code>arp.opcode == 2 &amp;&amp; arp.src.proto_ipv4 == 192.168.1.1</code> to watch for spoofed replies claiming a specific IP.</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ADVANCED -->
+    <section class="domain-section" id="sec_adv" style="--d-color:#1F618D">
+      <div class="domain-header">
+        <span class="domain-num-badge" style="background:#1F618D">10</span>
+        <span class="domain-title-text">Advanced Analysis Filters</span>
+        <span class="domain-count" id="cnt_adv">—</span>
+      </div>
+      <div class="topic-card">
+        <div class="topic-card-header" onclick="toggleTopic(this)">
+          <span class="topic-card-icon">🔬</span>
+          <span class="topic-card-title">Performance, Retransmissions &amp; Anomalies</span>
+          <span class="topic-chevron">▼</span>
+        </div>
+        <div class="topic-card-body">
+          <div class="note-intro">Advanced filters surface performance issues, protocol anomalies, and forensic artifacts. Wireshark's expert analysis engine tags many of these automatically — the filters below let you isolate them programmatically for scripting and bulk analysis.</div>
+          <div class="filter-table-wrap">
+            <table class="filter-table"><thead><tr><th>Filter</th><th>Type</th><th>Description</th></tr></thead>
+            <tbody id="tbl_adv"></tbody></table>
+          </div>
+          <div class="callout key"><span class="callout-icon">🔑</span><div class="callout-body"><strong>Performance triage flow:</strong> Start with <code>tcp.analysis.retransmission</code> to find packet loss → then <code>tcp.analysis.zero_window</code> for receiver bottlenecks → then <code>frame.time_delta &gt; 0.5</code> to find latency spikes. This three-step sequence diagnoses most TCP performance issues.</div></div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<footer><p>Built by <a href="https://blaborte.github.io" target="_blank">Baltazar Laborte</a> · BL Cert Hub · Wireshark Filters Reference</p></footer>
+<div class="copy-toast" id="toast">✓ Copied!</div>
 
 <script>
-const FILTERS = [
-  {f:"ip.addr == 192.168.1.1", type:"d", desc:"Match any packet with this IP (src or dst)", tags:"ip host"},
-  {f:"ip.src == 192.168.1.1", type:"d", desc:"Match packets from this source IP", tags:"ip host"},
-  {f:"ip.dst == 192.168.1.1", type:"d", desc:"Match packets to this destination IP", tags:"ip host"},
-  {f:"ip.addr == 192.168.1.0/24", type:"d", desc:"Match entire subnet (CIDR notation)", tags:"ip host"},
-  {f:"ip.ttl < 10", type:"d", desc:"Packets with low TTL (traceroute/scan detection)", tags:"ip"},
-  {f:"ip.proto == 6", type:"d", desc:"Filter by IP protocol number (6=TCP)", tags:"ip proto"},
-  {f:"ip.flags.df == 1", type:"d", desc:"Don't Fragment bit set", tags:"ip"},
-  {f:"!ip.addr == 192.168.1.1", type:"d", desc:"Exclude a specific IP address", tags:"ip host"},
-  {f:"ip.src == 10.0.0.0/8 && ip.dst == 172.16.0.0/12", type:"d", desc:"Traffic between two subnets", tags:"ip host"},
-  {f:"host 192.168.1.1", type:"c", desc:"Capture traffic to/from this host", tags:"ip host"},
-  {f:"net 192.168.1.0/24", type:"c", desc:"Capture traffic to/from subnet", tags:"ip host"},
-  {f:"src host 192.168.1.1", type:"c", desc:"Capture from specific source host", tags:"ip host"},
-  {f:"dst host 192.168.1.1", type:"c", desc:"Capture to specific destination host", tags:"ip host"},
-  {f:"not host 192.168.1.1", type:"c", desc:"Exclude host from capture", tags:"ip host"},
-  {f:"tcp.port == 80", type:"d", desc:"Any TCP traffic on port 80", tags:"port tcp"},
-  {f:"tcp.srcport == 443", type:"d", desc:"TCP traffic from source port 443", tags:"port tcp tls"},
-  {f:"tcp.dstport == 22", type:"d", desc:"TCP traffic destined for port 22 (SSH)", tags:"port tcp"},
-  {f:"udp.port == 53", type:"d", desc:"UDP traffic on port 53 (DNS)", tags:"port udp dns"},
-  {f:"udp.dstport == 67", type:"d", desc:"DHCP requests (UDP port 67)", tags:"port udp proto"},
-  {f:"tcp.port >= 1024", type:"d", desc:"All ephemeral/high port TCP traffic", tags:"port tcp"},
-  {f:"tcp.port in {80 443 8080 8443}", type:"d", desc:"Match any of these ports (set syntax)", tags:"port tcp http"},
-  {f:"port 80", type:"c", desc:"Capture port 80 traffic", tags:"port"},
-  {f:"port 443", type:"c", desc:"Capture HTTPS traffic", tags:"port tls"},
-  {f:"portrange 1-1024", type:"c", desc:"Capture well-known port range", tags:"port"},
-  {f:"not port 22", type:"c", desc:"Exclude SSH from capture", tags:"port"},
-  {f:"tcp", type:"b", desc:"All TCP traffic", tags:"proto tcp"},
-  {f:"udp", type:"b", desc:"All UDP traffic", tags:"proto udp"},
-  {f:"icmp", type:"b", desc:"All ICMP traffic", tags:"proto arp icmp"},
-  {f:"arp", type:"b", desc:"All ARP traffic", tags:"proto arp"},
-  {f:"icmpv6", type:"d", desc:"ICMPv6 (IPv6 neighbor discovery etc.)", tags:"proto arp icmp"},
-  {f:"ospf", type:"d", desc:"OSPF routing protocol traffic", tags:"proto"},
-  {f:"bgp", type:"d", desc:"BGP routing traffic (port 179)", tags:"proto"},
-  {f:"smtp", type:"d", desc:"SMTP email traffic", tags:"proto"},
-  {f:"ftp", type:"d", desc:"FTP control channel traffic", tags:"proto"},
-  {f:"ssh", type:"d", desc:"SSH traffic", tags:"proto"},
-  {f:"dhcp", type:"d", desc:"DHCP request/response packets", tags:"proto"},
-  {f:"ntp", type:"d", desc:"Network Time Protocol traffic", tags:"proto"},
-  {f:"snmp", type:"d", desc:"SNMP management traffic", tags:"proto"},
-  {f:"rdp", type:"d", desc:"Remote Desktop Protocol", tags:"proto"},
-  {f:"http", type:"d", desc:"All HTTP traffic", tags:"http proto"},
-  {f:"http.request", type:"d", desc:"HTTP requests only", tags:"http"},
-  {f:"http.response", type:"d", desc:"HTTP responses only", tags:"http"},
-  {f:'http.request.method == "GET"', type:"d", desc:"HTTP GET requests", tags:"http"},
-  {f:'http.request.method == "POST"', type:"d", desc:"HTTP POST requests", tags:"http"},
-  {f:"http.response.code == 200", type:"d", desc:"HTTP 200 OK responses", tags:"http"},
-  {f:"http.response.code == 404", type:"d", desc:"HTTP 404 Not Found", tags:"http"},
-  {f:"http.response.code >= 400", type:"d", desc:"All HTTP error responses", tags:"http"},
-  {f:'http.host contains "example.com"', type:"d", desc:"HTTP traffic to a specific host", tags:"http"},
-  {f:'http.request.uri contains "/login"', type:"d", desc:"HTTP requests to login path", tags:"http"},
-  {f:"http.cookie", type:"d", desc:"HTTP traffic containing cookies", tags:"http"},
-  {f:'http.content_type contains "json"', type:"d", desc:"HTTP JSON content type", tags:"http"},
-  {f:"dns", type:"d", desc:"All DNS traffic", tags:"dns proto"},
-  {f:'dns.qry.name == "example.com"', type:"d", desc:"DNS query for specific domain", tags:"dns"},
-  {f:'dns.qry.name contains "google"', type:"d", desc:"DNS queries containing keyword", tags:"dns"},
-  {f:"dns.flags.response == 1", type:"d", desc:"DNS response packets only", tags:"dns"},
-  {f:"dns.flags.response == 0", type:"d", desc:"DNS query packets only", tags:"dns"},
-  {f:"dns.resp.type == 1", type:"d", desc:"DNS A record responses", tags:"dns"},
-  {f:"dns.resp.type == 28", type:"d", desc:"DNS AAAA (IPv6) responses", tags:"dns"},
-  {f:"dns.resp.type == 5", type:"d", desc:"DNS CNAME responses", tags:"dns"},
-  {f:"dns.resp.type == 15", type:"d", desc:"DNS MX record responses", tags:"dns"},
-  {f:"dns.count.answers == 0", type:"d", desc:"DNS queries with no answer (NXDOMAIN etc.)", tags:"dns"},
-  {f:"tls", type:"d", desc:"All TLS/SSL traffic", tags:"tls proto"},
-  {f:"tls.handshake", type:"d", desc:"TLS handshake packets", tags:"tls"},
-  {f:"tls.handshake.type == 1", type:"d", desc:"TLS Client Hello messages", tags:"tls"},
-  {f:"tls.handshake.type == 2", type:"d", desc:"TLS Server Hello messages", tags:"tls"},
-  {f:"tls.record.version == 0x0303", type:"d", desc:"TLS 1.2 traffic", tags:"tls"},
-  {f:"tls.record.version == 0x0304", type:"d", desc:"TLS 1.3 traffic", tags:"tls"},
-  {f:'tls.handshake.extensions_server_name contains "example.com"', type:"d", desc:"TLS SNI matching a domain", tags:"tls"},
-  {f:"ssl.alert_message", type:"d", desc:"TLS alert messages (errors/warnings)", tags:"tls"},
-  {f:"&&", type:"b", desc:"Logical AND — both conditions must be true", tags:"ops"},
-  {f:"||", type:"b", desc:"Logical OR — either condition true", tags:"ops"},
-  {f:"!", type:"b", desc:"Logical NOT — negate a condition", tags:"ops"},
-  {f:"and / or / not", type:"c", desc:"BPF equivalents for capture filters", tags:"ops"},
-  {f:"contains", type:"d", desc:"Substring match in field value", tags:"ops"},
-  {f:"matches / ~", type:"d", desc:"Perl-compatible regex match", tags:"ops"},
-  {f:"== != < > <= >=", type:"b", desc:"Comparison operators", tags:"ops"},
-  {f:"in {val1 val2 val3}", type:"d", desc:"Match against a set of values", tags:"ops"},
-  {f:"[n:m]", type:"d", desc:"Slice operator — bytes n through m", tags:"ops adv"},
-  {f:"tcp.flags.syn == 1", type:"d", desc:"TCP SYN flag set (connection start)", tags:"flags tcp"},
-  {f:"tcp.flags.ack == 1", type:"d", desc:"TCP ACK flag set", tags:"flags tcp"},
-  {f:"tcp.flags.fin == 1", type:"d", desc:"TCP FIN flag set (graceful close)", tags:"flags tcp"},
-  {f:"tcp.flags.rst == 1", type:"d", desc:"TCP RST — connection reset", tags:"flags tcp"},
-  {f:"tcp.flags.push == 1", type:"d", desc:"TCP PSH flag — push data immediately", tags:"flags tcp"},
-  {f:"tcp.flags.urg == 1", type:"d", desc:"TCP URG urgent pointer set", tags:"flags tcp"},
-  {f:"tcp.flags == 0x002", type:"d", desc:"Only SYN set (new connection attempt)", tags:"flags tcp"},
-  {f:"tcp.flags == 0x012", type:"d", desc:"SYN-ACK (server response to SYN)", tags:"flags tcp"},
-  {f:"tcp.flags == 0x004", type:"d", desc:"RST only — abrupt connection reset", tags:"flags tcp"},
-  {f:"tcp.flags.syn==1 && tcp.flags.ack==0", type:"d", desc:"Pure SYN — port scan detection", tags:"flags tcp"},
-  {f:"arp.opcode == 1", type:"d", desc:"ARP requests (who has?)", tags:"arp icmp"},
-  {f:"arp.opcode == 2", type:"d", desc:"ARP replies (tell...)", tags:"arp icmp"},
-  {f:"arp.src.hw_mac == ff:ff:ff:ff:ff:ff", type:"d", desc:"Gratuitous ARP (possible spoofing)", tags:"arp icmp"},
-  {f:"icmp.type == 8", type:"d", desc:"ICMP Echo Request (ping)", tags:"arp icmp"},
-  {f:"icmp.type == 0", type:"d", desc:"ICMP Echo Reply", tags:"arp icmp"},
-  {f:"icmp.type == 3", type:"d", desc:"ICMP Destination Unreachable", tags:"arp icmp"},
-  {f:"icmp.type == 11", type:"d", desc:"ICMP Time Exceeded (TTL expired)", tags:"arp icmp"},
-  {f:"frame.len > 1000", type:"d", desc:"Packets larger than 1000 bytes", tags:"adv"},
-  {f:"frame.time_delta > 1", type:"d", desc:"Frames with over 1s gap since previous", tags:"adv"},
-  {f:"tcp.analysis.retransmission", type:"d", desc:"TCP retransmissions", tags:"adv tcp"},
-  {f:"tcp.analysis.duplicate_ack", type:"d", desc:"Duplicate ACKs (possible congestion)", tags:"adv tcp flags"},
-  {f:"tcp.analysis.zero_window", type:"d", desc:"TCP zero window (receiver buffer full)", tags:"adv tcp"},
-  {f:"tcp.analysis.out_of_order", type:"d", desc:"Out-of-order TCP segments", tags:"adv tcp"},
-  {f:"tcp.len > 0", type:"d", desc:"TCP segments with payload data", tags:"adv tcp"},
-  {f:'data-text-lines contains "password"', type:"d", desc:"Search raw text for keyword", tags:"adv"},
-  {f:'frame contains "USER"', type:"d", desc:"Frame bytes contain string", tags:"adv"},
-  {f:"eth.addr == aa:bb:cc:dd:ee:ff", type:"d", desc:"Filter by MAC address", tags:"adv"},
-  {f:"vlan.id == 100", type:"d", desc:"Filter VLAN tagged traffic", tags:"adv"},
-  {f:"wlan.addr == aa:bb:cc:dd:ee:ff", type:"d", desc:"Filter by Wi-Fi MAC address", tags:"adv"},
-];
+// ── FILTER DATA ──────────────────────────────────────────────
+const FILTERS = {
+  ip_disp:[
+    {f:"ip.addr == 192.168.1.1",       t:"d", d:"Match any packet with this IP (src or dst)"},
+    {f:"ip.src == 192.168.1.1",        t:"d", d:"Match packets from this source IP only"},
+    {f:"ip.dst == 192.168.1.1",        t:"d", d:"Match packets to this destination IP only"},
+    {f:"ip.addr == 192.168.1.0/24",    t:"d", d:"Match all IPs within a subnet (CIDR)"},
+    {f:"ip.src == 10.0.0.0/8 && ip.dst == 172.16.0.0/12", t:"d", d:"Traffic between two subnets"},
+    {f:"!ip.addr == 192.168.1.1",      t:"d", d:"Exclude a specific IP address from view"},
+    {f:"ip.ttl < 10",                  t:"d", d:"Low TTL packets — traceroute or potential scan"},
+    {f:"ip.proto == 6",                t:"d", d:"Filter by IP protocol number (6=TCP, 17=UDP, 1=ICMP)"},
+    {f:"ip.flags.df == 1",             t:"d", d:"Don't Fragment bit set"},
+    {f:"ip.flags.mf == 1",             t:"d", d:"More Fragments bit set (fragmented packet)"},
+  ],
+  ip_cap:[
+    {f:"host 192.168.1.1",             t:"c", d:"Capture traffic to/from this host"},
+    {f:"net 192.168.1.0/24",           t:"c", d:"Capture traffic to/from entire subnet"},
+    {f:"src host 192.168.1.1",         t:"c", d:"Capture from specific source host only"},
+    {f:"dst host 192.168.1.1",         t:"c", d:"Capture to specific destination host only"},
+    {f:"not host 192.168.1.1",         t:"c", d:"Exclude host — capture everything else"},
+    {f:"src net 10.0.0.0/8",           t:"c", d:"Capture traffic sourced from this network"},
+  ],
+  port:[
+    {f:"tcp.port == 80",               t:"d", d:"Any TCP traffic on port 80 (HTTP)"},
+    {f:"tcp.srcport == 443",           t:"d", d:"TCP traffic originating from port 443"},
+    {f:"tcp.dstport == 22",            t:"d", d:"TCP traffic destined for port 22 (SSH)"},
+    {f:"udp.port == 53",               t:"d", d:"UDP port 53 (DNS)"},
+    {f:"udp.dstport == 67",            t:"d", d:"DHCP requests (UDP port 67 to server)"},
+    {f:"tcp.port >= 1024",             t:"d", d:"All high/ephemeral port TCP traffic"},
+    {f:"tcp.port in {80 443 8080 8443}",t:"d",d:"Match any port in this set (display only)"},
+    {f:"!(tcp.port == 80)",            t:"d", d:"Exclude port 80 from display"},
+    {f:"port 80",                      t:"c", d:"Capture port 80 traffic (BPF)"},
+    {f:"port 443",                     t:"c", d:"Capture HTTPS traffic (BPF)"},
+    {f:"portrange 1-1024",             t:"c", d:"Capture all well-known port range traffic"},
+    {f:"not port 22",                  t:"c", d:"Exclude SSH from capture (BPF)"},
+    {f:"tcp port 3389",                t:"c", d:"Capture RDP traffic (BPF)"},
+  ],
+  proto:[
+    {f:"tcp",                          t:"b", d:"All TCP traffic"},
+    {f:"udp",                          t:"b", d:"All UDP traffic"},
+    {f:"icmp",                         t:"b", d:"All ICMP traffic (ping, unreachable, TTL)"},
+    {f:"arp",                          t:"b", d:"All ARP traffic (layer 2 address resolution)"},
+    {f:"icmpv6",                       t:"d", d:"ICMPv6 — neighbor discovery, router solicitation"},
+    {f:"dhcp",                         t:"d", d:"DHCP request/offer/ack packets"},
+    {f:"dns",                          t:"d", d:"All DNS traffic (port 53)"},
+    {f:"http",                         t:"d", d:"All cleartext HTTP traffic"},
+    {f:"tls",                          t:"d", d:"All TLS/SSL encrypted traffic"},
+    {f:"ssh",                          t:"d", d:"SSH connection traffic"},
+    {f:"ftp",                          t:"d", d:"FTP control channel"},
+    {f:"smtp",                         t:"d", d:"SMTP email traffic"},
+    {f:"rdp",                          t:"d", d:"Remote Desktop Protocol (port 3389)"},
+    {f:"snmp",                         t:"d", d:"SNMP network management traffic"},
+    {f:"ntp",                          t:"d", d:"Network Time Protocol"},
+    {f:"ospf",                         t:"d", d:"OSPF routing protocol traffic"},
+    {f:"bgp",                          t:"d", d:"BGP routing protocol (port 179)"},
+    {f:"ldap",                         t:"d", d:"LDAP directory service traffic"},
+    {f:"kerberos",                     t:"d", d:"Kerberos authentication traffic"},
+  ],
+  http:[
+    {f:"http",                         t:"d", d:"All HTTP traffic"},
+    {f:"http.request",                 t:"d", d:"HTTP requests only"},
+    {f:"http.response",                t:"d", d:"HTTP responses only"},
+    {f:'http.request.method == "GET"', t:"d", d:"HTTP GET requests"},
+    {f:'http.request.method == "POST"',t:"d", d:"HTTP POST requests (often carries credentials)"},
+    {f:'http.request.method == "PUT"', t:"d", d:"HTTP PUT requests"},
+    {f:"http.response.code == 200",    t:"d", d:"HTTP 200 OK responses"},
+    {f:"http.response.code == 301",    t:"d", d:"HTTP 301 Permanent Redirect"},
+    {f:"http.response.code == 401",    t:"d", d:"HTTP 401 Unauthorized"},
+    {f:"http.response.code == 403",    t:"d", d:"HTTP 403 Forbidden"},
+    {f:"http.response.code == 404",    t:"d", d:"HTTP 404 Not Found"},
+    {f:"http.response.code >= 400",    t:"d", d:"All HTTP client/server error responses"},
+    {f:'http.host contains "example.com"', t:"d", d:"HTTP traffic to a specific hostname"},
+    {f:'http.request.uri contains "/login"', t:"d", d:"HTTP requests to login URI"},
+    {f:'http.request.uri contains ".php"', t:"d", d:"Requests for PHP files (common attack surface)"},
+    {f:"http.cookie",                  t:"d", d:"HTTP traffic containing session cookies"},
+    {f:'http.content_type contains "json"', t:"d", d:"HTTP JSON content type (APIs)"},
+    {f:'http.user_agent contains "sqlmap"', t:"d", d:"Detect sqlmap automated scanning tool"},
+    {f:"http.authorization",           t:"d", d:"HTTP Basic or Bearer auth headers"},
+  ],
+  dns:[
+    {f:"dns",                          t:"d", d:"All DNS traffic"},
+    {f:'dns.qry.name == "example.com"',t:"d", d:"DNS query for exact domain name"},
+    {f:'dns.qry.name contains "google"',t:"d",d:"DNS queries containing a keyword"},
+    {f:"dns.flags.response == 1",      t:"d", d:"DNS response packets only"},
+    {f:"dns.flags.response == 0",      t:"d", d:"DNS query packets only"},
+    {f:"dns.resp.type == 1",           t:"d", d:"DNS A record (IPv4 address) responses"},
+    {f:"dns.resp.type == 28",          t:"d", d:"DNS AAAA (IPv6 address) responses"},
+    {f:"dns.resp.type == 5",           t:"d", d:"DNS CNAME responses"},
+    {f:"dns.resp.type == 15",          t:"d", d:"DNS MX (mail exchange) responses"},
+    {f:"dns.resp.type == 16",          t:"d", d:"DNS TXT record responses (often used in tunneling)"},
+    {f:"dns.resp.type == 12",          t:"d", d:"DNS PTR reverse lookup responses"},
+    {f:"dns.count.answers == 0",       t:"d", d:"DNS queries with no answer (NXDOMAIN)"},
+    {f:"dns.flags.rcode == 3",         t:"d", d:"NXDOMAIN — domain does not exist"},
+  ],
+  tls:[
+    {f:"tls",                          t:"d", d:"All TLS/SSL traffic"},
+    {f:"tls.handshake",                t:"d", d:"TLS handshake packets only"},
+    {f:"tls.handshake.type == 1",      t:"d", d:"Client Hello (initiates TLS session)"},
+    {f:"tls.handshake.type == 2",      t:"d", d:"Server Hello (server selects cipher suite)"},
+    {f:"tls.handshake.type == 11",     t:"d", d:"Certificate message (server sends cert)"},
+    {f:"tls.handshake.type == 14",     t:"d", d:"Server Hello Done"},
+    {f:"tls.handshake.type == 20",     t:"d", d:"Finished — end of handshake"},
+    {f:"tls.record.version == 0x0303", t:"d", d:"TLS 1.2 traffic"},
+    {f:"tls.record.version == 0x0304", t:"d", d:"TLS 1.3 traffic"},
+    {f:"tls.record.version < 0x0303",  t:"d", d:"TLS 1.1 or older — deprecated, compliance gap"},
+    {f:'tls.handshake.extensions_server_name contains "example.com"', t:"d", d:"TLS SNI field matching a domain (visible even in encrypted traffic)"},
+    {f:"ssl.alert_message",            t:"d", d:"TLS alert messages (errors, certificate issues)"},
+    {f:"tls.handshake.ciphersuite == 0x002F", t:"d", d:"Detect weak RSA key exchange cipher (no PFS)"},
+  ],
+  ops:[
+    {f:"&&  (or: and)",                t:"b", d:"Logical AND — both conditions must be true"},
+    {f:"||  (or: or)",                 t:"b", d:"Logical OR — either condition can be true"},
+    {f:"!   (or: not)",                t:"b", d:"Logical NOT — negate the condition"},
+    {f:"and / or / not",               t:"c", d:"BPF keywords for capture filter logic"},
+    {f:"==  (eq)",                     t:"d", d:"Equal — exact match"},
+    {f:"!=  (ne)",                     t:"d", d:"Not equal"},
+    {f:"<   (lt)",                     t:"d", d:"Less than"},
+    {f:">   (gt)",                     t:"d", d:"Greater than"},
+    {f:"<=  (le)",                     t:"d", d:"Less than or equal"},
+    {f:">=  (ge)",                     t:"d", d:"Greater than or equal"},
+    {f:"contains",                     t:"d", d:"Substring match within a field's value"},
+    {f:"matches  (or: ~)",             t:"d", d:"Perl-compatible regex match"},
+    {f:'in {val1 val2 val3}',          t:"d", d:"Match against a set of values"},
+    {f:"[n:m]  (slice)",               t:"d", d:"Byte slice operator — bytes n through m of a field"},
+    {f:"fieldname[0:4]",               t:"d", d:"First 4 bytes of a field (e.g. tcp.payload[0:4])"},
+  ],
+  flags:[
+    {f:"tcp.flags.syn == 1",           t:"d", d:"SYN flag set — connection initiation"},
+    {f:"tcp.flags.ack == 1",           t:"d", d:"ACK flag set — acknowledging received data"},
+    {f:"tcp.flags.fin == 1",           t:"d", d:"FIN flag set — graceful connection close"},
+    {f:"tcp.flags.rst == 1",           t:"d", d:"RST flag — abrupt connection reset"},
+    {f:"tcp.flags.push == 1",          t:"d", d:"PSH flag — push data to application immediately"},
+    {f:"tcp.flags.urg == 1",           t:"d", d:"URG flag — urgent pointer field is significant"},
+    {f:"tcp.flags == 0x002",           t:"d", d:"SYN only (new connection attempt)"},
+    {f:"tcp.flags == 0x012",           t:"d", d:"SYN-ACK (server responding to SYN)"},
+    {f:"tcp.flags == 0x010",           t:"d", d:"ACK only (data acknowledgement)"},
+    {f:"tcp.flags == 0x004",           t:"d", d:"RST only (abrupt reset)"},
+    {f:"tcp.flags == 0x018",           t:"d", d:"PSH-ACK (data being pushed)"},
+    {f:"tcp.flags == 0x011",           t:"d", d:"FIN-ACK (graceful close acknowledgement)"},
+    {f:"tcp.flags.syn==1 && tcp.flags.ack==0", t:"d", d:"Pure SYN — port scan detection (nmap -sS)"},
+    {f:"tcp.flags == 0x029",           t:"d", d:"Xmas scan — FIN+URG+PSH set (nmap -sX)"},
+    {f:"tcp.flags == 0x000",           t:"d", d:"Null scan — no flags set (nmap -sN)"},
+  ],
+  arp:[
+    {f:"arp",                          t:"b", d:"All ARP traffic"},
+    {f:"arp.opcode == 1",              t:"d", d:"ARP requests only (Who has IP x.x.x.x?)"},
+    {f:"arp.opcode == 2",              t:"d", d:"ARP replies only (IP x.x.x.x is at MAC)"},
+    {f:"arp.src.hw_mac == ff:ff:ff:ff:ff:ff", t:"d", d:"Gratuitous ARP — possible spoofing or reboot"},
+    {f:"arp.duplicate-address-detected", t:"d", d:"Wireshark expert flag: duplicate IP detected"},
+    {f:"icmp",                         t:"b", d:"All ICMP traffic"},
+    {f:"icmp.type == 8",               t:"d", d:"ICMP Echo Request (ping sent)"},
+    {f:"icmp.type == 0",               t:"d", d:"ICMP Echo Reply (ping response)"},
+    {f:"icmp.type == 3",               t:"d", d:"ICMP Destination Unreachable"},
+    {f:"icmp.code == 3",               t:"d", d:"ICMP Port Unreachable (type 3, code 3)"},
+    {f:"icmp.type == 11",              t:"d", d:"ICMP Time Exceeded (TTL expired — traceroute)"},
+    {f:"icmp.type == 5",               t:"d", d:"ICMP Redirect — possible MITM indicator"},
+  ],
+  adv:[
+    {f:"frame.len > 1000",             t:"d", d:"Packets larger than 1000 bytes"},
+    {f:"frame.len < 60",               t:"d", d:"Packets smaller than 60 bytes (possible scan/probe)"},
+    {f:"frame.time_delta > 1",         t:"d", d:"Frames with over 1 second gap since previous"},
+    {f:"tcp.analysis.retransmission",  t:"d", d:"TCP retransmissions (packet loss indicator)"},
+    {f:"tcp.analysis.fast_retransmission", t:"d", d:"Fast retransmission (triggered by 3 dup ACKs)"},
+    {f:"tcp.analysis.duplicate_ack",   t:"d", d:"Duplicate ACKs (congestion or loss indicator)"},
+    {f:"tcp.analysis.zero_window",     t:"d", d:"TCP zero window — receiver buffer full (bottleneck)"},
+    {f:"tcp.analysis.window_update",   t:"d", d:"Receiver reopening its window after zero window"},
+    {f:"tcp.analysis.out_of_order",    t:"d", d:"Out-of-order TCP segments"},
+    {f:"tcp.analysis.lost_segment",    t:"d", d:"Wireshark detected a lost/missing segment"},
+    {f:"tcp.len > 0",                  t:"d", d:"TCP segments carrying actual payload data"},
+    {f:"eth.addr == aa:bb:cc:dd:ee:ff",t:"d", d:"Filter by MAC address (source or destination)"},
+    {f:"vlan.id == 100",               t:"d", d:"VLAN-tagged traffic on VLAN 100"},
+    {f:"wlan.addr == aa:bb:cc:dd:ee:ff",t:"d",d:"Filter by Wi-Fi MAC address"},
+    {f:'frame contains "USER"',        t:"d", d:"Frame bytes contain literal string (FTP username)"},
+    {f:'data-text-lines contains "password"', t:"d", d:"Search cleartext payload for keyword"},
+    {f:"ip.ttl == 64",                 t:"d", d:"Filter by exact TTL value (Linux default=64)"},
+    {f:"tcp.window_size < 1024",       t:"d", d:"Very small TCP window (potential performance issue)"},
+  ]
+};
 
-let activeTab='all';
-
+// ── RENDER ──────────────────────────────────────────────────
 function badge(t){
-  if(t==='c') return '<span class="badge badge-c">Capture</span>';
-  if(t==='d') return '<span class="badge badge-d">Display</span>';
+  if(t==="c") return '<span class="badge badge-c">Capture</span>';
+  if(t==="d") return '<span class="badge badge-d">Display</span>';
   return '<span class="badge badge-b">Both</span>';
 }
 
-function renderGrid(data){
-  const g=document.getElementById('grid');
-  const c=document.getElementById('count');
-  g.innerHTML='';
-  if(!data.length){g.innerHTML='<div class="no-results">No filters match your search.</div>';c.textContent='';return;}
-  data.forEach(r=>{
-    const row=document.createElement('div');
-    row.className='row';
-    row.innerHTML=`<div class="fcode">${r.f.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</div><div>${badge(r.type)}</div><div class="fdesc">${r.desc}</div>`;
-    row.addEventListener('click',()=>{
-      navigator.clipboard.writeText(r.f).catch(()=>{});
-      const t=document.getElementById('toast');
-      t.classList.add('show');
-      setTimeout(()=>t.classList.remove('show'),1800);
+function esc(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;")}
+
+function buildTable(tbodyId, rows){
+  const tb = document.getElementById(tbodyId);
+  if(!tb) return;
+  rows.forEach(r=>{
+    const tr = document.createElement("tr");
+    tr.dataset.filter = r.f.toLowerCase();
+    tr.dataset.desc = r.d.toLowerCase();
+    tr.innerHTML = `<td><span class="fcode" title="Click to copy">${esc(r.f)}</span></td><td>${badge(r.t)}</td><td class="fdesc">${esc(r.d)}</td>`;
+    tr.querySelector(".fcode").addEventListener("click", ()=>copyFilter(r.f));
+    tb.appendChild(tr);
+  });
+}
+
+function buildAll(){
+  buildTable("tbl_ip_disp", FILTERS.ip_disp);
+  buildTable("tbl_ip_cap",  FILTERS.ip_cap);
+  buildTable("tbl_port",    FILTERS.port);
+  buildTable("tbl_proto",   FILTERS.proto);
+  buildTable("tbl_http",    FILTERS.http);
+  buildTable("tbl_dns",     FILTERS.dns);
+  buildTable("tbl_tls",     FILTERS.tls);
+  buildTable("tbl_ops",     FILTERS.ops);
+  buildTable("tbl_flags",   FILTERS.flags);
+  buildTable("tbl_arp",     FILTERS.arp);
+  buildTable("tbl_adv",     FILTERS.adv);
+  updateCounts();
+}
+
+function updateCounts(){
+  const map = {
+    cnt_ip:    ["tbl_ip_disp","tbl_ip_cap"],
+    cnt_port:  ["tbl_port"],
+    cnt_proto: ["tbl_proto"],
+    cnt_http:  ["tbl_http"],
+    cnt_dns:   ["tbl_dns"],
+    cnt_tls:   ["tbl_tls"],
+    cnt_ops:   ["tbl_ops"],
+    cnt_flags: ["tbl_flags"],
+    cnt_arp:   ["tbl_arp"],
+    cnt_adv:   ["tbl_adv"],
+  };
+  Object.entries(map).forEach(([cntId, tbIds])=>{
+    let vis = 0;
+    tbIds.forEach(id=>{
+      const tb = document.getElementById(id);
+      if(tb) vis += [...tb.querySelectorAll("tr:not(.hidden-row)")].length;
     });
-    g.appendChild(row);
-  });
-  c.textContent=`Showing ${data.length} of ${FILTERS.length} filters`;
-}
-
-function getFiltered(){
-  const q=document.getElementById('search').value.toLowerCase();
-  return FILTERS.filter(r=>{
-    const mt=activeTab==='all'||r.tags.includes(activeTab);
-    const mq=!q||r.f.toLowerCase().includes(q)||r.desc.toLowerCase().includes(q)||r.tags.toLowerCase().includes(q);
-    return mt&&mq;
+    const el = document.getElementById(cntId);
+    if(el) el.textContent = vis + " filters";
   });
 }
 
-function filterRows(){renderGrid(getFiltered());}
-function setTab(t,el){
-  activeTab=t;
-  document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));
-  el.classList.add('active');
-  filterRows();
+// ── COPY ────────────────────────────────────────────────────
+function copyFilter(text){
+  navigator.clipboard.writeText(text).catch(()=>{});
+  const t = document.getElementById("toast");
+  t.classList.add("show");
+  setTimeout(()=>t.classList.remove("show"), 1600);
 }
 
-renderGrid(FILTERS);
+// ── GLOBAL SEARCH ───────────────────────────────────────────
+function globalFilter(){
+  const q = document.getElementById("globalSearch").value.toLowerCase().trim();
+  document.querySelectorAll(".filter-table tbody tr").forEach(tr=>{
+    if(!q){
+      tr.classList.remove("hidden-row");
+    } else {
+      const hit = tr.dataset.filter.includes(q) || tr.dataset.desc.includes(q);
+      tr.classList.toggle("hidden-row", !hit);
+    }
+  });
+  updateCounts();
+}
+
+// ── TOC ACTIVE TRACKING ─────────────────────────────────────
+const sections = document.querySelectorAll(".domain-section");
+const tocLinks  = document.querySelectorAll(".toc-domain-link");
+const prog      = document.getElementById("read-progress");
+
+window.addEventListener("scroll",()=>{
+  const pct = Math.min(100, Math.round((window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100));
+  if(prog) prog.style.width = pct + "%";
+  let active = null;
+  sections.forEach(s=>{ if(s.getBoundingClientRect().top <= 120) active = s.id; });
+  tocLinks.forEach(l=>{
+    const isActive = l.getAttribute("href") === "#" + active;
+    l.classList.toggle("active", isActive);
+    l.style.background = isActive ? (l.dataset.color || "var(--accent)") : "";
+  });
+});
+
+// ── TOPIC TOGGLE ────────────────────────────────────────────
+function toggleTopic(el){
+  const body = el.nextElementSibling;
+  const chev = el.querySelector(".topic-chevron");
+  const open = body.classList.contains("open");
+  body.classList.toggle("open", !open);
+  chev.classList.toggle("open", !open);
+}
+
+// ── INIT ────────────────────────────────────────────────────
+buildAll();
+// Open all topic cards by default
+document.querySelectorAll(".topic-card-header").forEach(h=>h.click());
 </script>
 </body>
 </html>
