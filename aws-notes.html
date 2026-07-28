@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>AWS Cloud Practitioner CLF-C02 — Course Notes | BL Cert Hub</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    :root{
+      --navy:#0B1D3A;--blue:#1A5276;--accent:#2E86C1;--sky:#5DADE2;
+      --light:#EAF4FB;--mid:#D6EAF8;--white:#fff;--text:#0B1D3A;--muted:#5D7A8C;
+      --border:rgba(30,80,130,0.13);--shadow:0 2px 12px rgba(11,29,58,0.08);
+      --c1:#FF9900;--c2:#E74C3C;--c3:#2E86C1;--c4:#27AE60;
+    }
+    html{scroll-behavior:smooth}
+    body{font-family:"DM Sans",sans-serif;background:var(--light);color:var(--text);min-height:100vh;display:flex;flex-direction:column}
+
+    /* NAV */
+    nav{background:var(--navy);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:56px;position:sticky;top:0;z-index:200;border-bottom:1px solid rgba(93,173,226,0.15)}
+    .nav-brand{display:flex;align-items:center;gap:10px;text-decoration:none}
+    .bl-circle{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#2E86C1,#5DADE2);display:flex;align-items:center;justify-content:center;font-family:"Space Mono",monospace;font-size:10px;font-weight:700;color:#fff;flex-shrink:0}
+    .nav-brand span{font-size:13px;font-weight:500;color:rgba(255,255,255,0.85);letter-spacing:.02em}
+    .nav-links{display:flex;gap:6px;align-items:center}
+    .nav-links a{font-size:12px;font-weight:500;color:rgba(255,255,255,0.6);text-decoration:none;padding:6px 12px;border-radius:6px;transition:all .18s}
+    .nav-links a:hover{color:#fff;background:rgba(255,255,255,0.08)}
+    .nav-links a.active{color:var(--sky);background:rgba(93,173,226,0.12)}
+    .theme-btn{width:34px;height:34px;border-radius:8px;border:1px solid rgba(255,255,255,0.18);background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.75);cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;transition:all .18s;flex-shrink:0}
+    .theme-btn:hover{background:rgba(255,255,255,0.15);color:#fff}
+
+    /* HERO */
+    .hero{background:linear-gradient(135deg,#0B1D3A 0%,#1A5276 55%,#2E86C1 100%);padding:3.5rem 2rem 3rem;position:relative;overflow:hidden}
+    .hero-gp{position:absolute;inset:0;background-image:linear-gradient(rgba(93,173,226,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(93,173,226,0.04) 1px,transparent 1px);background-size:32px 32px;pointer-events:none}
+    .hero-ring{position:absolute;border-radius:50%;border:40px solid rgba(93,173,226,0.07);pointer-events:none}
+    .hero-ring.r1{width:320px;height:320px;top:-80px;right:-60px}
+    .hero-ring.r2{width:180px;height:180px;bottom:-60px;left:38%;border-width:22px}
+    .hero-inner{position:relative;max-width:900px;margin:0 auto}
+    .exam-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.18);border-radius:20px;padding:5px 14px 5px 5px;margin-bottom:1.25rem}
+    .exam-badge .bl-circle{width:26px;height:26px;font-size:9px}
+    .exam-badge span{font-size:12px;color:rgba(255,255,255,0.8);font-weight:500}
+    .hero h1{font-family:"Space Mono",monospace;font-size:clamp(24px,4vw,42px);font-weight:700;color:#fff;line-height:1.15;margin-bottom:.6rem}
+    .hero h1 .accent{color:var(--sky)}
+    .hero-sub{font-size:14px;color:rgba(255,255,255,0.6);line-height:1.7;max-width:560px;margin-bottom:1.5rem}
+    .hero-pills{display:flex;gap:8px;flex-wrap:wrap}
+    .pill{font-size:11px;font-weight:500;padding:5px 12px;border-radius:6px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:rgba(255,255,255,0.8)}
+
+    /* LAYOUT */
+    .page-body{display:flex;max-width:1100px;margin:0 auto;padding:2.5rem 2rem 4rem;gap:32px;flex:1;width:100%}
+
+    /* SIDEBAR TOC */
+    .toc-sidebar{width:240px;flex-shrink:0}
+    .toc-sticky{position:sticky;top:72px;max-height:calc(100vh - 90px);overflow-y:auto;padding-right:4px}
+    .toc-sticky::-webkit-scrollbar{width:3px}
+    .toc-sticky::-webkit-scrollbar-thumb{background:var(--mid);border-radius:2px}
+    .toc-title{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:12px;padding-bottom:8px;border-bottom:2px solid var(--border)}
+    .toc-domain{margin-bottom:4px}
+    .toc-domain-link{display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:8px;text-decoration:none;font-size:12px;font-weight:600;color:var(--text);transition:all .18s;border:1px solid transparent}
+    .toc-domain-link:hover{background:var(--white);border-color:var(--border)}
+    .toc-domain-link.active{color:#fff;border-color:transparent}
+    .toc-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+    .toc-sub{padding-left:22px;margin-top:2px;display:none}
+    .toc-domain.open .toc-sub{display:block}
+    .toc-sub-link{display:block;padding:4px 8px;font-size:11px;color:var(--muted);text-decoration:none;border-radius:5px;transition:all .15s;border-left:2px solid transparent}
+    .toc-sub-link:hover{color:var(--accent);border-left-color:var(--accent)}
+    .toc-progress{height:2px;background:var(--mid);border-radius:1px;margin-top:14px;overflow:hidden}
+    .toc-progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--sky));border-radius:1px;transition:width .3s;width:0%}
+
+    /* MAIN CONTENT */
+    .notes-main{flex:1;min-width:0}
+
+    /* DOMAIN SECTION */
+    .domain-section{margin-bottom:3.5rem}
+    .domain-header{display:flex;align-items:center;gap:16px;margin-bottom:1.75rem;padding-bottom:1rem;border-bottom:2px solid var(--border);position:relative}
+    .domain-header::after{content:"";position:absolute;bottom:-2px;left:0;width:80px;height:2px;background:var(--d-color)}
+    .domain-num-badge{font-family:"Space Mono",monospace;font-size:11px;font-weight:700;padding:4px 12px;border-radius:6px;color:#fff;flex-shrink:0}
+    .domain-title-text{font-family:"Space Mono",monospace;font-size:clamp(17px,2.5vw,22px);font-weight:700;color:var(--text)}
+    .domain-pct{font-family:"Space Mono",monospace;font-size:11px;font-weight:700;padding:4px 10px;border-radius:6px;background:var(--mid);color:var(--blue);margin-left:auto;flex-shrink:0}
+
+    /* TOPIC CARD */
+    .topic-card{background:var(--white);border:1px solid var(--border);border-radius:14px;margin-bottom:1.25rem;overflow:hidden;box-shadow:var(--shadow)}
+    .topic-card-header{display:flex;align-items:center;gap:12px;padding:14px 20px;cursor:pointer;user-select:none;transition:background .15s;border-left:4px solid var(--d-color)}
+    .topic-card-header:hover{background:rgba(46,134,193,0.03)}
+    .topic-card-icon{font-size:16px;flex-shrink:0}
+    .topic-card-title{font-size:14px;font-weight:600;color:var(--text);flex:1}
+    .topic-chevron{font-size:11px;color:var(--muted);transition:transform .25s;flex-shrink:0}
+    .topic-chevron.open{transform:rotate(180deg)}
+    .topic-card-body{display:none;padding:20px 24px 24px;border-top:1px solid var(--border);background:rgba(234,244,251,0.3)}
+    .topic-card-body.open{display:block}
+
+    /* NOTE CONTENT STYLES */
+    .note-intro{font-family:"Merriweather",serif;font-size:13.5px;line-height:1.85;color:var(--muted);margin-bottom:1.25rem;font-weight:300;font-style:italic;padding:12px 16px;border-left:3px solid var(--d-color);background:rgba(234,244,251,0.5);border-radius:0 8px 8px 0}
+    .note-section{margin-bottom:1.5rem}
+    .note-section:last-child{margin-bottom:0}
+    .note-section-title{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--d-color);margin-bottom:.75rem;display:flex;align-items:center;gap:8px}
+    .note-section-title::after{content:"";flex:1;height:1px;background:rgba(46,134,193,0.15)}
+    .note-p{font-size:13px;line-height:1.75;color:var(--text);margin-bottom:.75rem}
+    .note-p:last-child{margin-bottom:0}
+    .note-list{list-style:none;display:flex;flex-direction:column;gap:6px;margin-bottom:.75rem}
+    .note-list li{font-size:13px;line-height:1.6;color:var(--text);padding-left:18px;position:relative}
+    .note-list li::before{content:"▸";position:absolute;left:0;color:var(--d-color);font-size:10px;top:3px}
+    .note-list li strong{color:var(--navy);font-weight:600}
+    .note-list.sub{margin-top:4px;margin-left:16px}
+    .note-list.sub li::before{content:"–";color:var(--muted)}
+
+    /* TERM GRID */
+    .term-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:.75rem}
+    .term-card{background:var(--light);border:1px solid var(--border);border-radius:8px;padding:10px 12px}
+    .term-name{font-family:"Space Mono",monospace;font-size:11px;font-weight:700;color:var(--accent);margin-bottom:3px}
+    .term-def{font-size:12px;color:var(--muted);line-height:1.5}
+
+    /* TABLE */
+    .note-table-wrap{overflow-x:auto;margin-bottom:.75rem}
+    .note-table{width:100%;border-collapse:collapse;font-size:12px}
+    .note-table th{background:var(--navy);color:rgba(255,255,255,0.75);padding:9px 12px;text-align:left;font-size:11px;font-weight:600;letter-spacing:.04em}
+    .note-table th:first-child{border-radius:6px 0 0 0}
+    .note-table th:last-child{border-radius:0 6px 0 0}
+    .note-table td{padding:8px 12px;border-bottom:1px solid var(--border);color:var(--text)}
+    .note-table tr:last-child td{border-bottom:none}
+    .note-table tr:hover td{background:rgba(46,134,193,0.04)}
+    .mono{font-family:"Space Mono",monospace;font-size:11px;color:var(--accent)}
+
+    /* CALLOUT */
+    .callout{border-radius:10px;padding:12px 16px;margin-bottom:.75rem;display:flex;gap:10px;align-items:flex-start}
+    .callout.tip{background:rgba(39,174,96,0.08);border:1px solid rgba(39,174,96,0.2)}
+    .callout.warn{background:rgba(243,156,18,0.08);border:1px solid rgba(243,156,18,0.25)}
+    .callout.key{background:rgba(46,134,193,0.08);border:1px solid rgba(46,134,193,0.2)}
+    .callout.exam{background:rgba(192,57,43,0.07);border:1px solid rgba(192,57,43,0.2)}
+    .callout-icon{font-size:14px;flex-shrink:0;margin-top:1px}
+    .callout-body{font-size:12.5px;line-height:1.65;color:var(--text)}
+    .callout-body strong{font-weight:600}
+
+    /* TAG CHIPS */
+    .tag-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:.75rem}
+    .tag{font-size:10px;font-weight:600;padding:3px 9px;border-radius:20px;background:var(--mid);color:var(--blue)}
+
+    /* PROGRESS BAR INLINE */
+    .pbar-row{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+    .pbar-label{font-size:12px;color:var(--text);min-width:160px}
+    .pbar-track{flex:1;height:7px;background:var(--mid);border-radius:4px;overflow:hidden}
+    .pbar-fill{height:100%;border-radius:4px}
+
+    /* DARK MODE */
+    html.dark{--light:#131b27;--mid:#1a2535;--white:#1e2a3a;--text:#d4e6f7;--muted:#7aa3c0;--border:rgba(93,173,226,0.14)}
+    html.dark body{background:var(--light);color:var(--text)}
+    html.dark nav,html.dark footer{background:#0a1220}
+    html.dark .topic-card{background:var(--white);border-color:var(--border)}
+    html.dark .topic-card-body{background:rgba(0,0,0,0.15)}
+    html.dark .note-intro{background:rgba(0,0,0,0.2)}
+    html.dark .term-card{background:var(--mid);border-color:var(--border)}
+    html.dark .note-table td{border-color:var(--border);color:var(--text)}
+    html.dark .note-table tr:hover td{background:rgba(93,173,226,0.04)}
+    html.dark .toc-domain-link:hover{background:var(--mid)}
+    html.dark .tag{background:var(--mid)}
+    html.dark .pbar-track{background:var(--mid)}
+
+    footer{background:var(--navy);padding:1.25rem 2rem;text-align:center;border-top:1px solid rgba(93,173,226,0.12)}
+    footer p{font-size:12px;color:rgba(255,255,255,0.3)}
+    footer a{color:var(--sky);text-decoration:none}
+
+    @media(max-width:768px){
+      .toc-sidebar{display:none}
+      .page-body{padding:1.5rem 1.25rem 3rem}
+      .term-grid{grid-template-columns:1fr}
+      nav{padding:0 1.25rem}
+      .hero{padding:2rem 1.25rem 2rem}
+    }
+  </style>
+</head>
+<body>
+<script>
+(function(){const K="bl-theme";function apply(d){document.documentElement.classList.toggle("dark",d);const b=document.getElementById("theme-btn");if(b)b.textContent=d?"☀":"☾"}apply(localStorage.getItem(K)==="dark");window.__toggleTheme=function(){const d=!document.documentElement.classList.contains("dark");localStorage.setItem(K,d?"dark":"light");apply(d)};window.addEventListener("storage",function(e){if(e.key===K)apply(e.newValue==="dark")});})();
+</script>
+<nav>
+  <a class="nav-brand" href="index.html"><div class="bl-circle">BL</div><span>BL Cert Hub</span></a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="aws-home.html">AWS CCP</a>
+    <a href="#" class="active">Course Notes</a>
+    <button class="theme-btn" id="theme-btn" onclick="__toggleTheme()">☾</button>
+  </div>
+</nav>
+<div class="hero">
+  <div class="hero-gp"></div>
+  <div class="hero-ring r1"></div>
+  <div class="hero-ring r2"></div>
+  <div class="hero-inner">
+    <div class="exam-badge"><div class="bl-circle">BL</div><span>AWS Certified Cloud Practitioner CLF-C02</span></div>
+    <h1>Course <span class="accent">Notes</span></h1>
+    <p class="hero-sub">Comprehensive study notes covering all four CLF-C02 domains. In-depth coverage of every concept with examples, code of ethics, access controls, and practical exam guidance.</p>
+    <div class="hero-pills"><span class="pill">CLF-C02</span><span class="pill">4 Domains</span><span class="pill">Full Deep-Dive</span><span class="pill">Exam Ready</span></div>
+  </div>
+</div>
+<div class="page-body">
+  <!-- TOC SIDEBAR -->
+  <aside class="toc-sidebar">
+    <div class="toc-sticky">
+      <div class="toc-title">Contents</div>
+      <div class="toc-domain"><a class="toc-domain-link" href="#aws_d1" data-color="#FF9900"><span class="toc-dot" style="background:#FF9900"></span>Domain 1: Cloud Concepts</a></div><div class="toc-domain"><a class="toc-domain-link" href="#aws_d2" data-color="#E74C3C"><span class="toc-dot" style="background:#E74C3C"></span>Domain 2: Security & Compliance</a></div><div class="toc-domain"><a class="toc-domain-link" href="#aws_d3" data-color="#2E86C1"><span class="toc-dot" style="background:#2E86C1"></span>Domain 3: Cloud Technology</a></div><div class="toc-domain"><a class="toc-domain-link" href="#aws_d4" data-color="#27AE60"><span class="toc-dot" style="background:#27AE60"></span>Domain 4: Billing & Support</a></div>
+      <div class="toc-progress"><div class="toc-progress-fill" id="read-progress"></div></div>
+    </div>
+  </aside>
+  <!-- MAIN NOTES -->
+  <main class="notes-main" id="notes-main">
+    <section class="domain-section" id="aws_d1" style="--d-color:#FF9900">
+  <div class="domain-header">
+    <span class="domain-num-badge" style="background:#FF9900">Domain 1</span>
+    <span class="domain-title-text">Cloud Concepts</span>
+    <span class="domain-pct">26%</span>
+  </div>
+  <div class="topic-card">
+  <div class="topic-card-header" onclick="toggleTopic(this)">
+    <span class="topic-card-icon">☁️</span>
+    <span class="topic-card-title">Cloud Computing Fundamentals</span>
+    <span class="topic-chevron">&#9660;</span>
+  </div>
+  <div class="topic-card-body"><div class="note-intro">Cloud computing is the on-demand delivery of IT resources over the internet with pay-as-you-go pricing. This is the single most important concept in the CLF-C02 exam — every other topic builds on it.</div><div class="note-section"><div class="note-section-title">Six Advantages of Cloud Computing</div><ul class="note-list"><li><strong>Trade capital expense for operational expense</strong>: No upfront hardware purchases — pay only for what you use</li><li><strong>Benefit from massive economies of scale</strong>: AWS buys at such scale it passes savings to customers</li><li><strong>Stop guessing capacity</strong>: Scale up or down instantly — no over or under provisioning</li><li><strong>Increase speed and agility</strong>: Deploy globally in minutes, not weeks or months</li><li><strong>Stop spending money on data centers</strong>: Focus on your customers, not racking servers</li><li><strong>Go global in minutes</strong>: Deploy to any AWS Region with a few clicks</li></ul></div><div class="note-section"><div class="note-section-title">Cloud Service Models</div><div class="note-table-wrap"><table class="note-table"><thead><tr><th>Model</th><th>What AWS Manages</th><th>What You Manage</th><th>AWS Example</th></tr></thead><tbody><tr><td>IaaS</td><td>Hardware, networking, virtualization</td><td>OS, middleware, runtime, apps, data</td><td>Amazon EC2</td></tr><tr><td>PaaS</td><td>Everything up to runtime</td><td>Applications and data</td><td>Elastic Beanstalk</td></tr><tr><td>SaaS</td><td>Everything</td><td>Just use the software</td><td>Gmail, Salesforce, Zoom</td></tr></tbody></table></div></div><div class="note-section"><div class="note-section-title">Cloud Deployment Models</div><ul class="note-list"><li><strong>Public cloud</strong>: All resources on AWS — most scalable and cost-efficient. No hardware to maintain.</li><li><strong>Private cloud</strong>: Dedicated infrastructure for one organization — VMware Cloud on AWS.</li><li><strong>Hybrid cloud</strong>: Combination of on-premises + AWS via Direct Connect or VPN. Most common enterprise approach.</li><li><strong>Community cloud</strong>: Shared by organizations with common requirements (e.g., government agencies).</li></ul></div><div class="callout exam"><span class="callout-icon">🎯</span><div class="callout-body"><strong>Exam Focus:</strong> Know all six advantages cold. The most commonly tested are: trade CapEx for OpEx, stop guessing capacity, and increase speed and agility.</div></div></div>
+</div><div class="topic-card">
+  <div class="topic-card-header" onclick="toggleTopic(this)">
+    <span class="topic-card-icon">🌍</span>
+    <span class="topic-card-title">AWS Global Infrastructure</span>
+    <span class="topic-chevron">&#9660;</span>
+  </div>
+  <div class="topic-card-body"><div class="note-intro">AWS's global footprint is one of its most significant advantages. Understanding Regions, AZs, and edge locations is essential — multiple CLF-C02 questions test this directly.</div><div class="note-section"><div class="note-section-title">Infrastructure Components</div><ul class="note-list"><li><strong>AWS Regions</strong>: Geographic areas containing 2+ AZs. 30+ Regions worldwide (us-east-1, eu-west-1, ap-southeast-1). Each Region is independent — data does not automatically leave a Region.</li><li><strong>Availability Zones</strong>: One or more discrete data centers within a Region, with independent power, cooling, and networking. Connected by high-bandwidth, low-latency links. Typically 3 AZs per Region.</li><li><strong>Edge Locations</strong>: 400+ points of presence worldwide for CloudFront CDN caching and Route 53 DNS. Many more than Regions — bring cached content closer to users.</li><li><strong>AWS Local Zones</strong>: Extensions of Regions to specific metro areas (e.g., Los Angeles, Dallas) for ultra-low latency workloads.</li><li><strong>AWS Wavelength Zones</strong>: AWS infrastructure embedded in telecom carrier networks for 5G applications requiring single-digit millisecond latency.</li></ul></div><div class="note-section"><div class="note-section-title">How to Choose an AWS Region</div><ul class="note-list"><li><strong>Compliance</strong>: Data sovereignty laws may require data to stay in a specific country (GDPR in EU)</li><li><strong>Latency</strong>: Choose the Region closest to your users for best performance</li><li><strong>Service availability</strong>: Not all services are available in all Regions</li><li><strong>Pricing</strong>: Prices vary slightly between Regions — us-east-1 (Virginia) is typically cheapest</li></ul></div><div class="callout tip"><span class="callout-icon">💡</span><div class="callout-body"><strong>Memory aid:</strong> Region > Availability Zone > Data Center. Think of Regions as cities, AZs as neighborhoods, and data centers as individual buildings within each neighborhood.</div></div></div>
+</div><div class="topic-card">
+  <div class="topic-card-header" onclick="toggleTopic(this)">
+    <span class="topic-card-icon">🏗️</span>
+    <span class="topic-card-title">Well-Architected Framework & Design Principles</span>
+    <span class="topic-chevron">&#9660;</span>
+  </div>
+  <div class="topic-card-body"><div class="note-intro">The AWS Well-Architected Framework provides a consistent approach for evaluating cloud architectures. All six pillars appear in CLF-C02 exam questions.</div><div class="note-section"><div class="note-section-title">Six Pillars</div><ul class="note-list"><li><strong>Operational Excellence</strong>: Run and monitor systems. Automate changes, respond to events, define standards. Focus on continuous improvement.</li><li><strong>Security</strong>: Protect information and systems. Apply least privilege, enable traceability, protect data in transit and at rest.</li><li><strong>Reliability</strong>: Recover from failures and meet demand. Test recovery procedures, scale horizontally, stop guessing capacity.</li><li><strong>Performance Efficiency</strong>: Use resources efficiently. Use advanced technologies, deploy globally in minutes, use serverless architectures.</li><li><strong>Cost Optimization</strong>: Avoid unnecessary costs. Adopt a consumption model, measure overall efficiency, stop spending on undifferentiated heavy lifting.</li><li><strong>Sustainability</strong>: Minimize environmental impact. Maximize utilization, use managed services, right-size infrastructure.</li></ul></div><div class="note-section"><div class="note-section-title">Design Principles for Cloud</div><ul class="note-list"><li><strong>Design for failure</strong>: Assume everything fails. Build redundancy at every layer.</li><li><strong>Decouple components</strong>: Use SQS, SNS to separate application tiers so failures are isolated.</li><li><strong>Implement elasticity</strong>: Auto Scaling automatically adjusts capacity — never over-provision statically.</li><li><strong>Think parallel</strong>: Break sequential work into parallel tasks. Use distributed systems.</li></ul></div><div class="callout key"><span class="callout-icon">🔑</span><div class="callout-body"><strong>Shared Responsibility Model:</strong> AWS manages security OF the cloud (physical, hardware, network, hypervisor). YOU manage security IN the cloud (OS, applications, data, IAM, encryption, network config).</div></div></div>
+</div>
+</section><section class="domain-section" id="aws_d2" style="--d-color:#E74C3C">
+  <div class="domain-header">
+    <span class="domain-num-badge" style="background:#E74C3C">Domain 2</span>
+    <span class="domain-title-text">Security & Compliance</span>
+    <span class="domain-pct">25%</span>
+  </div>
+  <div class="topic-card">
+  <div class="topic-card-header" onclick="toggleTopic(this)">
+    <span class="topic-card-icon">🔐</span>
+    <span class="topic-card-title">AWS IAM — Identity & Access Management</span>
+    <span class="topic-chevron">&#9660;</span>
+  </div>
+  <div class="topic-card-body"><div class="note-intro">IAM is the most tested security topic on the CLF-C02. You must understand users, groups, roles, policies, and the critical best practices AWS recommends.</div><div class="note-section"><div class="note-section-title">Core IAM Components</div><ul class="note-list"><li><strong>Root user</strong>: Created with the AWS account. Has full unrestricted access. Enable MFA immediately. Never use for daily tasks. Do not create access keys.</li><li><strong>IAM Users</strong>: Individual accounts for people or applications. Have long-term credentials (password + access keys). Best practice: one user per person.</li><li><strong>IAM Groups</strong>: Collections of IAM users. Assign policies to groups, not individual users. Users inherit group permissions. Simplifies permission management.</li><li><strong>IAM Roles</strong>: Identities with no permanent credentials — assumed temporarily. For EC2 instances, Lambda, cross-account access, federated users.</li><li><strong>IAM Policies</strong>: JSON documents defining what actions are allowed/denied on which resources. Attached to users, groups, or roles.</li></ul></div><div class="note-section"><div class="note-section-title">IAM Best Practices</div><ul class="note-list"><li>Enable MFA on the root account and all IAM users with console access</li><li>Follow principle of least privilege — grant minimum permissions needed</li><li>Use roles instead of sharing credentials for services and cross-account access</li><li>Create individual IAM users — never share credentials</li><li>Rotate access keys regularly and remove unused credentials</li><li>Use IAM Access Analyzer to identify unintended resource access</li></ul></div><div class="note-section"><div class="note-section-title">IAM Policy Structure</div><div class="note-table-wrap"><table class="note-table"><thead><tr><th>Element</th><th>Purpose</th><th>Example</th></tr></thead><tbody><tr><td>Version</td><td>Policy language version (always use 2012-10-17)</td><td>2012-10-17</td></tr><tr><td>Statement</td><td>One or more permission statements</td><td>Array of permission blocks</td></tr><tr><td>Effect</td><td>Allow or Deny</td><td>Allow</td></tr><tr><td>Action</td><td>API action(s) to allow/deny</td><td>s3:GetObject, ec2:*</td></tr><tr><td>Resource</td><td>AWS resource(s) the action applies to</td><td>arn:aws:s3:::my-bucket/*</td></tr></tbody></table></div></div><div class="callout exam"><span class="callout-icon">🎯</span><div class="callout-body"><strong>Exam trap:</strong> IAM policies have an implicit DENY by default. An explicit DENY always overrides an explicit ALLOW — even if a user is in a group that allows it, a deny policy wins.</div></div></div>
+</div><div class="topic-card">
+  <div class="topic-card-header" onclick="toggleTopic(this)">
+    <span class="topic-card-icon">🛡️</span>
+    <span class="topic-card-title">AWS Security Services</span>
+    <span class="topic-chevron">&#9660;</span>
+  </div>
+  <div class="topic-card-body"><div class="note-intro">AWS provides purpose-built security services for threat detection, vulnerability assessment, DDoS protection, and data protection. Know what each service does and when to use it.</div><div class="note-section"><div class="note-section-title">Threat Detection & Monitoring</div><div class="term-grid"><div class="term-card"><div class="term-name">Amazon GuardDuty</div><div class="term-def">Intelligent threat detection using ML. Analyzes CloudTrail, VPC Flow Logs, DNS logs. Detects: account compromise, unauthorized access, crypto mining. No agents needed.</div></div><div class="term-card"><div class="term-name">AWS CloudTrail</div><div class="term-def">Records ALL API calls in your account — who, what, when, where. Essential for auditing and compliance. Enabled by default 90 days; create Trail for longer retention in S3.</div></div><div class="term-card"><div class="term-name">Amazon Inspector</div><div class="term-def">Automated vulnerability assessments for EC2 instances and container images. Identifies software vulnerabilities and unintended network exposure.</div></div><div class="term-card"><div class="term-name">AWS Config</div><div class="term-def">Tracks resource configuration changes over time. Evaluates resources against compliance rules. Answers: "What changed? When? Who changed it?"</div></div><div class="term-card"><div class="term-name">Amazon Macie</div><div class="term-def">Uses ML to discover and protect sensitive data (PII) in S3. Identifies public buckets, unencrypted data, and unusual access patterns.</div></div><div class="term-card"><div class="term-name">AWS Security Hub</div><div class="term-def">Centralizes security findings from GuardDuty, Inspector, Macie, and third-party tools. Provides compliance dashboard.</div></div></div></div><div class="note-section"><div class="note-section-title">Protection Services</div><div class="term-grid"><div class="term-card"><div class="term-name">AWS WAF</div><div class="term-def">Web Application Firewall — blocks SQL injection, XSS, bad bots. Works with CloudFront, ALB, API Gateway.</div></div><div class="term-card"><div class="term-name">AWS Shield Standard</div><div class="term-def">Free automatic DDoS protection for all AWS customers at Layer 3/4.</div></div><div class="term-card"><div class="term-name">AWS Shield Advanced</div><div class="term-def">Paid enhanced DDoS protection with 24/7 DRT access, cost protection, and application-layer defense.</div></div><div class="term-card"><div class="term-name">AWS Firewall Manager</div><div class="term-def">Centrally manage WAF rules, Shield, Security Groups across multiple accounts in AWS Organizations.</div></div></div></div></div>
+</div><div class="topic-card">
+  <div class="topic-card-header" onclick="toggleTopic(this)">
+    <span class="topic-card-icon">🔒</span>
+    <span class="topic-card-title">Encryption & Data Protection</span>
+    <span class="topic-chevron">&#9660;</span>
+  </div>
+  <div class="topic-card-body"><div class="note-intro">Encryption is a fundamental requirement for compliance and security. AWS provides managed services for key management and integrates encryption natively across most services.</div><div class="note-section"><div class="note-section-title">AWS KMS (Key Management Service)</div><ul class="note-list"><li><strong>Creates and manages cryptographic keys</strong> for encrypting your data</li><li><strong>Integrated with 100+ AWS services</strong>: S3, EBS, RDS, Lambda, CloudTrail, etc.</li><li><strong>Customer-managed keys (CMK)</strong>: You control key policy, rotation, and deletion</li><li><strong>AWS-managed keys</strong>: AWS creates and manages on your behalf (less control)</li><li><strong>Key rotation</strong>: Automatic annual rotation for customer-managed keys</li><li><strong>FIPS 140-2 Level 3</strong> compliant for regulatory requirements</li></ul></div><div class="note-section"><div class="note-section-title">Encryption Types</div><ul class="note-list"><li><strong>Encryption at rest</strong>: Data encrypted when stored on disk. S3 (SSE-S3, SSE-KMS, SSE-C), EBS volumes, RDS databases. Protects from physical disk theft.</li><li><strong>Encryption in transit</strong>: Data encrypted while moving across networks. HTTPS/TLS, VPN connections, AWS Certificate Manager for SSL/TLS certs.</li><li><strong>Client-side encryption</strong>: You encrypt data before sending to AWS. You manage keys. AWS never sees plaintext.</li></ul></div><div class="note-section"><div class="note-section-title">Network Security</div><ul class="note-list"><li><strong>Security Groups</strong>: Stateful virtual firewalls at the instance level. Allow rules only. Return traffic automatically allowed.</li><li><strong>Network ACLs</strong>: Stateless subnet-level firewalls. Separate inbound and outbound rules. Explicit deny capability. Rules processed in order.</li><li><strong>VPC Flow Logs</strong>: Capture IP traffic information flowing through VPC network interfaces. Used for security analysis and troubleshooting.</li></ul></div></div>
+</div>
+</section><section class="domain-section" id="aws_d3" style="--d-color:#2E86C1">
+  <div class="domain-header">
+    <span class="domain-num-badge" style="background:#2E86C1">Domain 3</span>
+    <span class="domain-title-text">Cloud Technology & Services</span>
+    <span class="domain-pct">33%</span>
+  </div>
+  <div class="topic-card">
+  <div class="topic-card-header" onclick="toggleTopic(this)">
+    <span class="topic-card-icon">💻</span>
+    <span class="topic-card-title">Compute Services</span>
+    <span class="topic-chevron">&#9660;</span>
+  </div>
+  <div class="topic-card-body"><div class="note-intro">Compute is the engine of AWS. Understanding when to use EC2 vs Lambda vs containers is fundamental — the CLF-C02 tests your ability to choose the right compute service for a given scenario.</div><div class="note-section"><div class="note-section-title">Amazon EC2</div><ul class="note-list"><li><strong>Virtual servers</strong> — rent compute capacity in the cloud. Full control over OS, software, networking.</li><li><strong>Instance families</strong>: General Purpose (M, T), Compute Optimized (C), Memory Optimized (R, X), Storage Optimized (I, D), Accelerated (P, G — GPU)</li><li><strong>EC2 Instance Store</strong>: Temporary block storage physically attached to the host — lost if instance stops or terminates</li><li><strong>EBS volumes</strong>: Persistent block storage that survives instance stop/terminate</li><li><strong>User Data</strong>: Shell script that runs once when instance first starts — for bootstrapping software</li><li><strong>AMI (Amazon Machine Image)</strong>: Template containing OS, applications, and config for launching EC2 instances</li></ul></div><div class="note-section"><div class="note-section-title">EC2 Pricing Options</div><div class="note-table-wrap"><table class="note-table"><thead><tr><th>Type</th><th>Discount</th><th>Best For</th><th>Interruption?</th></tr></thead><tbody><tr><td>On-Demand</td><td>0%</td><td>Unpredictable workloads, testing</td><td>No</td></tr><tr><td>Reserved (1yr)</td><td>Up to 40%</td><td>Steady-state, predictable</td><td>No</td></tr><tr><td>Reserved (3yr)</td><td>Up to 72%</td><td>Long-term committed workloads</td><td>No</td></tr><tr><td>Savings Plans</td><td>Up to 66%</td><td>Flexible compute commitment</td><td>No</td></tr><tr><td>Spot Instances</td><td>Up to 90%</td><td>Batch, fault-tolerant, flexible</td><td>Yes — 2 min warning</td></tr><tr><td>Dedicated Host</td><td>High</td><td>Compliance, BYOL, regulatory</td><td>No</td></tr></tbody></table></div></div><div class="note-section"><div class="note-section-title">Serverless & Container Compute</div><ul class="note-list"><li><strong>AWS Lambda</strong>: Run code without servers. Event-driven. Pay per request + duration. Auto-scales. Max 15 min. 1M free requests/month.</li><li><strong>AWS Fargate</strong>: Serverless compute for containers. No EC2 management. Pay per vCPU and memory used per task.</li><li><strong>Amazon ECS</strong>: AWS-managed container orchestration using its own scheduler.</li><li><strong>Amazon EKS</strong>: Managed Kubernetes — bring Kubernetes workloads to AWS without managing the control plane.</li><li><strong>AWS Elastic Beanstalk</strong>: PaaS — upload code, Beanstalk handles everything else (EC2, LB, Auto Scaling, monitoring).</li></ul></div></div>
+</div><div class="topic-card">
+  <div class="topic-card-header" onclick="toggleTopic(this)">
+    <span class="topic-card-icon">🗃️</span>
+    <span class="topic-card-title">Storage Services</span>
+    <span class="topic-chevron">&#9660;</span>
+  </div>
+  <div class="topic-card-body"><div class="note-intro">AWS offers multiple storage services optimized for different use cases. Choosing the right storage type is a key CLF-C02 exam skill.</div><div class="note-section"><div class="note-section-title">Amazon S3 Deep Dive</div><ul class="note-list"><li><strong>Object storage</strong> — store any file up to 5TB as an object in a bucket</li><li><strong>Globally unique bucket names</strong> — created in a specific Region, accessible globally via URL</li><li><strong>11 nines durability</strong> (99.999999999%) — data replicated across 3+ AZs automatically</li><li><strong>Versioning</strong>: Keep multiple versions of an object — protects against accidental deletion</li><li><strong>Lifecycle policies</strong>: Automatically transition objects to cheaper storage classes after N days</li><li><strong>S3 Transfer Acceleration</strong>: Upload files faster using CloudFront edge locations</li><li><strong>Static website hosting</strong>: Host a static website directly from S3</li><li><strong>Cross-Region Replication</strong>: Automatically copy objects to another Region for DR</li></ul></div><div class="note-section"><div class="note-section-title">S3 Storage Classes Comparison</div><div class="note-table-wrap"><table class="note-table"><thead><tr><th>Class</th><th>Use Case</th><th>Retrieval</th><th>Durability</th></tr></thead><tbody><tr><td>S3 Standard</td><td>Frequently accessed data</td><td>Milliseconds</td><td>11 nines across 3+ AZs</td></tr><tr><td>S3 Intelligent-Tiering</td><td>Unknown access patterns</td><td>Milliseconds</td><td>11 nines — auto-moves data</td></tr><tr><td>S3 Standard-IA</td><td>Infrequent access, rapid retrieval</td><td>Milliseconds</td><td>11 nines, retrieval fee</td></tr><tr><td>S3 One Zone-IA</td><td>Infrequent, single AZ okay</td><td>Milliseconds</td><td>11 nines, 1 AZ only</td></tr><tr><td>S3 Glacier Instant</td><td>Archives, millisecond access</td><td>Milliseconds</td><td>11 nines</td></tr><tr><td>S3 Glacier Flexible</td><td>Archives, minutes to hours</td><td>1 min – 12 hrs</td><td>11 nines</td></tr><tr><td>S3 Glacier Deep Archive</td><td>Long-term archives</td><td>12–48 hours</td><td>11 nines — cheapest</td></tr></tbody></table></div></div><div class="note-section"><div class="note-section-title">Other Storage Services</div><ul class="note-list"><li><strong>Amazon EBS</strong>: Block storage for EC2 — like a virtual hard drive. AZ-specific. gp3 (SSD, general), io2 (high IOPS), st1 (HDD, throughput), sc1 (HDD, cold).</li><li><strong>Amazon EFS</strong>: Managed NFS file system — shared across thousands of EC2 instances simultaneously. Scales automatically. Multi-AZ.</li><li><strong>AWS Storage Gateway</strong>: Hybrid storage — connects on-premises environments to AWS storage (S3, Glacier). Types: File, Volume, Tape.</li><li><strong>AWS Snowball</strong>: Physical device (appliance) to migrate petabytes of data to AWS when network transfer is too slow. Snowball Edge adds compute capability. Snowmobile: truck for exabyte-scale.</li></ul></div></div>
+</div><div class="topic-card">
+  <div class="topic-card-header" onclick="toggleTopic(this)">
+    <span class="topic-card-icon">🌐</span>
+    <span class="topic-card-title">Networking & Database Services</span>
+    <span class="topic-chevron">&#9660;</span>
+  </div>
+  <div class="topic-card-body"><div class="note-intro">VPC networking and database selection are core CLF-C02 topics. Know the difference between relational and NoSQL databases, and understand VPC components.</div><div class="note-section"><div class="note-section-title">VPC Key Components</div><ul class="note-list"><li><strong>VPC</strong>: Your private network in AWS. Define CIDR block (e.g., 10.0.0.0/16). Spans all AZs in a Region.</li><li><strong>Subnets</strong>: Subdivisions of a VPC. Public subnet: has route to Internet Gateway. Private subnet: no direct internet access.</li><li><strong>Internet Gateway (IGW)</strong>: Enables internet access for VPC resources with public IPs.</li><li><strong>NAT Gateway</strong>: Allows private subnet instances to access the internet without being reachable from outside.</li><li><strong>Security Groups</strong>: Stateful firewall at instance level — allow rules only, return traffic auto-allowed.</li><li><strong>NACLs</strong>: Stateless firewall at subnet level — separate inbound/outbound rules, can deny.</li><li><strong>VPC Peering</strong>: Private connectivity between two VPCs — no internet, no bandwidth bottleneck.</li><li><strong>AWS Transit Gateway</strong>: Hub-and-spoke model to connect many VPCs and on-premises networks through one gateway.</li><li><strong>VPC Endpoints</strong>: Connect to AWS services (S3, DynamoDB) privately without internet, NAT, or VPN.</li></ul></div><div class="note-section"><div class="note-section-title">Database Services</div><div class="term-grid"><div class="term-card"><div class="term-name">Amazon RDS</div><div class="term-def">Managed relational databases — MySQL, PostgreSQL, MariaDB, Oracle, SQL Server, Aurora. Handles patching, backups, Multi-AZ failover, read replicas.</div></div><div class="term-card"><div class="term-name">Amazon Aurora</div><div class="term-def">AWS-built relational database — MySQL/PostgreSQL-compatible. 5x faster than MySQL, 3x faster than PostgreSQL. 6 copies across 3 AZs. Serverless option available.</div></div><div class="term-card"><div class="term-name">Amazon DynamoDB</div><div class="term-def">Fully managed NoSQL — key-value and document. Single-digit millisecond latency at any scale. Serverless — no capacity planning. DAX = in-memory cache.</div></div><div class="term-card"><div class="term-name">Amazon Redshift</div><div class="term-def">Petabyte-scale data warehouse for analytics. Columnar storage. SQL-based. Used for BI/reporting, not transactional workloads.</div></div><div class="term-card"><div class="term-name">Amazon ElastiCache</div><div class="term-def">Managed in-memory cache — Redis or Memcached. Sub-millisecond latency. Reduces database load for frequently accessed data.</div></div><div class="term-card"><div class="term-name">Amazon DMS</div><div class="term-def">Database Migration Service — migrates databases to AWS with minimal downtime. Supports homogeneous (MySQL to RDS MySQL) and heterogeneous migrations.</div></div></div></div></div>
+</div><div class="topic-card">
+  <div class="topic-card-header" onclick="toggleTopic(this)">
+    <span class="topic-card-icon">⚙️</span>
+    <span class="topic-card-title">Additional AWS Services</span>
+    <span class="topic-chevron">&#9660;</span>
+  </div>
+  <div class="topic-card-body"><div class="note-intro">The CLF-C02 tests awareness of a broad range of AWS services. You do not need to know how to configure them — just understand their purpose and use case.</div><div class="note-section"><div class="note-section-title">Developer & Deployment Tools</div><ul class="note-list"><li><strong>AWS CloudFormation</strong>: IaC — define infrastructure in JSON/YAML templates. Repeatable, consistent, version-controlled deployments.</li><li><strong>AWS CDK</strong>: Cloud Development Kit — define CloudFormation resources using Python, TypeScript, Java, or .NET code.</li><li><strong>AWS CodePipeline</strong>: Continuous delivery pipeline — automate build, test, deploy.</li><li><strong>AWS CodeBuild</strong>: Managed build service — compiles source code, runs tests, produces artifacts.</li><li><strong>AWS CodeDeploy</strong>: Automates application deployments to EC2, Lambda, on-premises.</li><li><strong>AWS Systems Manager</strong>: Manage EC2 and on-premises systems at scale — patch management, parameter store, session manager (SSH-less access).</li></ul></div><div class="note-section"><div class="note-section-title">Analytics & AI/ML</div><ul class="note-list"><li><strong>Amazon Athena</strong>: Query data directly in S3 using SQL — serverless, pay per query.</li><li><strong>Amazon Kinesis</strong>: Real-time data streaming — ingest and process streaming data.</li><li><strong>AWS Glue</strong>: Managed ETL service — discover, transform, and load data for analytics.</li><li><strong>Amazon QuickSight</strong>: Business intelligence service — create dashboards and visualizations.</li><li><strong>Amazon SageMaker</strong>: Build, train, and deploy ML models at scale — no ML infrastructure management.</li><li><strong>Amazon Rekognition</strong>: AI image and video analysis — facial recognition, object detection.</li><li><strong>Amazon Comprehend</strong>: NLP — extract insights from text (sentiment, entities, key phrases).</li><li><strong>Amazon Lex</strong>: Build conversational interfaces (chatbots) using voice and text.</li></ul></div><div class="note-section"><div class="note-section-title">Messaging & Integration</div><ul class="note-list"><li><strong>Amazon SQS</strong>: Message queue for decoupling services. Standard (best-effort ordering) or FIFO (exact ordering, deduplication).</li><li><strong>Amazon SNS</strong>: Pub/sub notification service. Publishers send to topics; SNS fans out to subscribers (email, SMS, Lambda, SQS, HTTP).</li><li><strong>Amazon EventBridge</strong>: Serverless event bus — connect applications using events. Route events from AWS services, SaaS, and custom apps.</li><li><strong>AWS Step Functions</strong>: Coordinate distributed applications as visual workflows — orchestrate Lambda, ECS, and other services.</li></ul></div><div class="callout tip"><span class="callout-icon">💡</span><div class="callout-body"><strong>Quick reference:</strong> Decouple = SQS. Notify many = SNS. Stream in real-time = Kinesis. Query S3 = Athena. ML models = SageMaker. IaC = CloudFormation.</div></div></div>
+</div>
+</section><section class="domain-section" id="aws_d4" style="--d-color:#27AE60">
+  <div class="domain-header">
+    <span class="domain-num-badge" style="background:#27AE60">Domain 4</span>
+    <span class="domain-title-text">Billing, Pricing & Support</span>
+    <span class="domain-pct">16%</span>
+  </div>
+  <div class="topic-card">
+  <div class="topic-card-header" onclick="toggleTopic(this)">
+    <span class="topic-card-icon">💰</span>
+    <span class="topic-card-title">AWS Pricing Models & Cost Tools</span>
+    <span class="topic-chevron">&#9660;</span>
+  </div>
+  <div class="topic-card-body"><div class="note-intro">Understanding AWS pricing is one of the most practical CLF-C02 skills. Know the pricing models, the cost management tools, and how to reduce AWS spend.</div><div class="note-section"><div class="note-section-title">Core Pricing Principles</div><ul class="note-list"><li><strong>Pay-as-you-go</strong>: Pay only for what you use, no minimum fees, stop paying when you stop using</li><li><strong>Save when you reserve</strong>: Reserved Instances and Savings Plans provide discounts for commitment</li><li><strong>Pay less as you use more</strong>: Volume discounts — S3, data transfer, DynamoDB all get cheaper at scale</li><li><strong>AWS Free Tier</strong>: Always-free (Lambda, DynamoDB), 12-month free (EC2, S3, RDS), and trial offers</li></ul></div><div class="note-section"><div class="note-section-title">EC2 Pricing Deep Dive</div><div class="note-table-wrap"><table class="note-table"><thead><tr><th>Option</th><th>Commitment</th><th>Discount</th><th>Best For</th></tr></thead><tbody><tr><td>On-Demand</td><td>None</td><td>0%</td><td>Unpredictable, short-term, testing</td></tr><tr><td>Reserved (Standard)</td><td>1 or 3 years</td><td>Up to 72%</td><td>Steady-state, committed workloads</td></tr><tr><td>Reserved (Convertible)</td><td>1 or 3 years</td><td>Up to 54%</td><td>Flexible but committed workloads</td></tr><tr><td>Savings Plans (Compute)</td><td>1 or 3 years</td><td>Up to 66%</td><td>Flexible across EC2, Lambda, Fargate</td></tr><tr><td>Spot</td><td>None (volatile)</td><td>Up to 90%</td><td>Batch, fault-tolerant, flexible timing</td></tr><tr><td>Dedicated Host</td><td>On-Demand or RI</td><td>Varies</td><td>Compliance, BYOL requirements</td></tr></tbody></table></div></div><div class="note-section"><div class="note-section-title">Cost Management Tools</div><div class="term-grid"><div class="term-card"><div class="term-name">AWS Pricing Calculator</div><div class="term-def">Estimate future monthly costs BEFORE building. Configure services and get detailed breakdown. Free to use. Share via public URL.</div></div><div class="term-card"><div class="term-name">AWS Cost Explorer</div><div class="term-def">Visualize past spending. Interactive graphs by service, region, account, tag. Rightsizing recommendations. 13 months of history. Forecast future costs.</div></div><div class="term-card"><div class="term-name">AWS Budgets</div><div class="term-def">Set cost, usage, RI, or Savings Plans budgets. Alerts when actual or forecasted exceeds threshold. Automated actions on breach (stop EC2, apply SCP).</div></div><div class="term-card"><div class="term-name">AWS Cost & Usage Report</div><div class="term-def">Most detailed billing data available. Hourly line items per resource. Delivered to S3. Analyze with Athena or QuickSight.</div></div><div class="term-card"><div class="term-name">AWS Trusted Advisor</div><div class="term-def">Checks for idle resources, underutilized EC2, unassociated Elastic IPs, non-reserved capacity. Cost optimization recommendations.</div></div><div class="term-card"><div class="term-name">Cost Allocation Tags</div><div class="term-def">Tag resources (Project=X, Env=Prod) and view costs broken down by those tags in Cost Explorer. Must be activated in Billing console.</div></div></div></div></div>
+</div><div class="topic-card">
+  <div class="topic-card-header" onclick="toggleTopic(this)">
+    <span class="topic-card-icon">🏢</span>
+    <span class="topic-card-title">AWS Organizations & Support</span>
+    <span class="topic-chevron">&#9660;</span>
+  </div>
+  <div class="topic-card-body"><div class="note-intro">AWS Organizations helps manage multiple accounts centrally. Support plans determine what level of help you get from AWS. Both are directly tested on the CLF-C02.</div><div class="note-section"><div class="note-section-title">AWS Organizations</div><ul class="note-list"><li><strong>Consolidated Billing</strong>: Single bill for all accounts. Share volume discounts across all accounts. Free data transfer within the organization.</li><li><strong>Management account</strong>: Master account that pays all charges and manages the organization.</li><li><strong>Service Control Policies (SCPs)</strong>: Guardrails that restrict what actions can be taken in member accounts — even by administrators. Cannot override to grant MORE access.</li><li><strong>Organizational Units (OUs)</strong>: Group accounts for policy application — e.g., Production OU, Development OU.</li><li><strong>AWS Control Tower</strong>: Automates setting up and governing a secure multi-account environment with pre-configured guardrails.</li></ul></div><div class="note-section"><div class="note-section-title">AWS Support Plans Comparison</div><div class="note-table-wrap"><table class="note-table"><thead><tr><th>Plan</th><th>Cost</th><th>Response Time</th><th>Key Features</th></tr></thead><tbody><tr><td>Basic</td><td>Free</td><td>No technical support</td><td>Documentation, forums, Trusted Advisor (7 checks)</td></tr><tr><td>Developer</td><td>$29/mo</td><td>Business hours email, 1 contact</td><td>General guidance < 24hrs, system impaired < 12hrs</td></tr><tr><td>Business</td><td>$100/mo</td><td>24/7 phone/chat/email</td><td>Production down < 1hr, all Trusted Advisor checks, AWS Health API</td></tr><tr><td>Enterprise On-Ramp</td><td>$5,500/mo</td><td>Business-critical < 30min</td><td>Pool of TAMs, Concierge, Well-Architected reviews</td></tr><tr><td>Enterprise</td><td>$15,000/mo</td><td>Business-critical < 15min</td><td>Dedicated TAM, Infrastructure Event Management, Account concierge</td></tr></tbody></table></div></div><div class="note-section"><div class="note-section-title">Other Cost Optimization Strategies</div><ul class="note-list"><li><strong>Right-sizing</strong>: Match instance type to actual workload requirements — use Cost Explorer rightsizing recommendations</li><li><strong>Turn off unused resources</strong>: Stop EC2 instances outside business hours, delete unattached EBS volumes</li><li><strong>Use managed services</strong>: RDS, Lambda, DynamoDB eliminate OS/server management overhead costs</li><li><strong>S3 Lifecycle policies</strong>: Automatically move data to cheaper storage classes based on age</li><li><strong>Reserved Instances</strong>: For predictable workloads, commit and save up to 72%</li><li><strong>AWS Compute Optimizer</strong>: ML-based recommendations for right-sizing EC2, Lambda, EBS, ECS</li></ul></div><div class="callout exam"><span class="callout-icon">🎯</span><div class="callout-body"><strong>Exam Focus:</strong> Know which support plan provides 24/7 support (Business), which provides a dedicated TAM (Enterprise), and what Trusted Advisor checks are free vs paid.</div></div></div>
+</div>
+</section>
+  </main>
+</div>
+<footer><p>Built by <a href="https://blaborte.github.io" target="_blank">Baltazar Laborte</a> · BL Cert Hub · AWS Certified Cloud Practitioner CLF-C02</p></footer>
+<script>
+// Toggle topic cards
+function toggleTopic(el){
+  const body=el.nextElementSibling;
+  const chev=el.querySelector(".topic-chevron");
+  const open=body.classList.contains("open");
+  body.classList.toggle("open",!open);
+  chev.classList.toggle("open",!open);
+}
+// TOC active tracking
+const sections=document.querySelectorAll(".domain-section");
+const tocLinks=document.querySelectorAll(".toc-domain-link");
+const prog=document.getElementById("read-progress");
+window.addEventListener("scroll",()=>{
+  const scrollPct=Math.min(100,Math.round((window.scrollY/(document.body.scrollHeight-window.innerHeight))*100));
+  if(prog)prog.style.width=scrollPct+"%";
+  let active=null;
+  sections.forEach(s=>{if(s.getBoundingClientRect().top<=120)active=s.id});
+  tocLinks.forEach(l=>{
+    const isActive=l.getAttribute("href")==="#"+active;
+    l.classList.toggle("active",isActive);
+    if(isActive){
+      const dc=l.getAttribute("data-color");
+      l.style.background=dc||"var(--accent)";
+    } else {l.style.background=""}
+  });
+});
+// Open first topic in each domain by default
+document.querySelectorAll(".domain-section").forEach(sec=>{
+  const first=sec.querySelector(".topic-card-header");
+  if(first){first.click()}
+});
+</script>
+</body>
+</html>

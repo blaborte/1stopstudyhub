@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Flashcards — AWS Cloud Practitioner CLF-C02 | BL Cert Hub</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
+  <style>
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    :root{--navy:#0B1D3A;--blue:#1A5276;--accent:#2E86C1;--sky:#5DADE2;--light:#EAF4FB;--mid:#D6EAF8;--white:#fff;--text:#0B1D3A;--muted:#5D7A8C;--border:rgba(30,80,130,0.13);--shadow:0 2px 12px rgba(11,29,58,0.08)}
+    html{scroll-behavior:smooth}
+    body{font-family:"DM Sans",sans-serif;background:var(--light);color:var(--text);min-height:100vh;display:flex;flex-direction:column}
+    nav{background:var(--navy);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:56px;position:sticky;top:0;z-index:100;border-bottom:1px solid rgba(93,173,226,0.15)}
+    .nav-brand{display:flex;align-items:center;gap:10px;text-decoration:none}
+    .bl-circle{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#2E86C1,#5DADE2);display:flex;align-items:center;justify-content:center;font-family:"Space Mono",monospace;font-size:10px;font-weight:700;color:#fff;flex-shrink:0}
+    .nav-brand span{font-size:13px;font-weight:500;color:rgba(255,255,255,0.85);letter-spacing:.02em}
+    .nav-links{display:flex;gap:6px}
+    .nav-links a{font-size:12px;font-weight:500;color:rgba(255,255,255,0.6);text-decoration:none;padding:6px 12px;border-radius:6px;transition:all .18s}
+    .nav-links a:hover{color:#fff;background:rgba(255,255,255,0.08)}
+    .nav-links a.active{color:var(--sky);background:rgba(93,173,226,0.12)}
+    .theme-btn{width:34px;height:34px;border-radius:8px;border:1px solid rgba(255,255,255,0.18);background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.75);cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;transition:all .18s;flex-shrink:0}
+    .theme-btn:hover{background:rgba(255,255,255,0.15);color:#fff}
+    .hero{background:linear-gradient(135deg,#0B1D3A 0%,#1A5276 55%,#2E86C1 100%);padding:3rem 2rem 2.5rem;position:relative;overflow:hidden}
+    .hero-grid-pattern{position:absolute;inset:0;background-image:linear-gradient(rgba(93,173,226,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(93,173,226,0.04) 1px,transparent 1px);background-size:32px 32px;pointer-events:none}
+    .hero-bg-ring{position:absolute;border-radius:50%;border:40px solid rgba(93,173,226,0.08);pointer-events:none}
+    .hero-bg-ring.r1{width:300px;height:300px;top:-70px;right:-50px}
+    .hero-bg-ring.r2{width:180px;height:180px;bottom:-60px;left:40%;border-width:22px}
+    .hero-inner{position:relative;max-width:860px;margin:0 auto}
+    .exam-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.18);border-radius:20px;padding:5px 14px 5px 5px;margin-bottom:1.25rem}
+    .exam-badge .bl-circle{width:26px;height:26px;font-size:9px}
+    .exam-badge span{font-size:12px;color:rgba(255,255,255,0.8);font-weight:500}
+    .hero h1{font-family:"Space Mono",monospace;font-size:clamp(22px,3.5vw,38px);font-weight:700;color:#fff;line-height:1.2;margin-bottom:.5rem}
+    .hero h1 .accent{color:var(--sky)}
+    .hero-sub{font-size:14px;color:rgba(255,255,255,0.6);font-weight:300;line-height:1.7;max-width:500px}
+    .main{max-width:860px;margin:0 auto;padding:2rem 2rem 3rem;flex:1}
+    /* CONTROLS */
+    .controls-bar{background:var(--white);border:1px solid var(--border);border-radius:14px;padding:14px 20px;margin-bottom:1.5rem;box-shadow:var(--shadow);display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between}
+    .filter-group{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+    .filter-label{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-right:2px}
+    .filter-btn{font-size:11px;font-weight:500;padding:5px 12px;border-radius:20px;border:1px solid var(--border);background:var(--light);color:var(--muted);cursor:pointer;transition:all .16s;font-family:"DM Sans",sans-serif}
+    .filter-btn:hover{border-color:var(--accent);color:var(--accent)}
+    .filter-btn.active{background:var(--accent);border-color:var(--accent);color:#fff}
+    .filter-btn[data-domain="1"].active{background:#6B3FA0;border-color:#6B3FA0}
+    .filter-btn[data-domain="2"].active{background:#C0531A;border-color:#C0531A}
+    .filter-btn[data-domain="3"].active{background:#0E7A8A;border-color:#0E7A8A}
+    .filter-btn[data-domain="4"].active{background:#B8860B;border-color:#B8860B}
+    .filter-btn[data-domain="5"].active{background:#2E7D32;border-color:#2E7D32}
+    .filter-btn[data-domain="6"].active{background:#5D6D7E;border-color:#5D6D7E}
+    .action-group{display:flex;gap:8px}
+    .btn{font-family:"DM Sans",sans-serif;font-size:12px;font-weight:500;padding:7px 16px;border-radius:8px;border:1px solid;cursor:pointer;transition:all .18s}
+    .btn-primary{background:var(--accent);border-color:var(--accent);color:#fff}
+    .btn-primary:hover{background:var(--blue)}
+    .btn-outline{background:transparent;border-color:var(--border);color:var(--text)}
+    .btn-outline:hover{border-color:var(--accent);color:var(--accent)}
+    /* STATS */
+    .stats-row{display:flex;gap:10px;margin-bottom:1.5rem;flex-wrap:wrap}
+    .stat-pill{font-size:12px;font-weight:500;padding:6px 14px;border-radius:8px;background:var(--white);border:1px solid var(--border);color:var(--muted)}
+    .stat-pill span{font-family:"Space Mono",monospace;font-weight:700;color:var(--accent)}
+    .stat-pill.mastered span{color:#2E7D32}
+    .stat-pill.reviewing span{color:#B8860B}
+    /* PROGRESS */
+    .prog-wrap{margin-bottom:1.5rem}
+    .prog-row{display:flex;justify-content:space-between;margin-bottom:5px}
+    .prog-lbl{font-size:12px;color:var(--muted)}
+    .prog-pct{font-family:"Space Mono",monospace;font-size:12px;font-weight:700;color:var(--accent)}
+    .prog-track{height:5px;background:var(--mid);border-radius:3px;overflow:hidden}
+    .prog-fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--sky));border-radius:3px;transition:width .5s}
+    /* FLASHCARD */
+    .fc-area{display:flex;flex-direction:column;align-items:center;margin-bottom:1.5rem}
+    .fc-counter-row{display:flex;align-items:center;justify-content:space-between;width:100%;max-width:620px;margin-bottom:10px}
+    .fc-counter{font-family:"Space Mono",monospace;font-size:12px;color:var(--muted)}
+    .fc-domain-badge{font-size:10px;font-weight:600;padding:3px 10px;border-radius:20px;border:1px solid}
+    .fc-scene{perspective:1400px;width:100%;max-width:620px;height:240px;cursor:pointer}
+    .fc-inner{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .55s cubic-bezier(.4,0,.2,1)}
+    .fc-inner.flipped{transform:rotateY(180deg)}
+    .fc-face{position:absolute;inset:0;backface-visibility:hidden;border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:28px 32px;text-align:center;border:1px solid var(--border);box-shadow:0 4px 20px rgba(11,29,58,0.1)}
+    .fc-front{background:var(--navy)}
+    .fc-back{background:var(--blue);transform:rotateY(180deg)}
+    .fc-side-label{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,0.35);position:absolute;top:16px;left:20px}
+    .fc-term{font-family:"Space Mono",monospace;font-size:clamp(16px,3vw,22px);font-weight:700;color:#fff;line-height:1.3}
+    .fc-def{font-size:13px;color:rgba(255,255,255,0.9);line-height:1.7;font-weight:300}
+    .fc-hint{font-size:11px;color:rgba(255,255,255,0.35);margin-top:12px}
+    .fc-dots{display:flex;gap:5px;justify-content:center;margin-bottom:14px}
+    .fc-dot{width:7px;height:7px;border-radius:50%;background:var(--mid);transition:all .2s;cursor:pointer}
+    .fc-dot.active{background:var(--accent);transform:scale(1.3)}
+    .fc-dot.mastered{background:#2E7D32}
+    .fc-dot.reviewing{background:#B8860B}
+    /* CONTROLS */
+    .fc-controls{display:flex;align-items:center;gap:10px;justify-content:center;width:100%;max-width:620px;margin-bottom:1.5rem}
+    .fc-nav-btn{width:40px;height:40px;border-radius:50%;border:1px solid var(--border);background:var(--white);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;transition:all .18s;color:var(--text)}
+    .fc-nav-btn:hover:not(:disabled){border-color:var(--accent);color:var(--accent)}
+    .fc-nav-btn:disabled{opacity:.3;pointer-events:none}
+    .fc-center-btns{display:flex;gap:8px}
+    .grade-btn{font-size:11px;font-weight:600;padding:8px 16px;border-radius:8px;border:1px solid;cursor:pointer;transition:all .18s;font-family:"DM Sans",sans-serif;letter-spacing:.02em}
+    .grade-btn.mastered{background:rgba(46,125,50,0.08);border-color:rgba(46,125,50,0.3);color:#2E7D32}
+    .grade-btn.mastered:hover{background:#2E7D32;color:#fff}
+    .grade-btn.reviewing{background:rgba(184,134,11,0.08);border-color:rgba(184,134,11,0.3);color:#B8860B}
+    .grade-btn.reviewing:hover{background:#B8860B;color:#fff}
+    .grade-btn.again{background:rgba(192,57,43,0.08);border-color:rgba(192,57,43,0.3);color:#C0392B}
+    .grade-btn.again:hover{background:#C0392B;color:#fff}
+    .grade-note{font-size:11px;color:var(--muted);text-align:center;margin-bottom:1rem}
+    /* CARD LIST */
+    .section-label{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);display:flex;align-items:center;gap:10px;margin-bottom:.9rem}
+    .section-label::after{content:"";flex:1;height:1px;background:var(--border)}
+    .card-list{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+    .card-mini{background:var(--white);border:1px solid var(--border);border-radius:10px;padding:10px 12px;cursor:pointer;transition:all .18s;position:relative;overflow:hidden}
+    .card-mini::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--dm-color)}
+    .card-mini:hover{border-color:var(--dm-color);transform:translateY(-1px);box-shadow:0 3px 10px rgba(11,29,58,0.08)}
+    .card-mini.is-mastered{background:rgba(46,125,50,0.05);border-color:rgba(46,125,50,0.25)}
+    .card-mini.is-reviewing{background:rgba(184,134,11,0.05);border-color:rgba(184,134,11,0.25)}
+    .card-mini-term{font-size:11px;font-weight:600;color:var(--text);margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .card-mini-status{font-size:10px;color:var(--muted)}
+    /* DARK */
+    html.dark{--light:#131b27;--mid:#1a2535;--white:#1e2a3a;--text:#d4e6f7;--muted:#7aa3c0;--border:rgba(93,173,226,0.14)}
+    html.dark body{background:var(--light);color:var(--text)}
+    html.dark nav,html.dark footer{background:#0a1220}
+    html.dark .controls-bar,html.dark .stat-pill,html.dark .fc-nav-btn,html.dark .card-mini{background:var(--white);border-color:var(--border)}
+    html.dark .filter-btn,html.dark .btn-outline{background:var(--mid);border-color:var(--border);color:var(--muted)}
+    html.dark .fc-front{background:#0d1929}
+    html.dark .fc-back{background:#122040}
+    html.dark .fc-dot{background:rgba(93,173,226,0.2)}
+    html.dark .card-mini-term{color:var(--text)}
+    html.dark .card-mini.is-mastered{background:rgba(46,125,50,0.1)}
+    html.dark .card-mini.is-reviewing{background:rgba(184,134,11,0.1)}
+    footer{background:var(--navy);padding:1.25rem 2rem;text-align:center;border-top:1px solid rgba(93,173,226,0.12)}
+    footer p{font-size:12px;color:rgba(255,255,255,0.3)}
+    footer a{color:var(--sky);text-decoration:none}
+    @media(max-width:600px){.main{padding:1.25rem};nav{padding:0 1.25rem};.hero{padding:2rem 1.25rem 2rem};.card-list{grid-template-columns:repeat(2,1fr)};.controls-bar{flex-direction:column;align-items:flex-start}}
+  </style>
+</head>
+<body>
+<script>
+(function(){const K="bl-theme";function apply(d){document.documentElement.classList.toggle("dark",d);const b=document.getElementById("theme-btn");if(b)b.textContent=d?"☀":"☾"}apply(localStorage.getItem(K)==="dark");window.__toggleTheme=function(){const d=!document.documentElement.classList.contains("dark");localStorage.setItem(K,d?"dark":"light");apply(d)};window.addEventListener("storage",function(e){if(e.key===K)apply(e.newValue==="dark")})})();
+</script>
+<nav>
+  <a class="nav-brand" href="index.html"><div class="bl-circle">BL</div><span>BL Cert Hub</span></a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="aws-home.html">AWS CCP</a>
+    <a href="#" class="active">Flashcards</a>
+    <button class="theme-btn" id="theme-btn" onclick="__toggleTheme()">☾</button>
+  </div>
+</nav>
+<div class="hero">
+  <div class="hero-grid-pattern"></div>
+  <div class="hero-bg-ring r1"></div>
+  <div class="hero-bg-ring r2"></div>
+  <div class="hero-inner">
+    <div class="exam-badge"><div class="bl-circle">BL</div><span>AWS Certified Cloud Practitioner CLF-C02</span></div>
+    <h1>Flash<span class="accent">cards</span></h1>
+    <p class="hero-sub">70 cards covering all 6 CCNA domains. Tap to flip, mark mastered or review, filter by domain.</p>
+  </div>
+</div>
+<div class="main">
+  <div class="controls-bar">
+    <div class="filter-group">
+      <span class="filter-label">Domain</span>
+      <button class="filter-btn active" data-domain="all" onclick="setFilter('all',this)">All</button>
+      <button class="filter-btn" data-domain="1" onclick="setFilter('1',this)">Cloud Concepts</button>
+      <button class="filter-btn" data-domain="2" onclick="setFilter('2',this)">Security</button>
+      <button class="filter-btn" data-domain="3" onclick="setFilter('3',this)">Technology</button>
+      <button class="filter-btn" data-domain="4" onclick="setFilter('4',this)">Billing</button>
+    </div>
+    <div class="action-group">
+      <button class="btn btn-outline" onclick="shuffleDeck()">⇄ Shuffle</button>
+      <button class="btn btn-outline" onclick="resetStatus()">↺ Reset</button>
+      <button class="btn btn-primary" onclick="studyWeak()">Study Weak</button>
+    </div>
+  </div>
+  <div class="stats-row">
+    <div class="stat-pill">Total: <span id="stat-total">70</span></div>
+    <div class="stat-pill mastered">Mastered: <span id="stat-mastered">0</span></div>
+    <div class="stat-pill reviewing">Reviewing: <span id="stat-reviewing">0</span></div>
+    <div class="stat-pill">Unseen: <span id="stat-unseen">70</span></div>
+  </div>
+  <div class="prog-wrap">
+    <div class="prog-row"><span class="prog-lbl">Mastery Progress</span><span class="prog-pct" id="prog-pct">0%</span></div>
+    <div class="prog-track"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
+  </div>
+  <div class="fc-area">
+    <div class="fc-counter-row">
+      <span class="fc-counter" id="fc-counter">1 / 70</span>
+      <span class="fc-domain-badge" id="fc-domain-badge"></span>
+    </div>
+    <div class="fc-scene" onclick="flip()">
+      <div class="fc-inner" id="fc-inner">
+        <div class="fc-face fc-front">
+          <span class="fc-side-label">Term</span>
+          <div class="fc-term" id="fc-term">Loading...</div>
+          <div class="fc-hint">Tap to reveal definition</div>
+        </div>
+        <div class="fc-face fc-back">
+          <span class="fc-side-label">Definition</span>
+          <div class="fc-def" id="fc-def"></div>
+        </div>
+      </div>
+    </div>
+    <div class="fc-dots" id="fc-dots"></div>
+  </div>
+  <div class="fc-controls">
+    <button class="fc-nav-btn" id="btn-prev" onclick="navigate(-1)">←</button>
+    <div class="fc-center-btns">
+      <button class="grade-btn again" onclick="grade('again')">✗ Again</button>
+      <button class="grade-btn reviewing" onclick="grade('reviewing')">~ Review</button>
+      <button class="grade-btn mastered" onclick="grade('mastered')">✓ Got it</button>
+    </div>
+    <button class="fc-nav-btn" id="btn-next" onclick="navigate(1)">→</button>
+  </div>
+  <div class="grade-note">Grade yourself to track mastery · Flip the card first, then grade</div>
+  <div class="section-label">All Cards</div>
+  <div class="card-list" id="card-list"></div>
+</div>
+<footer><p>Built by <a href="https://blaborte.github.io" target="_blank">Baltazar Laborte</a> · BL Cert Hub · AWS Cloud Practitioner CLF-C02</p></footer>
+<script>
+const DOMAIN_COLORS={'1':['#FF9900','rgba(255,153,0,0.12)'],'2':['#E74C3C','rgba(231,76,60,0.12)'],'3':['#2E86C1','rgba(46,134,193,0.12)'],'4':['#27AE60','rgba(39,174,96,0.12)']};
+const DOMAIN_NAMES={'1':'Cloud Concepts','2':'Security & Compliance','3':'Cloud Technology & Services','4':'Billing, Pricing & Support'};
+const ALL_CARDS=[
+  // Domain 1 – Cloud Concepts
+  {d:'1',term:'Cloud Computing',def:'On-demand delivery of IT resources (compute, storage, databases, networking) over the internet with pay-as-you-go pricing. No upfront capital investment needed. Resources provisioned in minutes, not weeks.'},
+  {d:'1',term:'IaaS vs PaaS vs SaaS',def:'IaaS: infrastructure (EC2, VPC) — most control. PaaS: platform for apps (Elastic Beanstalk) — manage code only. SaaS: complete software (Gmail) — no infrastructure management. Higher layer = less control but less management.'},
+  {d:'1',term:'AWS Global Infrastructure',def:'Regions: geographic areas (e.g., us-east-1). Each Region has 2+ Availability Zones. AZs: isolated data centers within a Region. Edge Locations: CloudFront CDN caching points worldwide. 30+ Regions, 90+ AZs, 400+ edge locations.'},
+  {d:'1',term:'Availability Zone (AZ)',def:'One or more discrete data centers within an AWS Region, each with independent power, cooling, and networking. Deploy across multiple AZs for high availability. If one AZ fails, other AZs continue serving traffic.'},
+  {d:'1',term:'Elasticity',def:'The ability to automatically scale resources up when demand increases and down when demand decreases. You provision exactly what you need when you need it — avoid over-provisioning (waste) and under-provisioning (poor performance).'},
+  {d:'1',term:'Shared Responsibility Model',def:'AWS responsible for security OF the cloud: physical hardware, data centers, hypervisors, global infrastructure. Customer responsible for security IN the cloud: data encryption, IAM, OS patching, app security, network/firewall configuration.'},
+  {d:'1',term:'AWS Well-Architected Framework',def:'Six pillars: Operational Excellence (run and monitor systems), Security (protect info), Reliability (recover from failures), Performance Efficiency (use resources efficiently), Cost Optimization (avoid waste), Sustainability (minimize environmental impact).'},
+  {d:'1',term:'High Availability',def:'Designing systems to remain accessible even when components fail. Achieved in AWS by deploying across multiple Availability Zones and using Auto Scaling + Elastic Load Balancing. Goal: minimize downtime, maximize uptime (e.g., 99.99%).'},
+  {d:'1',term:'Fault Tolerance',def:'A system continues functioning correctly even when components fail. More stringent than high availability — the system keeps running WITH failures, not just recovering from them. Achieved with redundancy across AZs, active-active architectures.'},
+  {d:'1',term:'AWS Region vs Edge Location',def:'Regions: full AWS infrastructure deployments for running workloads (30+ worldwide). Edge Locations: endpoints for CloudFront CDN caching and Route 53 DNS (400+ worldwide). Edge locations serve cached content with minimal latency to end users.'},
+  {d:'1',term:'CapEx vs OpEx',def:'CapEx: capital expenditure — large upfront purchase (buying servers). OpEx: operational expenditure — ongoing usage-based cost. Cloud shifts IT from CapEx to OpEx: pay-as-you-go, no upfront investment, costs match actual usage.'},
+  {d:'1',term:'AWS Free Tier',def:'Three types: Always Free (Lambda 1M requests/month, DynamoDB 25GB), 12-Month Free (750hrs/month EC2 t2.micro, 5GB S3, 25GB RDS), and Short-Term Trials (specific service trials for 30-90 days). Available to new and existing accounts.'},
+  {d:'1',term:'Hybrid Cloud',def:'Combination of on-premises infrastructure and AWS cloud, connected via AWS VPN or Direct Connect. Allows organizations to keep sensitive data on-premises while leveraging cloud for scalability. Example: primary database on-premises, web tier on AWS.'},
+  {d:'1',term:'On-Demand Self-Service',def:'A cloud characteristic — users can provision compute resources (servers, storage) automatically without requiring human interaction with the provider. Deploy servers in minutes via console, CLI, or API. No procurement process or lead times.'},
+  // Domain 2 – Security & Compliance
+  {d:'2',term:'AWS IAM',def:'Identity and Access Management — manage who (authentication) can do what (authorization) on which AWS resources. Create users, groups, roles, and policies. IAM is global (not region-specific) and free. Root account should be locked away.'},
+  {d:'2',term:'IAM Policy',def:'JSON document defining permissions: Effect (Allow/Deny), Action (e.g., s3:GetObject), Resource (e.g., arn:aws:s3:::bucket/*). Policies are attached to users, groups, or roles. AWS evaluates all applicable policies and denies by default.'},
+  {d:'2',term:'IAM Role',def:'An IAM identity with permissions but NO permanent credentials (no password or access keys). Assumed temporarily by trusted entities: EC2 instances, Lambda functions, other AWS accounts, or federated users. Temporary credentials are issued and expire.'},
+  {d:'2',term:'Principle of Least Privilege',def:'Grant only the minimum permissions required for a user or service to perform their specific function. Never give AdministratorAccess unless absolutely required. Reduces blast radius if credentials are compromised.'},
+  {d:'2',term:'MFA (Multi-Factor Authentication)',def:'Second layer of security requiring both a password AND a one-time code from a physical or virtual device. Always enable MFA on the root account. Also enable for IAM users with console access. Prevents account compromise if password is stolen.'},
+  {d:'2',term:'AWS CloudTrail',def:'Records every API call in your AWS account — who called what, when, from where, with what parameters. Essential for security auditing, compliance, and incident investigation. Logs stored in S3. Enabled by default for 90 days; create a Trail for longer retention.'},
+  {d:'2',term:'Amazon GuardDuty',def:'Managed threat detection service using ML and threat intelligence. Analyzes CloudTrail logs, VPC Flow Logs, and DNS logs to detect threats: account compromise, unauthorized access, cryptocurrency mining, data exfiltration. Findings delivered to Security Hub.'},
+  {d:'2',term:'AWS WAF',def:'Web Application Firewall — protects web apps from common exploits: SQL injection, cross-site scripting (XSS), bad bots. Creates rules to allow, block, or count web requests. Integrates with CloudFront, Application Load Balancer, API Gateway, AppSync.'},
+  {d:'2',term:'AWS Shield',def:'DDoS protection. Shield Standard: free, automatic, protects against Layer 3/4 attacks. Shield Advanced: paid, enhanced protection, 24/7 DDoS Response Team (DRT), cost protection, real-time visibility, integrates with WAF. Advanced required for application-layer protection.'},
+  {d:'2',term:'Security Group vs NACL',def:'Security Group: stateful, instance-level virtual firewall (allow rules only, return traffic auto-allowed). NACL: stateless, subnet-level firewall (separate allow/deny inbound + outbound rules, explicit deny possible). Security Groups are simpler; NACLs provide subnet-wide rules.'},
+  {d:'2',term:'AWS KMS',def:'Key Management Service — managed service for creating, managing, and auditing cryptographic keys. Integrates with 100+ AWS services (S3, EBS, RDS, Lambda). Customer-managed keys (CMK) allow you to control key policies and rotation. FIPS 140-2 Level 3 compliant.'},
+  {d:'2',term:'Encryption at Rest vs In Transit',def:'At rest: data encrypted when stored on disk — S3 SSE, EBS encryption, RDS encryption. In transit: data encrypted while moving across networks — HTTPS/TLS, VPN, AWS Certificate Manager. Both are needed for comprehensive data protection.'},
+  {d:'2',term:'Amazon Macie',def:'ML-powered service that automatically discovers, classifies, and protects sensitive data in S3. Identifies PII (names, SSNs, credit cards), monitors access patterns, and alerts on unusual behavior. Helps with data privacy compliance (GDPR, HIPAA).'},
+  {d:'2',term:'AWS Compliance Programs',def:'AWS holds 143+ security standards and compliance certifications including: SOC 1/2/3, PCI DSS, HIPAA, ISO 27001, FedRAMP, GDPR, FIPS 140-2. AWS Artifact provides on-demand access to compliance reports and agreements.'},
+  // Domain 3 – Cloud Technology & Services
+  {d:'3',term:'Amazon EC2',def:'Elastic Compute Cloud — resizable virtual servers in the cloud. Choose instance type (CPU, RAM, storage), OS, storage, and networking. Full control over the compute environment. Pay per second (Linux) or per hour (Windows). Many families: compute, memory, storage, GPU optimized.'},
+  {d:'3',term:'EC2 Purchasing Options',def:'On-Demand: no commitment, highest cost. Reserved: 1 or 3-year commitment, up to 72% discount — for steady-state workloads. Spot: spare capacity, up to 90% discount, interruptible — for flexible fault-tolerant workloads. Dedicated Host: physical server, compliance.'},
+  {d:'3',term:'AWS Lambda',def:'Serverless compute — run code without managing servers. Upload code (functions), triggered by events (S3, API Gateway, DynamoDB). Pay per 1M requests + compute duration (per 1ms). Scales automatically. Supports Node.js, Python, Java, Go, .NET, Ruby. Max 15 min timeout.'},
+  {d:'3',term:'Amazon S3',def:'Simple Storage Service — object storage for any amount of data. Store objects (files) in buckets with globally unique names. 11 nines durability (99.999999999%). Use for: backups, static websites, data lakes, media files. S3 is designed for durability across 3+ AZs.'},
+  {d:'3',term:'S3 Storage Classes',def:'Standard (frequent access), Intelligent-Tiering (auto-moves data), Standard-IA (infrequent access, lower cost, retrieval fee), One Zone-IA (single AZ), Glacier Instant (milliseconds), Glacier Flexible (minutes-hours), Glacier Deep Archive (12+ hours, cheapest).'},
+  {d:'3',term:'Amazon EBS',def:'Elastic Block Store — persistent block storage volumes for EC2 (like a virtual hard drive). Automatically replicated within an AZ. Types: gp3 (general purpose SSD), io2 (high IOPS), st1 (throughput HDD), sc1 (cold HDD). Persists independently of instance lifecycle.'},
+  {d:'3',term:'Amazon RDS',def:'Relational Database Service — managed relational databases. Supports MySQL, PostgreSQL, MariaDB, Oracle, SQL Server, and Amazon Aurora. AWS handles: provisioning, patching, backups (automated, 7-35 day retention), Multi-AZ failover, and read replicas.'},
+  {d:'3',term:'Amazon DynamoDB',def:'Fully managed serverless NoSQL key-value and document database. Single-digit millisecond performance at any scale — handles 10+ trillion requests/day. No servers to manage. Auto-scales capacity. Built-in security, backup, restore, in-memory cache (DAX).'},
+  {d:'3',term:'Amazon VPC',def:'Virtual Private Cloud — logically isolated section of AWS where you launch resources in a defined virtual network. You control: IP ranges (CIDR blocks), subnets (public/private), route tables, internet gateways, NAT gateways, VPN connections, and security groups.'},
+  {d:'3',term:'Elastic Load Balancing',def:'Distributes incoming traffic across multiple targets (EC2, containers, IPs). Types: ALB (Application, Layer 7, HTTP/HTTPS, path/host routing), NLB (Network, Layer 4, ultra-low latency, TCP/UDP), GWLB (Gateway, for network appliances). Works with Auto Scaling.'},
+  {d:'3',term:'AWS Auto Scaling',def:'Automatically adjusts capacity based on demand. EC2 Auto Scaling adds/removes instances. Also scales ECS tasks, DynamoDB capacity, Aurora replicas. Define min/max/desired capacity and scaling policies (target tracking, step, scheduled). Pairs with ELB.'},
+  {d:'3',term:'Amazon CloudFront',def:'Content Delivery Network (CDN) — distributes content globally via 400+ edge locations. Caches static and dynamic content close to users for low latency. Integrates with S3, EC2, ALB, API Gateway. Also provides DDoS protection (with Shield) and HTTPS termination.'},
+  {d:'3',term:'Amazon Route 53',def:'Highly available and scalable DNS service. Translates domain names to IPs. Routing policies: simple, weighted, latency, failover, geolocation, geoproximity, multivalue. Also provides domain registration and health checking for endpoints.'},
+  {d:'3',term:'AWS Elastic Beanstalk',def:'PaaS — deploy web applications without managing infrastructure. Upload code in supported languages (Java, .NET, PHP, Node.js, Python, Ruby, Go, Docker). Beanstalk provisions EC2, load balancers, Auto Scaling, RDS. You retain control of underlying resources.'},
+  {d:'3',term:'Amazon SQS',def:'Simple Queue Service — managed message queuing for decoupling application components. Messages stored until processed (up to 14 days). Standard queue: best-effort ordering, at-least-once delivery. FIFO queue: exactly-once processing, ordered delivery. Enables microservices.'},
+  {d:'3',term:'AWS CloudFormation',def:'Infrastructure as Code — define AWS resources in JSON/YAML templates. CloudFormation creates, updates, and deletes stacks of resources. Enables repeatable, consistent infrastructure deployments. Free (pay only for resources created). Version-controllable in Git.'},
+  // Domain 4 – Billing, Pricing & Support
+  {d:'4',term:'AWS Pricing Models',def:'Pay-as-you-go: pay only for what you use, no commitments. Save when you reserve: Reserved Instances and Savings Plans provide discounts for committing to usage. Pay less with more: volume discounts as usage increases. AWS free tier for getting started.'},
+  {d:'4',term:'Reserved Instances (RIs)',def:'Up to 72% discount vs On-Demand for 1 or 3-year commitment. Three payment options: All Upfront (max discount), Partial Upfront, No Upfront (min discount). Standard RIs: fixed instance type. Convertible RIs: can change family/OS, smaller discount (~54%).'},
+  {d:'4',term:'Savings Plans',def:'Flexible pricing model offering up to 66% discount vs On-Demand by committing to consistent compute usage ($/hour) for 1 or 3 years. More flexible than RIs — apply to EC2, Lambda, and Fargate across any family, size, region, or OS. Two types: Compute and EC2 Instance.'},
+  {d:'4',term:'Spot Instances',def:'Use spare EC2 capacity at up to 90% discount. Can be interrupted with 2-minute warning when AWS needs capacity back. Best for: batch jobs, big data, CI/CD, stateless web servers, image processing. NOT for: databases, real-time apps, or anything requiring persistence.'},
+  {d:'4',term:'AWS Cost Explorer',def:'Visualize, understand, and manage AWS costs and usage. Interactive graphs show spending by service, region, account, or resource tag. Up to 13 months of historical data. Provides rightsizing recommendations for EC2. Forecasts future costs based on usage patterns.'},
+  {d:'4',term:'AWS Budgets',def:'Set custom budgets to track costs, usage, Reserved Instance utilization, and Savings Plans coverage. Sends alerts (email or SNS) when actual or forecasted spend exceeds threshold. Can trigger automated actions (stop EC2, apply SCP) when budget is breached.'},
+  {d:'4',term:'Consolidated Billing',def:'AWS Organizations feature that combines charges from all member accounts into a single bill paid by the management account. Benefits: simplified billing, volume discount sharing across all accounts, free data transfer between accounts in the organization.'},
+  {d:'4',term:'AWS Trusted Advisor',def:'Automated best practice checks across 5 categories: Cost Optimization (idle resources, rightsizing), Performance, Security (MFA, public S3 buckets, open ports), Fault Tolerance (AZ redundancy, backups), Service Limits. Basic/Developer: 7 checks. Business/Enterprise: all checks.'},
+  {d:'4',term:'AWS Support Plans',def:'Basic: free, documentation and forums only. Developer: email support, 1 contact, business hours. Business: 24/7 phone/chat/email, unlimited contacts, < 1hr for prod down. Enterprise On-Ramp: TAM pool, 30 min for business-critical. Enterprise: dedicated TAM, 15 min.'},
+  {d:'4',term:'Cost Allocation Tags',def:'Key-value labels (e.g., Project=Marketing, Env=Production) applied to AWS resources to categorize costs. After activation in the Billing console, tags appear in Cost Explorer and CUR, allowing cost analysis by project, team, or environment.'},
+  {d:'4',term:'AWS Pricing Calculator',def:'Free online tool to estimate monthly AWS costs before building. Add services, configure them, and get a detailed cost breakdown. Useful for budgeting new projects, comparing architectures, and creating cost proposals. Share estimates via a public link.'},
+  {d:'4',term:'Total Cost of Ownership (TCO)',def:'When comparing on-premises to cloud, TCO includes: hardware, software licenses, data center space, power, cooling, networking, staffing, and maintenance. AWS TCO Calculator helps quantify savings by migrating to AWS. Cloud typically reduces TCO by 30-50%.'},
+];
+
+let deck=[],status={},curIdx=0,isFlipped=false,activeFilter='all';
+function init(){ALL_CARDS.forEach((_,i)=>{status[i]='unseen'});applyFilter('all')}
+function applyFilter(f){
+  activeFilter=f;
+  deck=f==='all'?ALL_CARDS.map((_,i)=>i):ALL_CARDS.map((_,i)=>i).filter(i=>ALL_CARDS[i].d===f);
+  curIdx=0;renderCard();renderDots();renderCardList();updateStats();
+}
+function setFilter(f,btn){document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');applyFilter(f)}
+function renderCard(){
+  if(!deck.length)return;
+  isFlipped=false;document.getElementById('fc-inner').classList.remove('flipped');
+  const card=ALL_CARDS[deck[curIdx]];
+  setTimeout(()=>{
+    document.getElementById('fc-term').textContent=card.term;
+    document.getElementById('fc-def').textContent=card.def;
+    const[col,bg]=DOMAIN_COLORS[card.d];
+    const badge=document.getElementById('fc-domain-badge');
+    badge.textContent=card.d+'.0 '+DOMAIN_NAMES[card.d];
+    badge.style.color=col;badge.style.background=bg;badge.style.borderColor=col;
+  },50);
+  document.getElementById('fc-counter').textContent=`${curIdx+1} / ${deck.length}`;
+  document.getElementById('btn-prev').disabled=curIdx===0;
+  document.getElementById('btn-next').disabled=curIdx===deck.length-1;
+  renderDots();
+}
+function flip(){isFlipped=!isFlipped;document.getElementById('fc-inner').classList.toggle('flipped',isFlipped)}
+function navigate(dir){const n=curIdx+dir;if(n<0||n>=deck.length)return;curIdx=n;renderCard()}
+function grade(g){
+  const idx=deck[curIdx];status[idx]=g==='again'?'again':g;
+  updateStats();renderCardList();renderDots();
+  if(curIdx<deck.length-1){curIdx++;renderCard()}
+}
+function shuffleDeck(){deck=deck.sort(()=>Math.random()-.5);curIdx=0;renderCard();renderDots()}
+function studyWeak(){
+  const weak=ALL_CARDS.map((_,i)=>i).filter(i=>{const s=status[i];return s==='again'||s==='reviewing'||s==='unseen'}).filter(i=>activeFilter==='all'||ALL_CARDS[i].d===activeFilter);
+  if(!weak.length){alert('No weak cards! 🎉 Try resetting.');return}
+  deck=weak.sort(()=>Math.random()-.5);curIdx=0;renderCard();renderDots();
+}
+function resetStatus(){ALL_CARDS.forEach((_,i)=>{status[i]='unseen'});updateStats();renderCardList();renderDots()}
+function updateStats(){
+  const inDeck=activeFilter==='all'?ALL_CARDS.map((_,i)=>i):ALL_CARDS.map((_,i)=>i).filter(i=>ALL_CARDS[i].d===activeFilter);
+  const m=inDeck.filter(i=>status[i]==='mastered').length;
+  const r=inDeck.filter(i=>status[i]==='reviewing').length;
+  const u=inDeck.filter(i=>status[i]==='unseen'||status[i]==='again').length;
+  document.getElementById('stat-total').textContent=inDeck.length;
+  document.getElementById('stat-mastered').textContent=m;
+  document.getElementById('stat-reviewing').textContent=r;
+  document.getElementById('stat-unseen').textContent=u;
+  const pct=inDeck.length>0?Math.round((m/inDeck.length)*100):0;
+  document.getElementById('prog-pct').textContent=pct+'%';
+  document.getElementById('prog-fill').style.width=pct+'%';
+}
+function renderDots(){
+  const dots=document.getElementById('fc-dots');
+  const max=Math.min(deck.length,12);dots.innerHTML='';
+  for(let i=0;i<max;i++){
+    const d=document.createElement('div');d.className='fc-dot';
+    if(i===curIdx)d.classList.add('active');
+    else{const s=status[deck[i]];if(s==='mastered')d.classList.add('mastered');else if(s==='reviewing')d.classList.add('reviewing')}
+    d.onclick=((idx)=>()=>{curIdx=idx;renderCard()})(i);
+    dots.appendChild(d);
+  }
+}
+function renderCardList(){
+  const list=document.getElementById('card-list');list.innerHTML='';
+  const cards=activeFilter==='all'?ALL_CARDS.map((c,i)=>({c,i})):ALL_CARDS.map((c,i)=>({c,i})).filter(({c})=>c.d===activeFilter);
+  cards.forEach(({c,i})=>{
+    const[col]=DOMAIN_COLORS[c.d];const s=status[i];
+    const el=document.createElement('div');
+    el.className='card-mini'+(s==='mastered'?' is-mastered':s==='reviewing'?' is-reviewing':'');
+    el.style.setProperty('--dm-color',col);
+    el.innerHTML=`<div class="card-mini-term">${c.term}</div><div class="card-mini-status">${s==='unseen'?'—':s==='mastered'?'✓ Mastered':s==='reviewing'?'~ Reviewing':'✗ Again'}</div>`;
+    el.onclick=()=>{const di=deck.indexOf(i);if(di!==-1){curIdx=di;renderCard();window.scrollTo({top:0,behavior:'smooth'})}};
+    list.appendChild(el);
+  });
+}
+init();
+</script>
+</body>
+</html>
