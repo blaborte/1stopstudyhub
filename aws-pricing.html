@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Pricing Calculator — AWS CLF-C02 | BL Cert Hub</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    :root{--navy:#0B1D3A;--blue:#1A5276;--accent:#2E86C1;--sky:#5DADE2;--light:#EAF4FB;--mid:#D6EAF8;--white:#fff;--text:#0B1D3A;--muted:#5D7A8C;--border:rgba(30,80,130,0.13);--shadow:0 2px 12px rgba(11,29,58,0.08);--aws:#FF9900;--green:#27AE60;--red:#E74C3C}
+    html{scroll-behavior:smooth}
+    body{font-family:"DM Sans",sans-serif;background:var(--light);color:var(--text);min-height:100vh;display:flex;flex-direction:column}
+    nav{background:var(--navy);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:56px;position:sticky;top:0;z-index:100;border-bottom:1px solid rgba(93,173,226,0.15)}
+    .nav-brand{display:flex;align-items:center;gap:10px;text-decoration:none}
+    .bl-circle{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#2E86C1,#5DADE2);display:flex;align-items:center;justify-content:center;font-family:"Space Mono",monospace;font-size:10px;font-weight:700;color:#fff;flex-shrink:0}
+    .nav-brand span{font-size:13px;font-weight:500;color:rgba(255,255,255,0.85)}
+    .nav-links{display:flex;gap:6px;align-items:center}
+    .nav-links a{font-size:12px;font-weight:500;color:rgba(255,255,255,0.6);text-decoration:none;padding:6px 12px;border-radius:6px;transition:all .18s}
+    .nav-links a:hover{color:#fff;background:rgba(255,255,255,0.08)}
+    .nav-links a.active{color:var(--sky);background:rgba(93,173,226,0.12)}
+    .theme-btn{width:34px;height:34px;border-radius:8px;border:1px solid rgba(255,255,255,0.18);background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.75);cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;transition:all .18s}
+    .theme-btn:hover{background:rgba(255,255,255,0.15);color:#fff}
+    /* HERO */
+    .hero{background:linear-gradient(135deg,#0B1D3A 0%,#1A5276 55%,#2E86C1 100%);padding:3rem 2rem 2.5rem;position:relative;overflow:hidden}
+    .hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(93,173,226,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(93,173,226,0.04) 1px,transparent 1px);background-size:32px 32px;pointer-events:none}
+    .hero-ring{position:absolute;border-radius:50%;border:40px solid rgba(93,173,226,0.08);pointer-events:none}
+    .hero-ring.r1{width:300px;height:300px;top:-70px;right:-50px}
+    .hero-ring.r2{width:180px;height:180px;bottom:-60px;left:40%;border-width:22px}
+    .hero-inner{position:relative;max-width:900px;margin:0 auto}
+    .exam-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.18);border-radius:20px;padding:5px 14px 5px 5px;margin-bottom:1.25rem}
+    .exam-badge .bl-circle{width:26px;height:26px;font-size:9px}
+    .exam-badge span{font-size:12px;color:rgba(255,255,255,0.8);font-weight:500}
+    .hero h1{font-family:"Space Mono",monospace;font-size:clamp(22px,3.5vw,38px);font-weight:700;color:#fff;line-height:1.2;margin-bottom:.5rem}
+    .hero h1 .accent{color:var(--sky)}
+    .hero-sub{font-size:14px;color:rgba(255,255,255,0.6);line-height:1.7;max-width:540px}
+    /* MAIN */
+    .main{max-width:900px;margin:0 auto;padding:2rem 2rem 3rem;flex:1}
+    /* DISCLAIMER */
+    .disclaimer{background:rgba(255,153,0,0.08);border:1px solid rgba(255,153,0,0.25);border-radius:12px;padding:12px 16px;margin-bottom:1.5rem;font-size:12px;color:var(--muted);line-height:1.6}
+    .disclaimer strong{color:var(--aws)}
+    /* TOTAL BAR */
+    .total-bar{background:var(--navy);border-radius:16px;padding:20px 28px;margin-bottom:2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;position:sticky;top:64px;z-index:50;box-shadow:0 4px 20px rgba(11,29,58,0.3)}
+    .total-label{font-size:13px;color:rgba(255,255,255,0.55);font-weight:500}
+    .total-amount{font-family:"Space Mono",monospace;font-size:32px;font-weight:700;color:var(--aws)}
+    .total-period{font-size:11px;color:rgba(255,255,255,0.4);margin-top:2px}
+    .total-actions{display:flex;gap:8px}
+    .btn{font-family:"DM Sans",sans-serif;font-size:12px;font-weight:600;padding:8px 18px;border-radius:8px;border:1px solid;cursor:pointer;transition:all .18s}
+    .btn-reset{background:rgba(255,255,255,0.08);border-color:rgba(255,255,255,0.2);color:rgba(255,255,255,0.7)}
+    .btn-reset:hover{background:rgba(255,255,255,0.15);color:#fff}
+    .btn-copy{background:var(--aws);border-color:var(--aws);color:#fff}
+    .btn-copy:hover{background:#e68900}
+    /* SERVICE CALCULATOR CARDS */
+    .calc-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    .calc-card{background:var(--white);border:1px solid var(--border);border-radius:16px;overflow:hidden;box-shadow:var(--shadow)}
+    .calc-card-header{display:flex;align-items:center;gap:12px;padding:16px 20px;border-bottom:1px solid var(--border);background:var(--navy)}
+    .calc-card-icon{font-size:18px}
+    .calc-card-title{font-family:"Space Mono",monospace;font-size:14px;font-weight:700;color:#fff;flex:1}
+    .calc-card-total{font-family:"Space Mono",monospace;font-size:13px;font-weight:700;color:var(--aws)}
+    .calc-card-body{padding:20px}
+    /* FORM CONTROLS */
+    .field{margin-bottom:16px}
+    .field:last-child{margin-bottom:0}
+    .field-label{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;display:flex;justify-content:space-between;align-items:center}
+    .field-value{font-family:"Space Mono",monospace;font-size:11px;font-weight:700;color:var(--accent)}
+    .field-input{width:100%;padding:9px 12px;border:1px solid var(--border);border-radius:8px;font-family:"DM Sans",sans-serif;font-size:13px;color:var(--text);background:var(--light);outline:none;transition:border-color .18s}
+    .field-input:focus{border-color:var(--accent);background:var(--white)}
+    select.field-input{cursor:pointer}
+    .field-slider{-webkit-appearance:none;width:100%;height:5px;border-radius:3px;background:var(--mid);outline:none;cursor:pointer}
+    .field-slider::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:var(--accent);cursor:pointer;transition:all .15s}
+    .field-slider::-webkit-slider-thumb:hover{background:var(--blue);transform:scale(1.2)}
+    .field-hint{font-size:11px;color:var(--muted);margin-top:5px;line-height:1.5}
+    /* SUB-TOTAL */
+    .subtotal-row{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:rgba(255,153,0,0.07);border-radius:8px;margin-top:14px;border:1px solid rgba(255,153,0,0.2)}
+    .subtotal-label{font-size:12px;font-weight:600;color:var(--text)}
+    .subtotal-val{font-family:"Space Mono",monospace;font-size:14px;font-weight:700;color:var(--aws)}
+    /* BREAKDOWN */
+    .breakdown-section{margin-top:2rem}
+    .breakdown-title{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);display:flex;align-items:center;gap:10px;margin-bottom:1rem}
+    .breakdown-title::after{content:"";flex:1;height:1px;background:var(--border)}
+    .breakdown-table{width:100%;border-collapse:collapse;background:var(--white);border-radius:12px;overflow:hidden;box-shadow:var(--shadow)}
+    .breakdown-table th{background:var(--navy);color:rgba(255,255,255,0.7);padding:10px 14px;text-align:left;font-size:11px;font-weight:600;letter-spacing:.04em}
+    .breakdown-table td{padding:10px 14px;border-bottom:1px solid var(--border);font-size:13px;color:var(--text)}
+    .breakdown-table tr:last-child td{border-bottom:none;font-weight:700}
+    .breakdown-table tr:last-child td:last-child{color:var(--aws);font-family:"Space Mono",monospace;font-size:14px}
+    .breakdown-table td:last-child{text-align:right;font-family:"Space Mono",monospace;color:var(--accent)}
+    /* PRICING FACT */
+    .fact-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:1.5rem}
+    .fact-card{background:var(--white);border:1px solid var(--border);border-radius:10px;padding:14px;box-shadow:var(--shadow)}
+    .fact-service{font-family:"Space Mono",monospace;font-size:10px;font-weight:700;color:var(--aws);margin-bottom:6px}
+    .fact-text{font-size:11px;color:var(--muted);line-height:1.55}
+    .fact-text strong{color:var(--text)}
+    /* DARK */
+    html.dark{--light:#131b27;--mid:#1a2535;--white:#1e2a3a;--text:#d4e6f7;--muted:#7aa3c0;--border:rgba(93,173,226,0.14)}
+    html.dark body{background:var(--light);color:var(--text)}
+    html.dark nav{background:#0a1220}
+    html.dark .calc-card{background:var(--white);border-color:var(--border)}
+    html.dark .field-input{background:var(--mid);border-color:var(--border);color:var(--text)}
+    html.dark .field-input:focus{background:var(--white)}
+    html.dark .breakdown-table{background:var(--white)}
+    html.dark .breakdown-table td{border-color:var(--border);color:var(--text)}
+    html.dark .fact-card{background:var(--white);border-color:var(--border)}
+    html.dark footer{background:#0a1220}
+    footer{background:var(--navy);padding:1.25rem 2rem;text-align:center;border-top:1px solid rgba(93,173,226,0.12)}
+    footer p{font-size:12px;color:rgba(255,255,255,0.3)}
+    footer a{color:var(--sky);text-decoration:none}
+    @media(max-width:700px){.calc-grid{grid-template-columns:1fr};.fact-grid{grid-template-columns:1fr 1fr};nav{padding:0 1.25rem};.hero{padding:2rem 1.25rem};.main{padding:1.25rem 1.25rem 2rem}}
+  </style>
+</head>
+<body>
+<script>
+(function(){const K="bl-theme";function apply(d){document.documentElement.classList.toggle("dark",d);const b=document.getElementById("theme-btn");if(b)b.textContent=d?"☀":"☾"}apply(localStorage.getItem(K)==="dark");window.__toggleTheme=function(){const d=!document.documentElement.classList.contains("dark");localStorage.setItem(K,d?"dark":"light");apply(d)};window.addEventListener("storage",function(e){if(e.key===K)apply(e.newValue==="dark")})})();
+</script>
+<nav>
+  <a class="nav-brand" href="index.html"><div class="bl-circle">BL</div><span>BL Cert Hub</span></a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="aws-home.html">AWS CCP</a>
+    <a href="#" class="active">Pricing Calculator</a>
+    <button class="theme-btn" id="theme-btn" onclick="__toggleTheme()">☾</button>
+  </div>
+</nav>
+<div class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-ring r1"></div>
+  <div class="hero-ring r2"></div>
+  <div class="hero-inner">
+    <div class="exam-badge"><div class="bl-circle">BL</div><span>AWS Certified Cloud Practitioner CLF-C02</span></div>
+    <h1>Pricing <span class="accent">Calculator</span></h1>
+    <p class="hero-sub">Estimate monthly AWS costs for EC2, S3, Lambda, RDS, and data transfer. Understand how AWS pricing works — a key exam skill for CLF-C02.</p>
+  </div>
+</div>
+<div class="main">
+  <div class="disclaimer">
+    <strong>⚠️ Study Tool Disclaimer:</strong> This is an educational simulator using approximate us-east-1 pricing for exam study purposes. Prices shown are estimates only and may not reflect current AWS rates. For accurate production estimates, use the official <a href="https://calculator.aws" target="_blank" style="color:var(--aws)">AWS Pricing Calculator at calculator.aws</a>.
+  </div>
+
+  <!-- STICKY TOTAL -->
+  <div class="total-bar">
+    <div>
+      <div class="total-label">Estimated Monthly Total</div>
+      <div class="total-amount" id="grand-total">$0.00</div>
+      <div class="total-period">per month (us-east-1 approximate)</div>
+    </div>
+    <div class="total-actions">
+      <button class="btn btn-reset" onclick="resetAll()">↺ Reset All</button>
+      <button class="btn btn-copy" onclick="copySummary()">📋 Copy Summary</button>
+    </div>
+  </div>
+
+  <!-- CALCULATORS -->
+  <div class="calc-grid">
+
+    <!-- EC2 -->
+    <div class="calc-card">
+      <div class="calc-card-header">
+        <span class="calc-card-icon">💻</span>
+        <span class="calc-card-title">Amazon EC2</span>
+        <span class="calc-card-total" id="ec2-total">$0.00</span>
+      </div>
+      <div class="calc-card-body">
+        <div class="field">
+          <div class="field-label">Instance Type<span class="field-value" id="ec2-type-lbl">t3.micro</span></div>
+          <select class="field-input" id="ec2-type" onchange="calc()">
+            <option value="0.0104">t3.micro — 2 vCPU, 1GB RAM ($0.0104/hr)</option>
+            <option value="0.0208">t3.small — 2 vCPU, 2GB RAM ($0.0208/hr)</option>
+            <option value="0.0416">t3.medium — 2 vCPU, 4GB RAM ($0.0416/hr)</option>
+            <option value="0.0832">t3.large — 2 vCPU, 8GB RAM ($0.0832/hr)</option>
+            <option value="0.1664">t3.xlarge — 4 vCPU, 16GB RAM ($0.1664/hr)</option>
+            <option value="0.096">m5.large — 2 vCPU, 8GB RAM ($0.0960/hr)</option>
+            <option value="0.192">m5.xlarge — 4 vCPU, 16GB RAM ($0.1920/hr)</option>
+            <option value="0.384">m5.2xlarge — 8 vCPU, 32GB RAM ($0.3840/hr)</option>
+            <option value="0.17">c5.xlarge — 4 vCPU, 8GB RAM ($0.1700/hr)</option>
+            <option value="0.304">r5.xlarge — 4 vCPU, 32GB RAM ($0.3040/hr)</option>
+          </select>
+        </div>
+        <div class="field">
+          <div class="field-label">Pricing Model</div>
+          <select class="field-input" id="ec2-pricing" onchange="calc()">
+            <option value="1.0">On-Demand (no discount)</option>
+            <option value="0.6">Reserved 1-Year (up to 40% off)</option>
+            <option value="0.38">Reserved 3-Year (up to 62% off)</option>
+            <option value="0.34">Savings Plan 3-Year (up to 66% off)</option>
+            <option value="0.1">Spot Instance (up to 90% off — interruptible)</option>
+          </select>
+        </div>
+        <div class="field">
+          <div class="field-label">Number of Instances<span class="field-value" id="ec2-count-lbl">1</span></div>
+          <input class="field-slider" type="range" id="ec2-count" min="1" max="50" value="1" oninput="calc()">
+        </div>
+        <div class="field">
+          <div class="field-label">Hours per Day<span class="field-value" id="ec2-hours-lbl">24h</span></div>
+          <input class="field-slider" type="range" id="ec2-hours" min="1" max="24" value="24" oninput="calc()">
+          <div class="field-hint">💡 Stopping instances when not in use (e.g., dev servers nights/weekends) can cut costs by 65%+</div>
+        </div>
+        <div class="field">
+          <div class="field-label">EBS Storage per Instance (GB)<span class="field-value" id="ec2-ebs-lbl">30 GB</span></div>
+          <input class="field-slider" type="range" id="ec2-ebs" min="8" max="1000" value="30" step="10" oninput="calc()">
+        </div>
+        <div class="subtotal-row">
+          <span class="subtotal-label">EC2 + EBS Monthly</span>
+          <span class="subtotal-val" id="ec2-sub">$0.00</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- S3 -->
+    <div class="calc-card">
+      <div class="calc-card-header">
+        <span class="calc-card-icon">🗃️</span>
+        <span class="calc-card-title">Amazon S3</span>
+        <span class="calc-card-total" id="s3-total">$0.00</span>
+      </div>
+      <div class="calc-card-body">
+        <div class="field">
+          <div class="field-label">Storage Class</div>
+          <select class="field-input" id="s3-class" onchange="calc()">
+            <option value="0.023">S3 Standard ($0.023/GB/mo)</option>
+            <option value="0.0125">S3 Standard-IA ($0.0125/GB/mo)</option>
+            <option value="0.01">S3 One Zone-IA ($0.01/GB/mo)</option>
+            <option value="0.023">S3 Intelligent-Tiering (~$0.023/GB/mo)</option>
+            <option value="0.004">S3 Glacier Instant ($0.004/GB/mo)</option>
+            <option value="0.0036">S3 Glacier Flexible ($0.0036/GB/mo)</option>
+            <option value="0.00099">S3 Glacier Deep Archive ($0.00099/GB/mo)</option>
+          </select>
+        </div>
+        <div class="field">
+          <div class="field-label">Storage Amount (GB)<span class="field-value" id="s3-storage-lbl">100 GB</span></div>
+          <input class="field-slider" type="range" id="s3-storage" min="1" max="10000" value="100" step="10" oninput="calc()">
+        </div>
+        <div class="field">
+          <div class="field-label">PUT/COPY Requests (thousands/mo)<span class="field-value" id="s3-puts-lbl">10K</span></div>
+          <input class="field-slider" type="range" id="s3-puts" min="0" max="1000" value="10" oninput="calc()">
+        </div>
+        <div class="field">
+          <div class="field-label">GET Requests (thousands/mo)<span class="field-value" id="s3-gets-lbl">100K</span></div>
+          <input class="field-slider" type="range" id="s3-gets" min="0" max="10000" value="100" oninput="calc()">
+        </div>
+        <div class="field">
+          <div class="field-label">Data Transfer Out (GB/mo)<span class="field-value" id="s3-dt-lbl">10 GB</span></div>
+          <input class="field-slider" type="range" id="s3-dt" min="0" max="1000" value="10" oninput="calc()">
+          <div class="field-hint">💡 First 100 GB/mo of data transfer out is free. Inbound data is always free.</div>
+        </div>
+        <div class="subtotal-row">
+          <span class="subtotal-label">S3 Monthly</span>
+          <span class="subtotal-val" id="s3-sub">$0.00</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Lambda -->
+    <div class="calc-card">
+      <div class="calc-card-header">
+        <span class="calc-card-icon">⚡</span>
+        <span class="calc-card-title">AWS Lambda</span>
+        <span class="calc-card-total" id="lambda-total">$0.00</span>
+      </div>
+      <div class="calc-card-body">
+        <div class="field">
+          <div class="field-label">Monthly Invocations<span class="field-value" id="lambda-inv-lbl">1M</span></div>
+          <input class="field-slider" type="range" id="lambda-inv" min="0" max="500" value="1" oninput="calc()">
+          <div class="field-hint">💡 First 1 million invocations per month are FREE (Always Free Tier)</div>
+        </div>
+        <div class="field">
+          <div class="field-label">Memory Allocation (MB)</div>
+          <select class="field-input" id="lambda-mem" onchange="calc()">
+            <option value="128">128 MB</option>
+            <option value="256">256 MB</option>
+            <option value="512" selected>512 MB</option>
+            <option value="1024">1,024 MB (1 GB)</option>
+            <option value="2048">2,048 MB (2 GB)</option>
+            <option value="3008">3,008 MB (3 GB)</option>
+          </select>
+        </div>
+        <div class="field">
+          <div class="field-label">Average Duration (ms)<span class="field-value" id="lambda-dur-lbl">200ms</span></div>
+          <input class="field-slider" type="range" id="lambda-dur" min="1" max="15000" value="200" step="10" oninput="calc()">
+        </div>
+        <div class="field-hint" style="margin-bottom:12px">💡 Lambda pricing: $0.20 per 1M requests + $0.0000166667 per GB-second. 400,000 GB-seconds free per month.</div>
+        <div class="subtotal-row">
+          <span class="subtotal-label">Lambda Monthly</span>
+          <span class="subtotal-val" id="lambda-sub">$0.00</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- RDS -->
+    <div class="calc-card">
+      <div class="calc-card-header">
+        <span class="calc-card-icon">🗄️</span>
+        <span class="calc-card-title">Amazon RDS</span>
+        <span class="calc-card-total" id="rds-total">$0.00</span>
+      </div>
+      <div class="calc-card-body">
+        <div class="field">
+          <div class="field-label">Database Engine & Instance</div>
+          <select class="field-input" id="rds-type" onchange="calc()">
+            <option value="0.017">MySQL db.t3.micro — 2 vCPU, 1GB ($0.017/hr)</option>
+            <option value="0.034">MySQL db.t3.small — 2 vCPU, 2GB ($0.034/hr)</option>
+            <option value="0.068">MySQL db.t3.medium — 2 vCPU, 4GB ($0.068/hr)</option>
+            <option value="0.136">MySQL db.t3.large — 2 vCPU, 8GB ($0.136/hr)</option>
+            <option value="0.272">MySQL db.m5.large — 2 vCPU, 8GB ($0.272/hr)</option>
+            <option value="0.029">PostgreSQL db.t3.micro ($0.029/hr)</option>
+            <option value="0.058">PostgreSQL db.t3.small ($0.058/hr)</option>
+            <option value="0.116">PostgreSQL db.t3.medium ($0.116/hr)</option>
+            <option value="0.073">Aurora MySQL db.t3.medium ($0.073/hr)</option>
+            <option value="0.073">Aurora PostgreSQL db.t3.medium ($0.073/hr)</option>
+          </select>
+        </div>
+        <div class="field">
+          <div class="field-label">Deployment</div>
+          <select class="field-input" id="rds-deploy" onchange="calc()">
+            <option value="1.0">Single-AZ (lower cost, single AZ)</option>
+            <option value="2.0">Multi-AZ (2x cost, automatic failover)</option>
+          </select>
+          <div class="field-hint">💡 Multi-AZ doubles the instance cost but provides automatic failover — recommended for production</div>
+        </div>
+        <div class="field">
+          <div class="field-label">Storage (GB)<span class="field-value" id="rds-storage-lbl">100 GB</span></div>
+          <input class="field-slider" type="range" id="rds-storage" min="20" max="1000" value="100" step="10" oninput="calc()">
+        </div>
+        <div class="field">
+          <div class="field-label">Hours Running per Month<span class="field-value" id="rds-hours-lbl">730h</span></div>
+          <input class="field-slider" type="range" id="rds-hours" min="1" max="730" value="730" oninput="calc()">
+        </div>
+        <div class="subtotal-row">
+          <span class="subtotal-label">RDS Monthly</span>
+          <span class="subtotal-val" id="rds-sub">$0.00</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Data Transfer -->
+    <div class="calc-card">
+      <div class="calc-card-header">
+        <span class="calc-card-icon">📡</span>
+        <span class="calc-card-title">Data Transfer</span>
+        <span class="calc-card-total" id="dt-total">$0.00</span>
+      </div>
+      <div class="calc-card-body">
+        <div class="field">
+          <div class="field-label">Data Transfer OUT to Internet (GB/mo)<span class="field-value" id="dt-out-lbl">50 GB</span></div>
+          <input class="field-slider" type="range" id="dt-out" min="0" max="5000" value="50" step="10" oninput="calc()">
+          <div class="field-hint">💡 First 100 GB/month to internet: FREE. 100 GB–10 TB: $0.09/GB. 10–40 TB: $0.085/GB.</div>
+        </div>
+        <div class="field">
+          <div class="field-label">CloudFront Distribution (GB/mo)<span class="field-value" id="cf-lbl">0 GB</span></div>
+          <input class="field-slider" type="range" id="cf-out" min="0" max="10000" value="0" step="50" oninput="calc()">
+          <div class="field-hint">💡 CloudFront pricing: $0.0085/GB (first 10TB). Transfer from EC2/S3 to CloudFront is FREE — use CloudFront to reduce outbound data costs.</div>
+        </div>
+        <div class="field">
+          <div class="field-label">Data Transfer IN from Internet (GB/mo)<span class="field-value" id="dt-in-lbl">0 GB</span></div>
+          <input class="field-slider" type="range" id="dt-in" min="0" max="5000" value="0" step="10" oninput="calc()">
+          <div class="field-hint">💡 All inbound data transfer to AWS is always FREE</div>
+        </div>
+        <div class="subtotal-row">
+          <span class="subtotal-label">Data Transfer Monthly</span>
+          <span class="subtotal-val" id="dt-sub">$0.00</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Support Plan -->
+    <div class="calc-card">
+      <div class="calc-card-header">
+        <span class="calc-card-icon">🎧</span>
+        <span class="calc-card-title">Support Plan</span>
+        <span class="calc-card-total" id="support-total">$0.00</span>
+      </div>
+      <div class="calc-card-body">
+        <div class="field">
+          <div class="field-label">Support Plan</div>
+          <select class="field-input" id="support-plan" onchange="calc()">
+            <option value="0">Basic — Free (documentation &amp; forums)</option>
+            <option value="29">Developer — $29/mo (business hours email, 1 contact)</option>
+            <option value="100">Business — $100/mo* (24/7 phone/chat, all TA checks)</option>
+            <option value="5500">Enterprise On-Ramp — $5,500/mo (TAM pool, 30 min)</option>
+            <option value="15000">Enterprise — $15,000/mo (dedicated TAM, 15 min)</option>
+          </select>
+          <div class="field-hint">💡 *Business plan cost is $100/mo OR 10% of monthly AWS charges, whichever is greater. Enterprise is 10% of monthly charges up to $150K then lower %.</div>
+        </div>
+        <div id="support-note" style="margin-top:12px;font-size:11px;color:var(--muted);line-height:1.6">
+          Select a plan to see what's included.
+        </div>
+        <div class="subtotal-row" style="margin-top:14px">
+          <span class="subtotal-label">Support Monthly</span>
+          <span class="subtotal-val" id="support-sub">$0.00</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- COST BREAKDOWN TABLE -->
+  <div class="breakdown-section">
+    <div class="breakdown-title">Monthly Cost Breakdown</div>
+    <table class="breakdown-table">
+      <thead><tr><th>Service</th><th>Configuration</th><th>Monthly Cost</th></tr></thead>
+      <tbody id="breakdown-body"></tbody>
+    </table>
+  </div>
+
+  <!-- PRICING FACTS -->
+  <div class="breakdown-section" style="margin-top:2rem">
+    <div class="breakdown-title">Key Pricing Facts for the Exam</div>
+    <div class="fact-grid">
+      <div class="fact-card"><div class="fact-service">EC2</div><div class="fact-text"><strong>Pay per second</strong> (Linux) or per hour (Windows). Spot Instances save up to 90% but can be interrupted. Reserved Instances save up to 72% for 1–3 year commitments.</div></div>
+      <div class="fact-card"><div class="fact-service">S3</div><div class="fact-text"><strong>Pay for storage + requests + data out.</strong> Inbound data is always free. Deep Archive is cheapest ($0.00099/GB). Data to CloudFront is free.</div></div>
+      <div class="fact-card"><div class="fact-service">Lambda</div><div class="fact-text"><strong>1M requests free/month always.</strong> Pay per 1M requests + per GB-second. 400,000 GB-seconds free/month. Only pay while code runs.</div></div>
+      <div class="fact-card"><div class="fact-service">RDS</div><div class="fact-text"><strong>Multi-AZ doubles the instance cost</strong> but gives automatic failover. Storage is separate from instance pricing. Reserved RDS saves up to 69%.</div></div>
+      <div class="fact-card"><div class="fact-service">Data Transfer</div><div class="fact-text"><strong>Inbound is always free.</strong> First 100 GB/mo outbound free. Same-region and to CloudFront free. Cross-region and to internet charged.</div></div>
+      <div class="fact-card"><div class="fact-service">Free Tier</div><div class="fact-text"><strong>Always Free:</strong> Lambda 1M req, DynamoDB 25GB. <strong>12-Month Free:</strong> 750hr EC2 t2.micro, 5GB S3, 25GB RDS.</div></div>
+    </div>
+  </div>
+</div>
+
+<footer><p>Built by <a href="https://blaborte.github.io" target="_blank">Baltazar Laborte</a> · BL Cert Hub · AWS Certified Cloud Practitioner CLF-C02</p></footer>
+
+<script>
+const SUPPORT_NOTES = {
+  '0':'<strong>Basic (Free):</strong> AWS documentation, whitepapers, support forums, AWS Health Dashboard, 7 Trusted Advisor checks. No technical support.',
+  '29':'<strong>Developer ($29/mo):</strong> Business hours email support for 1 contact. General guidance &lt; 24hrs, system impaired &lt; 12hrs. Best for dev/test.',
+  '100':'<strong>Business ($100/mo):</strong> 24/7 phone, chat, email. Unlimited contacts. Production down &lt; 1hr. All Trusted Advisor checks. AWS Health API.',
+  '5500':'<strong>Enterprise On-Ramp ($5,500/mo):</strong> Pool of Technical Account Managers (TAMs). Business-critical down &lt; 30 min. Concierge support. Well-Architected reviews.',
+  '15000':'<strong>Enterprise ($15,000/mo):</strong> Dedicated TAM. Business-critical &lt; 15 min. Infrastructure Event Management. Proactive guidance. Concierge support team.',
+};
+
+function fmt(n){return'$'+n.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g,',')}
+
+function calc(){
+  // EC2
+  const ec2Rate = parseFloat(document.getElementById('ec2-type').value);
+  const ec2Pricing = parseFloat(document.getElementById('ec2-pricing').value);
+  const ec2Count = parseInt(document.getElementById('ec2-count').value);
+  const ec2Hours = parseInt(document.getElementById('ec2-hours').value);
+  const ec2Ebs = parseInt(document.getElementById('ec2-ebs').value);
+  document.getElementById('ec2-count-lbl').textContent = ec2Count;
+  document.getElementById('ec2-hours-lbl').textContent = ec2Hours+'h';
+  document.getElementById('ec2-ebs-lbl').textContent = ec2Ebs+' GB';
+  const selectedOpt = document.getElementById('ec2-type').options[document.getElementById('ec2-type').selectedIndex];
+  document.getElementById('ec2-type-lbl').textContent = selectedOpt.text.split(' —')[0];
+  const ec2HrsCost = ec2Rate * ec2Pricing * ec2Count * ec2Hours * 30;
+  const ebsCost = ec2Ebs * ec2Count * 0.08; // gp2 $0.08/GB-month
+  const ec2Total = ec2HrsCost + ebsCost;
+  document.getElementById('ec2-sub').textContent = fmt(ec2Total);
+  document.getElementById('ec2-total').textContent = fmt(ec2Total);
+
+  // S3
+  const s3Rate = parseFloat(document.getElementById('s3-class').value);
+  const s3GB = parseInt(document.getElementById('s3-storage').value);
+  const s3Puts = parseInt(document.getElementById('s3-puts').value);
+  const s3Gets = parseInt(document.getElementById('s3-gets').value);
+  const s3Dt = parseInt(document.getElementById('s3-dt').value);
+  document.getElementById('s3-storage-lbl').textContent = s3GB.toLocaleString()+' GB';
+  document.getElementById('s3-puts-lbl').textContent = s3Puts.toLocaleString()+'K';
+  document.getElementById('s3-gets-lbl').textContent = s3Gets.toLocaleString()+'K';
+  document.getElementById('s3-dt-lbl').textContent = s3Dt.toLocaleString()+' GB';
+  const s3StoreCost = s3GB * s3Rate;
+  const s3PutCost = s3Puts * 0.005; // $0.005 per 1K PUT
+  const s3GetCost = s3Gets * 0.0004; // $0.0004 per 1K GET
+  const s3DtCost = Math.max(0, s3Dt - 100) * 0.09; // first 100GB free
+  const s3Total = s3StoreCost + s3PutCost + s3GetCost + s3DtCost;
+  document.getElementById('s3-sub').textContent = fmt(s3Total);
+  document.getElementById('s3-total').textContent = fmt(s3Total);
+
+  // Lambda
+  const lambdaInvM = parseInt(document.getElementById('lambda-inv').value);
+  const lambdaMem = parseInt(document.getElementById('lambda-mem').value);
+  const lambdaDur = parseInt(document.getElementById('lambda-dur').value);
+  document.getElementById('lambda-inv-lbl').textContent = lambdaInvM+'M';
+  document.getElementById('lambda-dur-lbl').textContent = lambdaDur+'ms';
+  const lambdaInvCost = Math.max(0, lambdaInvM - 1) * 0.2; // first 1M free
+  const gbSecs = (lambdaInvM * 1e6) * (lambdaDur / 1000) * (lambdaMem / 1024);
+  const freeGbSecs = 400000;
+  const lambdaComputeCost = Math.max(0, gbSecs - freeGbSecs) * 0.0000166667;
+  const lambdaTotal = lambdaInvCost + lambdaComputeCost;
+  document.getElementById('lambda-sub').textContent = fmt(lambdaTotal);
+  document.getElementById('lambda-total').textContent = fmt(lambdaTotal);
+
+  // RDS
+  const rdsRate = parseFloat(document.getElementById('rds-type').value);
+  const rdsDeploy = parseFloat(document.getElementById('rds-deploy').value);
+  const rdsStorage = parseInt(document.getElementById('rds-storage').value);
+  const rdsHours = parseInt(document.getElementById('rds-hours').value);
+  document.getElementById('rds-storage-lbl').textContent = rdsStorage+' GB';
+  document.getElementById('rds-hours-lbl').textContent = rdsHours+'h';
+  const rdsInstanceCost = rdsRate * rdsDeploy * rdsHours;
+  const rdsStorageCost = rdsStorage * 0.115; // gp2 RDS storage
+  const rdsTotal = rdsInstanceCost + rdsStorageCost;
+  document.getElementById('rds-sub').textContent = fmt(rdsTotal);
+  document.getElementById('rds-total').textContent = fmt(rdsTotal);
+
+  // Data Transfer
+  const dtOut = parseInt(document.getElementById('dt-out').value);
+  const cfOut = parseInt(document.getElementById('cf-out').value);
+  const dtIn = parseInt(document.getElementById('dt-in').value);
+  document.getElementById('dt-out-lbl').textContent = dtOut.toLocaleString()+' GB';
+  document.getElementById('cf-lbl').textContent = cfOut.toLocaleString()+' GB';
+  document.getElementById('dt-in-lbl').textContent = dtIn.toLocaleString()+' GB';
+  // Outbound to internet: first 100GB free, then $0.09/GB
+  const dtOutCost = dtOut <= 100 ? 0 : (dtOut - 100) * 0.09;
+  // CloudFront: $0.0085/GB first 10TB
+  const cfCost = cfOut * 0.0085;
+  const dtTotal = dtOutCost + cfCost; // inbound always free
+  document.getElementById('dt-sub').textContent = fmt(dtTotal);
+  document.getElementById('dt-total').textContent = fmt(dtTotal);
+
+  // Support
+  const supportVal = parseInt(document.getElementById('support-plan').value);
+  document.getElementById('support-note').innerHTML = SUPPORT_NOTES[String(supportVal)] || '';
+  const supportTotal = supportVal;
+  document.getElementById('support-sub').textContent = fmt(supportTotal);
+  document.getElementById('support-total').textContent = fmt(supportTotal);
+
+  // Grand Total
+  const grand = ec2Total + s3Total + lambdaTotal + rdsTotal + dtTotal + supportTotal;
+  document.getElementById('grand-total').textContent = fmt(grand);
+
+  // Breakdown table
+  const tbody = document.getElementById('breakdown-body');
+  const ec2TypeName = document.getElementById('ec2-type').options[document.getElementById('ec2-type').selectedIndex].text.split(' —')[0];
+  const pricingName = document.getElementById('ec2-pricing').options[document.getElementById('ec2-pricing').selectedIndex].text.split(' (')[0];
+  const rdsTypeName = document.getElementById('rds-type').options[document.getElementById('rds-type').selectedIndex].text.split(' —')[0];
+  const s3ClassName = document.getElementById('s3-class').options[document.getElementById('s3-class').selectedIndex].text.split(' (')[0];
+  const deployName = document.getElementById('rds-deploy').options[document.getElementById('rds-deploy').selectedIndex].text.split(' (')[0];
+  const supportName = document.getElementById('support-plan').options[document.getElementById('support-plan').selectedIndex].text.split(' —')[0];
+
+  tbody.innerHTML = `
+    <tr><td>Amazon EC2</td><td>${ec2Count}× ${ec2TypeName} · ${pricingName} · ${ec2Hours}h/day + ${ec2Ebs}GB EBS</td><td>${fmt(ec2Total)}</td></tr>
+    <tr><td>Amazon S3</td><td>${s3GB.toLocaleString()} GB ${s3ClassName} + requests</td><td>${fmt(s3Total)}</td></tr>
+    <tr><td>AWS Lambda</td><td>${lambdaInvM}M invocations · ${lambdaMem}MB · ${lambdaDur}ms avg</td><td>${fmt(lambdaTotal)}</td></tr>
+    <tr><td>Amazon RDS</td><td>${rdsTypeName} · ${deployName} · ${rdsStorage}GB storage · ${rdsHours}h</td><td>${fmt(rdsTotal)}</td></tr>
+    <tr><td>Data Transfer</td><td>${dtOut.toLocaleString()}GB out + ${cfOut.toLocaleString()}GB CloudFront</td><td>${fmt(dtTotal)}</td></tr>
+    <tr><td>AWS Support</td><td>${supportName}</td><td>${fmt(supportTotal)}</td></tr>
+    <tr><td colspan="2"><strong>Total Monthly Estimate</strong></td><td>${fmt(grand)}</td></tr>`;
+}
+
+function resetAll(){
+  document.getElementById('ec2-type').selectedIndex=0;
+  document.getElementById('ec2-pricing').selectedIndex=0;
+  document.getElementById('ec2-count').value=1;
+  document.getElementById('ec2-hours').value=24;
+  document.getElementById('ec2-ebs').value=30;
+  document.getElementById('s3-class').selectedIndex=0;
+  document.getElementById('s3-storage').value=100;
+  document.getElementById('s3-puts').value=10;
+  document.getElementById('s3-gets').value=100;
+  document.getElementById('s3-dt').value=10;
+  document.getElementById('lambda-inv').value=1;
+  document.getElementById('lambda-mem').value=512;
+  document.getElementById('lambda-dur').value=200;
+  document.getElementById('rds-type').selectedIndex=0;
+  document.getElementById('rds-deploy').selectedIndex=0;
+  document.getElementById('rds-storage').value=100;
+  document.getElementById('rds-hours').value=730;
+  document.getElementById('dt-out').value=50;
+  document.getElementById('cf-out').value=0;
+  document.getElementById('dt-in').value=0;
+  document.getElementById('support-plan').selectedIndex=0;
+  calc();
+}
+
+function copySummary(){
+  const rows=[...document.querySelectorAll('#breakdown-body tr')];
+  const text='AWS Monthly Cost Estimate\n'+'-'.repeat(40)+'\n'+rows.map(r=>{const cells=[...r.querySelectorAll('td')];return cells.map(c=>c.textContent.trim()).join(' | ')}).join('\n');
+  navigator.clipboard.writeText(text).catch(()=>{});
+  const btn=document.querySelector('.btn-copy');
+  btn.textContent='✓ Copied!';
+  setTimeout(()=>btn.textContent='📋 Copy Summary',2000);
+}
+
+calc();
+</script>
+</body>
+</html>

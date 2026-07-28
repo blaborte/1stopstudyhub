@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Services Cheat Sheet — AWS CLF-C02 | BL Cert Hub</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    :root{--navy:#0B1D3A;--blue:#1A5276;--accent:#2E86C1;--sky:#5DADE2;--light:#EAF4FB;--mid:#D6EAF8;--white:#fff;--text:#0B1D3A;--muted:#5D7A8C;--border:rgba(30,80,130,0.13);--shadow:0 2px 12px rgba(11,29,58,0.08);--aws:#FF9900;--aws2:#E74C3C;--aws3:#2E86C1;--aws4:#27AE60}
+    html{scroll-behavior:smooth}
+    body{font-family:"DM Sans",sans-serif;background:var(--light);color:var(--text);min-height:100vh;display:flex;flex-direction:column}
+    nav{background:var(--navy);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:56px;position:sticky;top:0;z-index:100;border-bottom:1px solid rgba(93,173,226,0.15)}
+    .nav-brand{display:flex;align-items:center;gap:10px;text-decoration:none}
+    .bl-circle{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#2E86C1,#5DADE2);display:flex;align-items:center;justify-content:center;font-family:"Space Mono",monospace;font-size:10px;font-weight:700;color:#fff;flex-shrink:0}
+    .nav-brand span{font-size:13px;font-weight:500;color:rgba(255,255,255,0.85)}
+    .nav-links{display:flex;gap:6px;align-items:center}
+    .nav-links a{font-size:12px;font-weight:500;color:rgba(255,255,255,0.6);text-decoration:none;padding:6px 12px;border-radius:6px;transition:all .18s}
+    .nav-links a:hover{color:#fff;background:rgba(255,255,255,0.08)}
+    .nav-links a.active{color:var(--sky);background:rgba(93,173,226,0.12)}
+    .theme-btn{width:34px;height:34px;border-radius:8px;border:1px solid rgba(255,255,255,0.18);background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.75);cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;transition:all .18s}
+    .theme-btn:hover{background:rgba(255,255,255,0.15);color:#fff}
+    .hero{background:linear-gradient(135deg,#0B1D3A 0%,#1A5276 55%,#2E86C1 100%);padding:3rem 2rem 2.5rem;position:relative;overflow:hidden}
+    .hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(93,173,226,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(93,173,226,0.04) 1px,transparent 1px);background-size:32px 32px;pointer-events:none}
+    .hero-ring{position:absolute;border-radius:50%;border:40px solid rgba(93,173,226,0.08);pointer-events:none}
+    .hero-ring.r1{width:300px;height:300px;top:-70px;right:-50px}
+    .hero-ring.r2{width:180px;height:180px;bottom:-60px;left:40%;border-width:22px}
+    .hero-inner{position:relative;max-width:980px;margin:0 auto}
+    .exam-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.18);border-radius:20px;padding:5px 14px 5px 5px;margin-bottom:1.25rem}
+    .exam-badge .bl-circle{width:26px;height:26px;font-size:9px}
+    .exam-badge span{font-size:12px;color:rgba(255,255,255,0.8);font-weight:500}
+    .hero h1{font-family:"Space Mono",monospace;font-size:clamp(22px,3.5vw,38px);font-weight:700;color:#fff;line-height:1.2;margin-bottom:.5rem}
+    .hero h1 .accent{color:var(--sky)}
+    .hero-sub{font-size:14px;color:rgba(255,255,255,0.6);line-height:1.7;max-width:520px}
+    /* LAYOUT */
+    .page-layout{display:flex;max-width:980px;margin:0 auto;padding:2rem 2rem 3rem;gap:24px;flex:1;width:100%}
+    /* SIDEBAR */
+    .sidebar{width:200px;flex-shrink:0}
+    .sidebar-sticky{position:sticky;top:72px}
+    .sidebar-title{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:10px;padding-bottom:8px;border-bottom:2px solid var(--border)}
+    .sidebar-link{display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:7px;text-decoration:none;font-size:12px;font-weight:500;color:var(--muted);transition:all .16s;margin-bottom:2px;border:1px solid transparent}
+    .sidebar-link:hover{background:var(--white);border-color:var(--border);color:var(--text)}
+    .sidebar-link.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+    .sidebar-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+    /* MAIN */
+    .svc-main{flex:1;min-width:0}
+    /* CONTROLS */
+    .controls{background:var(--white);border:1px solid var(--border);border-radius:14px;padding:14px 18px;margin-bottom:1.5rem;box-shadow:var(--shadow);display:flex;gap:10px;align-items:center}
+    .search-wrap{position:relative;flex:1}
+    .search-icon{position:absolute;left:11px;top:50%;transform:translateY(-50%);font-size:13px;pointer-events:none}
+    .search-input{width:100%;padding:9px 12px 9px 34px;border:1px solid var(--border);border-radius:8px;font-family:"DM Sans",sans-serif;font-size:13px;color:var(--text);background:var(--light);outline:none;transition:border-color .18s}
+    .search-input:focus{border-color:var(--accent);background:var(--white)}
+    .result-count{font-size:12px;color:var(--muted);white-space:nowrap}
+    .btn-clear{background:transparent;border:1px solid var(--border);color:var(--text);padding:7px 14px;border-radius:8px;font-family:"DM Sans",sans-serif;font-size:12px;font-weight:500;cursor:pointer;transition:all .18s}
+    .btn-clear:hover{border-color:var(--accent);color:var(--accent)}
+    /* CATEGORY */
+    .cat-block{margin-bottom:2rem}
+    .cat-header{display:flex;align-items:center;gap:12px;margin-bottom:1rem;padding-bottom:.75rem;border-bottom:2px solid var(--border);position:relative}
+    .cat-header::after{content:"";position:absolute;bottom:-2px;left:0;width:60px;height:2px;background:var(--cat-color)}
+    .cat-icon{font-size:18px}
+    .cat-title{font-family:"Space Mono",monospace;font-size:16px;font-weight:700;color:var(--text)}
+    .cat-count{font-size:11px;font-weight:500;padding:3px 9px;border-radius:10px;background:var(--mid);color:var(--blue);margin-left:auto}
+    /* SERVICE CARD */
+    .svc-card{background:var(--white);border:1px solid var(--border);border-radius:12px;margin-bottom:8px;overflow:hidden;box-shadow:var(--shadow);transition:all .18s;border-left:3px solid var(--cat-color)}
+    .svc-card:hover{box-shadow:0 4px 16px rgba(11,29,58,0.1)}
+    .svc-card.hidden{display:none}
+    .svc-top{display:flex;align-items:flex-start;padding:13px 16px}
+    .svc-name-wrap{flex:1}
+    .svc-name{font-family:"Space Mono",monospace;font-size:12px;font-weight:700;color:var(--accent);margin-bottom:4px}
+    .svc-fullname{font-size:11px;color:var(--muted);margin-bottom:6px}
+    .svc-tags{display:flex;gap:5px;flex-wrap:wrap}
+    .svc-tag{font-size:9px;font-weight:700;padding:2px 7px;border-radius:4px;background:var(--mid);color:var(--blue);text-transform:uppercase;letter-spacing:.04em}
+    .svc-right{display:flex;flex-direction:column;align-items:flex-end;gap:6px;flex-shrink:0;padding-left:12px}
+    .copy-btn{background:var(--light);border:1px solid var(--border);border-radius:6px;padding:4px 10px;font-size:10px;font-weight:600;cursor:pointer;color:var(--muted);transition:all .15s;font-family:"DM Sans",sans-serif;white-space:nowrap}
+    .copy-btn:hover{border-color:var(--accent);color:var(--accent);background:var(--white)}
+    .copy-btn.copied{background:#27AE60;border-color:#27AE60;color:#fff}
+    .exam-badge-tag{font-size:9px;font-weight:700;padding:2px 7px;border-radius:10px;background:rgba(231,76,60,0.1);color:#C0392B;border:1px solid rgba(192,57,43,0.2)}
+    .svc-desc{font-size:12px;color:var(--muted);line-height:1.6;padding:0 16px 13px;border-top:1px solid var(--border);background:rgba(234,244,251,0.3)}
+    .no-results{text-align:center;padding:3rem;color:var(--muted);font-size:14px}
+    /* DARK */
+    html.dark{--light:#131b27;--mid:#1a2535;--white:#1e2a3a;--text:#d4e6f7;--muted:#7aa3c0;--border:rgba(93,173,226,0.14)}
+    html.dark body{background:var(--light);color:var(--text)}
+    html.dark nav,html.dark footer{background:#0a1220}
+    html.dark .svc-card,.controls{background:var(--white);border-color:var(--border)}
+    html.dark .svc-desc{background:rgba(0,0,0,0.15);border-color:var(--border)}
+    html.dark .search-input{background:var(--mid);border-color:var(--border);color:var(--text)}
+    html.dark .search-input:focus{background:var(--white)}
+    html.dark .copy-btn{background:var(--mid);border-color:var(--border);color:var(--muted)}
+    html.dark .sidebar-link:hover{background:var(--mid)}
+    html.dark .cat-count{background:var(--mid)}
+    footer{background:var(--navy);padding:1.25rem 2rem;text-align:center;border-top:1px solid rgba(93,173,226,0.12)}
+    footer p{font-size:12px;color:rgba(255,255,255,0.3)}
+    footer a{color:var(--sky);text-decoration:none}
+    @media(max-width:768px){.sidebar{display:none};.page-layout{padding:1.25rem}}
+    @media(max-width:600px){nav{padding:0 1.25rem};.hero{padding:2rem 1.25rem}}
+  </style>
+</head>
+<body>
+<script>
+(function(){const K="bl-theme";function apply(d){document.documentElement.classList.toggle("dark",d);const b=document.getElementById("theme-btn");if(b)b.textContent=d?"☀":"☾"}apply(localStorage.getItem(K)==="dark");window.__toggleTheme=function(){const d=!document.documentElement.classList.contains("dark");localStorage.setItem(K,d?"dark":"light");apply(d)};window.addEventListener("storage",function(e){if(e.key===K)apply(e.newValue==="dark")})})();
+</script>
+<nav>
+  <a class="nav-brand" href="index.html"><div class="bl-circle">BL</div><span>BL Cert Hub</span></a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="aws-home.html">AWS CCP</a>
+    <a href="#" class="active">Services Cheat Sheet</a>
+    <button class="theme-btn" id="theme-btn" onclick="__toggleTheme()">☾</button>
+  </div>
+</nav>
+<div class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-ring r1"></div>
+  <div class="hero-ring r2"></div>
+  <div class="hero-inner">
+    <div class="exam-badge"><div class="bl-circle">BL</div><span>AWS Certified Cloud Practitioner CLF-C02</span></div>
+    <h1>Services <span class="accent">Cheat Sheet</span></h1>
+    <p class="hero-sub">Every AWS service you need to know for the CLF-C02 — organized by category with key facts, use cases, and exam tips. Search by name or description.</p>
+  </div>
+</div>
+<div class="page-layout">
+  <aside class="sidebar">
+    <div class="sidebar-sticky">
+      <div class="sidebar-title">Categories</div>
+      <div id="sidebar-links"></div>
+    </div>
+  </aside>
+  <main class="svc-main">
+    <div class="controls">
+      <div class="search-wrap">
+        <span class="search-icon">🔍</span>
+        <input class="search-input" id="search" type="text" placeholder="Search service name or description..." oninput="filterSvcs()">
+      </div>
+      <span class="result-count" id="result-count"></span>
+      <button class="btn-clear" onclick="clearSearch()">Clear</button>
+    </div>
+    <div id="svc-container"></div>
+    <div class="no-results" id="no-results" style="display:none">No services match your search.</div>
+  </main>
+</div>
+<footer><p>Built by <a href="https://blaborte.github.io" target="_blank">Baltazar Laborte</a> · BL Cert Hub · AWS Certified Cloud Practitioner CLF-C02</p></footer>
+<script>
+const CATEGORIES = [
+  {id:'compute',icon:'💻',title:'Compute',color:'#FF9900',svcs:[
+    {name:'EC2',full:'Amazon Elastic Compute Cloud',tags:['IaaS','Virtual Servers'],exam:true,desc:'Resizable virtual servers in the cloud. Choose instance type (CPU, RAM), OS, and storage. Full control over the environment. Pay per second (Linux) or hour (Windows). Many instance families: General Purpose, Compute, Memory, Storage, GPU.'},
+    {name:'Lambda',full:'AWS Lambda',tags:['Serverless','FaaS'],exam:true,desc:'Run code without provisioning servers. Event-driven — triggered by S3, API Gateway, DynamoDB, CloudWatch, etc. Pay per 1M requests + compute duration (1ms increments). Auto-scales. Max 15-minute timeout. Free tier: 1M requests/month.'},
+    {name:'Elastic Beanstalk',full:'AWS Elastic Beanstalk',tags:['PaaS','Managed'],exam:true,desc:'Deploy web apps without managing infrastructure. Upload code → Beanstalk handles EC2, load balancing, Auto Scaling, monitoring. Supports Node.js, Python, Java, .NET, PHP, Go, Ruby, Docker. You retain control of all underlying resources.'},
+    {name:'ECS',full:'Amazon Elastic Container Service',tags:['Containers','Managed'],exam:true,desc:'Fully managed container orchestration service using AWS\'s own scheduler. Run Docker containers on EC2 or Fargate. Integrates with IAM, ALB, CloudWatch. No Kubernetes knowledge needed.'},
+    {name:'EKS',full:'Amazon Elastic Kubernetes Service',tags:['Containers','Kubernetes'],exam:true,desc:'Managed Kubernetes service — run Kubernetes without managing the control plane. AWS handles control plane availability. Use for teams already using Kubernetes. Works with EC2 or Fargate.'},
+    {name:'Fargate',full:'AWS Fargate',tags:['Serverless','Containers'],exam:true,desc:'Serverless compute engine for containers (ECS and EKS). No EC2 instances to manage. Define CPU and memory, run containers. Pay per vCPU and memory consumed per task. Eliminates all server management overhead.'},
+    {name:'Lightsail',full:'Amazon Lightsail',tags:['Simple','VPS'],exam:true,desc:'Simplest way to start on AWS. Pre-configured virtual servers, storage, databases, networking at predictable monthly prices. Ideal for simple websites, blogs, small apps, and beginners new to cloud.'},
+    {name:'Batch',full:'AWS Batch',tags:['Batch Processing','HPC'],exam:false,desc:'Managed batch processing service. Automatically provisions EC2 or Spot resources needed for batch jobs. Scale to hundreds of thousands of compute jobs. No batch software to install or manage.'},
+    {name:'Outposts',full:'AWS Outposts',tags:['Hybrid','On-Premises'],exam:true,desc:'Bring AWS infrastructure and services on-premises. Same AWS APIs, tools, and hardware delivered to your data center. Use when ultra-low latency to on-premises systems or local data processing is required.'},
+  ]},
+  {id:'storage',icon:'🗃️',title:'Storage',color:'#E74C3C',svcs:[
+    {name:'S3',full:'Amazon Simple Storage Service',tags:['Object Storage','Serverless'],exam:true,desc:'Object storage for any amount of data. Store files (objects) in buckets with globally unique names. 11 nines durability (99.999999999%). Storage classes: Standard, Intelligent-Tiering, Standard-IA, One Zone-IA, Glacier Instant, Glacier Flexible, Glacier Deep Archive. Ideal for backups, data lakes, static websites, media.'},
+    {name:'EBS',full:'Amazon Elastic Block Store',tags:['Block Storage','EC2'],exam:true,desc:'Persistent block storage volumes for EC2 (like a virtual hard drive). AZ-specific — must be in same AZ as EC2. Types: gp3 (SSD, general purpose), io2 (high IOPS, databases), st1 (HDD, big data), sc1 (HDD, cold, cheapest). Persists after instance termination.'},
+    {name:'EFS',full:'Amazon Elastic File System',tags:['File Storage','Shared'],exam:true,desc:'Managed NFS file system that can be shared simultaneously by thousands of EC2 instances across multiple AZs. Auto-scales capacity up and down. Use for: shared content, CMS, web serving, big data analytics. More expensive than EBS.'},
+    {name:'S3 Glacier',full:'Amazon S3 Glacier',tags:['Archive','Cold Storage'],exam:true,desc:'Long-term archival storage at very low cost. Three tiers: Glacier Instant (milliseconds), Glacier Flexible (1 min–12 hrs), Glacier Deep Archive (12–48 hrs). Minimum storage duration applies. Use for compliance archives, media masters, scientific data.'},
+    {name:'Storage Gateway',full:'AWS Storage Gateway',tags:['Hybrid','On-Premises'],exam:true,desc:'Hybrid cloud storage connecting on-premises to AWS. Types: File Gateway (S3-backed NFS/SMB), Volume Gateway (iSCSI block storage backed by S3), Tape Gateway (virtual tape library to S3/Glacier). Enables seamless cloud integration.'},
+    {name:'Snowball',full:'AWS Snowball',tags:['Data Transfer','Physical'],exam:true,desc:'Physical appliance for migrating large amounts of data to/from AWS when network transfer is impractical (> 10TB). Snowball Edge adds compute. Snowmobile is a truck for exabyte-scale migrations. Data transferred via encrypted physical shipment.'},
+    {name:'DataSync',full:'AWS DataSync',tags:['Data Transfer','Automated'],exam:false,desc:'Automated data transfer service between on-premises storage and AWS (S3, EFS, FSx). Up to 10x faster than open-source tools. Handles scheduling, monitoring, data integrity verification, and network optimization automatically.'},
+    {name:'FSx',full:'Amazon FSx',tags:['File Storage','Managed'],exam:false,desc:'Managed file systems. FSx for Windows File Server: fully managed Windows native file system (SMB, NTFS, Active Directory). FSx for Lustre: high-performance parallel file system for HPC, ML, and analytics workloads.'},
+  ]},
+  {id:'database',icon:'🗄️',title:'Databases',color:'#9B59B6',svcs:[
+    {name:'RDS',full:'Amazon Relational Database Service',tags:['SQL','Managed'],exam:true,desc:'Managed relational databases. Supports: MySQL, PostgreSQL, MariaDB, Oracle, SQL Server, Aurora. AWS manages: provisioning, patching, backups (7–35 day retention), Multi-AZ failover, monitoring. You manage: schema, queries, data.'},
+    {name:'Aurora',full:'Amazon Aurora',tags:['SQL','High Performance'],exam:true,desc:'AWS-built MySQL and PostgreSQL-compatible relational database. Up to 5x faster than MySQL, 3x faster than PostgreSQL. 6 copies across 3 AZs. Auto-scaling storage (10GB to 128TB). Aurora Serverless: auto-scales compute capacity.'},
+    {name:'DynamoDB',full:'Amazon DynamoDB',tags:['NoSQL','Serverless'],exam:true,desc:'Fully managed serverless NoSQL key-value and document database. Single-digit millisecond latency at any scale. Handles 10+ trillion requests/day. No capacity planning. DAX (DynamoDB Accelerator) provides microsecond caching. Global Tables for multi-region.'},
+    {name:'Redshift',full:'Amazon Redshift',tags:['Data Warehouse','Analytics'],exam:true,desc:'Petabyte-scale managed data warehouse for analytics and BI. Columnar storage, massively parallel processing. Use SQL to query structured and semi-structured data. Integrates with QuickSight, Athena, and SageMaker.'},
+    {name:'ElastiCache',full:'Amazon ElastiCache',tags:['In-Memory','Caching'],exam:true,desc:'Managed in-memory caching. Supports Redis (feature-rich: pub/sub, sorted sets, persistence) and Memcached (simple, multi-threaded). Sub-millisecond latency. Reduces database load for read-heavy applications. Use for: sessions, leaderboards, real-time analytics.'},
+    {name:'Neptune',full:'Amazon Neptune',tags:['Graph Database','NoSQL'],exam:false,desc:'Fully managed graph database. Supports Gremlin (property graph) and SPARQL (RDF). Use for: social networks, recommendation engines, fraud detection, knowledge graphs. Multi-AZ with up to 15 read replicas.'},
+    {name:'DocumentDB',full:'Amazon DocumentDB',tags:['NoSQL','MongoDB'],exam:false,desc:'MongoDB-compatible managed document database. Migrate MongoDB workloads to AWS without code changes. Scales to handle millions of requests per second. 6 copies across 3 AZs.'},
+    {name:'QLDB',full:'Amazon Quantum Ledger Database',tags:['Ledger','Immutable'],exam:false,desc:'Fully managed immutable ledger database. Cryptographically verifiable transaction log. Use for: financial transactions, supply chain tracking, registration systems where audit history is critical.'},
+    {name:'DMS',full:'AWS Database Migration Service',tags:['Migration','Managed'],exam:true,desc:'Migrate databases to AWS with minimal downtime. Supports homogeneous (MySQL to RDS MySQL) and heterogeneous (Oracle to Aurora) migrations. Source database remains fully operational during migration. AWS Schema Conversion Tool for schema changes.'},
+  ]},
+  {id:'networking',icon:'🌐',title:'Networking & CDN',color:'#2E86C1',svcs:[
+    {name:'VPC',full:'Amazon Virtual Private Cloud',tags:['Networking','Core'],exam:true,desc:'Logically isolated virtual network in AWS. Define your own IP ranges, subnets (public/private), route tables, and gateways. Spans all AZs in a Region. Subnets are AZ-specific. Security enforced via Security Groups (instance level) and NACLs (subnet level).'},
+    {name:'CloudFront',full:'Amazon CloudFront',tags:['CDN','Edge'],exam:true,desc:'Global Content Delivery Network with 400+ edge locations. Caches content close to users for low latency. Integrates with S3, EC2, ALB, API Gateway. Built-in DDoS protection (Shield Standard). HTTPS termination. Signed URLs/cookies for private content.'},
+    {name:'Route 53',full:'Amazon Route 53',tags:['DNS','Global'],exam:true,desc:'Highly available and scalable DNS web service. Routes end users to applications via routing policies: Simple, Weighted, Latency, Failover, Geolocation, Geoproximity, Multivalue. Also provides domain registration and health checking.'},
+    {name:'ELB',full:'Elastic Load Balancing',tags:['Load Balancer','HA'],exam:true,desc:'Distributes traffic across targets. Three types: ALB (Application, Layer 7, HTTP/HTTPS, path/host routing), NLB (Network, Layer 4, ultra-low latency, static IP), GWLB (Gateway, for network appliances like firewalls). Integrates with Auto Scaling.'},
+    {name:'Direct Connect',full:'AWS Direct Connect',tags:['Hybrid','Dedicated'],exam:true,desc:'Dedicated private physical network connection from your data center to AWS. Bypasses public internet. Consistent 1Gbps or 10Gbps bandwidth. Reduces bandwidth costs for high-volume data transfer. More consistent performance than VPN but higher cost and lead time.'},
+    {name:'VPN',full:'AWS VPN',tags:['Hybrid','Encrypted'],exam:true,desc:'Encrypted IPsec VPN over the public internet. Site-to-Site VPN: connect on-premises to VPC. Client VPN: remote access for users. Lower cost than Direct Connect but performance depends on internet conditions. Active-active or active-passive tunnel modes.'},
+    {name:'Transit Gateway',full:'AWS Transit Gateway',tags:['Networking','Hub'],exam:true,desc:'Hub-and-spoke network transit hub connecting VPCs and on-premises networks. Eliminates complex peering meshes. Attach VPCs, VPNs, Direct Connect, and SD-WAN. Regional resource that can be shared across accounts via RAM.'},
+    {name:'Global Accelerator',full:'AWS Global Accelerator',tags:['Performance','Anycast'],exam:true,desc:'Improves global application availability and performance using AWS global network. Provides two static anycast IPs. Routes user traffic through AWS network backbone (not internet) to nearest healthy endpoint. Reduces latency by avoiding internet congestion.'},
+    {name:'API Gateway',full:'Amazon API Gateway',tags:['APIs','Serverless'],exam:true,desc:'Managed service to create, publish, maintain, and secure APIs (REST, HTTP, WebSocket). Integrates with Lambda, EC2, DynamoDB. Handles throttling, caching, authorization (IAM, Cognito, API keys). Key component of serverless architectures.'},
+  ]},
+  {id:'security',icon:'🔒',title:'Security & Identity',color:'#E74C3C',svcs:[
+    {name:'IAM',full:'AWS Identity and Access Management',tags:['Identity','Core'],exam:true,desc:'Manage access to AWS services. Create users, groups, roles, and policies. Principle of least privilege. IAM is global and free. Root account: enable MFA, no access keys. Roles: no permanent credentials, assumed temporarily by services and users.'},
+    {name:'KMS',full:'AWS Key Management Service',tags:['Encryption','Keys'],exam:true,desc:'Managed service for creating and controlling cryptographic keys. Integrates with 100+ AWS services. Customer-managed keys (CMK) allow fine-grained control. Automatic annual key rotation. FIPS 140-2 Level 3. Essential for compliance and encryption at rest.'},
+    {name:'WAF',full:'AWS Web Application Firewall',tags:['Protection','Layer 7'],exam:true,desc:'Protects web applications from common exploits: SQL injection, XSS, bad bots, OWASP Top 10. Create rules to allow/block/count requests. Works with CloudFront, ALB, API Gateway, AppSync. AWS Managed Rules provide pre-built rule groups.'},
+    {name:'Shield',full:'AWS Shield',tags:['DDoS','Protection'],exam:true,desc:'DDoS protection. Standard: free, automatic, Layer 3/4 attack protection for all AWS customers. Advanced: paid, enhanced protection, 24/7 DDoS Response Team (DRT), cost protection, real-time attack visibility, WAF integration for Layer 7.'},
+    {name:'GuardDuty',full:'Amazon GuardDuty',tags:['Threat Detection','ML'],exam:true,desc:'Managed threat detection service. Uses ML and threat intelligence to analyze CloudTrail, VPC Flow Logs, DNS logs. Detects: account compromise, unauthorized access, crypto mining, data exfiltration. No agents needed. Findings sent to Security Hub.'},
+    {name:'Inspector',full:'Amazon Inspector',tags:['Vulnerability','Assessment'],exam:true,desc:'Automated security vulnerability assessment for EC2 instances and ECR container images. Identifies software vulnerabilities (CVEs) and unintended network exposure. Provides risk scores. Integrates with Security Hub. Replaces manual patching reviews.'},
+    {name:'Macie',full:'Amazon Macie',tags:['Data Security','ML'],exam:true,desc:'ML-powered service to discover and protect sensitive data in S3. Identifies PII (names, SSNs, credit cards). Monitors access patterns and alerts on unusual behavior. Helps with GDPR, HIPAA compliance. Alerts on public buckets and unencrypted data.'},
+    {name:'Secrets Manager',full:'AWS Secrets Manager',tags:['Secrets','Rotation'],exam:true,desc:'Manage, retrieve, and rotate database credentials, API keys, and other secrets. Automatic rotation for RDS, Redshift, DocumentDB. Eliminates hardcoded secrets in code. Integrates with IAM for access control. Replaces AWS Systems Manager Parameter Store for secrets.'},
+    {name:'CloudTrail',full:'AWS CloudTrail',tags:['Audit','Compliance'],exam:true,desc:'Records all API calls in your AWS account — who, what, when, from where. Enabled by default (90 days). Create a Trail for longer retention in S3. Essential for security auditing, compliance, and incident investigation. Integrates with CloudWatch for alerting.'},
+    {name:'Security Hub',full:'AWS Security Hub',tags:['SIEM','Centralized'],exam:true,desc:'Centralizes security findings from GuardDuty, Inspector, Macie, Firewall Manager, and third-party tools. Single dashboard for security posture. Runs automated compliance checks against CIS AWS Foundations, PCI DSS, AWS best practices.'},
+    {name:'IAM Identity Center',full:'AWS IAM Identity Center',tags:['SSO','Multi-Account'],exam:true,desc:'Single sign-on for multiple AWS accounts and applications. Users sign in once and access all assigned accounts via a web portal. Integrates with Active Directory, Okta, Azure AD. Formerly AWS SSO. Use with AWS Organizations.'},
+    {name:'Cognito',full:'Amazon Cognito',tags:['Auth','Mobile'],exam:true,desc:'Add user authentication to web and mobile apps. User Pools: user directory for sign-up/sign-in. Identity Pools (Federated Identities): grant temporary AWS credentials to users. Supports social logins (Google, Facebook, Apple) and SAML federation.'},
+    {name:'Artifact',full:'AWS Artifact',tags:['Compliance','Reports'],exam:true,desc:'On-demand access to AWS compliance documentation: SOC 1/2/3, PCI DSS, ISO certifications, FedRAMP reports. Also access Business Associate Agreements (BAA) for HIPAA. Use to provide evidence to auditors or regulators.'},
+  ]},
+  {id:'management',icon:'⚙️',title:'Management & Governance',color:'#FF9900',svcs:[
+    {name:'CloudWatch',full:'Amazon CloudWatch',tags:['Monitoring','Logs'],exam:true,desc:'Monitoring and observability service. Collects metrics from 70+ AWS services. Stores and analyzes logs. Creates dashboards. Sets alarms (e.g., CPU > 80% → scale up or send SNS alert). CloudWatch Events/EventBridge for automated actions in response to changes.'},
+    {name:'CloudFormation',full:'AWS CloudFormation',tags:['IaC','Templates'],exam:true,desc:'Infrastructure as Code — define AWS resources in JSON or YAML templates. CloudFormation creates/updates/deletes stacks. Enables repeatable, consistent deployments. Drift detection finds manual changes. Free — pay only for resources created.'},
+    {name:'Config',full:'AWS Config',tags:['Compliance','Tracking'],exam:true,desc:'Tracks resource configuration changes over time. Evaluates resources against compliance rules. Answers: "What changed? When? Who changed it?" Enables configuration history, compliance auditing, change notifications. Integrates with CloudTrail.'},
+    {name:'Systems Manager',full:'AWS Systems Manager',tags:['Operations','Fleet'],exam:true,desc:'Operational hub for AWS and on-premises resources. Key features: Parameter Store (secure secrets/config), Session Manager (SSH-less instance access), Patch Manager (automated patching), Run Command (remote commands). Eliminates bastion hosts.'},
+    {name:'Trusted Advisor',full:'AWS Trusted Advisor',tags:['Optimization','Best Practices'],exam:true,desc:'Automated best practice checks in 5 categories: Cost Optimization (idle resources, rightsizing), Security (MFA, public S3, exposed keys), Performance, Fault Tolerance (AZ redundancy), Service Limits. Basic: 7 checks. Business/Enterprise: all 115+ checks.'},
+    {name:'Organizations',full:'AWS Organizations',tags:['Multi-Account','Governance'],exam:true,desc:'Centrally manage multiple AWS accounts. Consolidated billing: one invoice, share volume discounts. Service Control Policies (SCPs): restrict account actions. Organizational Units (OUs) for grouping. Foundation for AWS Control Tower and multi-account strategies.'},
+    {name:'Control Tower',full:'AWS Control Tower',tags:['Multi-Account','Guardrails'],exam:true,desc:'Automates setup of a secure, multi-account AWS environment (Landing Zone) with best-practice guardrails. Pre-configured account vending, security baselines, and audit logging. Built on top of AWS Organizations and Service Catalog.'},
+    {name:'CDK',full:'AWS Cloud Development Kit',tags:['IaC','Developer'],exam:false,desc:'Define AWS infrastructure using familiar programming languages (Python, TypeScript, Java, .NET, Go). CDK synthesizes CloudFormation templates. Higher-level constructs reduce boilerplate. Integrates with IDE for autocomplete and type checking.'},
+    {name:'Auto Scaling',full:'AWS Auto Scaling',tags:['Scaling','Elastic'],exam:true,desc:'Automatically adjusts resource capacity based on demand. Supports EC2 instances, ECS tasks, DynamoDB tables, Aurora replicas, Spot fleets. Scale policies: Target Tracking (maintain metric), Step (trigger-based), Scheduled. Works with ELB for elasticity.'},
+  ]},
+  {id:'analytics',icon:'📊',title:'Analytics & AI/ML',color:'#27AE60',svcs:[
+    {name:'Athena',full:'Amazon Athena',tags:['Serverless','SQL'],exam:true,desc:'Serverless interactive query service — run SQL directly on data in S3. No infrastructure to manage. Pay per query (per TB scanned). Use columnar formats (Parquet, ORC) to reduce cost. Ideal for ad-hoc analysis, log analysis, and data lake queries.'},
+    {name:'Kinesis',full:'Amazon Kinesis',tags:['Streaming','Real-Time'],exam:true,desc:'Real-time data streaming. Four services: Kinesis Data Streams (custom processing, durable), Kinesis Data Firehose (load to S3/Redshift/OpenSearch, fully managed), Kinesis Data Analytics (SQL/Apache Flink on streams), Kinesis Video Streams (video ingestion).'},
+    {name:'Glue',full:'AWS Glue',tags:['ETL','Data Catalog'],exam:true,desc:'Managed ETL (Extract, Transform, Load) service. Glue Data Catalog: central metadata repository. Glue Crawlers: automatically discover and catalog data. Glue Jobs: serverless Apache Spark ETL. Use for data lake preparation and analytics pipelines.'},
+    {name:'QuickSight',full:'Amazon QuickSight',tags:['BI','Dashboards'],exam:true,desc:'Serverless business intelligence service. Create interactive dashboards and visualizations. Connects to S3, Redshift, RDS, Athena, and more. ML-powered anomaly detection and forecasting. SPICE (in-memory engine) for fast queries. Pay per reader session.'},
+    {name:'SageMaker',full:'Amazon SageMaker',tags:['ML','AI'],exam:true,desc:'Fully managed ML platform — build, train, and deploy ML models. Built-in algorithms, bring-your-own, or use frameworks (TensorFlow, PyTorch, scikit-learn). Features: Studio (IDE), Autopilot (AutoML), Ground Truth (data labeling), Endpoints (deploy models).'},
+    {name:'Rekognition',full:'Amazon Rekognition',tags:['Computer Vision','AI'],exam:true,desc:'Image and video analysis using deep learning. Detect objects, scenes, text, celebrities, faces. Content moderation. Personal Protective Equipment (PPE) detection. Real-time video analysis. No ML expertise needed — pay per API call.'},
+    {name:'Comprehend',full:'Amazon Comprehend',tags:['NLP','AI'],exam:true,desc:'Natural language processing service. Extracts: entities (people, places, dates), sentiment (positive/negative/neutral), key phrases, language detection, topic modeling. Comprehend Medical: extract medical info from clinical text.'},
+    {name:'Lex',full:'Amazon Lex',tags:['Chatbot','Conversational AI'],exam:true,desc:'Build conversational interfaces (chatbots) using voice and text. Same technology as Alexa. Automatic Speech Recognition (ASR) and Natural Language Understanding (NLU). Integrates with Lambda for fulfillment logic. Deploy to web, mobile, Slack, Twilio.'},
+    {name:'Polly',full:'Amazon Polly',tags:['Text-to-Speech','AI'],exam:false,desc:'Convert text to lifelike speech. Dozens of voices in 30+ languages. Neural TTS for highest quality. SSML support for pronunciation control. Use for: accessibility, audiobooks, contact centers, language learning apps.'},
+    {name:'Textract',full:'Amazon Textract',tags:['Document AI','OCR'],exam:false,desc:'Automatically extract text and structured data from documents. Goes beyond OCR — understands forms, tables, and key-value pairs. Use for: processing invoices, tax documents, medical records, contracts.'},
+    {name:'Translate',full:'Amazon Translate',tags:['Translation','AI'],exam:false,desc:'Neural machine translation service. Real-time or batch translation between 75+ languages. Use for: localizing content, multilingual apps, translating user-generated content at scale.'},
+    {name:'Forecast',full:'Amazon Forecast',tags:['ML','Forecasting'],exam:false,desc:'Time-series forecasting service using ML. Automatically selects best algorithm. No ML experience required. Use for: inventory planning, resource planning, financial forecasting, demand forecasting.'},
+  ]},
+  {id:'developer',icon:'🛠️',title:'Developer Tools & Integration',color:'#9B59B6',svcs:[
+    {name:'CodePipeline',full:'AWS CodePipeline',tags:['CI/CD','DevOps'],exam:true,desc:'Continuous delivery pipeline service. Automates build, test, and deploy stages. Integrates with GitHub, CodeCommit, CodeBuild, CodeDeploy, CloudFormation, Elastic Beanstalk. Triggers on code commits. Parallel and sequential actions.'},
+    {name:'CodeBuild',full:'AWS CodeBuild',tags:['CI/CD','Build'],exam:false,desc:'Fully managed build service. Compiles source code, runs unit tests, produces deployable artifacts. No build servers to manage. Pay per build minute. Scales automatically. Docker-based build environments — use pre-built or custom images.'},
+    {name:'CodeDeploy',full:'AWS CodeDeploy',tags:['Deployment','Automation'],exam:false,desc:'Automated application deployments to EC2 instances, Lambda functions, ECS, and on-premises servers. Rolling, blue/green, and canary deployment strategies. Automatically rolls back on failure. Works with GitHub and CodePipeline.'},
+    {name:'SQS',full:'Amazon Simple Queue Service',tags:['Messaging','Decoupling'],exam:true,desc:'Managed message queuing for decoupling application components. Standard queue: best-effort ordering, at-least-once delivery, unlimited throughput. FIFO queue: exactly-once processing, ordered delivery, up to 3,000 msg/sec. Messages retained up to 14 days.'},
+    {name:'SNS',full:'Amazon Simple Notification Service',tags:['Pub/Sub','Notifications'],exam:true,desc:'Managed pub/sub messaging service. Publishers send messages to topics. SNS fans out to subscribers: email, SMS, HTTP endpoints, SQS queues, Lambda, mobile push. Fan-out pattern: one message to many consumers simultaneously.'},
+    {name:'EventBridge',full:'Amazon EventBridge',tags:['Events','Integration'],exam:true,desc:'Serverless event bus for connecting applications using events. Route events from AWS services, SaaS applications (Salesforce, Zendesk), and custom apps. Define rules to filter and route events to targets (Lambda, SQS, Step Functions).'},
+    {name:'Step Functions',full:'AWS Step Functions',tags:['Workflow','Orchestration'],exam:true,desc:'Serverless visual workflow orchestration. Coordinate multiple AWS services into workflows. Express Workflows (high volume, short duration) and Standard Workflows (long running, exactly-once). Visual workflow debugger. Retry and error handling built-in.'},
+    {name:'AppSync',full:'AWS AppSync',tags:['GraphQL','APIs'],exam:false,desc:'Managed GraphQL API service. Connect to DynamoDB, Lambda, RDS, HTTP APIs. Real-time data via WebSocket subscriptions. Offline data sync for mobile apps. Reduces frontend development complexity by consolidating multiple data sources into one API.'},
+    {name:'Amplify',full:'AWS Amplify',tags:['Mobile','Frontend'],exam:false,desc:'Build full-stack web and mobile apps on AWS. CLI to provision backend (Auth, API, Storage). Amplify Hosting: CI/CD and hosting for static web apps. Amplify Studio: visual UI builder. Integrates with React, Vue, Angular, iOS, Android, Flutter.'},
+  ]},
+  {id:'migration',icon:'🚀',title:'Migration & Transfer',color:'#E74C3C',svcs:[
+    {name:'MGN',full:'AWS Application Migration Service',tags:['Migration','Lift-and-Shift'],exam:true,desc:'Primary service for migrating physical, virtual, or cloud servers to AWS (rehost / lift-and-shift). Continuous block-level replication minimizes downtime. Test migrations without impacting source. Cutover in minutes. Replaces AWS Server Migration Service (SMS).'},
+    {name:'DMS',full:'AWS Database Migration Service',tags:['Migration','Database'],exam:true,desc:'Migrate databases to AWS with minimal downtime. Source database remains operational. Supports: Oracle, SQL Server, MySQL, PostgreSQL, MongoDB, and more. Schema Conversion Tool (SCT) for heterogeneous migrations (e.g., Oracle to Aurora).'},
+    {name:'DataSync',full:'AWS DataSync',tags:['Migration','Transfer'],exam:false,desc:'Automated, accelerated data transfer between on-premises and AWS storage. Up to 10x faster than open-source tools. Supports NFS, SMB, HDFS. Handles scheduling, monitoring, verification. Destinations: S3, EFS, FSx.'},
+    {name:'Snowball',full:'AWS Snowball Edge',tags:['Physical Transfer','Edge Compute'],exam:true,desc:'Physical device to transfer petabytes of data. Snowball Edge Storage Optimized: 80TB storage. Snowball Edge Compute Optimized: GPU + storage for edge computing. Encrypted in transit and at rest. Use when network transfer would take weeks.'},
+    {name:'Migration Hub',full:'AWS Migration Hub',tags:['Migration','Tracking'],exam:true,desc:'Single location to track migration progress across AWS and partner tools. Discover on-premises servers using AWS Discovery Service. Track migration status. Integrates with MGN, DMS, and partner solutions.'},
+    {name:'Transfer Family',full:'AWS Transfer Family',tags:['SFTP','Managed'],exam:false,desc:'Managed SFTP, FTPS, and FTP service to transfer files directly into S3 or EFS. Maintain existing SFTP workflows without changing clients. Integrates with IAM and Route 53 for authentication and DNS.'},
+  ]},
+  {id:'cost',icon:'💰',title:'Cost Management',color:'#27AE60',svcs:[
+    {name:'Cost Explorer',full:'AWS Cost Explorer',tags:['Cost','Analytics'],exam:true,desc:'Visualize and analyze AWS costs and usage. Interactive graphs by service, region, account, or tag. 13 months of historical data. Provides EC2 rightsizing recommendations. Forecasts future spending based on usage patterns. Free to use.'},
+    {name:'Budgets',full:'AWS Budgets',tags:['Cost','Alerts'],exam:true,desc:'Set custom budgets for cost, usage, Reserved Instance utilization, and Savings Plans coverage. Alerts via email or SNS when actual or forecasted amounts exceed thresholds. Automated budget actions: apply SCP, stop EC2 instances, restrict IAM access.'},
+    {name:'Pricing Calculator',full:'AWS Pricing Calculator',tags:['Cost','Estimation'],exam:true,desc:'Free tool to estimate monthly AWS costs before building. Configure services and get detailed monthly breakdown. Compare scenarios (e.g., Reserved vs On-Demand). Share estimates via public URL. Replaced the old Simple Monthly Calculator.'},
+    {name:'Cost and Usage Report',full:'AWS Cost and Usage Report',tags:['Cost','Detailed'],exam:true,desc:'Most comprehensive billing data available. Hourly or daily line items for every resource used. Includes Reserved Instance and Savings Plans amortization. Delivered to S3. Analyze with Athena, Redshift, or QuickSight.'},
+    {name:'Trusted Advisor',full:'AWS Trusted Advisor (Cost)',tags:['Cost','Optimization'],exam:true,desc:'Identifies cost optimization opportunities: idle EC2 instances, unassociated Elastic IPs, underutilized EBS volumes, non-reserved capacity. Full cost checks available on Business/Enterprise support plans. Basic plan: limited checks.'},
+    {name:'Compute Optimizer',full:'AWS Compute Optimizer',tags:['Rightsizing','ML'],exam:true,desc:'ML-powered rightsizing recommendations for EC2 instances, Lambda functions, EBS volumes, and ECS tasks. Analyzes 14 days of usage data. Provides up to 3 options per resource. Free for accounts with Business/Enterprise support.'},
+    {name:'Savings Plans',full:'AWS Savings Plans',tags:['Discount','Commitment'],exam:true,desc:'Flexible pricing model offering up to 66% savings vs On-Demand by committing to $/hour spend for 1 or 3 years. Compute Savings Plans: apply to EC2, Lambda, Fargate across any region/family/size. EC2 Instance Savings Plans: higher discount for specific family/region.'},
+  ]},
+];
+
+let allCards = [];
+
+function render() {
+  const container = document.getElementById('svc-container');
+  const sidebar = document.getElementById('sidebar-links');
+  container.innerHTML = ''; sidebar.innerHTML = '';
+  allCards = [];
+
+  CATEGORIES.forEach(cat => {
+    const link = document.createElement('a');
+    link.className = 'sidebar-link';
+    link.href = '#cat-' + cat.id;
+    link.innerHTML = `<span class="sidebar-dot" style="background:${cat.color}"></span>${cat.title}`;
+    sidebar.appendChild(link);
+
+    const block = document.createElement('div');
+    block.className = 'cat-block';
+    block.id = 'cat-' + cat.id;
+    block.style.setProperty('--cat-color', cat.color);
+    block.innerHTML = `<div class="cat-header"><span class="cat-icon">${cat.icon}</span><span class="cat-title">${cat.title}</span><span class="cat-count">${cat.svcs.length} services</span></div>`;
+
+    cat.svcs.forEach(svc => {
+      const card = document.createElement('div');
+      card.className = 'svc-card';
+      card.style.borderLeftColor = cat.color;
+      const tags = svc.tags.map(t=>`<span class="svc-tag">${t}</span>`).join('');
+      const examBadge = svc.exam ? '<span class="exam-badge-tag">⭐ Exam</span>' : '';
+      card.innerHTML = `
+        <div class="svc-top">
+          <div class="svc-name-wrap">
+            <div class="svc-name">${svc.name}</div>
+            <div class="svc-fullname">${svc.full}</div>
+            <div class="svc-tags">${tags}${examBadge}</div>
+          </div>
+          <div class="svc-right">
+            <button class="copy-btn" onclick="copyName(this,'${svc.name} — ${svc.full}')">Copy</button>
+          </div>
+        </div>
+        <div class="svc-desc">${svc.desc}</div>`;
+      block.appendChild(card);
+      allCards.push({name:svc.name.toLowerCase(),full:svc.full.toLowerCase(),desc:svc.desc.toLowerCase(),tags:svc.tags.join(' ').toLowerCase(),el:card,catId:cat.id});
+    });
+    container.appendChild(block);
+  });
+  updateCount();
+}
+
+function copyName(btn, text) {
+  navigator.clipboard.writeText(text).catch(()=>{});
+  btn.textContent = 'Copied!'; btn.classList.add('copied');
+  setTimeout(()=>{btn.textContent='Copy';btn.classList.remove('copied')},1500);
+}
+
+function filterSvcs() {
+  const q = document.getElementById('search').value.toLowerCase().trim();
+  let visible = 0;
+  allCards.forEach(c => {
+    const show = !q || c.name.includes(q) || c.full.includes(q) || c.desc.includes(q) || c.tags.includes(q);
+    c.el.classList.toggle('hidden', !show);
+    if(show) visible++;
+  });
+  CATEGORIES.forEach(cat => {
+    const block = document.getElementById('cat-' + cat.id);
+    if(!block) return;
+    const any = [...block.querySelectorAll('.svc-card')].some(el=>!el.classList.contains('hidden'));
+    block.style.display = any ? '' : 'none';
+  });
+  document.getElementById('no-results').style.display = visible===0?'block':'none';
+  updateCount(visible, q);
+}
+
+function updateCount(visible, q) {
+  const total = allCards.length;
+  const cnt = document.getElementById('result-count');
+  cnt.textContent = q ? `${visible} of ${total} services` : `${total} services`;
+}
+
+function clearSearch() {
+  document.getElementById('search').value = '';
+  allCards.forEach(c=>c.el.classList.remove('hidden'));
+  CATEGORIES.forEach(cat=>{const b=document.getElementById('cat-'+cat.id);if(b)b.style.display='';});
+  document.getElementById('no-results').style.display='none';
+  updateCount();
+}
+
+window.addEventListener('scroll',()=>{
+  let active=null;
+  CATEGORIES.forEach(cat=>{const b=document.getElementById('cat-'+cat.id);if(b&&b.getBoundingClientRect().top<=120)active=cat.id});
+  document.querySelectorAll('.sidebar-link').forEach(l=>{l.classList.toggle('active',l.getAttribute('href')==='#cat-'+active)});
+});
+
+render();
+</script>
+</body>
+</html>

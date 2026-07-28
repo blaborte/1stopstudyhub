@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Exam Objectives — AWS CLF-C02 | BL Cert Hub</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --navy:#0B1D3A; --blue:#1A5276; --accent:#2E86C1; --sky:#5DADE2;
+      --light:#EAF4FB; --mid:#D6EAF8; --white:#fff; --text:#0B1D3A; --muted:#5D7A8C;
+      --border:rgba(30,80,130,0.13);
+      --d1:#FF9900; --d2:#E74C3C; --d3:#2E86C1; --d4:#27AE60; --d5:#FF9900;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family:'DM Sans',sans-serif; background:var(--light); color:var(--text); min-height:100vh; }
+
+    /* NAV */
+    nav { background:var(--navy); padding:0 2rem; display:flex; align-items:center; justify-content:space-between; height:56px; position:sticky; top:0; z-index:100; border-bottom:1px solid rgba(93,173,226,0.15); }
+    .nav-brand { display:flex; align-items:center; gap:10px; text-decoration:none; }
+    .bl-circle { width:32px; height:32px; border-radius:50%; background:linear-gradient(135deg,#2E86C1,#5DADE2); display:flex; align-items:center; justify-content:center; font-family:'Space Mono',monospace; font-size:10px; font-weight:700; color:#fff; flex-shrink:0; }
+    .nav-brand span { font-size:13px; font-weight:500; color:rgba(255,255,255,0.85); letter-spacing:.02em; }
+    .nav-links { display:flex; gap:6px; }
+    .nav-links a { font-size:12px; font-weight:500; color:rgba(255,255,255,0.6); text-decoration:none; padding:6px 12px; border-radius:6px; transition:all .18s; }
+    .nav-links a:hover { color:#fff; background:rgba(255,255,255,0.08); }
+    .nav-links a.active { color:var(--sky); background:rgba(93,173,226,0.12); }
+
+    /* HERO */
+    .hero { background:linear-gradient(135deg,#0B1D3A 0%,#1A5276 55%,#2E86C1 100%); padding:3rem 2rem 2.5rem; position:relative; overflow:hidden; }
+    .hero-grid-pattern { position:absolute; inset:0; background-image:linear-gradient(rgba(93,173,226,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(93,173,226,0.04) 1px,transparent 1px); background-size:32px 32px; pointer-events:none; }
+    .hero-bg-ring { position:absolute; border-radius:50%; border:40px solid rgba(93,173,226,0.08); pointer-events:none; }
+    .hero-bg-ring.r1 { width:300px; height:300px; top:-70px; right:-50px; }
+    .hero-bg-ring.r2 { width:180px; height:180px; bottom:-60px; left:40%; border-width:22px; }
+    .hero-inner { position:relative; max-width:860px; margin:0 auto; }
+    .exam-badge { display:inline-flex; align-items:center; gap:8px; background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.18); border-radius:20px; padding:5px 14px 5px 5px; margin-bottom:1.25rem; }
+    .exam-badge .bl-circle { width:26px; height:26px; font-size:9px; }
+    .exam-badge span { font-size:12px; color:rgba(255,255,255,0.8); font-weight:500; }
+    .hero h1 { font-family:'Space Mono',monospace; font-size:clamp(22px,3.5vw,38px); font-weight:700; color:#fff; line-height:1.2; margin-bottom:.5rem; }
+    .hero h1 .accent { color:var(--sky); }
+    .hero-sub { font-size:14px; color:rgba(255,255,255,0.6); font-weight:300; line-height:1.7; max-width:500px; margin-bottom:1.5rem; }
+    .hero-pills { display:flex; gap:8px; flex-wrap:wrap; }
+    .pill { display:inline-flex; align-items:center; gap:6px; padding:5px 12px; border-radius:6px; font-size:11px; font-weight:500; border:1px solid; }
+    .pill.blue { background:rgba(93,173,226,0.15); border-color:rgba(93,173,226,0.35); color:var(--sky); }
+    .pill.green { background:rgba(39,174,96,0.12); border-color:rgba(39,174,96,0.3); color:#58D68D; }
+    .pill.amber { background:rgba(243,156,18,0.12); border-color:rgba(243,156,18,0.3); color:#F9C74F; }
+    .pill-dot { width:5px; height:5px; border-radius:50%; background:currentColor; }
+
+    /* MAIN */
+    .main { max-width:860px; margin:0 auto; padding:2rem 2rem 3rem; }
+
+    /* EXAM SUMMARY BAR */
+    .summary-bar { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-bottom:2rem; }
+    .sum-card { background:var(--navy); border-radius:12px; padding:14px; text-align:center; }
+    .sum-val { font-family:'Space Mono',monospace; font-size:18px; font-weight:700; color:var(--sky); }
+    .sum-lbl { font-size:10px; color:rgba(255,255,255,0.45); margin-top:4px; }
+
+    /* DOMAIN WEIGHT CHART */
+    .domain-weights { background:var(--white); border:1px solid var(--border); border-radius:14px; padding:20px 22px; margin-bottom:2rem; box-shadow:0 2px 8px rgba(11,29,58,0.06); }
+    .dw-title { font-size:11px; font-weight:600; letter-spacing:.08em; text-transform:uppercase; color:var(--accent); margin-bottom:14px; }
+    .dw-row { display:flex; align-items:center; gap:12px; margin-bottom:10px; }
+    .dw-row:last-child { margin-bottom:0; }
+    .dw-label { font-size:12px; font-weight:500; color:var(--text); width:210px; flex-shrink:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .dw-bar-track { flex:1; height:8px; background:var(--mid); border-radius:4px; overflow:hidden; }
+    .dw-bar-fill { height:100%; border-radius:4px; transition:width 1.2s cubic-bezier(.4,0,.2,1); }
+    .dw-pct { font-family:'Space Mono',monospace; font-size:11px; font-weight:700; width:32px; text-align:right; flex-shrink:0; }
+
+    /* SECTION LABEL */
+    .section-label { font-size:11px; font-weight:600; letter-spacing:.08em; text-transform:uppercase; color:var(--accent); display:flex; align-items:center; gap:10px; margin-bottom:1rem; }
+    .section-label::after { content:''; flex:1; height:1px; background:var(--border); }
+
+    /* DOMAIN ACCORDION */
+    .domain-block { margin-bottom:12px; }
+    .domain-header {
+      display:flex; align-items:center; gap:14px;
+      background:var(--white); border:1px solid var(--border); border-radius:12px;
+      padding:16px 20px; cursor:pointer; transition:all .2s;
+      user-select:none; position:relative; overflow:hidden;
+    }
+    .domain-header::before { content:''; position:absolute; left:0; top:0; bottom:0; width:4px; background:var(--d-color); }
+    .domain-header:hover { box-shadow:0 4px 14px rgba(11,29,58,0.09); }
+    .domain-header.open { border-bottom-left-radius:0; border-bottom-right-radius:0; border-bottom-color:transparent; }
+    .domain-num { font-family:'Space Mono',monospace; font-size:11px; font-weight:700; color:var(--d-color); background:var(--d-bg); border:1px solid var(--d-border); padding:3px 10px; border-radius:6px; white-space:nowrap; flex-shrink:0; }
+    .domain-title { font-size:14px; font-weight:600; color:var(--text); flex:1; }
+    .domain-pct-badge { font-family:'Space Mono',monospace; font-size:11px; font-weight:700; color:rgba(255,255,255,0.9); background:var(--d-color); padding:3px 10px; border-radius:6px; flex-shrink:0; }
+    .domain-chevron { font-size:11px; color:var(--muted); transition:transform .25s; flex-shrink:0; }
+    .domain-chevron.open { transform:rotate(180deg); }
+
+    .domain-body { display:none; background:var(--white); border:1px solid var(--border); border-top:none; border-radius:0 0 12px 12px; overflow:hidden; }
+    .domain-body.open { display:block; }
+
+    /* OBJECTIVE ROWS */
+    .obj-block { border-bottom:1px solid var(--border); }
+    .obj-block:last-child { border-bottom:none; }
+    .obj-header { display:flex; align-items:flex-start; gap:12px; padding:14px 20px; cursor:pointer; transition:background .15s; }
+    .obj-header:hover { background:rgba(46,134,193,0.03); }
+    .obj-header.open { background:rgba(46,134,193,0.04); }
+    .obj-num { font-family:'Space Mono',monospace; font-size:10px; font-weight:700; color:var(--d-color); min-width:32px; margin-top:2px; flex-shrink:0; }
+    .obj-title { font-size:13px; font-weight:500; color:var(--text); flex:1; line-height:1.5; }
+    .obj-chevron { font-size:10px; color:var(--muted); transition:transform .22s; margin-top:3px; flex-shrink:0; }
+    .obj-chevron.open { transform:rotate(180deg); }
+
+    .obj-body { display:none; padding:0 20px 16px 64px; }
+    .obj-body.open { display:block; }
+
+    /* TOPIC GROUPS */
+    .topic-group { margin-bottom:12px; }
+    .topic-group:last-child { margin-bottom:0; }
+    .topic-group-title { font-size:11px; font-weight:600; color:var(--d-color); text-transform:uppercase; letter-spacing:.06em; margin-bottom:6px; }
+    .topic-list { list-style:none; display:flex; flex-direction:column; gap:3px; }
+    .topic-list li { font-size:12px; color:var(--muted); padding-left:14px; position:relative; line-height:1.5; }
+    .topic-list li::before { content:'–'; position:absolute; left:0; color:var(--d-color); font-weight:700; }
+    .topic-list li.sub { padding-left:28px; font-size:11px; color:var(--muted); }
+    .topic-list li.sub::before { content:'·'; left:14px; }
+
+    /* PORT TABLE */
+    .port-table-wrap { overflow-x:auto; margin-top:10px; }
+    .port-table { width:100%; border-collapse:collapse; font-size:12px; }
+    .port-table th { text-align:left; padding:8px 12px; background:var(--navy); color:rgba(255,255,255,0.7); font-weight:500; font-size:11px; }
+    .port-table th:first-child { border-radius:6px 0 0 0; }
+    .port-table th:last-child { border-radius:0 6px 0 0; }
+    .port-table td { padding:7px 12px; border-bottom:1px solid var(--border); color:var(--text); }
+    .port-table tr:last-child td { border-bottom:none; }
+    .port-table td:last-child { font-family:'Space Mono',monospace; font-size:11px; font-weight:700; color:var(--accent); }
+
+    /* FOOTER */
+    footer { background:var(--navy); padding:1.25rem 2rem; text-align:center; border-top:1px solid rgba(93,173,226,0.12); }
+    footer p { font-size:12px; color:rgba(255,255,255,0.3); }
+    footer a { color:var(--sky); text-decoration:none; }
+
+    @media(max-width:600px) {
+      .main { padding:1.25rem; }
+      nav { padding:0 1.25rem; }
+      .hero { padding:2rem 1.25rem 2rem; }
+      .summary-bar { grid-template-columns:repeat(2,1fr); }
+      .dw-label { width:140px; }
+      .obj-body { padding-left:20px; }
+    }
+
+    /* ── DARK MODE ── */
+    html.dark {
+      --light:  #131b27;
+      --mid:    #1a2535;
+      --white:  #1e2a3a;
+      --text:   #d4e6f7;
+      --muted:  #7aa3c0;
+      --border: rgba(93,173,226,0.14);
+      --shadow: 0 2px 12px rgba(0,0,0,0.35);
+    }
+    html.dark body { background: var(--light); color: var(--text); }
+    html.dark nav  { background: #0a1220; border-color: rgba(93,173,226,0.12); }
+    html.dark footer { background: #0a1220; }
+    html.dark .exam-card,
+    html.dark .tool-card,
+    html.dark .question-card,
+    html.dark .widget,
+    html.dark .session-bar,
+    html.dark .setup-section,
+    html.dark .domain-weights,
+    html.dark .mode-bar,
+    html.dark .controls-bar,
+    html.dark .fc-area + .grade-note,
+    html.dark .acronym-card,
+    html.dark .card-mini,
+    html.dark .score-card,
+    html.dark .stat-pill,
+    html.dark .sum-card,
+    html.dark .fc-nav-btn,
+    html.dark .domain-header,
+    html.dark .obj-header { background: var(--white); border-color: var(--border); }
+    html.dark .domain-body { background: var(--white); border-color: var(--border); }
+    html.dark .score-card,
+    html.dark .sum-card { background: #0e1929; }
+    html.dark .question-box,
+    html.dark .opt-btn,
+    html.dark .option,
+    html.dark .sbi-item,
+    html.dark .rs-item,
+    html.dark .setup-section { background: var(--mid); }
+    html.dark .option { border-color: var(--border); color: var(--text); }
+    html.dark .option:hover:not(.disabled) { background: rgba(93,173,226,0.08); }
+    html.dark .fc-scene .fc-front { background: #0d1929; }
+    html.dark .fc-scene .fc-back  { background: #122040; }
+    html.dark .progress-track,
+    html.dark .prog-track,
+    html.dark .mini-bar,
+    html.dark .dw-bar-track { background: var(--mid); }
+    html.dark .cert-name,
+    html.dark .tool-name,
+    html.dark .cs-val,
+    html.dark .stat-val,
+    html.dark .sbi-val,
+    html.dark .rs-val,
+    html.dark .obj-title,
+    html.dark .domain-title { color: var(--text); }
+    html.dark .cert-vendor,
+    html.dark .cert-desc,
+    html.dark .tool-desc,
+    html.dark .cs-lbl,
+    html.dark .stat-lbl,
+    html.dark .score-lbl,
+    html.dark .sum-lbl,
+    html.dark .ac-def,
+    html.dark .card-mini-term,
+    html.dark .card-mini-status { color: var(--muted); }
+    html.dark .section-label::after,
+    html.dark .card-stats { border-color: var(--border); }
+    html.dark .port-table td { background: var(--white); border-color: var(--border); color: var(--text); }
+    html.dark .port-table th { background: #0a1220; }
+    html.dark .alpha-heading { background: var(--mid); color: var(--text); }
+    html.dark .search-input { background: var(--mid); border-color: var(--border); color: var(--text); }
+    html.dark .search-input:focus { background: var(--white); }
+    html.dark .alpha-btn,
+    html.dark .filter-btn,
+    html.dark .mode-tab,
+    html.dark .grade-btn,
+    html.dark .btn-outline { background: var(--mid); border-color: var(--border); color: var(--muted); }
+    html.dark .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+    html.dark .q-controls { background: rgba(0,0,0,0.15); border-color: var(--border); }
+    html.dark .feedback.correct-fb { background: rgba(39,174,96,0.12); }
+    html.dark .feedback.wrong-fb   { background: rgba(231,76,60,0.12); }
+    html.dark #results-screen { background: var(--white); }
+    html.dark .result-label { color: var(--muted); }
+    html.dark .acronym-card.is-mastered { background: rgba(46,125,50,0.1); }
+    html.dark .card-mini.is-mastered { background: rgba(46,125,50,0.1); }
+    html.dark .card-mini.is-reviewing { background: rgba(184,134,11,0.1); }
+    html.dark .stat-pill { background: var(--white); border-color: var(--border); color: var(--muted); }
+    html.dark .fc-dot { background: rgba(93,173,226,0.2); }
+    html.dark .session-bar-inner { border-color: var(--border); }
+    html.dark .q-header { background: #0a1220; }
+    html.dark .q-meta-row .q-num { color: var(--muted); }
+
+    /* Dark-mode toggle button */
+    .theme-btn {
+      width: 34px; height: 34px; border-radius: 8px;
+      border: 1px solid rgba(255,255,255,0.18);
+      background: rgba(255,255,255,0.08);
+      color: rgba(255,255,255,0.75);
+      cursor: pointer; font-size: 15px;
+      display: flex; align-items: center; justify-content: center;
+      transition: all .18s; flex-shrink: 0;
+    }
+    .theme-btn:hover { background: rgba(255,255,255,0.15); color: #fff; }
+
+  </style>
+</head>
+<body>
+
+<script>
+(function(){
+  const KEY = 'bl-theme';
+  function apply(dark) {
+    document.documentElement.classList.toggle('dark', dark);
+    const btn = document.getElementById('theme-btn');
+    if (btn) btn.textContent = dark ? '☀' : '☾';
+  }
+  // Apply on load before paint
+  apply(localStorage.getItem(KEY) === 'dark');
+  window.__toggleTheme = function() {
+    const dark = !document.documentElement.classList.contains('dark');
+    localStorage.setItem(KEY, dark ? 'dark' : 'light');
+    apply(dark);
+    // Sync other tabs
+    window.dispatchEvent(new StorageEvent('storage', {key: KEY, newValue: dark ? 'dark' : 'light'}));
+  };
+  // Listen for changes from other tabs/pages
+  window.addEventListener('storage', function(e) {
+    if (e.key === KEY) apply(e.newValue === 'dark');
+  });
+})();
+</script>
+
+
+<nav>
+  <a class="nav-brand" href="index.html"><div class="bl-circle">BL</div><span>BL Cert Hub</span></a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="aws-home.html">AWS CCP</a>
+    <a href="#" class="active">Objectives</a>
+    <button class="theme-btn" id="theme-btn" onclick="__toggleTheme()" title="Toggle dark mode">☾</button>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-grid-pattern"></div>
+  <div class="hero-bg-ring r1"></div>
+  <div class="hero-bg-ring r2"></div>
+  <div class="hero-inner">
+    <div class="exam-badge"><div class="bl-circle">BL</div><span>ISC2 ISC2 CC</span></div>
+    <h1>Exam <span class="accent">Objectives</span></h1>
+    <p class="hero-sub">Official ISC2 CC exam domains and sub-objectives. Expand each domain to review every testable topic.</p>
+    <div class="hero-pills">
+      <span class="pill blue"><span class="pill-dot"></span>CC 2024</span>
+      <span class="pill green"><span class="pill-dot"></span>5 Domains</span>
+      <span class="pill amber"><span class="pill-dot"></span>Official CompTIA</span>
+    </div>
+  </div>
+</div>
+
+<div class="main">
+
+  <!-- SUMMARY -->
+  <div class="summary-bar">
+    <div class="sum-card"><div class="sum-val">CC 2024</div><div class="sum-lbl">Exam Code</div></div>
+    <div class="sum-card"><div class="sum-val">100</div><div class="sum-lbl">Max Questions</div></div>
+    <div class="sum-card"><div class="sum-val">120m</div><div class="sum-lbl">Duration</div></div>
+    <div class="sum-card"><div class="sum-val">700</div><div class="sum-lbl">Passing Score</div></div>
+  </div>
+
+  <!-- DOMAIN WEIGHT CHART -->
+  <div class="domain-weights">
+  <div class="dw-title">Domain Weights</div>
+  <div class="dw-bars">
+    <div class="dw-row"><div class="dw-label"><span class="dw-dot" style="background:#FF9900"></span>Domain 1: Cloud Concepts</div><div class="dw-track"><div class="dw-fill" style="width:24%;background:#FF9900"></div></div><div class="dw-pct">24%</div></div>
+    <div class="dw-row"><div class="dw-label"><span class="dw-dot" style="background:#E74C3C"></span>Domain 2: Security & Compliance</div><div class="dw-track"><div class="dw-fill" style="width:30%;background:#E74C3C"></div></div><div class="dw-pct">30%</div></div>
+    <div class="dw-row"><div class="dw-label"><span class="dw-dot" style="background:#2E86C1"></span>Domain 3: Cloud Technology & Services</div><div class="dw-track"><div class="dw-fill" style="width:34%;background:#2E86C1"></div></div><div class="dw-pct">34%</div></div>
+    <div class="dw-row"><div class="dw-label"><span class="dw-dot" style="background:#27AE60"></span>Domain 4: Billing, Pricing & Support</div><div class="dw-track"><div class="dw-fill" style="width:12%;background:#27AE60"></div></div><div class="dw-pct">12%</div></div>
+  </div>
+</div>
+
+<!-- DOMAIN 1 -->
+<div class="domain-block" id="d1">
+  <div class="domain-header" style="--dc:#FF9900">
+    <div class="dh-left"><div class="domain-num" style="background:#FF9900">1.0</div><div class="domain-title">Cloud Concepts</div></div>
+    <div class="domain-weight" style="color:#FF9900">24%</div>
+  </div>
+  <div class="obj-list">
+    <div class="obj-item">
+      <div class="obj-header" onclick="toggleObj(this)"><span class="obj-num" style="background:#FF9900">1.1</span><span class="obj-title">Define the benefits of the AWS Cloud</span><span class="obj-chev">▼</span></div>
+      <div class="obj-body">
+        <ul><li>High availability, elasticity, agility</li><li>Pay-as-you-go pricing</li><li>Economies of scale</li><li>Global reach in minutes</li><li>Stop spending money on data center operations</li><li>Capital expense vs operational expense</li><li>Elasticity vs scalability</li><li>High availability vs fault tolerance vs disaster recovery</li></ul>
+      </div>
+    </div>
+    <div class="obj-item">
+      <div class="obj-header" onclick="toggleObj(this)"><span class="obj-num" style="background:#FF9900">1.2</span><span class="obj-title">Identify design principles of the AWS Cloud</span><span class="obj-chev">▼</span></div>
+      <div class="obj-body">
+        <ul><li>AWS Well-Architected Framework: Operational Excellence, Security, Reliability, Performance Efficiency, Cost Optimization, Sustainability</li><li>Design for failure and build in redundancy</li><li>Decouple components using managed services</li><li>Implement elasticity</li><li>Think parallel</li></ul>
+      </div>
+    </div>
+    <div class="obj-item">
+      <div class="obj-header" onclick="toggleObj(this)"><span class="obj-num" style="background:#FF9900">1.3</span><span class="obj-title">Understand the benefits of and strategies for migrating to the AWS Cloud</span><span class="obj-chev">▼</span></div>
+      <div class="obj-body">
+        <ul><li>AWS Cloud Adoption Framework (CAF): Business, People, Governance, Platform, Security, Operations perspectives</li><li>6 R's of migration: Rehost, Replatform, Repurchase, Refactor, Retire, Retain</li><li>Total cost of ownership (TCO)</li><li>AWS Migration Hub</li></ul>
+      </div>
+    </div>
+    <div class="obj-item">
+      <div class="obj-header" onclick="toggleObj(this)"><span class="obj-num" style="background:#FF9900">1.4</span><span class="obj-title">Understand concepts of cloud economics</span><span class="obj-chev">▼</span></div>
+      <div class="obj-body">
+        <ul><li>Fixed costs vs variable costs</li><li>On-premises vs cloud cost models</li><li>Rightsizing</li><li>Automation to reduce cost</li><li>Managed services vs self-managed infrastructure costs</li><li>Economies of scale shared by AWS customers</li></ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- DOMAIN 2 -->
+<div class="domain-block" id="d2">
+  <div class="domain-header" style="--dc:#E74C3C">
+    <div class="dh-left"><div class="domain-num" style="background:#E74C3C">2.0</div><div class="domain-title">Security & Compliance</div></div>
+    <div class="domain-weight" style="color:#E74C3C">30%</div>
+  </div>
+  <div class="obj-list">
+    <div class="obj-item">
+      <div class="obj-header" onclick="toggleObj(this)"><span class="obj-num" style="background:#E74C3C">2.1</span><span class="obj-title">Understand the AWS Shared Responsibility Model</span><span class="obj-chev">▼</span></div>
+      <div class="obj-body">
+        <ul><li>AWS responsibility: Security OF the cloud — physical infrastructure, hardware, hypervisor, managed services</li><li>Customer responsibility: Security IN the cloud — OS patching, data encryption, IAM, application security, network/firewall config</li><li>How responsibility shifts between IaaS, PaaS, and SaaS</li></ul>
+      </div>
+    </div>
+    <div class="obj-item">
+      <div class="obj-header" onclick="toggleObj(this)"><span class="obj-num" style="background:#E74C3C">2.2</span><span class="obj-title">Understand AWS Cloud security, governance, and compliance concepts</span><span class="obj-chev">▼</span></div>
+      <div class="obj-body">
+        <ul><li>AWS compliance programs: SOC, PCI DSS, HIPAA, FedRAMP, GDPR, ISO 27001</li><li>AWS Artifact: on-demand access to compliance reports</li><li>Encryption at rest and in transit</li><li>AWS Config for resource compliance tracking</li><li>AWS CloudTrail for audit logging</li><li>Data residency and sovereignty</li></ul>
+      </div>
+    </div>
+    <div class="obj-item">
+      <div class="obj-header" onclick="toggleObj(this)"><span class="obj-num" style="background:#E74C3C">2.3</span><span class="obj-title">Identify AWS access management capabilities</span><span class="obj-chev">▼</span></div>
+      <div class="obj-body">
+        <ul><li>IAM users, groups, roles, and policies</li><li>Principle of least privilege</li><li>Multi-factor authentication (MFA)</li><li>IAM Identity Center (SSO) for multi-account access</li><li>Root account best practices</li><li>AWS Organizations and Service Control Policies (SCPs)</li><li>Access keys and credential management</li></ul>
+      </div>
+    </div>
+    <div class="obj-item">
+      <div class="obj-header" onclick="toggleObj(this)"><span class="obj-num" style="background:#E74C3C">2.4</span><span class="obj-title">Identify components and resources for security</span><span class="obj-chev">▼</span></div>
+      <div class="obj-body">
+        <ul><li>Security groups vs Network ACLs</li><li>AWS WAF — web application firewall</li><li>AWS Shield Standard and Shield Advanced — DDoS protection</li><li>Amazon GuardDuty — threat detection</li><li>Amazon Inspector — vulnerability assessment</li><li>Amazon Macie — sensitive data discovery in S3</li><li>AWS Security Hub — centralized security findings</li><li>AWS KMS — key management</li><li>AWS Secrets Manager — secrets rotation</li><li>VPC endpoints and PrivateLink</li></ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- DOMAIN 3 -->
+<div class="domain-block" id="d3">
+  <div class="domain-header" style="--dc:#2E86C1">
+    <div class="dh-left"><div class="domain-num" style="background:#2E86C1">3.0</div><div class="domain-title">Cloud Technology & Services</div></div>
+    <div class="domain-weight" style="color:#2E86C1">34%</div>
+  </div>
+  <div class="obj-list">
+    <div class="obj-item">
+      <div class="obj-header" onclick="toggleObj(this)"><span class="obj-num" style="background:#2E86C1">3.1</span><span class="obj-title">Define methods of deploying and operating in the AWS Cloud</span><span class="obj-chev">▼</span></div>
+      <div class="obj-body">
+        <ul><li>AWS Management Console, AWS CLI, AWS SDKs, CloudFormation, CDK</li><li>Deployment models: cloud-native, on-premises, hybrid</li><li>Connectivity: VPN, Direct Connect, public internet</li><li>Infrastructure as Code: CloudFormation, CDK, Elastic Beanstalk</li><li>Provisioning services: AWS OpsWorks, Systems Manager</li></ul>
+      </div>
+    </div>
+    <div class="obj-item">
+      <div class="obj-header" onclick="toggleObj(this)"><span class="obj-num" style="background:#2E86C1">3.2</span><span class="obj-title">Define the AWS global infrastructure</span><span class="obj-chev">▼</span></div>
+      <div class="obj-body">
+        <ul><li>AWS Regions — geographic areas, data sovereignty</li><li>Availability Zones — isolated data centers within a Region</li><li>Edge Locations — CloudFront CDN, Route 53</li><li>AWS Local Zones — ultra-low latency in metro areas</li><li>AWS Wavelength — 5G edge computing</li><li>AWS Outposts — on-premises AWS infrastructure</li><li>How to choose a Region: compliance, latency, pricing, service availability</li></ul>
+      </div>
+    </div>
+    <div class="obj-item">
+      <div class="obj-header" onclick="toggleObj(this)"><span class="obj-num" style="background:#2E86C1">3.3</span><span class="obj-title">Identify AWS compute services</span><span class="obj-chev">▼</span></div>
+      <div class="obj-body">
+        <ul><li>Amazon EC2 — virtual servers, instance types, purchasing options (On-Demand, Reserved, Spot, Dedicated)</li><li>AWS Lambda — serverless functions, event-driven, pay per invocation</li><li>AWS Elastic Beanstalk — PaaS, automatic provisioning</li><li>Amazon ECS — managed container orchestration</li><li>Amazon EKS — managed Kubernetes</li><li>AWS Fargate — serverless containers</li><li>AWS Batch — managed batch processing</li><li>Amazon Lightsail — simple VPS for beginners</li></ul>
+      </div>
+    </div>
+    <div class="obj-item">
+      <div class="obj-header" onclick="toggleObj(this)"><span class="obj-num" style="background:#2E86C1">3.4</span><span class="obj-title">Identify AWS database services</span><span class="obj-chev">▼</span></div>
+      <div class="obj-body">
+        <ul><li>Amazon RDS — managed relational (MySQL, PostgreSQL, MariaDB, Oracle, SQL Server)</li><li>Amazon Aurora — MySQL/PostgreSQL-compatible, 5x faster, serverless option</li><li>Amazon DynamoDB — serverless NoSQL, single-digit millisecond latency</li><li>Amazon Redshift — petabyte-scale data warehouse</li><li>Amazon ElastiCache — in-memory caching (Redis/Memcached)</li><li>Amazon Neptune — graph database</li><li>Amazon DocumentDB — MongoDB-compatible</li><li>Amazon QLDB — immutable ledger database</li></ul>
+      </div>
+    </div>
+    <div class="obj-item">
+      <div class="obj-header" onclick="toggleObj(this)"><span class="obj-num" style="background:#2E86C1">3.5</span><span class="obj-title">Identify AWS network services</span><span class="obj-chev">▼</span></div>
+      <div class="obj-body">
+        <ul><li>Amazon VPC — virtual private cloud, subnets, route tables, IGW, NAT Gateway</li><li>Elastic Load Balancing — ALB, NLB, GWLB</li><li>Amazon CloudFront — CDN, edge caching</li><li>Amazon Route 53 — DNS, health checks, routing policies</li><li>AWS Direct Connect — dedicated private connection</li><li>AWS VPN — encrypted site-to-site and client VPN</li><li>AWS Transit Gateway — hub-and-spoke VPC connectivity</li><li>AWS Global Accelerator — improves availability and performance</li></ul>
+      </div>
+    </div>
+    <div class="obj-item">
+      <div class="obj-header" onclick="toggleObj(this)"><span class="obj-num" style="background:#2E86C1">3.6</span><span class="obj-title">Identify AWS storage services</span><span class="obj-chev">▼</span></div>
+      <div class="obj-body">
+        <ul><li>Amazon S3 — object storage, storage classes (Standard, IA, Glacier, Deep Archive)</li><li>Amazon EBS — block storage for EC2, volume types (gp3, io2, st1, sc1)</li><li>Amazon EFS — managed NFS file system, shared access</li><li>AWS Storage Gateway — hybrid on-premises to cloud storage</li><li>AWS Snowball / Snowmobile — physical data transfer appliances</li><li>AWS DataSync — automated data transfer between on-premises and AWS</li><li>Amazon FSx — managed Windows File Server and Lustre</li></ul>
+      </div>
+    </div>
+    <div class="obj-item">
+      <div class="obj-header" onclick="toggleObj(this)"><span class="obj-num" style="background:#2E86C1">3.7</span><span class="obj-title">Identify AWS AI/ML and analytics services</span><span class="obj-chev">▼</span></div>
+      <div class="obj-body">
+        <ul><li>Amazon SageMaker — build, train, deploy ML models</li><li>Amazon Rekognition — image and video analysis</li><li>Amazon Comprehend — NLP, sentiment analysis</li><li>Amazon Lex — conversational chatbots (Alexa tech)</li><li>Amazon Polly — text-to-speech</li><li>Amazon Textract — extract text from documents</li><li>Amazon Athena — serverless SQL queries on S3</li><li>Amazon Kinesis — real-time data streaming</li><li>AWS Glue — managed ETL service</li><li>Amazon QuickSight — business intelligence dashboards</li></ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- DOMAIN 4 -->
+<div class="domain-block" id="d4">
+  <div class="domain-header" style="--dc:#27AE60">
+    <div class="dh-left"><div class="domain-num" style="background:#27AE60">4.0</div><div class="domain-title">Billing, Pricing & Support</div></div>
+    <div class="domain-weight" style="color:#27AE60">12%</div>
+  </div>
+  <div class="obj-list">
+    <div class="obj-item">
+      <div class="obj-header" onclick="toggleObj(this)"><span class="obj-num" style="background:#27AE60">4.1</span><span class="obj-title">Compare AWS pricing models</span><span class="obj-chev">▼</span></div>
+      <div class="obj-body">
+        <ul><li>On-Demand, Reserved Instances (Standard, Convertible), Savings Plans, Spot Instances, Dedicated Hosts</li><li>Free Tier: Always Free, 12-Month Free, Short-Term Trials</li><li>S3 pricing: storage + requests + data transfer out</li><li>Lambda pricing: per request + compute duration</li><li>Data transfer pricing: free inbound, free same-region, charged outbound to internet</li></ul>
+      </div>
+    </div>
+    <div class="obj-item">
+      <div class="obj-header" onclick="toggleObj(this)"><span class="obj-num" style="background:#27AE60">4.2</span><span class="obj-title">Understand resources for billing, budget, and cost management</span><span class="obj-chev">▼</span></div>
+      <div class="obj-body">
+        <ul><li>AWS Pricing Calculator — estimate costs before building</li><li>AWS Cost Explorer — visualize historical spending and forecast</li><li>AWS Budgets — alerts when costs exceed thresholds</li><li>AWS Cost and Usage Report (CUR) — detailed hourly billing data</li><li>Cost Allocation Tags — categorize costs by project/team/env</li><li>AWS Compute Optimizer — rightsizing recommendations</li><li>Consolidated Billing via AWS Organizations</li></ul>
+      </div>
+    </div>
+    <div class="obj-item">
+      <div class="obj-header" onclick="toggleObj(this)"><span class="obj-num" style="background:#27AE60">4.3</span><span class="obj-title">Identify AWS technical resources and AWS Support options</span><span class="obj-chev">▼</span></div>
+      <div class="obj-body">
+        <ul><li>Support plans: Basic (free), Developer ($29/mo), Business ($100/mo), Enterprise On-Ramp ($5,500/mo), Enterprise ($15,000/mo)</li><li>AWS Trusted Advisor — best practice checks (cost, security, performance, fault tolerance, limits)</li><li>AWS Personal Health Dashboard — alerts about AWS events affecting your resources</li><li>AWS Marketplace — third-party software catalog</li><li>AWS documentation, Knowledge Center, re:Post community forums</li><li>Technical Account Manager (TAM) — Enterprise plans only</li></ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer><p>Built by <a href="https://blaborte.github.io" target="_blank">Baltazar Laborte</a> · BL Cert Hub · AWS Certified Cloud Practitioner CLF-C02</p></footer>
+
+<script>
+const DOMAINS = [
+  {
+    "num": "1.0",
+    "title": "Security Principles",
+    "pct": 26,
+    "color": "var(--d1)",
+    "bg": "rgba(107,63,160,0.08)",
+    "border": "rgba(107,63,160,0.2)",
+    "objectives": [
+      {
+        "num": "1.1",
+        "title": "Understand the security concepts of information assurance.",
+        "groups": [
+          {
+            "title": "Core Concepts",
+            "items": [
+              "CIA Triad: Confidentiality, Integrity, Availability",
+              "Non-repudiation: proof of origin and receipt",
+              "Authentication vs. Authorization vs. Accounting",
+              "Privacy vs. security distinctions"
+            ]
+          }
+        ]
+      },
+      {
+        "num": "1.2",
+        "title": "Understand the risk management process.",
+        "groups": [
+          {
+            "title": "Risk Management",
+            "items": [
+              "Threat identification and vulnerability assessment",
+              "Likelihood and impact analysis",
+              "Risk register maintenance",
+              "Accept / Transfer / Avoid / Mitigate",
+              "Qualitative vs. quantitative risk analysis"
+            ]
+          }
+        ]
+      },
+      {
+        "num": "1.3",
+        "title": "Understand security controls.",
+        "groups": [
+          {
+            "title": "Control Categories",
+            "items": [
+              "Physical: locks, cameras, barriers, guards",
+              "Technical/Logical: firewalls, encryption, ACLs",
+              "Administrative: policies, training, background checks"
+            ]
+          },
+          {
+            "title": "Control Functions",
+            "items": [
+              "Preventive, Detective, Corrective, Deterrent, Compensating"
+            ]
+          }
+        ]
+      },
+      {
+        "num": "1.4",
+        "title": "Understand ISC2 Code of Ethics.",
+        "groups": [
+          {
+            "title": "Four Canons",
+            "items": [
+              "Protect society, the common good, and public trust",
+              "Act honorably, honestly, justly, responsibly, legally",
+              "Provide diligent and competent service",
+              "Advance and protect the profession"
+            ]
+          }
+        ]
+      },
+      {
+        "num": "1.5",
+        "title": "Understand governance processes.",
+        "groups": [
+          {
+            "title": "Governance",
+            "items": [
+              "Security policies: AUP, password, data handling",
+              "Regulations: GDPR, HIPAA, PCI DSS",
+              "Standards: ISO 27001, NIST CSF",
+              "Legal and compliance framework alignment"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "num": "2.0",
+    "title": "Business Continuity, Disaster Recovery, and Incident Response",
+    "pct": 10,
+    "color": "var(--d2)",
+    "bg": "rgba(192,83,26,0.08)",
+    "border": "rgba(192,83,26,0.2)",
+    "objectives": [
+      {
+        "num": "2.1",
+        "title": "Understand business continuity (BC).",
+        "groups": [
+          {
+            "title": "BC Concepts",
+            "items": [
+              "Business Impact Analysis (BIA)",
+              "Critical business function identification",
+              "Recovery Time Objective (RTO)",
+              "Recovery Point Objective (RPO)",
+              "Continuity of operations planning (COOP)"
+            ]
+          }
+        ]
+      },
+      {
+        "num": "2.2",
+        "title": "Understand disaster recovery (DR).",
+        "groups": [
+          {
+            "title": "DR Concepts",
+            "items": [
+              "Cold / warm / hot sites",
+              "Backup types: full, incremental, differential",
+              "MTTR and MTBF",
+              "Data replication and offsite storage"
+            ]
+          }
+        ]
+      },
+      {
+        "num": "2.3",
+        "title": "Understand incident response.",
+        "groups": [
+          {
+            "title": "IR Phases",
+            "items": [
+              "Preparation: policies, playbooks, training",
+              "Detection and identification of incident",
+              "Containment: isolate affected systems",
+              "Eradication: remove root cause",
+              "Recovery: restore normal operations",
+              "Lessons learned / post-incident review"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "num": "3.0",
+    "title": "Access Controls Concepts",
+    "pct": 22,
+    "color": "var(--d3)",
+    "bg": "rgba(14,122,138,0.08)",
+    "border": "rgba(14,122,138,0.2)",
+    "objectives": [
+      {
+        "num": "3.1",
+        "title": "Understand physical access controls.",
+        "groups": [
+          {
+            "title": "Physical Controls",
+            "items": [
+              "Badge systems / key cards",
+              "Biometrics: fingerprint, retina, facial recognition",
+              "Mantraps / airlocks / turnstiles",
+              "CCTV and surveillance",
+              "Visitor management and escort policies"
+            ]
+          }
+        ]
+      },
+      {
+        "num": "3.2",
+        "title": "Understand logical access controls.",
+        "groups": [
+          {
+            "title": "Logical Controls",
+            "items": [
+              "Identification, authentication, authorization",
+              "MFA: something you know / have / are",
+              "Principle of least privilege",
+              "Separation of duties / dual control",
+              "Audit trails and logging"
+            ]
+          }
+        ]
+      },
+      {
+        "num": "3.3",
+        "title": "Understand access control models.",
+        "groups": [
+          {
+            "title": "Models",
+            "items": [
+              "DAC (Discretionary): owner sets permissions",
+              "MAC (Mandatory): security labels, government use",
+              "RBAC (Role-Based): permissions per role",
+              "ABAC (Attribute-Based): context-aware",
+              "Rule-based: ACLs on firewalls"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "num": "4.0",
+    "title": "Network Security",
+    "pct": 24,
+    "color": "var(--d4)",
+    "bg": "rgba(184,134,11,0.08)",
+    "border": "rgba(184,134,11,0.2)",
+    "objectives": [
+      {
+        "num": "4.1",
+        "title": "Understand computer networking.",
+        "groups": [
+          {
+            "title": "Networking Basics",
+            "items": [
+              "OSI Model: 7 layers and functions",
+              "TCP/IP model: 4 layers",
+              "IPv4: classes, subnetting, private ranges",
+              "IPv6: global unicast, link-local, SLAAC",
+              "Common ports: HTTP(80), HTTPS(443), SSH(22), DNS(53), DHCP(67/68), RDP(3389)"
+            ]
+          }
+        ]
+      },
+      {
+        "num": "4.2",
+        "title": "Understand network threats and attacks.",
+        "groups": [
+          {
+            "title": "Threats",
+            "items": [
+              "DoS / DDoS: volumetric, protocol, application layer",
+              "On-path (MitM): intercepts communications",
+              "DNS poisoning / spoofing",
+              "ARP spoofing / poisoning",
+              "Rogue AP / evil twin",
+              "Social engineering: phishing, vishing, smishing",
+              "Packet sniffing and eavesdropping"
+            ]
+          }
+        ]
+      },
+      {
+        "num": "4.3",
+        "title": "Understand network security infrastructure.",
+        "groups": [
+          {
+            "title": "Infrastructure",
+            "items": [
+              "Firewalls: packet filtering, stateful, NGFW",
+              "IDS (passive) vs. IPS (inline)",
+              "VPN: site-to-site and remote access",
+              "DMZ / screened subnet for public-facing servers",
+              "NAT and PAT",
+              "Proxy servers",
+              "VLAN segmentation for isolation"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "num": "5.0",
+    "title": "Security Operations",
+    "pct": 18,
+    "color": "var(--d5)",
+    "bg": "rgba(46,125,50,0.08)",
+    "border": "rgba(46,125,50,0.2)",
+    "objectives": [
+      {
+        "num": "5.1",
+        "title": "Understand data security.",
+        "groups": [
+          {
+            "title": "Data Security",
+            "items": [
+              "Classification: public / internal / confidential / restricted",
+              "Encryption at rest (AES-256) and in transit (TLS)",
+              "DLP: prevent unauthorized data exfiltration",
+              "Data retention and disposal policies",
+              "Secure disposal: degaussing, overwriting, shredding",
+              "Cloud shared responsibility for data security"
+            ]
+          }
+        ]
+      },
+      {
+        "num": "5.2",
+        "title": "Understand system hardening.",
+        "groups": [
+          {
+            "title": "Hardening",
+            "items": [
+              "Remove unnecessary services and software",
+              "Change default credentials immediately",
+              "Apply security patches and updates promptly",
+              "Host-based firewall enablement",
+              "Minimum required permissions (least privilege)",
+              "CIS Benchmarks as configuration baseline"
+            ]
+          }
+        ]
+      },
+      {
+        "num": "5.3",
+        "title": "Understand best practice security policies.",
+        "groups": [
+          {
+            "title": "Policies",
+            "items": [
+              "AUP: acceptable use of company resources",
+              "Password policy: complexity, expiration, history",
+              "Data handling and classification policy",
+              "BYOD policy",
+              "Clean desk / clear screen policy",
+              "Incident reporting procedures"
+            ]
+          }
+        ]
+      },
+      {
+        "num": "5.4",
+        "title": "Understand security awareness training.",
+        "groups": [
+          {
+            "title": "Training",
+            "items": [
+              "Phishing simulation campaigns",
+              "Annual security awareness program",
+              "Reporting suspicious activity procedures",
+              "Social engineering awareness: tailgating, shoulder surfing",
+              "Role-based security training for privileged users"
+            ]
+          }
+        ]
+      }
+    ]
+  }
+];
+
+const PORTS = [
+  ['FTP','File Transfer Protocol','20/21'],
+  ['SFTP','Secure File Transfer Protocol','22'],
+  ['SSH','Secure Shell','22'],
+  ['Telnet','Telnet','23'],
+  ['SMTP','Simple Mail Transfer Protocol','25'],
+  ['DNS','Domain Name System','53'],
+  ['DHCP','Dynamic Host Configuration Protocol','67/68'],
+  ['TFTP','Trivial File Transfer Protocol','69'],
+  ['HTTP','Hypertext Transfer Protocol','80'],
+  ['NTP','Network Time Protocol','123'],
+  ['SNMP','Simple Network Management Protocol','161/162'],
+  ['LDAP','Lightweight Directory Access Protocol','389'],
+  ['HTTPS','Hypertext Transfer Protocol Secure','443'],
+  ['SMB','Server Message Block','445'],
+  ['Syslog','Syslog','514'],
+  ['SMTPS','Simple Mail Transfer Protocol Secure','587'],
+  ['LDAPS','LDAP over SSL','636'],
+  ['SQL','Structured Query Language Server','1433'],
+  ['RDP','Remote Desktop Protocol','3389'],
+  ['SIP','Session Initiation Protocol','5060/5061'],
+];
+
+function buildPortTable() {
+  let html = '<div class="port-table-wrap"><table class="port-table"><thead><tr><th>Acronym</th><th>Protocol</th><th>Port</th></tr></thead><tbody>';
+  PORTS.forEach(([acr,name,port]) => {
+    html += `<tr><td><strong>${acr}</strong></td><td>${name}</td><td>${port}</td></tr>`;
+  });
+  html += '</tbody></table></div>';
+  return html;
+}
+
+function buildObjective(obj, dColor, dBg, dBorder) {
+  const id = obj.num.replace('.','_');
+  let bodyHtml = '';
+
+  if (obj.portTable) {
+    bodyHtml += buildPortTable();
+  }
+
+  obj.groups.forEach(g => {
+    bodyHtml += `<div class="topic-group"><div class="topic-group-title">${g.title}</div><ul class="topic-list">`;
+    g.items.forEach(item => {
+      bodyHtml += `<li>${item}</li>`;
+    });
+    bodyHtml += '</ul></div>';
+  });
+
+  return `
+    <div class="obj-block">
+      <div class="obj-header" onclick="toggleObj('${id}', this)" style="--d-color:${dColor}">
+        <div class="obj-num">${obj.num}</div>
+        <div class="obj-title">${obj.title}</div>
+        <div class="obj-chevron" id="ochev_${id}">▼</div>
+      </div>
+      <div class="obj-body" id="obody_${id}">${bodyHtml}</div>
+    </div>`;
+}
+
+function buildDomain(d, idx) {
+  const id = d.num.replace('.','_');
+  let objsHtml = d.objectives.map(o => buildObjective(o, d.color, d.bg, d.border)).join('');
+
+  return `
+    <div class="domain-block" style="--d-color:${d.color};--d-bg:${d.bg};--d-border:${d.border}">
+      <div class="domain-header" onclick="toggleDomain('${id}', this)">
+        <div class="domain-num">${d.num}</div>
+        <div class="domain-title">${d.title}</div>
+        <div class="domain-pct-badge">${d.pct}%</div>
+        <div class="domain-chevron" id="dchev_${id}">▼</div>
+      </div>
+      <div class="domain-body" id="dbody_${id}">${objsHtml}</div>
+    </div>`;
+}
+
+function toggleDomain(id, header) {
+  const body = document.getElementById('dbody_' + id);
+  const chev = document.getElementById('dchev_' + id);
+  const isOpen = body.classList.contains('open');
+  body.classList.toggle('open', !isOpen);
+  header.classList.toggle('open', !isOpen);
+  chev.classList.toggle('open', !isOpen);
+}
+
+function toggleObj(id, header) {
+  const body = document.getElementById('obody_' + id);
+  const chev = document.getElementById('ochev_' + id);
+  const isOpen = body.classList.contains('open');
+  body.classList.toggle('open', !isOpen);
+  header.classList.toggle('open', !isOpen);
+  chev.classList.toggle('open', !isOpen);
+}
+
+// Render
+const container = document.getElementById('domains-container');
+DOMAINS.forEach((d, i) => { container.innerHTML += buildDomain(d, i); });
+
+// Animate bars
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    document.querySelectorAll('.dw-bar-fill').forEach(el => {
+      el.style.width = el.dataset.w + '%';
+    });
+  }, 200);
+});
+</script>
+</body>
+</html>
