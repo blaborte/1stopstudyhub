@@ -51,7 +51,7 @@
     .setup-section-label{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin-bottom:14px;display:flex;align-items:center;gap:8px}
     .setup-section-label::after{content:'';flex:1;height:1px;background:var(--border)}
     .option-grid{display:grid;gap:10px}
-    .option-grid.cols-3{grid-template-columns:repeat(3,1fr)}
+    .option-grid.cols-3{grid-template-columns:repeat(3,1fr)}.option-grid.cols-4{grid-template-columns:repeat(4,1fr)}.option-grid.cols-5{grid-template-columns:repeat(5,1fr)}
     .option-grid.cols-6{grid-template-columns:repeat(6,1fr)}
     .opt-btn{
       padding:12px 10px;border-radius:10px;border:1.5px solid var(--border);
@@ -312,7 +312,7 @@
     <a href="secplus-home.html">Security+</a>
     <a href="secplus-practice.html">Practice Exams</a>
     <a href="#" class="active">Exam 1</a>
-    <button class="theme-btn" id="theme-btn" onclick="__toggleTheme()" title="Toggle dark mode">&#9790;</button>
+    <button class="theme-btn" id="theme-btn" onclick="__toggleTheme()" title="Toggle dark mode">☾</button>
   </div>
 </nav>
 
@@ -331,6 +331,7 @@
 
   <!-- SETUP SCREEN -->
   <div id="setup-screen">
+    </div>
     <div class="setup-section">
       <div class="setup-section-label">Number of Questions</div>
       <div class="option-grid cols-6" id="q-count-grid">
@@ -339,7 +340,7 @@
         <div class="opt-btn" data-count="30" onclick="selectCount(this,30)"><span class="ob-val">30</span><span class="ob-lbl">Medium</span></div>
         <div class="opt-btn" data-count="50" onclick="selectCount(this,50)"><span class="ob-val">50</span><span class="ob-lbl">Standard</span></div>
         <div class="opt-btn" data-count="100" onclick="selectCount(this,100)"><span class="ob-val">100</span><span class="ob-lbl">Extended</span></div>
-        <div class="opt-btn" id="all-q-btn" data-count="85" onclick="selectCount(this, parseInt(this.dataset.count))"><span class="ob-val">All</span><span class="ob-lbl">85 Qs</span></div>
+        <div class="opt-btn" id="all-q-btn" data-count="129" onclick="selectCount(this, parseInt(this.dataset.count))"><span class="ob-val">All</span><span class="ob-lbl">129 Qs</span></div>
       </div>
     </div>
     <div class="setup-section">
@@ -410,7 +411,7 @@
   <!-- RESULTS SCREEN -->
   <div id="results-screen">
     <div class="result-score" id="res-score">0/0</div>
-    <div class="result-label" id="res-label">ISC2 CC Practice Exam Complete</div>
+    <div class="result-label" id="res-label">Practice Exam Complete</div>
     <div class="result-grade" id="res-grade">—</div>
     <div class="result-stats">
       <div class="rs-item"><div class="rs-val" id="res-correct" style="color:var(--correct)">0</div><div class="rs-lbl">Correct</div></div>
@@ -419,13 +420,13 @@
     </div>
     <div class="result-actions">
       <button class="btn btn-primary" onclick="backToSetup()">↺ New Session</button>
-      <button class="btn btn-outline" onclick="location.href='cc-home.html'">← Back to Hub</button>
+      <button class="btn btn-outline" onclick="location.href='network-plus.html'">← Back to Hub</button>
     </div>
   </div>
 
 </div>
 
-<footer><p>Built by <a href="https://blaborte.github.io" target="_blank">Baltazar Laborte</a> &middot; BL Cert Hub &middot; CompTIA Security+ SY0-701 &middot; Professor Messer Practice Exams</p></footer>
+<footer><p>Built by <a href="https://blaborte.github.io" target="_blank">Baltazar Laborte</a> · BL Cert Hub · CompTIA Security+ SY0-701 · Professor Messer Practice Exams</p></footer>
 
 <script>
 const SECPLUS_Q1 = [
@@ -535,7 +536,6 @@ let curQ = 0;
 let answers = [];
 let revealed = [];
 let correct = 0, wrong = 0;
-let selectedTest = 1;
 let selectedCount = 10;
 let selectedTime = 0;
 let timerInterval = null;
@@ -554,23 +554,7 @@ function selectTimer(el, t) {
   el.classList.add('selected');
   selectedTime = t;
 }
-function selectTest(el, t) {
-  selectedTest = t;
-  document.querySelectorAll('#test-select-grid .opt-btn').forEach(b => b.classList.remove('selected'));
-  el.classList.add('selected');
-  // Update question count options based on pool size
-  const poolSize = t === 1 ? 129 : t === 2 ? 100 : 229;
-  // Update "All" button label
-  const allBtn = document.getElementById('all-q-btn');
-  if (allBtn) {
-    allBtn.querySelector('.ob-val').textContent = 'All';
-    allBtn.querySelector('.ob-lbl').textContent = poolSize + ' Qs';
-    allBtn.dataset.count = poolSize;
-  }
-  // Update session title label on results
-  const lbl = document.getElementById('res-label');
-  if (lbl) lbl.textContent = t === 'both' ? 'Combined Practice Exam Complete' : `Practice Test ${t} Complete`;
-}
+
 
 function toggleSessionBar() {
   const body = document.getElementById('session-bar-body');
@@ -580,8 +564,9 @@ function toggleSessionBar() {
 }
 
 function startExam() {
-  const shuffled = [...SECPLUS_Q1].sort(() => Math.random() - 0.5);
-  sessionQ = shuffled.slice(0, Math.min(selectedCount, SECPLUS_Q1.length));
+  const pool = [...SECPLUS_Q1];
+  const shuffled = [...pool].sort(() => Math.random() - 0.5);
+  sessionQ = shuffled.slice(0, Math.min(selectedCount, pool.length));
   curQ = 0;
   answers = new Array(sessionQ.length).fill(null);
   revealed = new Array(sessionQ.length).fill(false);
@@ -791,7 +776,7 @@ function endExam() {
 
   const grade = document.getElementById('res-grade');
   const resLbl = document.getElementById('res-label');
-  if (resLbl) resLbl.textContent = 'ISC2 CC Practice Exam Complete';
+  if (resLbl) resLbl.textContent = 'Security+ SY0-701 Practice Exam 1 Complete';
   if (pct >= 72) { grade.className = 'result-grade pass'; grade.textContent = `${pct}% — PASS 🎉`; }
   else { grade.className = 'result-grade fail'; grade.textContent = `${pct}% — Keep Studying`; }
 
@@ -806,6 +791,7 @@ function backToSetup() {
   document.getElementById('setup-screen').style.display = 'block';
   window.scrollTo({top:0,behavior:'smooth'});
 }
+
 
 </script>
 </body>
