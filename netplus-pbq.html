@@ -315,6 +315,30 @@
     html.dark .match-wrap .rate-label{color:var(--sky)}
     @media(max-width:680px){.match-wrap{grid-template-columns:1fr}}
 
+  
+    /* ── PBQ5 CABLE-APP MATCH ── */
+    .ca-wrap{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:20px}
+    .ca-col-label{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+    .ca-pool{display:flex;flex-direction:column;gap:8px}
+    .ca-chip{display:flex;align-items:center;gap:10px;background:var(--white);border:1px solid var(--border);border-radius:10px;padding:10px 14px;cursor:grab;user-select:none;transition:all .15s;font-size:12px;font-weight:600;color:var(--text);line-height:1.4}
+    .ca-chip:active{cursor:grabbing;opacity:.6}
+    .ca-chip.dragging{opacity:.35;transform:scale(.97)}
+    .ca-chip .grip{color:var(--muted);font-size:15px;flex-shrink:0}
+    .ca-app-list{display:flex;flex-direction:column;gap:8px}
+    .ca-app-row{display:flex;align-items:stretch;gap:0;border:1px solid var(--border);border-radius:10px;overflow:hidden;background:var(--white);box-shadow:var(--shadow)}
+    .ca-app-label{padding:12px 14px;font-size:12px;font-weight:600;color:var(--text);background:rgba(234,244,251,0.5);border-right:1px solid var(--border);min-width:170px;display:flex;align-items:center;line-height:1.5}
+    .ca-zone{flex:1;min-height:50px;border:2px dashed transparent;padding:6px 10px;display:flex;align-items:center;flex-wrap:wrap;gap:6px;transition:all .15s;margin:4px;border-radius:8px}
+    .ca-zone.drag-over{border-color:var(--accent);background:rgba(46,134,193,0.07)}
+    .ca-zone .ca-chip{font-size:11px;padding:5px 10px;cursor:pointer}
+    .ca-zone .ca-chip:hover{border-color:#E74C3C;background:rgba(231,76,60,0.05)}
+    .ca-zone-hint{font-size:11px;color:var(--muted);opacity:.55;pointer-events:none;padding:2px 6px}
+    .ca-zone.zone-correct{background:rgba(39,174,96,0.07);border-color:#27AE60}
+    .ca-zone.zone-wrong{background:rgba(231,76,60,0.06);border-color:#E74C3C}
+    html.dark .ca-chip{background:var(--white);border-color:var(--border);color:var(--text)}
+    html.dark .ca-app-row{background:var(--white);border-color:var(--border)}
+    html.dark .ca-app-label{background:rgba(0,0,0,0.15)}
+    @media(max-width:680px){.ca-wrap{grid-template-columns:1fr};.ca-app-label{min-width:140px}}
+
   </style>
 </head>
 <body>
@@ -351,6 +375,7 @@
     <button class="pbq-nav-btn" onclick="showPBQ('pbq2',this)">🔒 PBQ 2 — Firewall Rules</button>
     <button class="pbq-nav-btn" onclick="showPBQ('pbq3',this)">📶 PBQ 3 — WiFi Setup</button>
     <button class="pbq-nav-btn" onclick="showPBQ('pbq4',this)">📡 PBQ 4 — Wireless Speeds</button>
+    <button class="pbq-nav-btn" onclick="showPBQ('pbq5',this)">🔌 PBQ 5 — Cable to Application</button>
   </div>
 
   <!-- PBQ 1 SECTION -->
@@ -783,7 +808,7 @@
     <div class="pbq-card">
     <div class="pbq-card-head">
       <div>
-        <div class="pbq-num">PBQ 4 of 4</div>
+        <div class="pbq-num">PBQ 4 of 5</div>
         <div class="pbq-title">Max Wireless Speeds &mdash; Match 802.11 Standards</div>
       </div>
       <span class="pbq-badge" style="background:rgba(214,137,16,0.2);border-color:rgba(214,137,16,0.5);color:#F9E79F">MATCH &amp; DROP</span>
@@ -847,6 +872,78 @@
       </div>
 
       <div class="pbq-result" id="m4-result"></div>
+
+    </div>
+  </div>
+  </div>
+
+  <!-- PBQ 5 SECTION -->
+  <div class="pbq-section" id="section-pbq5">
+    <div class="pbq-card">
+    <div class="pbq-card-head">
+      <div>
+        <div class="pbq-num">PBQ 5 of 5</div>
+        <div class="pbq-title">Cable Attenuation &mdash; Match Cable to Application</div>
+      </div>
+      <span class="pbq-badge" style="background:rgba(22,160,133,0.2);border-color:rgba(22,160,133,0.5);color:#76D7C4">MATCH &amp; DROP</span>
+    </div>
+    <div class="pbq-body">
+
+      <div class="scenario-label">Scenario</div>
+      <div class="scenario-text">You are a network security analyst for a mid-sized company. Recently, the company's network experienced several performance issues and potential security threats due to improper configurations and outdated practices. Your tasks include identifying network components, interpreting vulnerability scan results, and creating firewall rules to secure the network. Additionally, you need to assess cable issues using a network cable tester.</div>
+
+      <div class="task-label">Task &mdash; Cable Attenuation: Match Cable to Application</div>
+      <div class="task-desc">Match the following cable types to their appropriate applications based on attenuation and maximum distance. Drag each cable from the left to the correct application on the right.</div>
+
+      <div class="ca-wrap">
+
+        <!-- LEFT — cable chips -->
+        <div>
+          <div class="ca-col-label">Sort elements</div>
+          <div class="ca-pool" id="ca-pool">
+            <div class="ca-chip" draggable="true" data-cable="om3"><span class="grip">&#8942;&#8942;</span>Multimode Fiber (OM3)</div>
+            <div class="ca-chip" draggable="true" data-cable="cat6a"><span class="grip">&#8942;&#8942;</span>Cat6a</div>
+            <div class="ca-chip" draggable="true" data-cable="os2"><span class="grip">&#8942;&#8942;</span>Single-mode Fiber (OS2)</div>
+            <div class="ca-chip" draggable="true" data-cable="cat6"><span class="grip">&#8942;&#8942;</span>Cat6</div>
+          </div>
+        </div>
+
+        <!-- RIGHT — application drop targets -->
+        <div>
+          <div class="ca-col-label">Applications</div>
+          <div class="ca-app-list">
+
+            <div class="ca-app-row">
+              <div class="ca-app-label">Data center<br>inter-rack connections</div>
+              <div class="ca-zone" id="ca-zone-rack" data-app="rack" ondragover="ca5DragOver(event)" ondragleave="ca5DragLeave(event)" ondrop="ca5Drop(event,'rack')"><span class="ca-zone-hint">Drop here</span></div>
+            </div>
+
+            <div class="ca-app-row">
+              <div class="ca-app-label">Office building<br>horizontal cabling</div>
+              <div class="ca-zone" id="ca-zone-office" data-app="office" ondragover="ca5DragOver(event)" ondragleave="ca5DragLeave(event)" ondrop="ca5Drop(event,'office')"><span class="ca-zone-hint">Drop here</span></div>
+            </div>
+
+            <div class="ca-app-row">
+              <div class="ca-app-label">Campus network<br>backbone</div>
+              <div class="ca-zone" id="ca-zone-campus" data-app="campus" ondragover="ca5DragOver(event)" ondragleave="ca5DragLeave(event)" ondrop="ca5Drop(event,'campus')"><span class="ca-zone-hint">Drop here</span></div>
+            </div>
+
+            <div class="ca-app-row">
+              <div class="ca-app-label">Short distance<br>high-speed data transfer</div>
+              <div class="ca-zone" id="ca-zone-short" data-app="short" ondragover="ca5DragOver(event)" ondragleave="ca5DragLeave(event)" ondrop="ca5Drop(event,'short')"><span class="ca-zone-hint">Drop here</span></div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="pbq-controls">
+        <button class="pbq-btn pbq-btn-check" onclick="ca5Check()">&#10003; Check Answers</button>
+        <button class="pbq-btn pbq-btn-reset" onclick="ca5Reset()">&#8635; Reset</button>
+        <button class="pbq-btn pbq-btn-reveal" onclick="ca5Reveal()">&#128065; Show Answers</button>
+      </div>
+
+      <div class="pbq-result" id="ca5-result"></div>
 
     </div>
   </div>
@@ -1435,6 +1532,162 @@ function m4Reset() {
   chips.forEach(c => pool.appendChild(c));
   m4InitChips();
   const result = document.getElementById('m4-result');
+  result.className = 'pbq-result';
+  result.innerHTML = '';
+}
+
+
+/* ══ PBQ 5 — CABLE TO APPLICATION MATCH ══════════════════════════════ */
+const CA5_ANSWERS = {
+  'rack':   { cable: 'om3',   label: 'Multimode Fiber (OM3)' },
+  'office': { cable: 'cat6',  label: 'Cat6' },
+  'campus': { cable: 'os2',   label: 'Single-mode Fiber (OS2)' },
+  'short':  { cable: 'cat6a', label: 'Cat6a' },
+};
+const CA5_APP_LABELS = {
+  'rack':   'Data center inter-rack connections',
+  'office': 'Office building horizontal cabling',
+  'campus': 'Campus network backbone',
+  'short':  'Short distance high-speed data transfer',
+};
+const CA5_RATIONALE = {
+  'rack':   'OM3 supports 10 Gbps up to 300m — ideal for short data center runs between racks with high bandwidth needs.',
+  'office': 'Cat6 supports 1 Gbps up to 100m and is the standard for horizontal cabling in office buildings.',
+  'campus': 'OS2 Single-mode fiber supports 10 Gbps+ up to 40 km — the only option for long campus backbone runs.',
+  'short':  'Cat6a supports 10 Gbps up to 100m — used where higher speed than Cat6 is needed at short distances.',
+};
+
+let ca5DragId = null;
+
+function ca5InitChips() {
+  document.querySelectorAll('#ca-pool .ca-chip, .ca-zone .ca-chip').forEach(chip => {
+    chip.addEventListener('dragstart', e => {
+      ca5DragId = chip.dataset.cable;
+      chip.classList.add('dragging');
+      e.dataTransfer.effectAllowed = 'move';
+    });
+    chip.addEventListener('dragend', () => chip.classList.remove('dragging'));
+  });
+}
+ca5InitChips();
+
+function ca5DragOver(e)  { e.preventDefault(); e.currentTarget.classList.add('drag-over'); }
+function ca5DragLeave(e) { e.currentTarget.classList.remove('drag-over'); }
+
+function ca5Drop(e, app) {
+  e.preventDefault();
+  e.currentTarget.classList.remove('drag-over');
+  if (!ca5DragId) return;
+
+  const chip = document.querySelector(`.ca-chip[data-cable="${ca5DragId}"]`);
+  if (!chip) return;
+  chip.parentElement.removeChild(chip);
+
+  const zone = document.getElementById('ca-zone-' + app);
+  const existing = zone.querySelector('.ca-chip');
+  if (existing) {
+    existing.parentElement.removeChild(existing);
+    existing.onclick = null;
+    document.getElementById('ca-pool').appendChild(existing);
+  }
+  const hint = zone.querySelector('.ca-zone-hint');
+  if (hint) hint.remove();
+
+  chip.onclick = () => ca5Return(chip, app);
+  zone.appendChild(chip);
+  zone.classList.remove('zone-correct','zone-wrong');
+
+  ca5InitChips();
+  ca5DragId = null;
+}
+
+function ca5Return(chip, fromApp) {
+  const zone = document.getElementById('ca-zone-' + fromApp);
+  zone.removeChild(chip);
+  if (!zone.querySelector('.ca-chip')) {
+    const hint = document.createElement('span');
+    hint.className = 'ca-zone-hint';
+    hint.textContent = 'Drop here';
+    zone.appendChild(hint);
+  }
+  chip.onclick = null;
+  zone.classList.remove('zone-correct','zone-wrong');
+  document.getElementById('ca-pool').appendChild(chip);
+  ca5InitChips();
+}
+
+function ca5Check() {
+  const result = document.getElementById('ca5-result');
+  const unplaced = Object.keys(CA5_ANSWERS).filter(app => !document.querySelector(`#ca-zone-${app} .ca-chip`));
+  if (unplaced.length > 0) {
+    result.className = 'pbq-result show fail';
+    result.innerHTML = '<strong>&#9888; Please fill all applications before checking. Missing: ' + unplaced.map(a => CA5_APP_LABELS[a]).join(', ') + '</strong>';
+    return;
+  }
+  let correct = 0;
+  let rows = '';
+  for (const [app, ans] of Object.entries(CA5_ANSWERS)) {
+    const zone = document.getElementById('ca-zone-' + app);
+    const chip = zone.querySelector('.ca-chip');
+    const placed = chip ? chip.dataset.cable : null;
+    const isCorrect = placed === ans.cable;
+    if (isCorrect) correct++;
+    zone.classList.remove('zone-correct','zone-wrong');
+    zone.classList.add(isCorrect ? 'zone-correct' : 'zone-wrong');
+    const icon = isCorrect ? '&#10003;' : '&#10007;';
+    const placedLabel = placed ? document.querySelector(`.ca-chip[data-cable="${placed}"]`)?.textContent.trim() : '(empty)';
+    rows += '<div class="result-row"><span class="ri">' + icon + '</span>'
+      + '<span style="font-weight:700;min-width:220px">' + CA5_APP_LABELS[app] + '</span>'
+      + (isCorrect ? '' : '<span style="color:#E74C3C">Got: ' + placedLabel + '</span> &rarr; ')
+      + '<span style="color:#27AE60">' + ans.label + '</span>'
+      + ' <span style="color:var(--muted);font-size:11px"> — ' + CA5_RATIONALE[app] + '</span></div>';
+  }
+  const total = Object.keys(CA5_ANSWERS).length;
+  const pct = Math.round((correct / total) * 100);
+  result.className = 'pbq-result show ' + (correct === total ? 'pass' : 'fail');
+  result.innerHTML = '<strong>' + (correct === total ? '&#127881; Perfect! All cables matched correctly.'
+    : correct + '/' + total + ' Correct (' + pct + '%)') + '</strong><div class="result-rows">' + rows + '</div>';
+}
+
+function ca5Reveal() {
+  ca5Reset();
+  for (const [app, ans] of Object.entries(CA5_ANSWERS)) {
+    const chip = document.querySelector(`.ca-chip[data-cable="${ans.cable}"]`);
+    const zone = document.getElementById('ca-zone-' + app);
+    if (!chip || !zone) continue;
+    chip.parentElement.removeChild(chip);
+    const hint = zone.querySelector('.ca-zone-hint');
+    if (hint) hint.remove();
+    chip.onclick = () => ca5Return(chip, app);
+    zone.appendChild(chip);
+    zone.classList.add('zone-correct');
+  }
+  const result = document.getElementById('ca5-result');
+  result.className = 'pbq-result show reveal';
+  result.innerHTML = '<strong>&#128065; Correct matches revealed — study the rationale, then reset and try yourself!</strong>';
+}
+
+function ca5Reset() {
+  const pool = document.getElementById('ca-pool');
+  document.querySelectorAll('.ca-zone').forEach(zone => {
+    const chip = zone.querySelector('.ca-chip');
+    if (chip) {
+      zone.removeChild(chip);
+      chip.onclick = null;
+      pool.appendChild(chip);
+    }
+    zone.classList.remove('zone-correct','zone-wrong');
+    if (!zone.querySelector('.ca-zone-hint')) {
+      const hint = document.createElement('span');
+      hint.className = 'ca-zone-hint';
+      hint.textContent = 'Drop here';
+      zone.appendChild(hint);
+    }
+  });
+  const chips = [...pool.querySelectorAll('.ca-chip')].sort((a,b) => a.dataset.cable.localeCompare(b.dataset.cable));
+  chips.forEach(c => pool.appendChild(c));
+  ca5InitChips();
+  const result = document.getElementById('ca5-result');
   result.className = 'pbq-result';
   result.innerHTML = '';
 }
