@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Flashcards — Security+ SY0-701 | BL Cert Hub</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
+  <style>
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    :root{--navy:#0B1D3A;--blue:#1A5276;--accent:#2E86C1;--sky:#5DADE2;--light:#EAF4FB;--mid:#D6EAF8;--white:#fff;--text:#0B1D3A;--muted:#5D7A8C;--border:rgba(30,80,130,0.13);--shadow:0 2px 12px rgba(11,29,58,0.08)}
+    html{scroll-behavior:smooth}
+    body{font-family:"DM Sans",sans-serif;background:var(--light);color:var(--text);min-height:100vh;display:flex;flex-direction:column}
+    nav{background:var(--navy);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:56px;position:sticky;top:0;z-index:100;border-bottom:1px solid rgba(93,173,226,0.15)}
+    .nav-brand{display:flex;align-items:center;gap:10px;text-decoration:none}
+    .bl-circle{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#2E86C1,#5DADE2);display:flex;align-items:center;justify-content:center;font-family:"Space Mono",monospace;font-size:10px;font-weight:700;color:#fff;flex-shrink:0}
+    .nav-brand span{font-size:13px;font-weight:500;color:rgba(255,255,255,0.85);letter-spacing:.02em}
+    .nav-links{display:flex;gap:6px}
+    .nav-links a{font-size:12px;font-weight:500;color:rgba(255,255,255,0.6);text-decoration:none;padding:6px 12px;border-radius:6px;transition:all .18s}
+    .nav-links a:hover{color:#fff;background:rgba(255,255,255,0.08)}
+    .nav-links a.active{color:var(--sky);background:rgba(93,173,226,0.12)}
+    .theme-btn{width:34px;height:34px;border-radius:8px;border:1px solid rgba(255,255,255,0.18);background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.75);cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;transition:all .18s;flex-shrink:0}
+    .theme-btn:hover{background:rgba(255,255,255,0.15);color:#fff}
+    .hero{background:linear-gradient(135deg,#0B1D3A 0%,#1A5276 55%,#2E86C1 100%);padding:3rem 2rem 2.5rem;position:relative;overflow:hidden}
+    .hero-grid-pattern{position:absolute;inset:0;background-image:linear-gradient(rgba(93,173,226,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(93,173,226,0.04) 1px,transparent 1px);background-size:32px 32px;pointer-events:none}
+    .hero-bg-ring{position:absolute;border-radius:50%;border:40px solid rgba(93,173,226,0.08);pointer-events:none}
+    .hero-bg-ring.r1{width:300px;height:300px;top:-70px;right:-50px}
+    .hero-bg-ring.r2{width:180px;height:180px;bottom:-60px;left:40%;border-width:22px}
+    .hero-inner{position:relative;max-width:860px;margin:0 auto}
+    .exam-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.18);border-radius:20px;padding:5px 14px 5px 5px;margin-bottom:1.25rem}
+    .exam-badge .bl-circle{width:26px;height:26px;font-size:9px}
+    .exam-badge span{font-size:12px;color:rgba(255,255,255,0.8);font-weight:500}
+    .hero h1{font-family:"Space Mono",monospace;font-size:clamp(22px,3.5vw,38px);font-weight:700;color:#fff;line-height:1.2;margin-bottom:.5rem}
+    .hero h1 .accent{color:var(--sky)}
+    .hero-sub{font-size:14px;color:rgba(255,255,255,0.6);font-weight:300;line-height:1.7;max-width:500px}
+    .main{max-width:860px;margin:0 auto;padding:2rem 2rem 3rem;flex:1}
+    /* CONTROLS */
+    .controls-bar{background:var(--white);border:1px solid var(--border);border-radius:14px;padding:14px 20px;margin-bottom:1.5rem;box-shadow:var(--shadow);display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between}
+    .filter-group{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+    .filter-label{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-right:2px}
+    .filter-btn{font-size:11px;font-weight:500;padding:5px 12px;border-radius:20px;border:1px solid var(--border);background:var(--light);color:var(--muted);cursor:pointer;transition:all .16s;font-family:"DM Sans",sans-serif}
+    .filter-btn:hover{border-color:var(--accent);color:var(--accent)}
+    .filter-btn.active{background:var(--accent);border-color:var(--accent);color:#fff}
+    .filter-btn[data-domain="1"].active{background:#6B3FA0;border-color:#6B3FA0}
+    .filter-btn[data-domain="2"].active{background:#C0531A;border-color:#C0531A}
+    .filter-btn[data-domain="3"].active{background:#0E7A8A;border-color:#0E7A8A}
+    .filter-btn[data-domain="4"].active{background:#B8860B;border-color:#B8860B}
+    .filter-btn[data-domain="5"].active{background:#2E7D32;border-color:#2E7D32}
+    .filter-btn[data-domain="6"].active{background:#5D6D7E;border-color:#5D6D7E}
+    .action-group{display:flex;gap:8px}
+    .btn{font-family:"DM Sans",sans-serif;font-size:12px;font-weight:500;padding:7px 16px;border-radius:8px;border:1px solid;cursor:pointer;transition:all .18s}
+    .btn-primary{background:var(--accent);border-color:var(--accent);color:#fff}
+    .btn-primary:hover{background:var(--blue)}
+    .btn-outline{background:transparent;border-color:var(--border);color:var(--text)}
+    .btn-outline:hover{border-color:var(--accent);color:var(--accent)}
+    /* STATS */
+    .stats-row{display:flex;gap:10px;margin-bottom:1.5rem;flex-wrap:wrap}
+    .stat-pill{font-size:12px;font-weight:500;padding:6px 14px;border-radius:8px;background:var(--white);border:1px solid var(--border);color:var(--muted)}
+    .stat-pill span{font-family:"Space Mono",monospace;font-weight:700;color:var(--accent)}
+    .stat-pill.mastered span{color:#2E7D32}
+    .stat-pill.reviewing span{color:#B8860B}
+    /* PROGRESS */
+    .prog-wrap{margin-bottom:1.5rem}
+    .prog-row{display:flex;justify-content:space-between;margin-bottom:5px}
+    .prog-lbl{font-size:12px;color:var(--muted)}
+    .prog-pct{font-family:"Space Mono",monospace;font-size:12px;font-weight:700;color:var(--accent)}
+    .prog-track{height:5px;background:var(--mid);border-radius:3px;overflow:hidden}
+    .prog-fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--sky));border-radius:3px;transition:width .5s}
+    /* FLASHCARD */
+    .fc-area{display:flex;flex-direction:column;align-items:center;margin-bottom:1.5rem}
+    .fc-counter-row{display:flex;align-items:center;justify-content:space-between;width:100%;max-width:620px;margin-bottom:10px}
+    .fc-counter{font-family:"Space Mono",monospace;font-size:12px;color:var(--muted)}
+    .fc-domain-badge{font-size:10px;font-weight:600;padding:3px 10px;border-radius:20px;border:1px solid}
+    .fc-scene{perspective:1400px;width:100%;max-width:620px;height:240px;cursor:pointer}
+    .fc-inner{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .55s cubic-bezier(.4,0,.2,1)}
+    .fc-inner.flipped{transform:rotateY(180deg)}
+    .fc-face{position:absolute;inset:0;backface-visibility:hidden;border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:28px 32px;text-align:center;border:1px solid var(--border);box-shadow:0 4px 20px rgba(11,29,58,0.1)}
+    .fc-front{background:var(--navy)}
+    .fc-back{background:var(--blue);transform:rotateY(180deg)}
+    .fc-side-label{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,0.35);position:absolute;top:16px;left:20px}
+    .fc-term{font-family:"Space Mono",monospace;font-size:clamp(16px,3vw,22px);font-weight:700;color:#fff;line-height:1.3}
+    .fc-def{font-size:13px;color:rgba(255,255,255,0.9);line-height:1.7;font-weight:300}
+    .fc-hint{font-size:11px;color:rgba(255,255,255,0.35);margin-top:12px}
+    .fc-dots{display:flex;gap:5px;justify-content:center;margin-bottom:14px}
+    .fc-dot{width:7px;height:7px;border-radius:50%;background:var(--mid);transition:all .2s;cursor:pointer}
+    .fc-dot.active{background:var(--accent);transform:scale(1.3)}
+    .fc-dot.mastered{background:#2E7D32}
+    .fc-dot.reviewing{background:#B8860B}
+    /* CONTROLS */
+    .fc-controls{display:flex;align-items:center;gap:10px;justify-content:center;width:100%;max-width:620px;margin-bottom:1.5rem}
+    .fc-nav-btn{width:40px;height:40px;border-radius:50%;border:1px solid var(--border);background:var(--white);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;transition:all .18s;color:var(--text)}
+    .fc-nav-btn:hover:not(:disabled){border-color:var(--accent);color:var(--accent)}
+    .fc-nav-btn:disabled{opacity:.3;pointer-events:none}
+    .fc-center-btns{display:flex;gap:8px}
+    .grade-btn{font-size:11px;font-weight:600;padding:8px 16px;border-radius:8px;border:1px solid;cursor:pointer;transition:all .18s;font-family:"DM Sans",sans-serif;letter-spacing:.02em}
+    .grade-btn.mastered{background:rgba(46,125,50,0.08);border-color:rgba(46,125,50,0.3);color:#2E7D32}
+    .grade-btn.mastered:hover{background:#2E7D32;color:#fff}
+    .grade-btn.reviewing{background:rgba(184,134,11,0.08);border-color:rgba(184,134,11,0.3);color:#B8860B}
+    .grade-btn.reviewing:hover{background:#B8860B;color:#fff}
+    .grade-btn.again{background:rgba(192,57,43,0.08);border-color:rgba(192,57,43,0.3);color:#C0392B}
+    .grade-btn.again:hover{background:#C0392B;color:#fff}
+    .grade-note{font-size:11px;color:var(--muted);text-align:center;margin-bottom:1rem}
+    /* CARD LIST */
+    .section-label{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);display:flex;align-items:center;gap:10px;margin-bottom:.9rem}
+    .section-label::after{content:"";flex:1;height:1px;background:var(--border)}
+    .card-list{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+    .card-mini{background:var(--white);border:1px solid var(--border);border-radius:10px;padding:10px 12px;cursor:pointer;transition:all .18s;position:relative;overflow:hidden}
+    .card-mini::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--dm-color)}
+    .card-mini:hover{border-color:var(--dm-color);transform:translateY(-1px);box-shadow:0 3px 10px rgba(11,29,58,0.08)}
+    .card-mini.is-mastered{background:rgba(46,125,50,0.05);border-color:rgba(46,125,50,0.25)}
+    .card-mini.is-reviewing{background:rgba(184,134,11,0.05);border-color:rgba(184,134,11,0.25)}
+    .card-mini-term{font-size:11px;font-weight:600;color:var(--text);margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .card-mini-status{font-size:10px;color:var(--muted)}
+    /* DARK */
+    html.dark{--light:#131b27;--mid:#1a2535;--white:#1e2a3a;--text:#d4e6f7;--muted:#7aa3c0;--border:rgba(93,173,226,0.14)}
+    html.dark body{background:var(--light);color:var(--text)}
+    html.dark nav,html.dark footer{background:#0a1220}
+    html.dark .controls-bar,html.dark .stat-pill,html.dark .fc-nav-btn,html.dark .card-mini{background:var(--white);border-color:var(--border)}
+    html.dark .filter-btn,html.dark .btn-outline{background:var(--mid);border-color:var(--border);color:var(--muted)}
+    html.dark .fc-front{background:#0d1929}
+    html.dark .fc-back{background:#122040}
+    html.dark .fc-dot{background:rgba(93,173,226,0.2)}
+    html.dark .card-mini-term{color:var(--text)}
+    html.dark .card-mini.is-mastered{background:rgba(46,125,50,0.1)}
+    html.dark .card-mini.is-reviewing{background:rgba(184,134,11,0.1)}
+    footer{background:var(--navy);padding:1.25rem 2rem;text-align:center;border-top:1px solid rgba(93,173,226,0.12)}
+    footer p{font-size:12px;color:rgba(255,255,255,0.3)}
+    footer a{color:var(--sky);text-decoration:none}
+    @media(max-width:600px){.main{padding:1.25rem};nav{padding:0 1.25rem};.hero{padding:2rem 1.25rem 2rem};.card-list{grid-template-columns:repeat(2,1fr)};.controls-bar{flex-direction:column;align-items:flex-start}}
+  
+  </style>
+</head>
+<body>
+<script>
+(function(){const K="bl-theme";function apply(d){document.documentElement.classList.toggle("dark",d);const b=document.getElementById("theme-btn");if(b)b.textContent=d?"☀":"☾"}apply(localStorage.getItem(K)==="dark");window.__toggleTheme=function(){const d=!document.documentElement.classList.contains("dark");localStorage.setItem(K,d?"dark":"light");apply(d)};window.addEventListener("storage",function(e){if(e.key===K)apply(e.newValue==="dark")})})();
+</script>
+
+<nav>
+  <a class="nav-brand" href="index.html"><div class="bl-circle">BL</div><span>BL Cert Hub</span></a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="secplus-home.html">Security+</a>
+    <a href="#" class="active">Flashcards</a>
+    <button class="theme-btn" id="theme-btn" onclick="__toggleTheme()">&#9790;</button>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-grid-pattern"></div>
+  <div class="hero-bg-ring r1"></div>
+  <div class="hero-bg-ring r2"></div>
+  <div class="hero-inner">
+    <div class="exam-badge"><div class="bl-circle">BL</div><span>CompTIA Security+ SY0-701</span></div>
+    <h1>Flash<span class="accent">cards</span></h1>
+    <p class="hero-sub">76 cards covering all 5 SY0-701 domains. Tap to flip, mark mastered or review, filter by domain.</p>
+  </div>
+</div>
+
+<div class="main">
+  <div class="controls-bar">
+    <div class="filter-group">
+      <span class="filter-label">Domain</span>
+      <button class="filter-btn active" data-domain="all" onclick="setFilter('all',this)">All</button>
+      <button class="filter-btn" data-domain="1" onclick="setFilter('1',this)">1.0</button>
+      <button class="filter-btn" data-domain="2" onclick="setFilter('2',this)">2.0</button>
+      <button class="filter-btn" data-domain="3" onclick="setFilter('3',this)">3.0</button>
+      <button class="filter-btn" data-domain="4" onclick="setFilter('4',this)">4.0</button>
+      <button class="filter-btn" data-domain="5" onclick="setFilter('5',this)">5.0</button>
+      
+    </div>
+    <div class="action-group">
+      <button class="btn btn-outline" onclick="shuffleDeck()">⇄ Shuffle</button>
+      <button class="btn btn-outline" onclick="resetStatus()">↺ Reset</button>
+      <button class="btn btn-primary" onclick="studyWeak()">Study Weak</button>
+    </div>
+  </div>
+  <div class="stats-row">
+    <div class="stat-pill">Total: <span id="stat-total">70</span></div>
+    <div class="stat-pill mastered">Mastered: <span id="stat-mastered">0</span></div>
+    <div class="stat-pill reviewing">Reviewing: <span id="stat-reviewing">0</span></div>
+    <div class="stat-pill">Unseen: <span id="stat-unseen">70</span></div>
+  </div>
+  <div class="prog-wrap">
+    <div class="prog-row"><span class="prog-lbl">Mastery Progress</span><span class="prog-pct" id="prog-pct">0%</span></div>
+    <div class="prog-track"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
+  </div>
+  <div class="fc-area">
+    <div class="fc-counter-row">
+      <span class="fc-counter" id="fc-counter">1 / 70</span>
+      <span class="fc-domain-badge" id="fc-domain-badge"></span>
+    </div>
+    <div class="fc-scene" onclick="flip()">
+      <div class="fc-inner" id="fc-inner">
+        <div class="fc-face fc-front">
+          <span class="fc-side-label">Term</span>
+          <div class="fc-term" id="fc-term">Loading...</div>
+          <div class="fc-hint">Tap to reveal definition</div>
+        </div>
+        <div class="fc-face fc-back">
+          <span class="fc-side-label">Definition</span>
+          <div class="fc-def" id="fc-def"></div>
+        </div>
+      </div>
+    </div>
+    <div class="fc-dots" id="fc-dots"></div>
+  </div>
+  <div class="fc-controls">
+    <button class="fc-nav-btn" id="btn-prev" onclick="navigate(-1)">←</button>
+    <div class="fc-center-btns">
+      <button class="grade-btn again" onclick="grade('again')">✗ Again</button>
+      <button class="grade-btn reviewing" onclick="grade('reviewing')">~ Review</button>
+      <button class="grade-btn mastered" onclick="grade('mastered')">✓ Got it</button>
+    </div>
+    <button class="fc-nav-btn" id="btn-next" onclick="navigate(1)">→</button>
+  </div>
+  <div class="grade-note">Grade yourself to track mastery · Flip the card first, then grade</div>
+  <div class="section-label">All Cards</div>
+  <div class="card-list" id="card-list"></div>
+</div>
+
+<footer><p>Built by <a href="https://blaborte.github.io" target="_blank">Baltazar Laborte</a> · BL Cert Hub · Cisco CompTIA Security+ SY0-701</p></footer>
+
+<script>
+const DOMAIN_COLORS={
+  '1':['#C0392B','rgba(192,57,43,0.12)'],
+  '2':['#E67E22','rgba(230,126,34,0.12)'],
+  '3':['#2E86C1','rgba(46,134,193,0.12)'],
+  '4':['#27AE60','rgba(39,174,96,0.12)'],
+  '5':['#8E44AD','rgba(142,68,173,0.12)']
+};
+const DOMAIN_NAMES={
+  '1':'Governance Risk & Compliance',
+  '2':'Threats, Vulnerabilities & Mitigations',
+  '3':'Security Architecture',
+  '4':'Security Operations',
+  '5':'Program Management'
+};
+
+const ALL_CARDS=[
+  {d:'1',term:'Risk',def:'Possibility a threat exploits a vulnerability causing harm. Risk = Threat x Vulnerability x Impact. Managed via: Avoidance, Transference, Mitigation, or Acceptance.'},
+  {d:'1',term:'Threat vs Vulnerability',def:'Threat: any potential danger (actor or event). Vulnerability: a weakness that could be exploited. Unpatched OS (vuln) + ransomware group (threat) = high risk.'},
+  {d:'1',term:'Risk Register',def:'Document tracking identified risks, their likelihood, impact, owner, and mitigation status. Updated continuously throughout a project or operational lifecycle.'},
+  {d:'1',term:'Business Impact Analysis (BIA)',def:'Identifies critical functions and quantifies disruption impact. Key outputs: RTO, RPO, MTTR, MTBF. Foundation for DR and continuity planning.'},
+  {d:'1',term:'RTO vs RPO',def:'RTO (Recovery Time Objective): max acceptable downtime. RPO (Recovery Point Objective): max acceptable data loss in time. Lower values cost more to achieve.'},
+  {d:'1',term:'Data Classifications',def:'Public, Internal, Confidential, Restricted. Higher classification = stricter controls. PII, PHI, financial data are regulated by law and need strongest protections.'},
+  {d:'1',term:'GDPR',def:'EU regulation for personal data. Key: right to erasure, data minimization, 72-hour breach notification, fines up to 4% of global annual revenue.'},
+  {d:'1',term:'HIPAA',def:'US law protecting PHI (Protected Health Information). Requires: access controls, audit logs, encryption in transit/rest, and Business Associate Agreements (BAAs).'},
+  {d:'1',term:'Policy vs Standard vs Compliance',def:'Policy: high-level management intent. Standard: mandatory controls from policy. Compliance: adherence to external regulations (HIPAA, PCI-DSS). Procedure: step-by-step how-to.'},
+  {d:'1',term:'Data Retention Policy',def:'Defines how long data is kept and when it must be securely destroyed. Legal drivers: SOX = 7 years, HIPAA = 6 years. Tied to e-discovery and litigation holds.'},
+  {d:'1',term:'Vendor Risk Management',def:'Assessing third-party security before sharing data/access. Tools: questionnaires, SOC 2 reports, right-to-audit clauses, SLAs, vendor due diligence assessments.'},
+  {d:'1',term:'Due Diligence vs Due Care',def:'Due Diligence: research and assess risks before acting. Due Care: implement safeguards after assessment. Both required to avoid negligence claims.'},
+  {d:'1',term:'Security Frameworks',def:'NIST CSF: Identify, Protect, Detect, Respond, Recover. ISO 27001: ISMS. CIS Controls: prioritized security actions. SOC 2: trust service criteria for service orgs.'},
+  {d:'1',term:'Audit Types',def:'Internal: staff-driven. External: independent third-party. Compliance: verifies regulatory adherence. Pen test: simulates real attacks. Log review: analyzes events.'},
+  {d:'1',term:'Personnel Security Controls',def:'Background checks, security training, separation of duties, least privilege, mandatory vacation, job rotation, offboarding (revoke all access). Key insider threat mitigations.'},
+  {d:'1',term:'Privacy vs Security',def:'Security: protecting data from unauthorized access (CIA triad). Privacy: data collected/used only as intended with consent. Privacy cannot exist without security.'},
+  {d:'2',term:'Phishing Types',def:'Phishing: mass email impersonation. Spear phishing: targeted individual. Whaling: targeting executives. Vishing: phone. Smishing: SMS. Pharming: DNS poisoning to fake sites.'},
+  {d:'2',term:'Malware Types',def:'Virus: attaches to files. Worm: self-propagating. Trojan: disguised legitimate software. Ransomware: encrypts for payment. Rootkit: hides in OS. Keylogger: captures keystrokes. Spyware: exfiltrates data.'},
+  {d:'2',term:'Ransomware',def:'Encrypts files and demands crypto payment for key. Defense: 3-2-1 offline backups, patch management, email filtering, least privilege, network segmentation.'},
+  {d:'2',term:'Social Engineering',def:'Manipulating people rather than systems. Techniques: pretexting, baiting, quid pro quo, tailgating, impersonation. Best defense: security awareness training.'},
+  {d:'2',term:'SQL Injection',def:'Malicious SQL inserted into input fields to manipulate DB. Defense: parameterized queries, input validation, WAF, least-privilege DB accounts.'},
+  {d:'2',term:'Cross-Site Scripting (XSS)',def:'Malicious scripts injected into web pages viewed by others. Stored XSS: in DB. Reflected: in URL. DOM-based: modifies client script. Defense: output encoding, CSP headers, input validation.'},
+  {d:'2',term:'Buffer Overflow',def:'Data written beyond buffer boundary overwrites adjacent memory, enabling arbitrary code execution. Defense: ASLR, DEP (Data Execution Prevention), safe coding practices.'},
+  {d:'2',term:'On-Path (Man-in-the-Middle) Attack',def:'Attacker intercepts/modifies traffic between two parties. Methods: ARP spoofing, DNS spoofing, SSL stripping. Defense: HTTPS/TLS, certificate pinning, HSTS, MFA, VPN.'},
+  {d:'2',term:'Denial of Service (DoS/DDoS)',def:'DoS: single source overwhelms system. DDoS: distributed botnet. Types: volumetric, protocol (SYN flood), application layer. Defense: rate limiting, scrubbing centers, CDN, ISP filtering.'},
+  {d:'2',term:'Zero-Day Vulnerability',def:'Flaw with no available patch, exploited before fix exists. Defense: defense in depth, threat hunting, IPS, behavioral detection, network segmentation.'},
+  {d:'2',term:'Vulnerability Scanning vs Pen Testing',def:'Vuln scan: automated, non-exploitative, finds known weaknesses. Pen test: manual, exploitative, simulates attacker. Pen test phases: Recon, Scanning, Exploitation, Post-exploitation, Reporting.'},
+  {d:'2',term:'CVSS Score',def:'Common Vulnerability Scoring System (0-10). Components: Base (exploitability/impact), Temporal (patch availability), Environmental (asset value/controls). Used to prioritize remediation.'},
+  {d:'2',term:'Password Attacks',def:'Brute force: all combos. Dictionary: word lists. Spraying: one password, many accounts. Credential stuffing: breached creds reused. Rainbow table: precomputed hashes. Defense: MFA, salted hashes.'},
+  {d:'2',term:'Insider Threat',def:'Malicious or negligent employee/contractor causing harm. Indicators: excessive access, unusual hours, policy violations. Mitigation: least privilege, DLP, UEBA, separation of duties.'},
+  {d:'2',term:'Supply Chain Attack',def:'Compromising software/hardware via a trusted vendor (e.g., SolarWinds). Defense: vendor risk assessments, code signing, SBOM, network segmentation, zero trust.'},
+  {d:'2',term:'Threat Intelligence',def:'Actionable info about threats. IOCs: indicators of compromise (IPs, hashes, domains). TTPs: tactics, techniques, procedures. Sources: OSINT, ISACs. STIX/TAXII = sharing standards.'},
+  {d:'2',term:'MITRE ATT&CK Framework',def:'Knowledge base of adversary TTPs by tactic and technique. Used for threat modeling, red/blue team exercises, SOC rule writing, and defensive gap analysis.'},
+  {d:'2',term:'OWASP Top 10',def:'Critical web app risks: Injection, Broken Auth, Sensitive Data Exposure, XXE, Broken Access Control, Security Misconfiguration, XSS, Insecure Deserialization, Vulnerable Components, Insufficient Logging.'},
+  {d:'3',term:'Defense in Depth',def:'Multiple overlapping layers: physical, network (FW/IDS), host (EDR/patching), application (input validation), data (encryption), user (MFA/training). No single failure compromises the whole system.'},
+  {d:'3',term:'Zero Trust Architecture',def:'Never trust, always verify. No implicit trust based on network location. Principles: verify identity, least privilege, assume breach, microsegmentation, continuous validation.'},
+  {d:'3',term:'Network Segmentation',def:'Divides network into zones to contain breaches. Methods: VLANs, firewalls, DMZ, microsegmentation (SDN). Limits lateral movement and blast radius of a compromise.'},
+  {d:'3',term:'DMZ (Demilitarized Zone)',def:'Network segment between internet and internal LAN for public-facing servers. Two firewalls: internet-to-DMZ and DMZ-to-internal. DMZ compromise does not directly expose the internal network.'},
+  {d:'3',term:'Firewall Types',def:'Packet filter: stateless, header inspection. Stateful: tracks connections. NGFW: deep packet inspection, app awareness, IPS, SSL inspection. WAF: web application traffic. Host-based: software on the endpoint.'},
+  {d:'3',term:'IDS vs IPS',def:'IDS: passive, detects and alerts only. IPS: inline, actively blocks threats in real time. NIDS/NIPS: network-based. HIDS/HIPS: host-based. Both use signature and anomaly detection.'},
+  {d:'3',term:'VPN Types',def:'Site-to-site: connects two networks over internet (IPsec). Remote access: individual users connect to corporate (SSL/TLS or IPsec). Split tunnel: only corporate traffic routed through VPN. Full tunnel: all traffic.'},
+  {d:'3',term:'IPsec Modes and Protocols',def:'Transport mode: encrypts payload only. Tunnel mode: encrypts entire packet (used for site-to-site VPN). AH: authentication/integrity only. ESP: encryption + integrity. IKE handles key exchange (ports 500/4500 UDP).'},
+  {d:'3',term:'PKI (Public Key Infrastructure)',def:'Framework for digital certificates. Components: CA (issues certs), RA (verifies identity), CRL (revoked certs list), OCSP (real-time revocation check). Enables trust in asymmetric encryption.'},
+  {d:'3',term:'TLS/SSL',def:'TLS encrypts application traffic. Handshake: negotiate cipher, exchange certificates, establish session key. TLS 1.3 removes weak ciphers. SSL deprecated. HTTPS = HTTP over TLS on port 443.'},
+  {d:'3',term:'Symmetric vs Asymmetric Encryption',def:'Symmetric: same key encrypts/decrypts (AES, 3DES). Fast, for bulk data. Asymmetric: public/private pair (RSA, ECC). Slower, for key exchange and signatures. Hybrid systems combine both.'},
+  {d:'3',term:'Hashing',def:'One-way function — fixed-length digest. MD5 (broken), SHA-1 (broken), SHA-256 (secure), SHA-3. Used for: file integrity, password storage (with salt), digital signatures. Cannot be reversed.'},
+  {d:'3',term:'Digital Signatures',def:'Private key signs (hash + encrypt). Public key verifies. Provides authentication (who sent it), integrity (unchanged), non-repudiation (cannot deny signing). Used in S/MIME, PGP, code signing.'},
+  {d:'3',term:'Cloud Shared Responsibility',def:'IaaS: you secure OS/apps/data (e.g., EC2). PaaS: you secure apps/data (e.g., Elastic Beanstalk). SaaS: provider handles most (e.g., Office 365). Know the boundary for each model.'},
+  {d:'3',term:'SIEM',def:'Aggregates and correlates logs from multiple sources. Functions: collection, normalization, correlation rules, alerting, dashboards, forensics, compliance reporting. Examples: Splunk, Microsoft Sentinel, IBM QRadar.'},
+  {d:'3',term:'EDR (Endpoint Detection & Response)',def:'Agent providing real-time behavioral monitoring, threat detection, automated response (isolate/kill), and forensic telemetry. Catches fileless malware and living-off-the-land attacks that AV misses.'},
+  {d:'4',term:'Incident Response Phases',def:'NIST IR: Preparation, Detection & Analysis, Containment, Eradication, Recovery, Lessons Learned. PICERL mnemonic. Preparation is most important — without it all other phases suffer.'},
+  {d:'4',term:'Chain of Custody',def:'Documents who accessed evidence and when from collection through court. Ensures legal admissibility. Use write blockers, hash files, log all actions, store in tamper-evident containers.'},
+  {d:'4',term:'Digital Forensics & Volatility Order',def:'Collect most volatile first: CPU/cache, RAM, swap, disk, logs, archives. Always work on forensic image — never original. Hash evidence before and after to verify integrity.'},
+  {d:'4',term:'Authentication Factors',def:'Know (password/PIN), Have (token/smart card/OTP), Are (biometric). MFA = two or more different factor types. Two passwords = NOT MFA (same factor type). Hardware token + biometric = strongest.'},
+  {d:'4',term:'Access Control Models',def:'DAC: owner sets permissions (Windows NTFS). MAC: labels control access (government/SELinux). RBAC: role determines access (enterprise standard). ABAC: attributes (user, resource, environment) control access.'},
+  {d:'4',term:'SSO and Federation',def:'SSO: one auth grants access to multiple systems. Federation: SSO across organizations. SAML: XML-based enterprise SSO. OAuth: authorization. OpenID Connect (OIDC): identity layer on OAuth.'},
+  {d:'4',term:'Privileged Access Management (PAM)',def:'Controls admin/root accounts. Features: just-in-time access, session recording, credential vaulting, least privilege. Limits blast radius if admin credentials are compromised.'},
+  {d:'4',term:'Data Loss Prevention (DLP)',def:'Detects and blocks sensitive data exfiltration. Types: Network DLP (traffic inspection), Endpoint DLP (USB/print/clipboard control), Cloud DLP. Classifies data by content and context.'},
+  {d:'4',term:'Patch Management',def:'Testing and deploying OS/application updates. Prioritize by CVSS and asset criticality. Process: inventory, prioritize, test in staging, deploy, verify. Unpatched systems = most exploited attack vector.'},
+  {d:'4',term:'Vulnerability Management Lifecycle',def:'Discover (scan), Prioritize (CVSS + asset value), Remediate (patch/mitigate/accept), Verify (rescan), Report. Continuous cycle. Authenticated scans reveal significantly more vulnerabilities.'},
+  {d:'4',term:'Security Hardening',def:'Reducing attack surface: disable unused services/ports, remove defaults, apply patches, enable host firewall, configure logging, enforce least privilege, disable removable media. Reference CIS Benchmarks.'},
+  {d:'4',term:'Log Management & Syslog Levels',def:'Centralized collection for analysis and compliance. Levels 0-7: Emergency, Alert, Critical, Error, Warning, Notice, Informational, Debug. Logs must be protected from tampering and retained per policy.'},
+  {d:'4',term:'Threat Hunting',def:'Proactive search for threats not caught by automated tools. Hypothesis-driven using threat intel and anomalies. Uses SIEM, EDR, and network data. Finds APTs that evade standard detection.'},
+  {d:'4',term:'Security Awareness Training',def:'Reduces the human attack surface. Topics: phishing recognition, password hygiene, social engineering, physical security. Simulated phishing measures and improves user behavior over time.'},
+  {d:'4',term:'MFA and Password Policies',def:'MFA dramatically reduces account compromise. Password best practices: 12+ chars, complexity, no reuse, lockout after failures. Privileged accounts need stricter policies and PAM solutions.'},
+  {d:'5',term:'Security Policies',def:'High-level mandatory management directives. Types: AUP, Password, Remote Access, BYOD, Data Classification, Incident Response. Must be regularly reviewed, enforced, and signed off by employees.'},
+  {d:'5',term:'Business Continuity Plan (BCP)',def:'Ensures critical functions continue during/after disaster. Includes: BIA, DR plan, communication plan, alternate site selection, and testing (tabletop, simulation, full interruption exercise).'},
+  {d:'5',term:'Disaster Recovery Site Types',def:'Hot site: fully operational standby — lowest RTO, most expensive. Warm site: hardware ready, data restore needed. Cold site: space only — highest RTO, cheapest. RTO/RPO requirements drive the choice.'},
+  {d:'5',term:'Change Management',def:'Controlled process: Request, Review (CAB), Approve, Test, Implement, Document, Review. Prevents unauthorized changes — a leading cause of outages and security incidents.'},
+  {d:'5',term:'Configuration Management',def:'Tracks and controls system configurations. CMDB: Configuration Management Database. Baseline: known good state. Drift detection: finds unauthorized changes. Tools: Ansible, Puppet, SCCM.'},
+  {d:'5',term:'Security Metrics and KPIs',def:'Measure effectiveness: MTTD, MTTR, vulnerability remediation time, phishing click rate, patch compliance %, SOC false positive rate. Drive continuous improvement and justify security investment.'},
+  {d:'5',term:'Third-Party Risk Management',def:'Vendors with data/system access extend your risk. Controls: questionnaires, SOC 2 Type II, pen test results, SLAs, right-to-audit clauses, data processing agreements (DPAs).'},
+  {d:'5',term:'Tabletop Exercise',def:'Discussion-based simulation walking through a hypothetical incident. No systems involved. Tests: decisions, roles, communication, escalation. Identifies plan gaps cheaply and quickly.'},
+  {d:'5',term:'Regulatory Landscape',def:'PCI-DSS: payment cards. HIPAA: US health data. GDPR: EU personal data. CCPA: California privacy. SOX: financial records. FISMA: US federal systems. Non-compliance = fines and reputational damage.'},
+  {d:'5',term:'Security Governance',def:'CISO leads; Board approves risk appetite; steering committee aligns priorities; policy owners enforce controls. Governance = accountability. Without it, security remains reactive not strategic.'},
+  {d:'5',term:'Security Awareness Program',def:'Continuous education: onboarding training, phishing simulations, role-based content, periodic refreshers. Metrics: click rate, reporting rate. Culture change takes time and executive sponsorship.'},
+];
+
+
+let deck=[],status={},curIdx=0,isFlipped=false,activeFilter='all';
+function init(){ALL_CARDS.forEach((_,i)=>{status[i]='unseen'});applyFilter('all')}
+function applyFilter(f){
+  activeFilter=f;
+  deck=f==='all'?ALL_CARDS.map((_,i)=>i):ALL_CARDS.map((_,i)=>i).filter(i=>ALL_CARDS[i].d===f);
+  curIdx=0;renderCard();renderDots();renderCardList();updateStats();
+}
+function setFilter(f,btn){document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');applyFilter(f)}
+function renderCard(){
+  if(!deck.length)return;
+  isFlipped=false;document.getElementById('fc-inner').classList.remove('flipped');
+  const card=ALL_CARDS[deck[curIdx]];
+  setTimeout(()=>{
+    document.getElementById('fc-term').textContent=card.term;
+    document.getElementById('fc-def').textContent=card.def;
+    const[col,bg]=DOMAIN_COLORS[card.d];
+    const badge=document.getElementById('fc-domain-badge');
+    badge.textContent=card.d+'.0 '+DOMAIN_NAMES[card.d];
+    badge.style.color=col;badge.style.background=bg;badge.style.borderColor=col;
+  },50);
+  document.getElementById('fc-counter').textContent=`${curIdx+1} / ${deck.length}`;
+  document.getElementById('btn-prev').disabled=curIdx===0;
+  document.getElementById('btn-next').disabled=curIdx===deck.length-1;
+  renderDots();
+}
+function flip(){isFlipped=!isFlipped;document.getElementById('fc-inner').classList.toggle('flipped',isFlipped)}
+function navigate(dir){const n=curIdx+dir;if(n<0||n>=deck.length)return;curIdx=n;renderCard()}
+function grade(g){
+  const idx=deck[curIdx];status[idx]=g==='again'?'again':g;
+  updateStats();renderCardList();renderDots();
+  if(curIdx<deck.length-1){curIdx++;renderCard()}
+}
+function shuffleDeck(){deck=deck.sort(()=>Math.random()-.5);curIdx=0;renderCard();renderDots()}
+function studyWeak(){
+  const weak=ALL_CARDS.map((_,i)=>i).filter(i=>{const s=status[i];return s==='again'||s==='reviewing'||s==='unseen'}).filter(i=>activeFilter==='all'||ALL_CARDS[i].d===activeFilter);
+  if(!weak.length){alert('No weak cards! 🎉 Try resetting.');return}
+  deck=weak.sort(()=>Math.random()-.5);curIdx=0;renderCard();renderDots();
+}
+function resetStatus(){ALL_CARDS.forEach((_,i)=>{status[i]='unseen'});updateStats();renderCardList();renderDots()}
+function updateStats(){
+  const inDeck=activeFilter==='all'?ALL_CARDS.map((_,i)=>i):ALL_CARDS.map((_,i)=>i).filter(i=>ALL_CARDS[i].d===activeFilter);
+  const m=inDeck.filter(i=>status[i]==='mastered').length;
+  const r=inDeck.filter(i=>status[i]==='reviewing').length;
+  const u=inDeck.filter(i=>status[i]==='unseen'||status[i]==='again').length;
+  document.getElementById('stat-total').textContent=inDeck.length;
+  document.getElementById('stat-mastered').textContent=m;
+  document.getElementById('stat-reviewing').textContent=r;
+  document.getElementById('stat-unseen').textContent=u;
+  const pct=inDeck.length>0?Math.round((m/inDeck.length)*100):0;
+  document.getElementById('prog-pct').textContent=pct+'%';
+  document.getElementById('prog-fill').style.width=pct+'%';
+}
+function renderDots(){
+  const dots=document.getElementById('fc-dots');
+  const max=Math.min(deck.length,12);dots.innerHTML='';
+  for(let i=0;i<max;i++){
+    const d=document.createElement('div');d.className='fc-dot';
+    if(i===curIdx)d.classList.add('active');
+    else{const s=status[deck[i]];if(s==='mastered')d.classList.add('mastered');else if(s==='reviewing')d.classList.add('reviewing')}
+    d.onclick=((idx)=>()=>{curIdx=idx;renderCard()})(i);
+    dots.appendChild(d);
+  }
+}
+function renderCardList(){
+  const list=document.getElementById('card-list');list.innerHTML='';
+  const cards=activeFilter==='all'?ALL_CARDS.map((c,i)=>({c,i})):ALL_CARDS.map((c,i)=>({c,i})).filter(({c})=>c.d===activeFilter);
+  cards.forEach(({c,i})=>{
+    const[col]=DOMAIN_COLORS[c.d];const s=status[i];
+    const el=document.createElement('div');
+    el.className='card-mini'+(s==='mastered'?' is-mastered':s==='reviewing'?' is-reviewing':'');
+    el.style.setProperty('--dm-color',col);
+    el.innerHTML=`<div class="card-mini-term">${c.term}</div><div class="card-mini-status">${s==='unseen'?'—':s==='mastered'?'✓ Mastered':s==='reviewing'?'~ Reviewing':'✗ Again'}</div>`;
+    el.onclick=()=>{const di=deck.indexOf(i);if(di!==-1){curIdx=di;renderCard();window.scrollTo({top:0,behavior:'smooth'})}};
+    list.appendChild(el);
+  });
+}
+init();
+
+</script>
+</body>
+</html>
