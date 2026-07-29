@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PBQ 2 — Network+ N10-009 | BL Cert Hub</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
+  <style>
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    :root{--navy:#0B1D3A;--blue:#1A5276;--accent:#2E86C1;--sky:#5DADE2;--light:#EAF4FB;--mid:#D6EAF8;--white:#fff;--text:#0B1D3A;--muted:#5D7A8C;--border:rgba(30,80,130,0.13);--shadow:0 2px 12px rgba(11,29,58,0.08)}
+    html{scroll-behavior:smooth}
+    body{font-family:"DM Sans",sans-serif;background:var(--light);color:var(--text);min-height:100vh;display:flex;flex-direction:column}
+    /* NAV */
+    nav{background:var(--navy);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:56px;position:sticky;top:0;z-index:100;border-bottom:1px solid rgba(93,173,226,0.15)}
+    .nav-brand{display:flex;align-items:center;gap:10px;text-decoration:none}
+    .bl-circle{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#2E86C1,#5DADE2);display:flex;align-items:center;justify-content:center;font-family:"Space Mono",monospace;font-size:10px;font-weight:700;color:#fff;flex-shrink:0}
+    .nav-brand span{font-size:13px;font-weight:500;color:rgba(255,255,255,0.85);letter-spacing:.02em}
+    .nav-links{display:flex;gap:6px}
+    .nav-links a{font-size:12px;font-weight:500;color:rgba(255,255,255,0.6);text-decoration:none;padding:6px 12px;border-radius:6px;transition:all .18s}
+    .nav-links a:hover{color:#fff;background:rgba(255,255,255,0.08)}
+    .nav-links a.active{color:var(--sky);background:rgba(93,173,226,0.12)}
+    .theme-btn{width:34px;height:34px;border-radius:8px;border:1px solid rgba(255,255,255,0.18);background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.75);cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;transition:all .18s;flex-shrink:0}
+    .theme-btn:hover{background:rgba(255,255,255,0.15);color:#fff}
+    /* HERO */
+    .hero{background:linear-gradient(135deg,#0B1D3A 0%,#1A5276 55%,#2E86C1 100%);padding:3rem 2rem 2.5rem;position:relative;overflow:hidden}
+    .hero-grid-pattern{position:absolute;inset:0;background-image:linear-gradient(rgba(93,173,226,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(93,173,226,0.04) 1px,transparent 1px);background-size:32px 32px;pointer-events:none}
+    .hero-bg-ring{position:absolute;border-radius:50%;border:40px solid rgba(93,173,226,0.08);pointer-events:none}
+    .hero-bg-ring.r1{width:300px;height:300px;top:-70px;right:-50px}
+    .hero-bg-ring.r2{width:180px;height:180px;bottom:-60px;left:40%;border-width:22px}
+    .hero-inner{position:relative;max-width:860px;margin:0 auto}
+    .exam-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.18);border-radius:20px;padding:5px 14px 5px 5px;margin-bottom:1.25rem}
+    .exam-badge .bl-circle{width:26px;height:26px;font-size:9px}
+    .exam-badge span{font-size:12px;color:rgba(255,255,255,0.8);font-weight:500}
+    .hero h1{font-family:"Space Mono",monospace;font-size:clamp(22px,3.5vw,38px);font-weight:700;color:#fff;line-height:1.2;margin-bottom:.5rem}
+    .hero h1 .accent{color:var(--sky)}
+    .hero-sub{font-size:14px;color:rgba(255,255,255,0.6);font-weight:300;line-height:1.7;max-width:520px}
+    /* MAIN */
+    .main{max-width:860px;margin:0 auto;padding:2rem 2rem 3rem;flex:1}
+    .section-label{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);display:flex;align-items:center;gap:10px;margin-bottom:1rem}
+    .section-label::after{content:"";flex:1;height:1px;background:var(--border)}
+    /* CONTROLS */
+    .controls{background:var(--white);border:1px solid var(--border);border-radius:14px;padding:14px 18px;margin-bottom:1.25rem;box-shadow:var(--shadow);display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+    .search-wrap{position:relative;flex:1;min-width:180px}
+    .search-icon{position:absolute;left:11px;top:50%;transform:translateY(-50%);font-size:13px;pointer-events:none}
+    .search-input{width:100%;padding:9px 12px 9px 34px;border:1px solid var(--border);border-radius:8px;font-family:"DM Sans",sans-serif;font-size:13px;color:var(--text);background:var(--light);outline:none;transition:border-color .18s}
+    .search-input:focus{border-color:var(--accent);background:var(--white)}
+    .filter-group{display:flex;gap:6px}
+    .f-btn{font-size:11px;font-weight:500;padding:6px 14px;border-radius:20px;border:1px solid var(--border);background:var(--light);color:var(--muted);cursor:pointer;transition:all .16s;font-family:"DM Sans",sans-serif}
+    .f-btn:hover{border-color:var(--accent);color:var(--accent)}
+    .f-btn.active{background:var(--accent);border-color:var(--accent);color:#fff}
+    .f-btn.tcp.active{background:#C0392B;border-color:#C0392B}
+    .f-btn.udp.active{background:#117A65;border-color:#117A65}
+    .result-count{font-size:12px;color:var(--muted);margin-left:auto}
+    /* PORT TABLE */
+    .port-table-wrap{background:var(--white);border:1px solid var(--border);border-radius:14px;overflow:hidden;box-shadow:var(--shadow);margin-bottom:1.5rem}
+    table{width:100%;border-collapse:collapse}
+    thead tr{background:var(--navy)}
+    th{text-align:left;padding:12px 16px;font-size:11px;font-weight:600;color:rgba(255,255,255,0.65);letter-spacing:.06em;text-transform:uppercase}
+    td{padding:11px 16px;border-bottom:1px solid var(--border);font-size:13px;vertical-align:middle}
+    tr:last-child td{border-bottom:none}
+    tr:hover td{background:rgba(46,134,193,0.04)}
+    .port-num{font-family:"Space Mono",monospace;font-size:13px;font-weight:700;color:var(--accent)}
+    .proto-badge{font-size:10px;font-weight:700;padding:2px 8px;border-radius:4px;letter-spacing:.04em}
+    .proto-badge.tcp{background:rgba(192,57,43,0.1);color:#C0392B;border:1px solid rgba(192,57,43,0.2)}
+    .proto-badge.udp{background:rgba(17,122,101,0.1);color:#117A65;border:1px solid rgba(17,122,101,0.2)}
+    .proto-badge.both{background:rgba(46,134,193,0.1);color:var(--accent);border:1px solid rgba(46,134,193,0.2)}
+    .category-badge{font-size:10px;font-weight:500;padding:2px 8px;border-radius:10px;background:var(--mid);color:var(--blue)}
+    .no-results{text-align:center;padding:2.5rem;color:var(--muted);font-size:13px}
+    /* QUIZ MODE */
+    .quiz-wrap{background:var(--white);border:1px solid var(--border);border-radius:14px;overflow:hidden;box-shadow:var(--shadow);margin-bottom:1.5rem}
+    .quiz-header{background:var(--navy);padding:13px 20px;display:flex;align-items:center;justify-content:space-between}
+    .quiz-title{font-family:"Space Mono",monospace;font-size:13px;font-weight:700;color:#fff}
+    .quiz-badge{font-size:10px;font-weight:500;padding:3px 10px;border-radius:10px;background:rgba(93,173,226,0.2);color:var(--sky);border:1px solid rgba(93,173,226,0.3)}
+    .quiz-body{padding:20px}
+    .quiz-q{background:var(--light);border:1px solid var(--border);border-radius:10px;padding:16px 18px;margin-bottom:14px}
+    .quiz-q-label{font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
+    .quiz-q-text{font-size:15px;font-weight:500;color:var(--text)}
+    .quiz-options{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}
+    .quiz-opt{padding:10px 14px;border-radius:8px;border:1px solid var(--border);background:var(--light);cursor:pointer;font-size:13px;font-weight:500;color:var(--text);transition:all .16s;text-align:center;font-family:"DM Sans",sans-serif}
+    .quiz-opt:hover:not(.disabled){border-color:var(--accent);background:rgba(46,134,193,0.06);color:var(--accent)}
+    .quiz-opt.correct{border-color:#27AE60;background:rgba(39,174,96,0.1);color:#1A6B3A}
+    .quiz-opt.wrong{border-color:#E74C3C;background:rgba(231,76,60,0.1);color:#A93226}
+    .quiz-opt.disabled{pointer-events:none}
+    .quiz-feedback{display:none;padding:11px 14px;border-radius:8px;font-size:13px;margin-bottom:14px;border:1px solid}
+    .quiz-feedback.show{display:block}
+    .quiz-feedback.ok{background:rgba(39,174,96,0.08);border-color:rgba(39,174,96,0.28);color:#1A6B3A}
+    .quiz-feedback.bad{background:rgba(231,76,60,0.08);border-color:rgba(231,76,60,0.28);color:#A93226}
+    .quiz-controls{display:flex;align-items:center;justify-content:space-between}
+    .quiz-score{font-family:"Space Mono",monospace;font-size:12px;color:var(--muted)}
+    .btn-primary{background:var(--accent);border:1px solid var(--accent);color:#fff;padding:8px 18px;border-radius:8px;font-family:"DM Sans",sans-serif;font-size:12px;font-weight:500;cursor:pointer;transition:all .18s}
+    .btn-primary:hover{background:var(--blue)}
+    .btn-primary:disabled{opacity:.4;pointer-events:none}
+    .btn-outline{background:transparent;border:1px solid var(--border);color:var(--text);padding:8px 18px;border-radius:8px;font-family:"DM Sans",sans-serif;font-size:12px;font-weight:500;cursor:pointer;transition:all .18s}
+    .btn-outline:hover{border-color:var(--accent);color:var(--accent)}
+    /* DARK MODE */
+    html.dark{--light:#131b27;--mid:#1a2535;--white:#1e2a3a;--text:#d4e6f7;--muted:#7aa3c0;--border:rgba(93,173,226,0.14)}
+    html.dark body{background:var(--light);color:var(--text)}
+    html.dark nav,html.dark footer{background:#0a1220}
+    html.dark .controls,html.dark .port-table-wrap,html.dark .quiz-wrap{background:var(--white);border-color:var(--border)}
+    html.dark thead tr,html.dark .quiz-header{background:#0a1220}
+    html.dark td{border-color:var(--border);color:var(--text)}
+    html.dark tr:hover td{background:rgba(93,173,226,0.04)}
+    html.dark .search-input{background:var(--mid);border-color:var(--border);color:var(--text)}
+    html.dark .search-input:focus{background:var(--white)}
+    html.dark .f-btn{background:var(--mid);border-color:var(--border);color:var(--muted)}
+    html.dark .quiz-q{background:var(--mid);border-color:var(--border)}
+    html.dark .quiz-opt{background:var(--mid);border-color:var(--border);color:var(--text)}
+    footer{background:var(--navy);padding:1.25rem 2rem;text-align:center;border-top:1px solid rgba(93,173,226,0.12)}
+    footer p{font-size:12px;color:rgba(255,255,255,0.3)}
+    footer a{color:var(--sky);text-decoration:none}
+    @media(max-width:600px){.main{padding:1.25rem};nav{padding:0 1.25rem};.hero{padding:2rem 1.25rem 2rem};.quiz-options{grid-template-columns:1fr}}
+  
+    /* ── PBQ2 FIREWALL ── */
+    .pbq-wrap{max-width:940px;margin:0 auto;padding:2rem 2rem 3rem}
+    .pbq-card{background:var(--white);border:1px solid var(--border);border-radius:16px;overflow:hidden;box-shadow:var(--shadow);margin-bottom:2rem}
+    .pbq-card-head{background:var(--navy);padding:18px 24px;display:flex;align-items:center;gap:14px}
+    .pbq-num{font-family:'Space Mono',monospace;font-size:11px;font-weight:700;color:rgba(255,255,255,0.5);letter-spacing:.1em;text-transform:uppercase}
+    .pbq-title{font-family:'Space Mono',monospace;font-size:16px;font-weight:700;color:#fff}
+    .pbq-badge{margin-left:auto;font-size:10px;font-weight:700;padding:4px 10px;border-radius:20px;background:rgba(142,68,173,0.25);border:1px solid rgba(142,68,173,0.5);color:#C39BD3;letter-spacing:.06em}
+    .pbq-body{padding:24px}
+    .scenario-label{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+    .scenario-text{font-size:13px;color:var(--muted);line-height:1.75;margin-bottom:20px;padding:14px 16px;background:rgba(234,244,251,0.6);border-left:3px solid var(--accent);border-radius:0 8px 8px 0}
+    .task-label{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--text);margin-bottom:6px;display:flex;align-items:center;gap:8px}
+    .task-label::after{content:'';flex:1;height:1px;background:var(--border)}
+    .task-desc{font-size:13px;color:var(--text);line-height:1.7;margin-bottom:20px}
+    /* FIREWALL TABLE */
+    .fw-table{width:100%;border-collapse:collapse;margin-bottom:20px}
+    .fw-table th{background:var(--navy);color:rgba(255,255,255,0.75);padding:10px 12px;text-align:left;font-size:11px;font-weight:600;letter-spacing:.05em}
+    .fw-table th:first-child{border-radius:8px 0 0 0;width:34px;text-align:center}
+    .fw-table th:last-child{border-radius:0 8px 0 0;width:130px;text-align:center}
+    .fw-table td{padding:9px 12px;border-bottom:1px solid var(--border);font-size:12px;color:var(--text);vertical-align:middle}
+    .fw-table td:first-child{text-align:center;font-family:'Space Mono',monospace;font-size:11px;font-weight:700;color:var(--muted);background:rgba(234,244,251,0.3)}
+    .fw-table tr:last-child td{border-bottom:none}
+    .fw-table tr:hover td{background:rgba(93,173,226,0.04)}
+    .fw-proto{display:inline-block;font-family:'Space Mono',monospace;font-size:10px;font-weight:700;padding:2px 7px;border-radius:4px;background:rgba(46,134,193,0.12);color:var(--accent);border:1px solid rgba(46,134,193,0.25)}
+    .fw-port{font-family:'Space Mono',monospace;font-size:11px;color:var(--muted)}
+    .fw-src,.fw-dst{font-family:'Space Mono',monospace;font-size:11px}
+    /* ACTION TOGGLE */
+    .action-cell{text-align:center}
+    .action-toggle{display:inline-flex;border-radius:8px;overflow:hidden;border:1px solid var(--border)}
+    .action-btn{font-size:11px;font-weight:700;padding:6px 14px;border:none;cursor:pointer;transition:all .18s;background:transparent;letter-spacing:.04em}
+    .action-btn.permit{color:#27AE60}
+    .action-btn.deny{color:#E74C3C}
+    .action-btn.selected-permit{background:#27AE60;color:#fff}
+    .action-btn.selected-deny{background:#E74C3C;color:#fff}
+    .action-btn:not(.selected-permit):not(.selected-deny):hover{background:rgba(93,173,226,0.08)}
+    /* CONTROLS */
+    .pbq-controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:20px}
+    .pbq-btn{font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;padding:10px 22px;border-radius:10px;border:none;cursor:pointer;transition:all .2s}
+    .pbq-btn-check{background:var(--accent);color:#fff}
+    .pbq-btn-check:hover{background:#1a5276}
+    .pbq-btn-reset{background:transparent;color:var(--muted);border:1px solid var(--border)}
+    .pbq-btn-reset:hover{border-color:var(--accent);color:var(--accent)}
+    .pbq-btn-reveal{background:rgba(39,174,96,0.1);color:#27AE60;border:1px solid rgba(39,174,96,0.3)}
+    .pbq-btn-reveal:hover{background:rgba(39,174,96,0.2)}
+    /* RESULT */
+    .pbq-result{margin-top:16px;padding:14px 18px;border-radius:10px;font-size:13px;font-weight:600;display:none}
+    .pbq-result.show{display:block}
+    .pbq-result.pass{background:rgba(39,174,96,0.1);border:1px solid rgba(39,174,96,0.3);color:#1a7a40}
+    .pbq-result.fail{background:rgba(231,76,60,0.08);border:1px solid rgba(231,76,60,0.25);color:#b83228}
+    .pbq-result.reveal{background:rgba(46,134,193,0.08);border:1px solid rgba(46,134,193,0.25);color:#1a5276}
+    .result-rows{margin-top:10px;display:flex;flex-direction:column;gap:4px}
+    .result-row{display:flex;align-items:center;gap:8px;font-size:12px;padding:4px 0}
+    .result-row .ri{flex-shrink:0}
+    .result-row .rnum{font-family:'Space Mono',monospace;font-weight:700;min-width:28px;color:var(--muted)}
+    /* row feedback colors */
+    .fw-table tr.row-correct td{background:rgba(39,174,96,0.06)}
+    .fw-table tr.row-wrong td{background:rgba(231,76,60,0.06)}
+    /* DARK */
+    html.dark .pbq-card{background:var(--white);border-color:var(--border)}
+    html.dark .scenario-text{background:rgba(0,0,0,0.2)}
+    html.dark .fw-table td:first-child{background:rgba(0,0,0,0.15)}
+    html.dark .fw-table tr:hover td{background:rgba(93,173,226,0.06)}
+    html.dark .action-toggle{border-color:var(--border)}
+    html.dark .action-btn:not(.selected-permit):not(.selected-deny){color:var(--muted)}
+    @media(max-width:700px){.pbq-wrap{padding:1.25rem};.fw-table{font-size:11px}}
+
+  </style>
+</head>
+<body>
+<script>
+(function(){const K="bl-theme";function apply(d){document.documentElement.classList.toggle("dark",d);const b=document.getElementById("theme-btn");if(b)b.textContent=d?"☀":"☾"}apply(localStorage.getItem(K)==="dark");window.__toggleTheme=function(){const d=!document.documentElement.classList.contains("dark");localStorage.setItem(K,d?"dark":"light");apply(d)};window.addEventListener("storage",function(e){if(e.key===K)apply(e.newValue==="dark")})})();
+</script>
+
+<nav>
+  <a class="nav-brand" href="index.html"><div class="bl-circle">BL</div><span>BL Cert Hub</span></a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="network-plus.html">Network+</a>
+    <a href="#" class="active">PBQ 2</a>
+    <button class="theme-btn" id="theme-btn" onclick="__toggleTheme()">&#9790;</button>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-grid-pattern"></div>
+  <div class="hero-bg-ring r1"></div>
+  <div class="hero-bg-ring r2"></div>
+  <div class="hero-inner">
+    <div class="exam-badge"><div class="bl-circle">BL</div><span>CompTIA Network+ N10-009</span></div>
+    <h1>Performance-Based <span class="accent">Questions</span></h1>
+    <p class="hero-sub">PBQ 2 — Click PERMIT or DENY for each firewall rule. Click Check to score your answers.</p>
+  </div>
+</div>
+
+<div class="pbq-wrap">
+  <div class="pbq-card">
+    <div class="pbq-card-head">
+      <div>
+        <div class="pbq-num">PBQ 2 of 2</div>
+        <div class="pbq-title">Network Security Analyst &mdash; Firewall Rule Configuration</div>
+      </div>
+      <span class="pbq-badge">PERMIT / DENY</span>
+    </div>
+    <div class="pbq-body">
+
+      <div class="scenario-label">Scenario</div>
+      <div class="scenario-text">Continuing from PBQ 1, you must now configure the company firewall&#39;s ACL rules. The security team has identified 8 traffic flows that need to be evaluated. For each rule, decide whether to <strong>PERMIT</strong> or <strong>DENY</strong> the traffic based on network security best practices.</div>
+
+      <div class="task-label">Task 2 &mdash; Configure Firewall ACL Rules</div>
+      <div class="task-desc">Click <strong style="color:#27AE60">PERMIT</strong> or <strong style="color:#E74C3C">DENY</strong> for each traffic rule. Consider the source, destination, protocol, and port when making your decision. All 8 rules must be configured before checking.</div>
+
+      <table class="fw-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Description</th>
+            <th>Source</th>
+            <th>Destination</th>
+            <th>Proto</th>
+            <th>Port</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+        <tr id="row1" data-answer="permit" data-rationale="Allow internal users to browse internal web servers on port 80.">
+          <td>1</td>
+          <td>HTTP traffic from LAN to web servers</td>
+          <td class="fw-src">192.168.1.0/24</td>
+          <td class="fw-dst">10.0.0.10</td>
+          <td><span class="fw-proto">TCP</span></td>
+          <td class="fw-port">80</td>
+          <td class="action-cell">
+            <div class="action-toggle">
+              <button class="action-btn permit" id="btn-permit-1" onclick="setAction(1,'permit')">PERMIT</button>
+              <button class="action-btn deny"   id="btn-deny-1"   onclick="setAction(1,'deny')">DENY</button>
+            </div>
+          </td>
+        </tr>
+        <tr id="row2" data-answer="deny" data-rationale="Telnet transmits credentials in plaintext — always block it. Use SSH (22) instead.">
+          <td>2</td>
+          <td>Telnet from any source to any destination</td>
+          <td class="fw-src">ANY</td>
+          <td class="fw-dst">ANY</td>
+          <td><span class="fw-proto">TCP</span></td>
+          <td class="fw-port">23</td>
+          <td class="action-cell">
+            <div class="action-toggle">
+              <button class="action-btn permit" id="btn-permit-2" onclick="setAction(2,'permit')">PERMIT</button>
+              <button class="action-btn deny"   id="btn-deny-2"   onclick="setAction(2,'deny')">DENY</button>
+            </div>
+          </td>
+        </tr>
+        <tr id="row3" data-answer="permit" data-rationale="Allow the dedicated admin subnet to SSH into network infrastructure.">
+          <td>3</td>
+          <td>SSH from admin subnet to network devices</td>
+          <td class="fw-src">192.168.10.0/24</td>
+          <td class="fw-dst">10.0.0.0/24</td>
+          <td><span class="fw-proto">TCP</span></td>
+          <td class="fw-port">22</td>
+          <td class="action-cell">
+            <div class="action-toggle">
+              <button class="action-btn permit" id="btn-permit-3" onclick="setAction(3,'permit')">PERMIT</button>
+              <button class="action-btn deny"   id="btn-deny-3"   onclick="setAction(3,'deny')">DENY</button>
+            </div>
+          </td>
+        </tr>
+        <tr id="row4" data-answer="deny" data-rationale="Block ICMP from internet to prevent ping sweeps and reconnaissance.">
+          <td>4</td>
+          <td>Inbound ICMP from the internet</td>
+          <td class="fw-src">ANY</td>
+          <td class="fw-dst">203.0.113.5</td>
+          <td><span class="fw-proto">ICMP</span></td>
+          <td class="fw-port">—</td>
+          <td class="action-cell">
+            <div class="action-toggle">
+              <button class="action-btn permit" id="btn-permit-4" onclick="setAction(4,'permit')">PERMIT</button>
+              <button class="action-btn deny"   id="btn-deny-4"   onclick="setAction(4,'deny')">DENY</button>
+            </div>
+          </td>
+        </tr>
+        <tr id="row5" data-answer="permit" data-rationale="Allow encrypted web traffic from internal users to the internet.">
+          <td>5</td>
+          <td>HTTPS traffic from LAN to internet</td>
+          <td class="fw-src">192.168.1.0/24</td>
+          <td class="fw-dst">ANY</td>
+          <td><span class="fw-proto">TCP</span></td>
+          <td class="fw-port">443</td>
+          <td class="action-cell">
+            <div class="action-toggle">
+              <button class="action-btn permit" id="btn-permit-5" onclick="setAction(5,'permit')">PERMIT</button>
+              <button class="action-btn deny"   id="btn-deny-5"   onclick="setAction(5,'deny')">DENY</button>
+            </div>
+          </td>
+        </tr>
+        <tr id="row6" data-answer="permit" data-rationale="Internal hosts need DNS resolution — permit UDP 53 to the internal DNS server.">
+          <td>6</td>
+          <td>DNS queries from internal hosts to DNS server</td>
+          <td class="fw-src">192.168.0.0/16</td>
+          <td class="fw-dst">10.0.0.53</td>
+          <td><span class="fw-proto">UDP</span></td>
+          <td class="fw-port">53</td>
+          <td class="action-cell">
+            <div class="action-toggle">
+              <button class="action-btn permit" id="btn-permit-6" onclick="setAction(6,'permit')">PERMIT</button>
+              <button class="action-btn deny"   id="btn-deny-6"   onclick="setAction(6,'deny')">DENY</button>
+            </div>
+          </td>
+        </tr>
+        <tr id="row7" data-answer="deny" data-rationale="Never expose RDP directly to the internet — prime ransomware vector.">
+          <td>7</td>
+          <td>RDP from internet to internal workstations</td>
+          <td class="fw-src">ANY</td>
+          <td class="fw-dst">192.168.1.0/24</td>
+          <td><span class="fw-proto">TCP</span></td>
+          <td class="fw-port">3389</td>
+          <td class="action-cell">
+            <div class="action-toggle">
+              <button class="action-btn permit" id="btn-permit-7" onclick="setAction(7,'permit')">PERMIT</button>
+              <button class="action-btn deny"   id="btn-deny-7"   onclick="setAction(7,'deny')">DENY</button>
+            </div>
+          </td>
+        </tr>
+        <tr id="row8" data-answer="permit" data-rationale="Allow the dedicated monitoring server to poll devices via SNMP.">
+          <td>8</td>
+          <td>SNMP from monitoring server to all devices</td>
+          <td class="fw-src">10.0.0.200</td>
+          <td class="fw-dst">ANY</td>
+          <td><span class="fw-proto">UDP</span></td>
+          <td class="fw-port">161</td>
+          <td class="action-cell">
+            <div class="action-toggle">
+              <button class="action-btn permit" id="btn-permit-8" onclick="setAction(8,'permit')">PERMIT</button>
+              <button class="action-btn deny"   id="btn-deny-8"   onclick="setAction(8,'deny')">DENY</button>
+            </div>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+
+      <div class="pbq-controls">
+        <button class="pbq-btn pbq-btn-check" onclick="checkAnswers()">&#10003; Check Answers</button>
+        <button class="pbq-btn pbq-btn-reset" onclick="resetAll()">&#8635; Reset</button>
+        <button class="pbq-btn pbq-btn-reveal" onclick="revealAnswers()">&#128065; Show Answers</button>
+      </div>
+
+      <div class="pbq-result" id="pbq-result"></div>
+
+    </div>
+  </div>
+</div>
+
+<footer><p>Built by <a href="https://blaborte.github.io" target="_blank">Baltazar Laborte</a> &middot; BL Cert Hub &middot; CompTIA Network+ N10-009 &middot; Performance-Based Questions</p></footer>
+
+<script>
+const TOTAL = 8;
+const selections = {};
+
+function setAction(num, action) {
+  selections[num] = action;
+  const permitBtn = document.getElementById('btn-permit-' + num);
+  const denyBtn   = document.getElementById('btn-deny-'   + num);
+  permitBtn.className = 'action-btn permit' + (action === 'permit' ? ' selected-permit' : '');
+  denyBtn.className   = 'action-btn deny'   + (action === 'deny'   ? ' selected-deny'   : '');
+  // Clear any row feedback color
+  const row = document.getElementById('row' + num);
+  row.classList.remove('row-correct','row-wrong');
+}
+
+function checkAnswers() {
+  const result = document.getElementById('pbq-result');
+  const unanswered = [];
+  for (let i = 1; i <= TOTAL; i++) {
+    if (!selections[i]) unanswered.push(i);
+  }
+  if (unanswered.length > 0) {
+    result.className = 'pbq-result show fail';
+    result.innerHTML = '<strong>&#9888; Please configure all rules before checking. Missing: Rule ' + unanswered.join(', Rule ') + '.</strong>';
+    return;
+  }
+
+  let correct = 0;
+  let rows = '';
+  for (let i = 1; i <= TOTAL; i++) {
+    const row = document.getElementById('row' + i);
+    const answer = row.dataset.answer;
+    const rationale = row.dataset.rationale;
+    const got = selections[i];
+    const isCorrect = got === answer;
+    if (isCorrect) correct++;
+    row.classList.remove('row-correct','row-wrong');
+    row.classList.add(isCorrect ? 'row-correct' : 'row-wrong');
+    const icon = isCorrect ? '&#10003;' : '&#10007;';
+    const gotLabel  = got    === 'permit' ? '<span style="color:#27AE60;font-weight:700">PERMIT</span>' : '<span style="color:#E74C3C;font-weight:700">DENY</span>';
+    const corrLabel = answer === 'permit' ? '<span style="color:#27AE60;font-weight:700">PERMIT</span>' : '<span style="color:#E74C3C;font-weight:700">DENY</span>';
+    rows += '<div class="result-row"><span class="ri">' + icon + '</span><span class="rnum">Rule ' + i + '</span>';
+    if (isCorrect) {
+      rows += corrLabel + ' &mdash; <span style="color:var(--muted);font-size:11px">' + rationale + '</span>';
+    } else {
+      rows += 'Got ' + gotLabel + ' &rarr; Correct: ' + corrLabel + ' &mdash; <span style="color:var(--muted);font-size:11px">' + rationale + '</span>';
+    }
+    rows += '</div>';
+  }
+
+  const pct = Math.round((correct / TOTAL) * 100);
+  const pass = correct === TOTAL;
+  result.className = 'pbq-result show ' + (pass ? 'pass' : 'fail');
+  result.innerHTML = '<strong>' + (pass ? '&#127881; Perfect Score! All 8 rules correct.' : correct + '/' + TOTAL + ' Correct (' + pct + '%)') + '</strong><div class="result-rows">' + rows + '</div>';
+}
+
+function revealAnswers() {
+  resetAll();
+  for (let i = 1; i <= TOTAL; i++) {
+    const row = document.getElementById('row' + i);
+    setAction(i, row.dataset.answer);
+  }
+  const result = document.getElementById('pbq-result');
+  result.className = 'pbq-result show reveal';
+  result.innerHTML = '<strong>&#128065; Answers revealed &mdash; study the rationale for each rule, then reset and try yourself!</strong>';
+}
+
+function resetAll() {
+  for (let i = 1; i <= TOTAL; i++) {
+    delete selections[i];
+    document.getElementById('btn-permit-' + i).className = 'action-btn permit';
+    document.getElementById('btn-deny-'   + i).className = 'action-btn deny';
+    document.getElementById('row' + i).classList.remove('row-correct','row-wrong');
+  }
+  const result = document.getElementById('pbq-result');
+  result.className = 'pbq-result';
+  result.innerHTML = '';
+}
+</script>
+</body>
+</html>
