@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Practice Exam — CCNA 200-301 | BL Cert Hub</title>
+  <title>Practice Exams — CCNA 200-301 | BL Cert Hub</title>
   <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
   <style>
     *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
@@ -297,6 +297,7 @@
     .theme-btn{width:34px;height:34px;border-radius:8px;border:1px solid rgba(255,255,255,0.18);background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.75);cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;transition:all .18s;flex-shrink:0}
     .theme-btn:hover{background:rgba(255,255,255,0.15);color:#fff}
 
+  
   </style>
 </head>
 <body>
@@ -304,16 +305,13 @@
 (function(){const K="bl-theme";function apply(d){document.documentElement.classList.toggle("dark",d);const b=document.getElementById("theme-btn");if(b)b.textContent=d?"☀":"☾"}apply(localStorage.getItem(K)==="dark");window.__toggleTheme=function(){const d=!document.documentElement.classList.contains("dark");localStorage.setItem(K,d?"dark":"light");apply(d)};window.addEventListener("storage",function(e){if(e.key===K)apply(e.newValue==="dark")})})();
 </script>
 
-
-
-
 <nav>
   <a class="nav-brand" href="index.html"><div class="bl-circle">BL</div><span>BL Cert Hub</span></a>
   <div class="nav-links">
     <a href="index.html">Home</a>
     <a href="ccna-home.html">CCNA</a>
-    <a href="#" class="active">Practice Exam</a>
-    <button class="theme-btn" id="theme-btn" onclick="__toggleTheme()" title="Toggle dark mode">☾</button>
+    <a href="#" class="active">Practice Exams</a>
+    <button class="theme-btn" id="theme-btn" onclick="__toggleTheme()" title="Toggle dark mode">&#9790;</button>
   </div>
 </nav>
 
@@ -323,8 +321,8 @@
   <div class="hero-bg-ring r2"></div>
   <div class="hero-inner">
     <div class="exam-badge"><div class="bl-circle">BL</div><span>Cisco CCNA 200-301</span></div>
-    <h1>Practice <span class="accent">Exam</span></h1>
-    <p class="hero-sub">203 questions from the ISC2 CC question bank covering all 5 domains. Choose your session length and timer, then start.</p>
+    <h1>Practice <span class="accent">Exams</span></h1>
+    <p class="hero-sub">Two full practice exams covering all 6 CCNA domains — 100 + 98 = 198 total questions. Select an exam, choose session length and timer, then start.</p>
   </div>
 </div>
 
@@ -332,6 +330,23 @@
 
   <!-- SETUP SCREEN -->
   <div id="setup-screen">
+    <div class="setup-section">
+      <div class="setup-section-label">Select Practice Exam</div>
+      <div class="option-grid cols-3" id="test-select-grid">
+        <div class="opt-btn selected" data-test="1" onclick="selectTest(this,1)">
+          <span class="ob-val">Exam 1</span>
+          <span class="ob-lbl">100 Questions</span>
+        </div>
+        <div class="opt-btn" data-test="2" onclick="selectTest(this,2)">
+          <span class="ob-val">Exam 2</span>
+          <span class="ob-lbl">98 Questions</span>
+        </div>
+        <div class="opt-btn" data-test="all" onclick="selectTest(this,'all')">
+          <span class="ob-val">All Exams</span>
+          <span class="ob-lbl">198 Questions</span>
+        </div>
+      </div>
+    </div>
     <div class="setup-section">
       <div class="setup-section-label">Number of Questions</div>
       <div class="option-grid cols-6" id="q-count-grid">
@@ -425,10 +440,10 @@
   </div>
 
 </div>
+
 <footer><p>Built by <a href="https://blaborte.github.io" target="_blank">Baltazar Laborte</a> · BL Cert Hub · Cisco CCNA 200-301</p></footer>
 
 <script>
-
 const CCNA_Q = [
 // ══ DOMAIN 1: Network Fundamentals (20) ══════════════════════════════════════
   {d:'1',q:'Which OSI layer is responsible for logical addressing and routing packets between networks?',opts:['A. Data Link','B. Network','C. Transport','D. Session'],ans:[1],exp:'The Network layer (Layer 3) handles logical IP addressing and routing between networks. Data Link handles MAC addressing within the same network. Transport handles end-to-end delivery. Session manages application connections.'},
@@ -552,6 +567,107 @@ const DOMAIN_NAMES = {
   '4':'IP Services','5':'Security Fundamentals','6':'Automation & Programmability'
 };
 
+const CCNA_Q2 = [
+  {d:'1',q:'Which OSI layer handles end-to-end delivery and port numbers?',opts:['A. Network','B. Data Link','C. Transport','D. Session'],ans:[2],exp:'Transport layer (Layer 4) uses port numbers to identify applications. TCP and UDP live here.'},
+  {d:'1',q:'What is the subnet mask for /20?',opts:['A. 255.255.240.0','B. 255.255.248.0','C. 255.255.252.0','D. 255.255.255.0'],ans:[0],exp:'/20 = 20 network bits. Third octet: 11110000 = 240. Mask = 255.255.240.0, block size 16.'},
+  {d:'1',q:'How many usable hosts does a /30 subnet provide?',opts:['A. 0','B. 2','C. 4','D. 6'],ans:[1],exp:'/30 = 4 total addresses. Subtract network and broadcast = 2 usable hosts. Used on point-to-point WAN links.'},
+  {d:'1',q:'Which IPv6 address type is globally routable and starts with 2000::/3?',opts:['A. Link-local','B. Unique local','C. Global unicast','D. Multicast'],ans:[2],exp:'Global unicast (2000::/3) addresses are the IPv6 equivalent of public IPv4 addresses. Link-local = FE80::/10. Unique local = FC00::/7.'},
+  {d:'1',q:'What is the Class B private address range per RFC 1918?',opts:['A. 10.0.0.0/8','B. 172.16.0.0/12','C. 192.168.0.0/16','D. 169.254.0.0/16'],ans:[1],exp:'172.16.0.0/12 spans 172.16.0.0 to 172.31.255.255. 10.0.0.0/8 is Class A private. 192.168.0.0/16 is Class C private.'},
+  {d:'1',q:'Which statement correctly describes a switch vs a hub?',opts:['A. Hubs operate at Layer 2; switches at Layer 1','B. Both flood all frames to all ports','C. Switches forward based on MAC address; hubs flood to all ports','D. Switches broadcast; hubs filter by MAC'],ans:[2],exp:'Switches use a CAM table to forward frames to the correct port. Hubs are Layer 1 devices that flood every frame out all ports, creating one collision domain.'},
+  {d:'1',q:'A network needs 500 hosts per subnet. Which is the smallest prefix that works?',opts:['A. /22','B. /23','C. /24','D. /25'],ans:[1],exp:'/23 gives 2^9-2 = 510 usable hosts. /24 gives only 254. /23 is the smallest meeting the requirement.'},
+  {d:'1',q:'Which protocol replaces ARP in IPv6 for neighbor discovery?',opts:['A. DHCPv6','B. ARP','C. NDP','D. SLAAC'],ans:[2],exp:'NDP (Neighbor Discovery Protocol) uses ICMPv6 messages — RS, RA, NS, NA — to replace ARP, assign link-local addresses, and perform DAD.'},
+  {d:'1',q:'What does "show interfaces" display for an administratively shut down interface?',opts:['A. up, line protocol down','B. administratively down, line protocol down','C. down, line protocol up','D. up, line protocol up'],ans:[1],exp:'"administratively down, line protocol is down" distinguishes an intentional shutdown from a physical failure which shows "down, line protocol is down."'},
+  {d:'1',q:'Which TCP mechanism prevents a fast sender from overwhelming a slow receiver?',opts:['A. Congestion avoidance','B. Flow control / windowing','C. Three-way handshake','D. Sequence numbering'],ans:[1],exp:'TCP flow control uses the receive window advertised by the receiver to throttle the sender. If the buffer fills, the window shrinks. Congestion avoidance handles network-level congestion.'},
+  {d:'1',q:'What is the destination MAC address of an ARP request?',opts:['A. Target host MAC','B. 00:00:00:00:00:00','C. FF:FF:FF:FF:FF:FF','D. Default gateway MAC'],ans:[2],exp:'ARP requests are Layer 2 broadcasts — destination MAC FF:FF:FF:FF:FF:FF — so every device on the segment receives and processes them.'},
+  {d:'1',q:'Which IPv4 header field identifies TCP (6) or UDP (17) as the upper-layer protocol?',opts:['A. Type of Service','B. Flags','C. Protocol','D. Identification'],ans:[2],exp:'The Protocol field carries the numeric identifier of the Layer 4 payload: 1=ICMP, 6=TCP, 17=UDP, 89=OSPF. IPv6 uses the Next Header field equivalently.'},
+  {d:'1',q:'How many bits are in an IPv6 address?',opts:['A. 32','B. 64','C. 96','D. 128'],ans:[3],exp:'IPv6 addresses are 128 bits written as eight 16-bit groups in hex. This provides 2^128 addresses versus IPv4\'s 2^32.'},
+  {d:'1',q:'Which command shows the MAC address table on a Cisco switch?',opts:['A. show ip arp','B. show mac address-table','C. show interfaces','D. show cdp neighbors'],ans:[1],exp:'"show mac address-table" lists VLAN, MAC, type (dynamic/static), and port. "show ip arp" shows the router ARP cache.'},
+  {d:'1',q:'What is the function of the Ethernet preamble?',opts:['A. Identifies MAC addresses','B. Synchronizes receiver clock before frame data','C. Contains CRC error check','D. Specifies EtherType'],ans:[1],exp:'The 7-byte preamble (alternating 1s and 0s) plus 1-byte SFD lets the receiver synchronize its clock before frame data arrives. CRC is in the frame trailer.'},
+  {d:'1',q:'How many usable hosts are in a /29 subnet?',opts:['A. 4','B. 6','C. 8','D. 14'],ans:[1],exp:'/29 = 8 total addresses (2^3). Subtract network and broadcast = 6 usable hosts. Block size = 8.'},
+  {d:'1',q:'Which statement about UDP is true?',opts:['A. UDP performs error recovery','B. UDP uses a three-way handshake','C. UDP has lower overhead and suits real-time apps','D. UDP guarantees in-order delivery'],ans:[2],exp:'UDP is connectionless — no handshake, no error recovery, no ordering. Low overhead makes it ideal for DNS, DHCP, VoIP, and video streaming.'},
+  {d:'1',q:'What does "no shutdown" do on a Cisco router interface?',opts:['A. Removes the IP address','B. Administratively enables the interface','C. Resets counters','D. Removes all interface config'],ans:[1],exp:'Router interfaces default to administratively down. "no shutdown" enables them. A working physical link is also needed for the line protocol to come up.'},
+  {d:'1',q:'Which field identifies a specific application process on a host?',opts:['A. MAC address','B. IP address','C. Port number','D. VLAN ID'],ans:[2],exp:'Port numbers 0-65535 identify services — HTTP=80, HTTPS=443, SSH=22, DNS=53. IP addresses identify hosts; MACs identify NICs; VLANs segment networks.'},
+  {d:'1',q:'Which valid IPv6 representation uses :: compression?',opts:['A. 2001:0DB8:0000:0000:0000:0000:0000:0001','B. 2001:DB8::1','C. 2001:DB8:0:0:0:0:0:1','D. Both B and C are valid'],ans:[3],exp:'Both B and C are correct. :: replaces one consecutive run of all-zero groups. Leading zeros in each group can be omitted. A shows full uncompressed form.'},
+  {d:'2',q:'Which command sets 802.1Q encapsulation on a trunk port?',opts:['A. switchport trunk encapsulation isl','B. switchport trunk encapsulation dot1q','C. switchport mode trunk','D. switchport access vlan 1'],ans:[1],exp:'"switchport trunk encapsulation dot1q" must be set before "switchport mode trunk" on platforms that support ISL. ISL is Cisco proprietary and deprecated.'},
+  {d:'2',q:'How do you recover an err-disabled port after a BPDU Guard violation?',opts:['A. no shutdown only','B. shutdown then no shutdown','C. spanning-tree bpduguard disable','D. clear spanning-tree detected-protocols'],ans:[1],exp:'Enter interface config, issue "shutdown" to clear the err-disabled state, then "no shutdown." Alternatively configure "errdisable recovery cause bpduguard" for automatic recovery.'},
+  {d:'2',q:'Which STP variant provides fastest convergence on modern Cisco switches?',opts:['A. 802.1D STP','B. PVST+','C. Rapid PVST+ (802.1w)','D. MST (802.1s)'],ans:[2],exp:'Rapid PVST+ converges in seconds using port role negotiation rather than timers. Classic STP takes 30-50 seconds. RSTP introduces Alternate and Backup port roles.'},
+  {d:'2',q:'What is VTP transparent mode?',opts:['A. Syncs VLANs from the VTP server','B. Creates VLANs for the entire domain','C. Manages its own VLAN DB; passes VTP ads without adopting them','D. Synchronizes every 30 seconds'],ans:[2],exp:'Transparent mode ignores VTP advertisements for its own database but forwards them. Useful when you want local VLAN control independent of the VTP domain.'},
+  {d:'2',q:'Which wireless protocol uses SAE to replace the PSK handshake?',opts:['A. WEP','B. WPA','C. WPA2','D. WPA3'],ans:[3],exp:'WPA3 uses SAE (Simultaneous Authentication of Equals / Dragonfly handshake), which resists offline dictionary attacks and provides forward secrecy. WPA2 uses a 4-way handshake.'},
+  {d:'2',q:'A switch has PortFast on an access port and a switch is plugged in. What happens without BPDU Guard?',opts:['A. Nothing — PortFast is safe everywhere','B. The port becomes root port','C. A loop could form because PortFast skips listening/learning','D. STP disables PortFast automatically'],ans:[2],exp:'Without BPDU Guard, a downstream switch can send BPDUs on a PortFast port. Because PortFast skips STP listening/learning, a temporary loop can form before STP converges.'},
+  {d:'2',q:'Which command assigns an access port to VLAN 20?',opts:['A. switchport vlan 20','B. vlan 20 interface gi0/1','C. switchport access vlan 20','D. switchport trunk allowed vlan 20'],ans:[2],exp:'"switchport access vlan 20" assigns the port to VLAN 20. The port must also be in access mode: "switchport mode access."'},
+  {d:'2',q:'What is the administrative distance of a directly connected route?',opts:['A. 0','B. 1','C. 90','D. 110'],ans:[0],exp:'Directly connected = AD 0, most trusted. Static = 1, EIGRP internal = 90, OSPF = 110. Lower AD wins when multiple sources advertise the same prefix.'},
+  {d:'2',q:'"channel-group 1 mode on" is configured on both switches. What protocol negotiates the EtherChannel?',opts:['A. LACP','B. PAgP','C. No protocol — static','D. STP'],ans:[2],exp:'"mode on" creates a static EtherChannel with no negotiation protocol. Both ends must be "on" — mixing "on" with LACP or PAgP prevents bundle formation.'},
+  {d:'2',q:'What is the risk of a native VLAN mismatch on a trunk?',opts:['A. No risk — corrected automatically','B. CDP warns and untagged frames land in the wrong VLAN','C. The trunk shuts down','D. Only tagged frames are affected'],ans:[1],exp:'CDP generates a native VLAN mismatch warning. Untagged frames sent on one VLAN arrive in a different VLAN on the other side — enabling VLAN hopping attacks.'},
+  {d:'2',q:'What does "show etherchannel summary" show?',opts:['A. Physical errors on member ports','B. Group, protocol, member ports, and state flags','C. LACP timer settings','D. CAM table for the port-channel'],ans:[1],exp:'Flags show P=bundled, D=down, I=standalone, H=hot-standby, S=Layer 2, R=Layer 3. Essential for verifying EtherChannel is operating correctly.'},
+  {d:'2',q:'Which cable connects two switches without Auto-MDIX?',opts:['A. Straight-through','B. Crossover','C. Rollover','D. Serial'],ans:[1],exp:'Like devices (switch-switch) historically required crossover cables to cross TX/RX pairs. Auto-MDIX automates this on modern hardware. Straight-through connects unlike devices.'},
+  {d:'2',q:'A wireless client has full signal but no network access. Most likely cause?',opts:['A. Too many clients on the AP','B. Associated but auth failed — wrong PSK or 802.1X issue','C. 5GHz not supported','D. Hidden SSID'],ans:[1],exp:'Full signal = RF (Layer 1) OK. Association (Layer 2) OK but no access means authentication failed — wrong PSK, 802.1X failure, or DHCP problem.'},
+  {d:'2',q:'What UDP ports does CAPWAP use for control and data?',opts:['A. Control 5246, Data 5247','B. Control 5247, Data 5246','C. Control 4500, Data 4501','D. Control 161, Data 162'],ans:[0],exp:'CAPWAP: UDP 5246 = control (AP-WLC management), UDP 5247 = data (client traffic tunnel). Both can be encrypted with DTLS.'},
+  {d:'2',q:'What is the role of the STP root bridge?',opts:['A. Blocks all redundant ports','B. Logical center — all switches calculate paths relative to it','C. Forwards on all ports simultaneously','D. Switch with highest MAC address'],ans:[1],exp:'The root bridge is the STP reference point. Every switch determines its Root Port (best path to root) and which ports are Designated or Blocked based on path cost to the root.'},
+  {d:'2',q:'Which command verifies Rapid PVST+ is running?',opts:['A. show version','B. show interfaces trunk','C. show spanning-tree','D. show vlan brief'],ans:[2],exp:'"show spanning-tree" shows the STP mode, root bridge, bridge ID, and port roles/states per VLAN. The first output line identifies the protocol.'},
+  {d:'2',q:'What does "switchport nonegotiate" do?',opts:['A. Prevents EtherChannel formation','B. Disables DTP — no DTP frames sent or accepted','C. Forces access mode permanently','D. Disables CDP'],ans:[1],exp:'"switchport nonegotiate" stops DTP frames. Best practice on all access ports and manually configured trunks to prevent unauthorized trunk negotiation.'},
+  {d:'3',q:'Which OSPF LSA type is generated by an ABR to advertise networks between areas?',opts:['A. Type 1 Router','B. Type 2 Network','C. Type 3 Summary','D. Type 5 AS External'],ans:[2],exp:'ABRs generate Type 3 Summary LSAs to advertise prefixes from one area into another. Type 1 = intra-area routers. Type 2 = DR on multi-access. Type 5 = external (ASBR).'},
+  {d:'3',q:'What does "O IA" in a routing table entry mean?',opts:['A. Intra-area OSPF','B. Inter-area OSPF (Type 3 summary)','C. External route','D. Inactive route'],ans:[1],exp:'"O IA" = OSPF Inter-Area, learned via a Type 3 LSA from an ABR. "O" alone = intra-area. "O E1/E2" = external. AD 110 follows in brackets.'},
+  {d:'3',q:'Which OSPF neighbor state means LSDBs are fully synchronized?',opts:['A. EXSTART','B. EXCHANGE','C. LOADING','D. FULL'],ans:[3],exp:'FULL state = complete LSDB synchronization. DROTHERs on broadcast networks reach FULL only with DR/BDR; they reach 2WAY with each other.'},
+  {d:'3',q:'What is the default OSPF hello interval on an Ethernet interface?',opts:['A. 5 seconds','B. 10 seconds','C. 30 seconds','D. 60 seconds'],ans:[1],exp:'Default hello = 10s on broadcast/point-to-point. Default = 30s on NBMA. Dead interval = 4x hello (40s on Ethernet). Mismatched timers prevent adjacency.'},
+  {d:'3',q:'What is the purpose of "ip route 10.0.0.0 255.0.0.0 Null0"?',opts:['A. Black-hole route to prevent loops with summary routes','B. Creates a default route','C. Backs up a dynamic route','D. Marks prefix unreachable to OSPF'],ans:[0],exp:'Null0 routes drop matching traffic. Combined with a summary advertisement, they prevent packets with no specific match from hitting the default route and looping.'},
+  {d:'3',q:'Which routing protocol uses Dijkstra\'s SPF algorithm?',opts:['A. RIP','B. EIGRP','C. BGP','D. OSPF'],ans:[3],exp:'OSPF runs SPF (Dijkstra) on its LSDB to compute loop-free shortest paths. EIGRP uses DUAL. RIP uses Bellman-Ford. BGP uses policy-based path selection.'},
+  {d:'3',q:'Router A has OSPF priority 200, Router B has 100. Who becomes DR?',opts:['A. Router B','B. Highest Router ID','C. Router A','D. Lowest IP address'],ans:[2],exp:'Highest priority wins DR election. Router A (200) becomes DR. Router B (100) becomes BDR. Priority 0 = never eligible for DR/BDR.'},
+  {d:'3',q:'What does "ip ospf cost 100" on an interface do?',opts:['A. Sets OSPF process ID','B. Manually overrides the interface OSPF cost','C. Changes reference bandwidth','D. Sets OSPF priority'],ans:[1],exp:'Manually setting cost overrides the auto-calculated value (ref BW / interface BW). Used to influence path selection on specific links.'},
+  {d:'3',q:'Which FHRP is an open standard alternative to HSRP?',opts:['A. GLBP','B. VRRP','C. ESRP','D. IRDP'],ans:[1],exp:'VRRP (RFC 5798) is open-standard. HSRP and GLBP are Cisco proprietary. VRRP uses Master/Backup roles with a shared virtual IP.'},
+  {d:'3',q:'A floating static (AD 200) and OSPF (AD 110) advertise the same prefix. Which installs?',opts:['A. Both','B. Static — more specific','C. OSPF — lower AD','D. Neither'],ans:[2],exp:'Lower AD wins. OSPF (110) beats floating static (200). The static installs only if OSPF loses the prefix — exactly the backup purpose of floating statics.'},
+  {d:'3',q:'Which command confirms OSPF adjacency state?',opts:['A. show ip route ospf','B. show ip protocols','C. show ip ospf neighbor','D. show ip ospf database'],ans:[2],exp:'"show ip ospf neighbor" shows neighbor RIDs, adjacency state (FULL/2WAY), DR/BDR roles, dead timer, and interface. FULL = synchronized LSDB.'},
+  {d:'3',q:'What is an OSPF Type 2 external route (O E2)?',opts:['A. Metric grows as route traverses OSPF domain','B. External metric stays constant regardless of internal cost','C. Inter-area summary from ABR','D. Route from another OSPF process'],ans:[1],exp:'E2 (default for redistribution) keeps a fixed external metric. E1 adds internal OSPF cost to external metric. E2 is simpler; E1 reflects true total cost.'},
+  {d:'3',q:'A router has no route and no default route for a destination. What happens?',opts:['A. Sends out lowest-numbered interface','B. Broadcasts to all interfaces','C. Drops packet, sends ICMP Unreachable to source','D. Holds packet until route appears'],ans:[2],exp:'No matching route + no default = packet dropped. Router sends ICMP Type 3 Destination Unreachable back to source. Fundamental router behavior.'},
+  {d:'3',q:'Which OSPF network statement enables all 192.168.0.x interfaces in area 0?',opts:['A. network 192.168.0.0 0.0.0.255 area 0','B. network 192.168.0.0 255.255.255.0 area 0','C. ospf enable 192.168.0.0/24 area 0','D. ip ospf 1 area 0'],ans:[0],exp:'OSPF uses wildcard masks. 0.0.0.255 matches the /24 range 192.168.0.0-192.168.0.255. Option B uses a subnet mask — invalid for OSPF.'},
+  {d:'3',q:'How does GLBP differ from HSRP?',opts:['A. GLBP is open standard; HSRP is Cisco proprietary','B. GLBP adds load balancing across multiple active gateways; HSRP only one active at a time','C. GLBP uses per-router IPs; HSRP uses virtual IP','D. GLBP supports IPv6 only'],ans:[1],exp:'GLBP is Cisco proprietary like HSRP but enables multiple routers to forward simultaneously using different virtual MACs while sharing one virtual IP, providing both redundancy and load balancing.'},
+  {d:'3',q:'Which statement about OSPF area 0 is correct?',opts:['A. Area 0 is optional','B. All areas must connect to area 0 directly or via virtual link','C. Only one router can be in area 0','D. Area 0 uses different LSA types'],ans:[1],exp:'Area 0 is the mandatory backbone. All other areas must attach to it. Virtual links allow areas without direct physical connection to area 0 to participate.'},
+  {d:'3',q:'From 172.20.0.0/16, admin wants 30 subnets with 500+ hosts each. Which prefix?',opts:['A. /23','B. /24','C. /22','D. /21'],ans:[0],exp:'/23 = 510 hosts per subnet. From /16, /23 gives 2^7=128 subnets — satisfying both requirements. /24 gives only 254 hosts.'},
+  {d:'3',q:'What does "ip helper-address" do on a router interface?',opts:['A. Enables NAT','B. Forwards DHCP broadcasts to a unicast DHCP server across subnets','C. Sets secondary IP','D. Enables OSPF discovery'],ans:[1],exp:'"ip helper-address [server-IP]" converts client DHCP broadcasts into unicast packets forwarded to the DHCP server, allowing one server to service multiple subnets.'},
+  {d:'3',q:'Which command shows outgoing interface and next-hop for a specific IP?',opts:['A. show ip protocols','B. show arp','C. show ip route 10.1.1.1','D. show interfaces'],ans:[2],exp:'"show ip route [destination]" performs a FIB lookup and returns the best match: source protocol, AD/metric, next-hop, outbound interface, and age.'},
+  {d:'3',q:'A higher-priority router joins after the DR is elected. What happens in OSPF?',opts:['A. New router immediately becomes DR','B. OSPF is non-preemptive — new router waits for DR failure','C. New election in 40 seconds','D. New router becomes BDR only'],ans:[1],exp:'OSPF DR election is non-preemptive. The existing DR remains until it fails or OSPF resets. The new higher-priority router will win BDR and later DR if the current DR/BDR fail.'},
+  {d:'3',q:'What is the purpose of route summarization?',opts:['A. Combines specific routes into one advertisement to reduce table size and update traffic','B. Adds authentication to updates','C. Load-balances across equal-cost paths','D. Filters routes with ACLs'],ans:[0],exp:'Summarization reduces routing table size, decreases memory/CPU usage, limits update traffic, and improves stability — specific prefix flaps are hidden behind the summary.'},
+  {d:'4',q:'Which SNMP version provides authentication and encryption?',opts:['A. SNMPv1','B. SNMPv2c','C. SNMPv3','D. SNMPv2u'],ans:[2],exp:'SNMPv3 adds authNoPriv (auth only) and authPriv (auth + AES/DES encryption) security levels. v1 and v2c use cleartext community strings.'},
+  {d:'4',q:'Which command sends syslog to 10.1.1.100?',opts:['A. logging host 10.1.1.100','B. syslog server 10.1.1.100','C. logging trap 10.1.1.100','D. snmp-server host 10.1.1.100 syslog'],ans:[0],exp:'"logging host [IP]" directs syslog to a remote server. Use "logging trap [severity]" to set the minimum level. "logging buffered" stores locally in RAM.'},
+  {d:'4',q:'Which DSCP value is used for VoIP EF traffic?',opts:['A. DSCP 0','B. DSCP 46 (EF)','C. DSCP 26 (AF31)','D. DSCP 34 (AF41)'],ans:[1],exp:'EF (Expedited Forwarding) = DSCP 46, provides lowest latency/jitter/loss for VoIP bearer. AF classes serve business-critical data with drop precedence.'},
+  {d:'4',q:'What transport protocol does TACACS+ use vs RADIUS?',opts:['A. Both TCP','B. Both UDP','C. RADIUS=UDP; TACACS+=TCP','D. RADIUS=TCP; TACACS+=UDP'],ans:[2],exp:'RADIUS uses UDP 1812/1813. TACACS+ uses TCP 49 for reliable transport. TACACS+ also encrypts the full payload and separates auth/authz/acct.'},
+  {d:'4',q:'What are "inside global" addresses in NAT?',opts:['A. Private IPs of internal hosts','B. Public IPs that internal hosts translate to','C. External server IPs','D. NAT overload pool name'],ans:[1],exp:'Inside global = public IP addresses assigned to internal hosts for outside communication. In PAT, one inside global IP is shared by many internal hosts using port multiplexing.'},
+  {d:'4',q:'A device syncs from a stratum 2 NTP server. What is its stratum?',opts:['A. 1','B. 2','C. 3','D. 4'],ans:[2],exp:'Each NTP hop adds 1. Stratum 2 server -> stratum 3 client. Stratum 0 = atomic reference. Stratum 16 = unsynchronized.'},
+  {d:'4',q:'Which command shows if a Cisco device is NTP-synchronized?',opts:['A. show clock','B. show ntp status','C. show ntp associations','D. debug ntp packets'],ans:[1],exp:'"show ntp status" shows sync state, reference stratum, server IP, and metrics. "show ntp associations" lists all peers and the selected one.'},
+  {d:'4',q:'What does "ip dhcp excluded-address" do?',opts:['A. Blocks DHCP from specific hosts','B. Reserves IPs so DHCP skips them when assigning leases','C. Removes binding table entries','D. Configures DHCP snooping exclusions'],ans:[1],exp:'Excluded addresses are skipped during DHCP pool assignment. Configure before the pool for static devices like routers, printers, and servers.'},
+  {d:'4',q:'Which DNS record maps a hostname to an IPv6 address?',opts:['A. A','B. CNAME','C. AAAA','D. PTR'],ans:[2],exp:'AAAA records map to IPv6 (four times 32 bits = 128 bits). A = IPv4. CNAME = alias. PTR = reverse lookup. MX = mail server.'},
+  {d:'4',q:'What does "overload" mean in "ip nat inside source list 10 interface gi0/1 overload"?',opts:['A. Processes more translations than rated capacity','B. PAT — many private IPs share one public IP using port numbers','C. NAT table is full','D. NAT applied to all traffic'],ans:[1],exp:'"Overload" enables PAT. Multiple internal hosts share gi0/1\'s public IP, differentiated by unique source port numbers tracked in the NAT table.'},
+  {d:'4',q:'What UDP port does NTP use?',opts:['A. TCP and UDP 123','B. UDP 123 only','C. TCP 123 only','D. UDP 161'],ans:[1],exp:'NTP uses UDP 123 exclusively. NTP\'s algorithms compensate for packet loss without needing TCP. UDP 161 is SNMP.'},
+  {d:'4',q:'What is DHCP Option 43 used for?',opts:['A. DNS server IP','B. WLC IP address for Lightweight APs','C. DHCP lease time','D. Default gateway'],ans:[1],exp:'Option 43 carries vendor-specific data. Cisco uses it to supply the WLC IP to Lightweight APs during DHCP discovery so APs can join the controller automatically.'},
+  {d:'5',q:'What is an on-path (man-in-the-middle) attack?',opts:['A. Denial of Service','B. Phishing','C. Attacker intercepts/modifies traffic between two hosts','D. SQL injection'],ans:[2],exp:'On-path attacks insert the attacker between communicating parties. ARP spoofing is a common Layer 2 technique. HTTPS and certificate validation defend against it.'},
+  {d:'5',q:'Which AAA function controls what an authenticated user can do?',opts:['A. Authentication','B. Authorization','C. Accounting','D. Administration'],ans:[1],exp:'Authorization determines privileges after authentication. TACACS+ supports granular per-command authorization. Accounting logs what was done.'},
+  {d:'5',q:'An outbound ACL is on a router interface. When is it evaluated?',opts:['A. When packet enters from LAN','B. After routing, as packet leaves the outbound interface','C. At source default gateway','D. At the destination server'],ans:[1],exp:'Outbound ACLs are evaluated post-routing as packets exit. Inbound ACLs are evaluated pre-routing as packets enter. This affects which interface to apply the ACL.'},
+  {d:'5',q:'Which command applies ACL 101 inbound on Gi0/0?',opts:['A. ip access-list 101 in gi0/0','B. access-group 101 in','C. ip access-group 101 in','D. ip access-class 101 in'],ans:[2],exp:'"ip access-group [ACL] in|out" applies the ACL to an interface. "ip access-class" applies ACLs to VTY lines for management session control.'},
+  {d:'5',q:'What does port-security violation "restrict" do?',opts:['A. Shuts port, sends SNMP trap','B. Drops violating frames, logs violation, keeps port up','C. Drops frames silently','D. Allows all frames'],ans:[1],exp:'Restrict: drops unauthorized frames, increments violation counter, sends syslog. Port stays up. Shutdown = err-disable. Protect = silent drop, no log.'},
+  {d:'5',q:'Which feature err-disables a PortFast port that receives a BPDU?',opts:['A. Root Guard','B. Loop Guard','C. BPDU Guard','D. Storm Control'],ans:[2],exp:'BPDU Guard immediately err-disables a PortFast port upon receiving any BPDU, preventing rogue switches from influencing the STP topology.'},
+  {d:'5',q:'What does "service password-encryption" do?',opts:['A. Encrypts all network traffic','B. Applies Type 7 weak encryption to plaintext passwords in config','C. Enables AES-256 for passwords','D. Hides passwords from show commands completely'],ans:[1],exp:'"service password-encryption" applies reversible Type 7 encryption. Better than cleartext but weak. "enable secret" uses MD5 and is always preferred.'},
+  {d:'5',q:'Which protocol is preferred for network device admin: TACACS+ or RADIUS?',opts:['A. RADIUS','B. TACACS+','C. Kerberos','D. LDAP'],ans:[1],exp:'TACACS+ (TCP 49) is preferred for device management: full payload encryption, granular per-command authz, and separated AAA functions. RADIUS suits network access (VPN, Wi-Fi).'},
+  {d:'5',q:'How do you restrict SSH to VTY lines for 10.0.0.0/8 only?',opts:['A. Extended ACL with ip access-group on VTY','B. Standard ACL + ip access-class in on VTY lines','C. Extended ACL on LAN interface','D. "transport input ssh" only — no ACL'],ans:[1],exp:'"ip access-class [ACL] in" on VTY lines restricts source IPs for management access. A standard ACL matching source /8 is sufficient. "transport input ssh" restricts protocol only.'},
+  {d:'5',q:'Which ACL type can filter on destination port number?',opts:['A. Standard numbered (1-99)','B. Extended named ACL','C. Standard named ACL','D. Both A and C'],ans:[1],exp:'Only extended ACLs (100-199 or named extended) match source/destination IP, protocol, and ports. Standard ACLs match source IP only.'},
+  {d:'5',q:'What is the purpose of Dynamic ARP Inspection (DAI)?',opts:['A. Speeds up ARP on large networks','B. Validates ARP packets against DHCP snooping table to block ARP spoofing','C. Updates ARP table every 30 seconds','D. Broadcasts ARP replies to all VLAN members'],ans:[1],exp:'DAI drops ARP packets where sender IP-MAC does not match the DHCP snooping binding table. Requires DHCP snooping to be enabled first.'},
+  {d:'5',q:'What happens immediately after "aaa new-model" is configured?',opts:['A. Enables AAA and overrides existing line auth methods','B. Creates a new AAA server group','C. Resets all user accounts','D. Enables RADIUS only'],ans:[0],exp:'"aaa new-model" enables AAA globally and immediately overrides all line authentication. You must configure "aaa authentication login default local" or risk losing access.'},
+  {d:'5',q:'How do you delete one ACE from a named ACL without removing the whole ACL?',opts:['A. no access-list 101 permit ip any any','B. ip access-list extended MYACL + no [seq number]','C. clear ip access-list MYACL','D. delete acl MYACL line 10'],ans:[1],exp:'Named ACLs support sequence-number editing. Enter the ACL and use "no [seq]" to remove that specific entry. Numbered ACLs require full deletion and recreation.'},
+  {d:'5',q:'What is 802.1X port-based NAC?',opts:['A. Encrypts inter-port traffic','B. Requires authentication before granting network access on a port','C. Prevents MAC spoofing','D. Limits port bandwidth'],ans:[1],exp:'802.1X blocks all traffic until the supplicant authenticates via EAP to a RADIUS server through the switch authenticator. Requires "aaa new-model" and RADIUS configuration.'},
+  {d:'6',q:'Which data format is most common for REST API responses?',opts:['A. XML','B. YAML','C. JSON','D. CSV'],ans:[2],exp:'JSON uses key-value pairs and arrays. Lightweight, human-readable, natively supported in most languages, and the default for REST APIs.'},
+  {d:'6',q:'What is Cisco RESTCONF?',opts:['A. CLI-based config protocol','B. HTTP/HTTPS REST API for YANG-modeled device config and state','C. Binary high-speed data plane protocol','D. SSH replacement'],ans:[1],exp:'RESTCONF (RFC 8040) exposes YANG models over HTTP/HTTPS using standard REST methods (GET/POST/PUT/PATCH/DELETE) with JSON or XML encoding.'},
+  {d:'6',q:'Which Ansible component lists the managed hosts?',opts:['A. Playbook','B. Role','C. Inventory','D. Module'],ans:[2],exp:'The inventory file (INI, YAML, or dynamic) defines hosts and groups. Playbooks define tasks. Modules execute actions (ios_command, ios_config). Roles organize reusable content.'},
+  {d:'6',q:'What is the key execution model difference between Ansible and Puppet?',opts:['A. Ansible declarative; Puppet procedural','B. Ansible push/agentless; Puppet pull/agent-based','C. Ansible supports network devices; Puppet does not','D. Puppet uses YAML; Ansible uses Ruby'],ans:[1],exp:'Ansible pushes config via SSH/API with no agent. Puppet agents pull config from the Puppet Master periodically. Ansible uses YAML; Puppet uses its own DSL.'},
+  {d:'6',q:'What HTTP status code means a GET via RESTCONF succeeded?',opts:['A. 201','B. 204','C. 200','D. 404'],ans:[2],exp:'200 OK = successful GET. 201 = resource created (POST). 204 = success, no body (DELETE). 404 = not found. 401 = unauthorized.'},
+  {d:'6',q:'Which SDN controller uses open southbound APIs like OpenFlow?',opts:['A. Overlay controller','B. Open SDN controller','C. Hybrid controller','D. BGP route reflector'],ans:[1],exp:'Open SDN controllers (e.g., OpenDaylight) use OpenFlow to program the data plane. Overlay controllers manage virtual overlays. Hybrid controllers combine approaches.'},
+  {d:'6',q:'What is configuration drift and how does IaC fix it?',opts:['A. Devices losing connectivity; IaC prevents hardware failure','B. Manual changes diverge from baseline; IaC enforces desired state from code','C. BGP instability; IaC stabilizes routes','D. Large config files; IaC compresses them'],ans:[1],exp:'Drift = ad-hoc changes causing devices to diverge from documented baseline. IaC tools like Ansible detect and remediate drift by reapplying the code-defined desired state.'},
+  {d:'6',q:'Which Python library simplifies multi-vendor SSH connections to network devices?',opts:['A. requests','B. json','C. netmiko','D. flask'],ans:[2],exp:'Netmiko is built on Paramiko and handles connection setup, prompts, and output parsing for Cisco IOS, NX-OS, Juniper, Arista, and many other vendors automatically.'},
+  {d:'6',q:'Which Cisco SD-WAN component distributes OMP routes to WAN edge routers?',opts:['A. vManage','B. vBond','C. vSmart','D. vEdge'],ans:[2],exp:'vSmart distributes OMP routing and policies to all WAN edges. vManage = GUI/API management. vBond = orchestration/onboarding. vEdge/cEdge = WAN routers.'},
+  {d:'6',q:'What is the primary benefit of Git for network automation?',opts:['A. Compresses scripts','B. Version control — tracks changes, enables rollback, supports collaboration','C. Auto-deploys to devices','D. Encrypts credentials'],ans:[1],exp:'Git tracks every change (who, what, when), enables rollback to any version, supports branching for safe testing, and enables collaboration via pull requests.'},
+  {d:'6',q:'Which Cisco platform provides AI/ML network assurance and a northbound REST API?',opts:['A. Cisco vManage','B. Cisco DNA Center','C. Cisco APIC','D. Cisco NSO'],ans:[1],exp:'Cisco DNA Center provides IBN for campus/branch: northbound REST API, AI/ML assurance for proactive issue detection, and guided workflows for design, provisioning, and policy.'},
+  {d:'6',q:'What is idempotency in network automation?',opts:['A. Script runs faster each execution','B. Running a task multiple times produces same result as running once','C. Config backs itself up automatically','D. Script works on any vendor'],ans:[1],exp:'Idempotent automation checks existing state before making changes. If desired state already matches, no action is taken. Re-running playbooks causes no unintended side effects.'},
+  {d:'6',q:'Which is a southbound API in SDN?',opts:['A. REST API consumed by a management app','B. OpenFlow messages from controller to switch','C. GUI dashboard for admins','D. SNMP trap to NMS'],ans:[1],exp:'Southbound APIs connect the controller DOWN to network devices. OpenFlow is the most well-known. Others: NETCONF, RESTCONF, gRPC, OpFlex. Northbound APIs face up toward apps.'},
+  {d:'6',q:'A team ensures all router configs match a Git repo. What is this practice called?',opts:['A. Network monitoring','B. Configuration backup','C. GitOps / Infrastructure as Code','D. Manual auditing'],ans:[2],exp:'GitOps treats the Git repo as the single source of truth. Automated pipelines detect and correct drift between the repo and live device state — a specific IaC implementation.'},
+];
+
 /* ══════════════════════════════════════
    STATE
 ══════════════════════════════════════ */
@@ -584,7 +700,7 @@ function selectTest(el, t) {
   document.querySelectorAll('#test-select-grid .opt-btn').forEach(b => b.classList.remove('selected'));
   el.classList.add('selected');
   // Update question count options based on pool size
-  const poolSize = t === 1 ? 129 : t === 2 ? 100 : 229;
+  const poolSize = t === 1 ? 100 : t === 2 ? 98 : 198;
   // Update "All" button label
   const allBtn = document.getElementById('all-q-btn');
   if (allBtn) {
@@ -594,7 +710,7 @@ function selectTest(el, t) {
   }
   // Update session title label on results
   const lbl = document.getElementById('res-label');
-  if (lbl) lbl.textContent = t === 'both' ? 'Combined Practice Exam Complete' : `Practice Test ${t} Complete`;
+  if (lbl) lbl.textContent = t === 'all' ? 'All Exams Complete' : `CCNA Practice Exam ${t} Complete`;
 }
 
 function toggleSessionBar() {
@@ -605,8 +721,9 @@ function toggleSessionBar() {
 }
 
 function startExam() {
-  const shuffled = [...CCNA_Q].sort(() => Math.random() - 0.5);
-  sessionQ = shuffled.slice(0, Math.min(selectedCount, CCNA_Q.length));
+  const pool = selectedTest === 1 ? CCNA_Q : selectedTest === 2 ? CCNA_Q2 : [...CCNA_Q, ...CCNA_Q2];
+  const shuffled = [...pool].sort(() => Math.random() - 0.5);
+  sessionQ = shuffled.slice(0, Math.min(selectedCount, pool.length));
   curQ = 0;
   answers = new Array(sessionQ.length).fill(null);
   revealed = new Array(sessionQ.length).fill(false);
@@ -831,6 +948,7 @@ function backToSetup() {
   document.getElementById('setup-screen').style.display = 'block';
   window.scrollTo({top:0,behavior:'smooth'});
 }
+
 </script>
 </body>
 </html>
