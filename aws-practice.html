@@ -324,7 +324,7 @@
   <div class="hero-inner">
     <div class="exam-badge"><div class="bl-circle">BL</div><span>AWS Certified Cloud Practitioner CLF-C02</span></div>
     <h1>Practice <span class="accent">Exam</span></h1>
-    <p class="hero-sub">203 questions from the ISC2 CC question bank covering all 5 domains. Choose your session length and timer, then start.</p>
+    <p class="hero-sub">100 questions covering all 4 CLF-C02 domains. Choose your session length and timer, then start.</p>
   </div>
 </div>
 
@@ -411,7 +411,7 @@
   <!-- RESULTS SCREEN -->
   <div id="results-screen">
     <div class="result-score" id="res-score">0/0</div>
-    <div class="result-label" id="res-label">ISC2 CC Practice Exam Complete</div>
+    <div class="result-label" id="res-label">AWS Cloud Practitioner Practice Exam Complete</div>
     <div class="result-grade" id="res-grade">—</div>
     <div class="result-stats">
       <div class="rs-item"><div class="rs-val" id="res-correct" style="color:var(--correct)">0</div><div class="rs-lbl">Correct</div></div>
@@ -812,7 +812,7 @@ function endExam() {
 
   const grade = document.getElementById('res-grade');
   const resLbl = document.getElementById('res-label');
-  if (resLbl) resLbl.textContent = 'ISC2 CC Practice Exam Complete';
+  if (resLbl) resLbl.textContent = 'AWS Cloud Practitioner Practice Exam Complete';
   if (pct >= 72) { grade.className = 'result-grade pass'; grade.textContent = `${pct}% — PASS 🎉`; }
   else { grade.className = 'result-grade fail'; grade.textContent = `${pct}% — Keep Studying`; }
 
