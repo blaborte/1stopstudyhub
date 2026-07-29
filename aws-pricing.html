@@ -117,8 +117,8 @@
 </head>
 <body>
 <script>
-(function(){const K="bl-theme";function apply(d){document.documentElement.classList.toggle("dark",d);const b=document.getElementById("theme-btn");if(b)b.textContent=d?"\u2600":"\u263e"}apply(localStorage.getItem(K)==="dark");window.__toggleTheme=function(){const d=!document.documentElement.classList.contains("dark");localStorage.setItem(K,d?"dark":"light");apply(d)};window.addEventListener("storage",function(e){if(e.key===K)apply(e.newValue==="dark")})})();
-<\/script>
+(function(){const K="bl-theme";function apply(d){document.documentElement.classList.toggle("dark",d);const b=document.getElementById("theme-btn");if(b)b.textContent=d?"☀":"☾"}apply(localStorage.getItem(K)==="dark");window.__toggleTheme=function(){const d=!document.documentElement.classList.contains("dark");localStorage.setItem(K,d?"dark":"light");apply(d)};window.addEventListener("storage",function(e){if(e.key===K)apply(e.newValue==="dark")})})();
+</script>
 <nav>
   <a class="nav-brand" href="index.html"><div class="bl-circle">BL</div><span>BL Cert Hub</span></a>
   <div class="nav-links">
@@ -447,9 +447,9 @@ Replace every 0 with the real current price. Return only the JSON object.`;
     const fresh = JSON.parse(m[0]);
     if (!fresh.ec2 || !fresh.s3 || !fresh.rds) throw new Error('Incomplete data');
     P = {...P, ...fresh, source:'live', fetched_at: new Date().toLocaleTimeString()};
-    badge.textContent = '\u2713 Live prices — fetched at ' + P.fetched_at;
+    badge.textContent = '✓ Live prices — fetched at ' + P.fetched_at;
     badge.classList.add('show');
-    document.getElementById('price-period').textContent = 'us-east-1 \u00b7 live prices fetched ' + P.fetched_at;
+    document.getElementById('price-period').textContent = 'us-east-1 · live prices fetched ' + P.fetched_at;
     msg.textContent = 'Prices updated!';
     setTimeout(()=>st.classList.remove('show'),2500);
     calc();
@@ -458,7 +458,7 @@ Replace every 0 with the real current price. Return only the JSON object.`;
     setTimeout(()=>st.classList.remove('show'),4000);
   }
   btn.disabled = false;
-  btn.textContent = '\u26a1 Refresh Prices';
+  btn.textContent = '⚡ Refresh Prices';
 }
 
 // ── Calculator ────────────────────────────────────────────────────────────────
@@ -528,10 +528,10 @@ function calc(){
   const rdl=document.getElementById('rds-deploy').options[document.getElementById('rds-deploy').selectedIndex].text.split('(')[0].trim();
   const spl=document.getElementById('support-plan').options[document.getElementById('support-plan').selectedIndex].text.split('\u2014')[0].trim();
   document.getElementById('breakdown').innerHTML=`
-    <tr><td>Amazon EC2</td><td>${ec}\u00d7 ${etl} \u00b7 ${epl} \u00b7 ${eh}h/day + ${ee}GB EBS</td><td>${fmt(ec2t)}</td></tr>
+    <tr><td>Amazon EC2</td><td>${ec}× ${etl} · ${epl} · ${eh}h/day + ${ee}GB EBS</td><td>${fmt(ec2t)}</td></tr>
     <tr><td>Amazon S3</td><td>${sg.toLocaleString()} GB ${skl}</td><td>${fmt(s3t)}</td></tr>
-    <tr><td>AWS Lambda</td><td>${li}M inv \u00b7 ${lm}MB \u00b7 ${ld}ms avg</td><td>${fmt(lamt)}</td></tr>
-    <tr><td>Amazon RDS</td><td>${rkl} \u00b7 ${rdl} \u00b7 ${rg}GB \u00b7 ${rh}h</td><td>${fmt(rdst)}</td></tr>
+    <tr><td>AWS Lambda</td><td>${li}M inv · ${lm}MB · ${ld}ms avg</td><td>${fmt(lamt)}</td></tr>
+    <tr><td>Amazon RDS</td><td>${rkl} · ${rdl} · ${rg}GB · ${rh}h</td><td>${fmt(rdst)}</td></tr>
     <tr><td>Data Transfer</td><td>${dto.toLocaleString()}GB out + ${cfo.toLocaleString()}GB CF</td><td>${fmt(dtt)}</td></tr>
     <tr><td>AWS Support</td><td>${spl}</td><td>${fmt(sv2)}</td></tr>
     <tr><td colspan="2"><strong>Total Monthly Estimate</strong></td><td>${fmt(grand)}</td></tr>`;
@@ -558,16 +558,16 @@ function resetAll(){
 
 function copySummary(){
   const rows=[...document.querySelectorAll('#breakdown tr')];
-  const text='AWS Monthly Cost Estimate\n'+'\u2500'.repeat(40)+'\n'+
+  const text='AWS Monthly Cost Estimate\n'+'─'.repeat(40)+'\n'+
     rows.map(r=>[...r.querySelectorAll('td')].map(c=>c.textContent.trim()).join(' | ')).join('\n')+
     '\n\nSource: '+(P.source==='live'?'Live prices fetched '+P.fetched_at:'Built-in estimates');
   navigator.clipboard.writeText(text).catch(()=>{});
   const b=document.querySelector('.btn-copy');
-  b.textContent='\u2713 Copied!';
-  setTimeout(()=>b.textContent='\uD83D\uDCCB Copy Summary',2000);
+  b.textContent='✓ Copied!';
+  setTimeout(()=>b.textContent='📋 Copy Summary',2000);
 }
 
 calc();
-<\/script>
+</script>
 </body>
 </html>
