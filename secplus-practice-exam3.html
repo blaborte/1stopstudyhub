@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Practice Exam 3 — Security+ SY0-701 | BL Cert Hub</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
+  <style>
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    :root{
+      --navy:#0B1D3A;--blue:#1A5276;--accent:#2E86C1;--sky:#5DADE2;
+      --light:#EAF4FB;--mid:#D6EAF8;--white:#fff;--text:#0B1D3A;--muted:#5D7A8C;
+      --border:rgba(30,80,130,0.13);
+      --correct:#27AE60;--correct-bg:rgba(39,174,96,0.07);--correct-border:rgba(39,174,96,0.28);
+      --wrong:#E74C3C;--wrong-bg:rgba(231,76,60,0.07);--wrong-border:rgba(231,76,60,0.28);
+    }
+    html{scroll-behavior:smooth}
+    body{font-family:'DM Sans',sans-serif;background:var(--light);color:var(--text);min-height:100vh}
+
+    /* NAV */
+    nav{background:var(--navy);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:56px;position:sticky;top:0;z-index:100;border-bottom:1px solid rgba(93,173,226,0.15)}
+    .nav-brand{display:flex;align-items:center;gap:10px;text-decoration:none}
+    .bl-circle{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#2E86C1,#5DADE2);display:flex;align-items:center;justify-content:center;font-family:'Space Mono',monospace;font-size:10px;font-weight:700;color:#fff;flex-shrink:0}
+    .nav-brand span{font-size:13px;font-weight:500;color:rgba(255,255,255,0.85);letter-spacing:.02em}
+    .nav-links{display:flex;gap:6px}
+    .nav-links a{font-size:12px;font-weight:500;color:rgba(255,255,255,0.6);text-decoration:none;padding:6px 12px;border-radius:6px;transition:all .18s}
+    .nav-links a:hover{color:#fff;background:rgba(255,255,255,0.08)}
+    .nav-links a.active{color:var(--sky);background:rgba(93,173,226,0.12)}
+
+    /* HERO */
+    .hero{background:linear-gradient(135deg,#0B1D3A 0%,#1A5276 55%,#2E86C1 100%);padding:3rem 2rem 2.5rem;position:relative;overflow:hidden}
+    .hero-grid-pattern{position:absolute;inset:0;background-image:linear-gradient(rgba(93,173,226,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(93,173,226,0.04) 1px,transparent 1px);background-size:32px 32px;pointer-events:none}
+    .hero-bg-ring{position:absolute;border-radius:50%;border:40px solid rgba(93,173,226,0.08);pointer-events:none}
+    .hero-bg-ring.r1{width:300px;height:300px;top:-70px;right:-50px}
+    .hero-bg-ring.r2{width:180px;height:180px;bottom:-60px;left:40%;border-width:22px}
+    .hero-inner{position:relative;max-width:880px;margin:0 auto}
+    .exam-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.18);border-radius:20px;padding:5px 14px 5px 5px;margin-bottom:1.25rem}
+    .exam-badge .bl-circle{width:26px;height:26px;font-size:9px}
+    .exam-badge span{font-size:12px;color:rgba(255,255,255,0.8);font-weight:500}
+    .hero h1{font-family:'Space Mono',monospace;font-size:clamp(22px,3.5vw,38px);font-weight:700;color:#fff;line-height:1.2;margin-bottom:.5rem}
+    .hero h1 .accent{color:var(--sky)}
+    .hero-sub{font-size:14px;color:rgba(255,255,255,0.6);font-weight:300;line-height:1.7;max-width:500px}
+
+    /* WRAP */
+    .exam-wrap{max-width:880px;margin:0 auto;padding:2rem 2rem 3rem}
+
+    /* ── SETUP SCREEN ── */
+    #setup-screen{display:block}
+    .setup-title{font-family:'Space Mono',monospace;font-size:14px;font-weight:700;color:var(--navy);margin-bottom:1rem}
+    .setup-section{background:var(--white);border:1px solid var(--border);border-radius:14px;padding:24px;margin-bottom:16px;box-shadow:0 2px 8px rgba(11,29,58,0.06)}
+    .setup-section-label{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+    .setup-section-label::after{content:'';flex:1;height:1px;background:var(--border)}
+    .option-grid{display:grid;gap:10px}
+    .option-grid.cols-3{grid-template-columns:repeat(3,1fr)}
+    .option-grid.cols-6{grid-template-columns:repeat(6,1fr)}
+    .opt-btn{
+      padding:12px 10px;border-radius:10px;border:1.5px solid var(--border);
+      background:var(--light);cursor:pointer;text-align:center;
+      transition:all .18s;font-family:'DM Sans',sans-serif;
+    }
+    .opt-btn:hover{border-color:var(--accent);background:rgba(46,134,193,0.05)}
+    .opt-btn.selected{border-color:var(--accent);background:rgba(46,134,193,0.1);color:var(--accent)}
+    .opt-btn .ob-val{font-family:'Space Mono',monospace;font-size:16px;font-weight:700;color:var(--navy);display:block;margin-bottom:2px}
+    .opt-btn.selected .ob-val{color:var(--accent)}
+    .opt-btn .ob-lbl{font-size:11px;color:var(--muted)}
+    .opt-btn.selected .ob-lbl{color:var(--accent)}
+    .start-btn{width:100%;padding:14px;border-radius:10px;background:var(--accent);border:none;color:#fff;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:600;cursor:pointer;transition:all .18s;letter-spacing:.02em;margin-top:8px}
+    .start-btn:hover{background:var(--blue)}
+
+    /* ── EXAM SCREEN ── */
+    #exam-screen{display:none}
+
+    /* SESSION BAR */
+    .session-bar{background:var(--white);border:1px solid var(--border);border-radius:12px;margin-bottom:1.25rem;overflow:hidden;box-shadow:0 2px 8px rgba(11,29,58,0.06)}
+    .session-bar-head{display:flex;align-items:center;justify-content:space-between;padding:11px 18px;cursor:pointer;user-select:none;transition:background .15s}
+    .session-bar-head:hover{background:rgba(46,134,193,0.03)}
+    .session-bar-pills{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+    .s-pill{font-size:11px;font-weight:500;padding:4px 12px;border-radius:20px;background:rgba(46,134,193,0.08);color:var(--accent);border:1px solid rgba(46,134,193,0.18);white-space:nowrap}
+    .s-pill.timer-pill{background:var(--navy);color:var(--sky);border-color:transparent;font-family:'Space Mono',monospace;font-weight:700}
+    .s-pill.timer-pill.warning{color:#F39C12}
+    .s-pill.timer-pill.danger{color:#E74C3C;animation:pulse .8s infinite}
+    @keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+    .bar-chevron{font-size:11px;color:var(--muted);transition:transform .25s;flex-shrink:0;margin-left:8px}
+    .bar-chevron.open{transform:rotate(180deg)}
+    .session-bar-body{max-height:0;overflow:hidden;transition:max-height .3s ease}
+    .session-bar-body.open{max-height:160px}
+    .session-bar-inner{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:0 18px 14px;border-top:1px solid var(--border);padding-top:12px;margin-top:0}
+    .sbi-item{text-align:center;background:var(--light);border-radius:8px;padding:10px}
+    .sbi-val{font-family:'Space Mono',monospace;font-size:15px;font-weight:700;color:var(--navy)}
+    .sbi-lbl{font-size:10px;color:var(--muted);margin-top:2px}
+
+    /* SCOREBOARD */
+    .scoreboard{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:1.5rem}
+    .score-card{background:var(--navy);border-radius:12px;padding:14px;text-align:center}
+    .score-val{font-family:'Space Mono',monospace;font-size:20px;font-weight:700;color:var(--sky)}
+    .score-lbl{font-size:10px;color:rgba(255,255,255,0.45);margin-top:4px}
+
+    /* PROGRESS */
+    .progress-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+    .progress-label{font-size:12px;font-weight:500;color:var(--text)}
+    .progress-pct{font-family:'Space Mono',monospace;font-size:12px;color:var(--accent);font-weight:700}
+    .progress-track{height:6px;background:var(--mid);border-radius:3px;overflow:hidden;margin-bottom:1.25rem}
+    .progress-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--blue),var(--sky));border-radius:3px;transition:width .4s}
+
+    /* Q NAV PILLS */
+    .section-label{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);display:flex;align-items:center;gap:10px;margin-bottom:.75rem}
+    .section-label::after{content:'';flex:1;height:1px;background:var(--border)}
+    .q-nav{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:1.25rem}
+    .q-pill{width:30px;height:30px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:'Space Mono',monospace;font-size:10px;font-weight:700;border:1px solid var(--border);background:var(--white);color:var(--muted);cursor:pointer;transition:all .15s}
+    .q-pill:hover{border-color:var(--accent);color:var(--accent)}
+    .q-pill.current{background:var(--accent);border-color:var(--accent);color:#fff}
+    .q-pill.ans-correct{background:rgba(39,174,96,0.15);border-color:var(--correct);color:var(--correct)}
+    .q-pill.ans-wrong{background:rgba(231,76,60,0.15);border-color:var(--wrong);color:var(--wrong)}
+    .q-pill.ans-skip{background:var(--mid);border-color:var(--border);color:var(--muted)}
+
+    /* QUESTION */
+    .question-card{background:var(--white);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:1.5rem;box-shadow:0 2px 12px rgba(11,29,58,0.07)}
+    .q-body{padding:22px 22px 18px}
+    .q-text{font-size:14px;font-weight:500;color:var(--text);line-height:1.7;margin-bottom:12px}
+    .q-meta-row{display:flex;align-items:center;gap:8px;margin-bottom:14px}
+    .q-num{font-family:'Space Mono',monospace;font-size:11px;font-weight:700;color:var(--muted)}
+    .q-domain-badge{font-size:10px;font-weight:500;padding:3px 10px;border-radius:10px;background:rgba(46,134,193,0.08);color:var(--accent);border:1px solid rgba(46,134,193,0.18)}
+    .q-multi-note{font-size:11px;color:var(--muted);font-style:italic;margin-bottom:12px}
+    .options{display:flex;flex-direction:column;gap:8px}
+    .option{display:flex;align-items:flex-start;gap:12px;padding:11px 16px;border-radius:9px;border:1px solid var(--border);background:var(--light);cursor:pointer;transition:all .16s;font-size:13px;color:var(--text);line-height:1.5;user-select:none}
+    .option:hover:not(.disabled){border-color:var(--accent);background:rgba(46,134,193,0.05)}
+    .option.selected{border-color:var(--accent);background:rgba(46,134,193,0.08)}
+    .option.correct{border-color:var(--correct);background:var(--correct-bg);color:#1A6B3A}
+    .option.wrong{border-color:var(--wrong);background:var(--wrong-bg);color:#A93226}
+    .option.disabled{pointer-events:none}
+    .opt-key{width:26px;height:26px;border-radius:50%;flex-shrink:0;background:var(--mid);display:flex;align-items:center;justify-content:center;font-family:'Space Mono',monospace;font-size:10px;font-weight:700;color:var(--blue);transition:all .16s;margin-top:1px}
+    .option.correct .opt-key{background:var(--correct);color:#fff}
+    .option.wrong .opt-key{background:var(--wrong);color:#fff}
+    .option.selected .opt-key{background:var(--accent);color:#fff}
+    .feedback{display:none;margin-top:14px;padding:13px 16px;border-radius:9px;font-size:13px;line-height:1.65;border:1px solid}
+    .feedback.show{display:block}
+    .feedback.correct-fb{background:rgba(39,174,96,0.08);border-color:var(--correct-border);color:#1A6B3A}
+    .feedback.wrong-fb{background:rgba(231,76,60,0.08);border-color:var(--wrong-border);color:#A93226}
+    .feedback strong{display:block;margin-bottom:4px;font-size:12px;letter-spacing:.03em}
+    .q-controls{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;border-top:1px solid var(--border);background:rgba(234,244,251,0.5)}
+    .btn{font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;padding:8px 18px;border-radius:8px;border:1px solid;cursor:pointer;transition:all .18s;letter-spacing:.02em}
+    .btn-primary{background:var(--accent);border-color:var(--accent);color:#fff}
+    .btn-primary:hover{background:var(--blue);border-color:var(--blue)}
+    .btn-primary:disabled{opacity:.4;pointer-events:none}
+    .btn-outline{background:transparent;border-color:var(--border);color:var(--text)}
+    .btn-outline:hover{border-color:var(--accent);color:var(--accent)}
+    .btn-danger{background:transparent;border-color:rgba(231,76,60,0.3);color:var(--wrong)}
+    .btn-danger:hover{background:rgba(231,76,60,0.07)}
+
+    /* RESULTS */
+    #results-screen{display:none;background:var(--white);border:1px solid var(--border);border-radius:14px;padding:3rem 2rem;text-align:center;box-shadow:0 2px 12px rgba(11,29,58,0.07)}
+    .result-score{font-family:'Space Mono',monospace;font-size:52px;font-weight:700;color:var(--accent);line-height:1}
+    .result-label{font-size:14px;color:var(--muted);margin-top:6px;margin-bottom:2rem}
+    .result-grade{display:inline-block;font-family:'Space Mono',monospace;font-size:13px;font-weight:700;padding:6px 20px;border-radius:8px;margin-bottom:2rem}
+    .result-grade.pass{background:rgba(39,174,96,0.1);color:var(--correct);border:1px solid var(--correct-border)}
+    .result-grade.fail{background:rgba(231,76,60,0.1);color:var(--wrong);border:1px solid var(--wrong-border)}
+    .result-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:2rem;max-width:400px;margin-left:auto;margin-right:auto}
+    .rs-item{background:var(--light);border-radius:10px;padding:12px}
+    .rs-val{font-family:'Space Mono',monospace;font-size:20px;font-weight:700}
+    .rs-lbl{font-size:10px;color:var(--muted);margin-top:3px}
+    .result-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+
+    /* FOOTER */
+    footer{background:var(--navy);padding:1.25rem 2rem;text-align:center;border-top:1px solid rgba(93,173,226,0.12)}
+    footer p{font-size:12px;color:rgba(255,255,255,0.3)}
+    footer a{color:var(--sky);text-decoration:none}
+
+    @media(max-width:600px){
+      .exam-wrap{padding:1.25rem}
+      .scoreboard{grid-template-columns:repeat(2,1fr)}
+      .option-grid.cols-6{grid-template-columns:repeat(3,1fr)}
+      .option-grid.cols-3{grid-template-columns:1fr}
+      nav{padding:0 1.25rem}
+      .hero{padding:2rem 1.25rem 2rem}
+    }
+
+    /* ── DARK MODE ── */
+    html.dark {
+      --light:  #131b27;
+      --mid:    #1a2535;
+      --white:  #1e2a3a;
+      --text:   #d4e6f7;
+      --muted:  #7aa3c0;
+      --border: rgba(93,173,226,0.14);
+      --shadow: 0 2px 12px rgba(0,0,0,0.35);
+    }
+    html.dark body { background: var(--light); color: var(--text); }
+    html.dark nav  { background: #0a1220; border-color: rgba(93,173,226,0.12); }
+    html.dark footer { background: #0a1220; }
+    html.dark .exam-card,
+    html.dark .tool-card,
+    html.dark .question-card,
+    html.dark .widget,
+    html.dark .session-bar,
+    html.dark .setup-section,
+    html.dark .domain-weights,
+    html.dark .mode-bar,
+    html.dark .controls-bar,
+    html.dark .fc-area + .grade-note,
+    html.dark .acronym-card,
+    html.dark .card-mini,
+    html.dark .score-card,
+    html.dark .stat-pill,
+    html.dark .sum-card,
+    html.dark .fc-nav-btn,
+    html.dark .domain-header,
+    html.dark .obj-header { background: var(--white); border-color: var(--border); }
+    html.dark .domain-body { background: var(--white); border-color: var(--border); }
+    html.dark .score-card,
+    html.dark .sum-card { background: #0e1929; }
+    html.dark .question-box,
+    html.dark .opt-btn,
+    html.dark .option,
+    html.dark .sbi-item,
+    html.dark .rs-item,
+    html.dark .setup-section { background: var(--mid); }
+    html.dark .option { border-color: var(--border); color: var(--text); }
+    html.dark .option:hover:not(.disabled) { background: rgba(93,173,226,0.08); }
+    html.dark .fc-scene .fc-front { background: #0d1929; }
+    html.dark .fc-scene .fc-back  { background: #122040; }
+    html.dark .progress-track,
+    html.dark .prog-track,
+    html.dark .mini-bar,
+    html.dark .dw-bar-track { background: var(--mid); }
+    html.dark .cert-name,
+    html.dark .tool-name,
+    html.dark .cs-val,
+    html.dark .stat-val,
+    html.dark .sbi-val,
+    html.dark .rs-val,
+    html.dark .obj-title,
+    html.dark .domain-title { color: var(--text); }
+    html.dark .cert-vendor,
+    html.dark .cert-desc,
+    html.dark .tool-desc,
+    html.dark .cs-lbl,
+    html.dark .stat-lbl,
+    html.dark .score-lbl,
+    html.dark .sum-lbl,
+    html.dark .ac-def,
+    html.dark .card-mini-term,
+    html.dark .card-mini-status { color: var(--muted); }
+    html.dark .section-label::after,
+    html.dark .card-stats { border-color: var(--border); }
+    html.dark .port-table td { background: var(--white); border-color: var(--border); color: var(--text); }
+    html.dark .port-table th { background: #0a1220; }
+    html.dark .alpha-heading { background: var(--mid); color: var(--text); }
+    html.dark .search-input { background: var(--mid); border-color: var(--border); color: var(--text); }
+    html.dark .search-input:focus { background: var(--white); }
+    html.dark .alpha-btn,
+    html.dark .filter-btn,
+    html.dark .mode-tab,
+    html.dark .grade-btn,
+    html.dark .btn-outline { background: var(--mid); border-color: var(--border); color: var(--muted); }
+    html.dark .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+    html.dark .q-controls { background: rgba(0,0,0,0.15); border-color: var(--border); }
+    html.dark .feedback.correct-fb { background: rgba(39,174,96,0.12); }
+    html.dark .feedback.wrong-fb   { background: rgba(231,76,60,0.12); }
+    html.dark #results-screen { background: var(--white); }
+    html.dark .result-label { color: var(--muted); }
+    html.dark .acronym-card.is-mastered { background: rgba(46,125,50,0.1); }
+    html.dark .card-mini.is-mastered { background: rgba(46,125,50,0.1); }
+    html.dark .card-mini.is-reviewing { background: rgba(184,134,11,0.1); }
+    html.dark .stat-pill { background: var(--white); border-color: var(--border); color: var(--muted); }
+    html.dark .fc-dot { background: rgba(93,173,226,0.2); }
+    html.dark .session-bar-inner { border-color: var(--border); }
+    html.dark .q-header { background: #0a1220; }
+    html.dark .q-meta-row .q-num { color: var(--muted); }
+
+    /* Dark-mode toggle button */
+    .theme-btn {
+      width: 34px; height: 34px; border-radius: 8px;
+      border: 1px solid rgba(255,255,255,0.18);
+      background: rgba(255,255,255,0.08);
+      color: rgba(255,255,255,0.75);
+      cursor: pointer; font-size: 15px;
+      display: flex; align-items: center; justify-content: center;
+      transition: all .18s; flex-shrink: 0;
+    }
+    .theme-btn:hover { background: rgba(255,255,255,0.15); color: #fff; }
+
+
+    html.dark{--light:#131b27;--mid:#1a2535;--white:#1e2a3a;--text:#d4e6f7;--muted:#7aa3c0;--border:rgba(93,173,226,0.14)}
+    html.dark body{background:var(--light);color:var(--text)}
+    html.dark nav,html.dark footer{background:#0a1220}
+    html.dark .setup-section,html.dark .session-bar,html.dark .question-card,html.dark #results-screen{background:var(--white);border-color:var(--border)}
+    html.dark .question-box,html.dark .opt-btn,html.dark .option,html.dark .sbi-item,html.dark .rs-item{background:var(--mid)}
+    html.dark .option{border-color:var(--border);color:var(--text)}
+    html.dark .q-controls{background:rgba(0,0,0,0.15);border-color:var(--border)}
+    html.dark .q-meta-row .q-num{color:var(--muted)}
+    html.dark .q-header{background:#0a1220}
+    html.dark .score-card{background:#0e1929}
+    html.dark .section-label::after{background:var(--border)}
+    html.dark .q-pill{background:var(--white);border-color:var(--border)}
+    html.dark .session-bar-inner{border-color:var(--border)}
+    html.dark .setup-section-label::after{background:var(--border)}
+    .theme-btn{width:34px;height:34px;border-radius:8px;border:1px solid rgba(255,255,255,0.18);background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.75);cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;transition:all .18s;flex-shrink:0}
+    .theme-btn:hover{background:rgba(255,255,255,0.15);color:#fff}
+
+  
+  </style>
+</head>
+<body>
+<script>
+(function(){const K="bl-theme";function apply(d){document.documentElement.classList.toggle("dark",d);const b=document.getElementById("theme-btn");if(b)b.textContent=d?"☀":"☾"}apply(localStorage.getItem(K)==="dark");window.__toggleTheme=function(){const d=!document.documentElement.classList.contains("dark");localStorage.setItem(K,d?"dark":"light");apply(d)};window.addEventListener("storage",function(e){if(e.key===K)apply(e.newValue==="dark")})})();
+</script>
+
+<nav>
+  <a class="nav-brand" href="index.html"><div class="bl-circle">BL</div><span>BL Cert Hub</span></a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="secplus-home.html">Security+</a>
+    <a href="secplus-practice.html">Practice Exams</a>
+    <a href="#" class="active">Exam 3</a>
+    <button class="theme-btn" id="theme-btn" onclick="__toggleTheme()" title="Toggle dark mode">&#9790;</button>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-grid-pattern"></div>
+  <div class="hero-bg-ring r1"></div>
+  <div class="hero-bg-ring r2"></div>
+  <div class="hero-inner">
+    <div class="exam-badge"><div class="bl-circle">BL</div><span>CompTIA Security+ SY0-701</span></div>
+    <h1>Practice Exam <span class="accent">3</span></h1>
+    <p class="hero-sub">85 questions across all 5 SY0-701 domains. Choose your session length and timer, then start.</p>
+  </div>
+</div>
+
+<div class="exam-wrap">
+
+  <!-- SETUP SCREEN -->
+  <div id="setup-screen">
+    <div class="setup-section">
+      <div class="setup-section-label">Number of Questions</div>
+      <div class="option-grid cols-6" id="q-count-grid">
+        <div class="opt-btn selected" data-count="10" onclick="selectCount(this,10)"><span class="ob-val">10</span><span class="ob-lbl">Quick</span></div>
+        <div class="opt-btn" data-count="20" onclick="selectCount(this,20)"><span class="ob-val">20</span><span class="ob-lbl">Short</span></div>
+        <div class="opt-btn" data-count="30" onclick="selectCount(this,30)"><span class="ob-val">30</span><span class="ob-lbl">Medium</span></div>
+        <div class="opt-btn" data-count="50" onclick="selectCount(this,50)"><span class="ob-val">50</span><span class="ob-lbl">Standard</span></div>
+        <div class="opt-btn" data-count="100" onclick="selectCount(this,100)"><span class="ob-val">100</span><span class="ob-lbl">Extended</span></div>
+        <div class="opt-btn" id="all-q-btn" data-count="85" onclick="selectCount(this, parseInt(this.dataset.count))"><span class="ob-val">All</span><span class="ob-lbl">85 Qs</span></div>
+      </div>
+    </div>
+    <div class="setup-section">
+      <div class="setup-section-label">Timer</div>
+      <div class="option-grid cols-3" id="timer-grid">
+        <div class="opt-btn selected" data-time="0" onclick="selectTimer(this,0)"><span class="ob-val">None</span><span class="ob-lbl">Untimed</span></div>
+        <div class="opt-btn" data-time="600" onclick="selectTimer(this,600)"><span class="ob-val">10m</span><span class="ob-lbl">10 Minutes</span></div>
+        <div class="opt-btn" data-time="1200" onclick="selectTimer(this,1200)"><span class="ob-val">20m</span><span class="ob-lbl">20 Minutes</span></div>
+        <div class="opt-btn" data-time="1800" onclick="selectTimer(this,1800)"><span class="ob-val">30m</span><span class="ob-lbl">30 Minutes</span></div>
+        <div class="opt-btn" data-time="3600" onclick="selectTimer(this,3600)"><span class="ob-val">1h</span><span class="ob-lbl">1 Hour</span></div>
+        <div class="opt-btn" data-time="5400" onclick="selectTimer(this,5400)"><span class="ob-val">1.5h</span><span class="ob-lbl">1.5 Hours</span></div>
+      </div>
+    </div>
+    <button class="start-btn" onclick="startExam()">Start Practice Exam →</button>
+  </div>
+
+  <!-- EXAM SCREEN -->
+  <div id="exam-screen">
+    <div class="session-bar">
+      <div class="session-bar-head" onclick="toggleSessionBar()">
+        <div class="session-bar-pills">
+          <span class="s-pill" id="session-q-pill">10 Questions</span>
+          <span class="s-pill" id="session-t-pill">Untimed</span>
+          <span class="s-pill timer-pill" id="timer-pill" style="display:none">00:00</span>
+        </div>
+        <span class="bar-chevron" id="bar-chevron">▼</span>
+      </div>
+      <div class="session-bar-body" id="session-bar-body">
+        <div class="session-bar-inner">
+          <div class="sbi-item"><div class="sbi-val" id="sbi-total">—</div><div class="sbi-lbl">Total Questions</div></div>
+          <div class="sbi-item"><div class="sbi-val" id="sbi-timer">—</div><div class="sbi-lbl">Time Limit</div></div>
+          <div class="sbi-item"><div class="sbi-val" id="sbi-mode">Untimed</div><div class="sbi-lbl">Mode</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="scoreboard">
+      <div class="score-card"><div class="score-val" id="sc-total">—</div><div class="score-lbl">Questions</div></div>
+      <div class="score-card"><div class="score-val" id="sc-answered">0</div><div class="score-lbl">Answered</div></div>
+      <div class="score-card"><div class="score-val" id="sc-correct">0</div><div class="score-lbl">Correct</div></div>
+      <div class="score-card"><div class="score-val" id="sc-pct">0%</div><div class="score-lbl">Score</div></div>
+    </div>
+    <div class="progress-row">
+      <span class="progress-label" id="prog-label">Question 1</span>
+      <span class="progress-pct" id="prog-pct">0%</span>
+    </div>
+    <div class="progress-track"><div class="progress-fill" id="prog-bar"></div></div>
+    <div class="section-label">Jump to Question</div>
+    <div class="q-nav" id="q-nav"></div>
+    <div class="question-card" id="q-card">
+      <div class="q-body">
+        <div class="q-text" id="q-text"></div>
+        <div class="q-meta-row">
+          <span class="q-num" id="q-num-label">Question 1</span>
+          <span class="q-domain-badge" id="q-domain-label"></span>
+        </div>
+        <div class="q-multi-note" id="q-multi-note" style="display:none">Select all that apply</div>
+        <div class="options" id="q-options"></div>
+        <div class="feedback" id="q-feedback"></div>
+      </div>
+      <div class="q-controls">
+        <button class="btn btn-outline" onclick="goTo(curQ-1)" id="btn-prev">← Prev</button>
+        <button class="btn btn-danger" onclick="endExam()">End Exam</button>
+        <button class="btn btn-primary" id="btn-next" onclick="handleNext()" disabled>Next →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- RESULTS SCREEN -->
+  <div id="results-screen">
+    <div class="result-score" id="res-score">0/0</div>
+    <div class="result-label" id="res-label">ISC2 CC Practice Exam Complete</div>
+    <div class="result-grade" id="res-grade">—</div>
+    <div class="result-stats">
+      <div class="rs-item"><div class="rs-val" id="res-correct" style="color:var(--correct)">0</div><div class="rs-lbl">Correct</div></div>
+      <div class="rs-item"><div class="rs-val" id="res-wrong" style="color:var(--wrong)">0</div><div class="rs-lbl">Incorrect</div></div>
+      <div class="rs-item"><div class="rs-val" id="res-skip" style="color:var(--muted)">0</div><div class="rs-lbl">Skipped</div></div>
+    </div>
+    <div class="result-actions">
+      <button class="btn btn-primary" onclick="backToSetup()">↺ New Session</button>
+      <button class="btn btn-outline" onclick="location.href='cc-home.html'">← Back to Hub</button>
+    </div>
+  </div>
+
+</div>
+
+<footer><p>Built by <a href="https://blaborte.github.io" target="_blank">Baltazar Laborte</a> &middot; BL Cert Hub &middot; CompTIA Security+ SY0-701 &middot; Professor Messer Practice Exams</p></footer>
+
+<script>
+const SECPLUS_Q3 = [
+  {d:'5',q:'A finance company is legally required to maintain seven years of tax records for all of their customers. Which of the following would be the BEST way to implement this requirement?',opts:['Automate a script to remove all tax information more than seven years old','Print and store all tax records in a seven-year cycle','Allow users to download tax records from their account login','Create a separate daily backup archive for all applicable tax records'],ans:[3],exp:'Data retention policies set the required duration for keeping records. A daily archive backup specifically for applicable records is the best way to meet a 7-year legal retention requirement.'},
+  {d:'1',q:'A system administrator is designing a data center for an insurance company\\\'s new public cloud and would like to automatically rotate encryption keys on a regular basis. Which of the following would provide this functionality?',opts:['TPM','Key management system','Secure enclave','XDR'],ans:[1],exp:'A Key Management System (KMS) automates lifecycle tasks like key rotation, storage, and access control — purpose-built for exactly this use case in cloud environments.'},
+  {d:'4',q:'A newly installed IPS is flagging a legitimate corporate application as malicious network traffic. Which of the following would be the BEST way to resolve this issue?',opts:['Disable the IPS signature','Block the application','Log all IPS events','Tune the IPS alerts'],ans:[3],exp:'IPS alert tuning suppresses or adjusts specific signatures to reduce false positives without disabling protection entirely. Disabling a signature removes all protection for that attack vector.'},
+  {d:'2',q:'A security administrator has identified an internally developed application which allows modification of SQL queries through the web-based front-end. Which of the following changes would resolve this vulnerability?',opts:['Store all credentials as salted hashes','Verify the application\\\'s digital signature','Validate all application input','Obfuscate the application\\\'s source code'],ans:[2],exp:'Allowing modification of SQL queries via user input is a SQL injection vulnerability. Input validation (sanitizing and restricting what users can enter) is the direct fix.'},
+  {d:'1',q:'A system administrator is implementing a fingerprint scanner to provide access to the data center. Which of the following authentication technologies would be associated with this access?',opts:['Digital signature','Hard authentication token','Security key','Something you are'],ans:[3],exp:'A fingerprint scanner uses biometrics — it verifies \\\'something you are.\\\' Digital signatures and security keys are different authentication mechanisms.'},
+  {d:'5',q:'The IT department of a transportation company maintains an on-site inventory of chassis-based network switch interface cards. If a failure occurs, the on-site technician can replace the interface card and have the system running again in sixty minutes. Which of the following BEST describes this recovery metric?',opts:['MTBF','MTTR','RPO','RTO'],ans:[1],exp:'MTTR (Mean Time to Repair) is the average time to restore a failed component. The 60-minute restoration time is an MTTR metric, not MTBF (failure frequency) or RTO (recovery target).'},
+  {d:'2',q:'A company maintains a server farm in a large data center. These servers are used internally and are not accessible from outside of the data center. The security team has discovered a group of servers was breached before the latest security patches were applied. Breach attempts were not logged on any other servers. Which of these threat actors would be MOST likely involved in this breach?',opts:['Organized crime','Insider','Nation state','Unskilled attacker'],ans:[1],exp:'Only internal systems were breached before patches were applied, with no external breach attempts logged. This points to an insider threat — someone with internal access acting before patches could be deployed.'},
+  {d:'4',q:'An organization has received a vulnerability scan report of their Internet-facing web servers. The report shows the servers have multiple Sun Java Runtime Environment (JRE) vulnerabilities, but the server administrator has verified that JRE is not installed. Which of the following would be the BEST way to handle this report?',opts:['Install the latest version of JRE on the server','Quarantine the server and scan for malware','Harden the operating system of the web server','Ignore the JRE vulnerability alert'],ans:[3],exp:'The administrator has verified JRE is not installed, so the vulnerability is a false positive — the scanner detected something that doesn\\\'t actually exist on the server. The correct response is to tune/ignore the alert.'},
+  {d:'2',q:'A user downloaded and installed a utility for compressing and decompressing files. Immediately after installing the utility, the user\\\'s overall workstation performance degraded and it now takes twice as much time to perform any tasks on the computer. Which of the following is the BEST description of this malware infection?',opts:['Ransomware','Bloatware','Logic bomb','Trojan'],ans:[3],exp:'A Trojan disguises itself as a legitimate utility but carries a malicious payload. Immediate performance degradation after installing a \\\'compression tool\\\' is classic Trojan behavior.'},
+  {d:'1',q:'Which of the following is the process for replacing sensitive data with a non-sensitive and functional placeholder?',opts:['Steganography','Tokenization','Retention','Masking'],ans:[1],exp:'Tokenization replaces sensitive data with a non-sensitive functional placeholder (token). Masking hides data visually but the original remains; tokenization creates a surrogate value entirely.'},
+  {d:'3',q:'A security administrator has installed a new firewall to protect a web server VLAN. The application owner requires all web server sessions communicate over an encrypted channel. Which of these rules should the security administrator include in the firewall rulebase?',opts:['Source: ANY, Destination: ANY, Protocol: TCP, Port: 23, Deny','Source: ANY, Destination: ANY, Protocol: TCP, Port: 22, Allow','Source: ANY, Destination: ANY, Protocol: TCP, Port: 80, Allow','Source: ANY, Destination: ANY, Protocol: TCP, Port: 443, Allow'],ans:[3],exp:'TCP port 443 is HTTPS — encrypted web traffic. Port 80 is unencrypted HTTP. The rule must allow port 443 to enforce encrypted sessions. Port 22 is SSH; port 23 is Telnet.'},
+  {d:'1',q:'Which of these would be used to provide multi-factor authentication?',opts:['USB-connected storage drive with FDE','Employee policy manual','Just-in-time permissions','Smart card with picture ID'],ans:[3],exp:'A smart card (something you have) combined with a picture ID (something you are/know via identity) provides MFA. A USB storage drive with FDE is one factor; a policy manual is not a factor.'},
+  {d:'3',q:'A company\\\'s network team has been asked to build an IPsec tunnel to a new business partner. Which of the following security risks would be the MOST important to consider?',opts:['Supply chain attack','Unsupported systems','Business email compromise','Typosquatting'],ans:[0],exp:'Building an IPsec tunnel to a new partner introduces supply chain risk — you\\\'re trusting their infrastructure and security posture. A compromise at the partner could affect your network.'},
+  {d:'5',q:'A company\\\'s human resources team maintains a list of all employees participating in the corporate savings plan. A third-party financial company uses this information to manage stock investments for the employees. Which of the following would describe this financial company?',opts:['Processor','Owner','Controller','Custodian'],ans:[0],exp:'A data processor processes personal data on behalf of the controller/owner. The financial company uses HR\\\'s data to manage investments — it processes but doesn\\\'t own or control the original data.'},
+  {d:'3',q:'A technology company is manufacturing a military-grade radar tracking system that can instantly identify any nearby unmanned aerial vehicles (UAVs). The UAV detector must be able to instantly identify and react to a vehicle without delay. Which of the following would BEST describe this tracking system?',opts:['RTOS','IoT','ICS','SDN'],ans:[0],exp:'RTOS (Real-Time Operating System) is designed for systems that must respond instantly to inputs with guaranteed timing — critical for military tracking systems that cannot tolerate latency.'},
+  {d:'4',q:'An administrator is writing a script to convert an email message to a help desk ticket and assign the ticket to the correct department. Which of the following should the administrator use to complete this script?',opts:['Role-based access controls','Federation','Due diligence','Orchestration'],ans:[3],exp:'Orchestration automates multi-step workflows by coordinating actions across different systems — converting an email to a ticket and routing it is a classic orchestration use case.'},
+  {d:'4',q:'A security administrator would like a report showing how many attackers are attempting to use a known vulnerability to gain access to a corporate web server. Which of the following should be used to gather this information?',opts:['Application log','Metadata','IPS log','Windows log'],ans:[2],exp:'An IPS log records all detected and blocked attack attempts against network resources, including counts of attacks using known vulnerability signatures against web servers.'},
+  {d:'4',q:'During a ransomware outbreak, an organization was forced to rebuild database servers from known good backup systems. In which of the following incident response phases were these database servers brought back online?',opts:['Recovery','Lessons learned','Containment','Detection'],ans:[0],exp:'Rebuilding database servers from known-good backups to restore operations is the Recovery phase of incident response. Lessons learned comes after; containment and detection come before recovery.'},
+  {d:'3',q:'A security administrator is installing a web server with a newly built operating system. Which of the following would be the best way to harden this OS?',opts:['Create a backup schedule','Install a device certificate','Remove unnecessary software','Disable power management features'],ans:[2],exp:'OS hardening removes unnecessary software, services, and features to minimize the attack surface. Creating backups and device certificates are security practices but don\\\'t harden the OS itself.'},
+  {d:'2',q:'A network IPS has created this log entry:Frame 4: 937 bytes on wire (7496 bits), 937 bytes captured\\nEthernet II, Src: HewlettP_82:d8:31, Dst: Cisco_a1:b0:d1\\nInternet Protocol Version 4, Src: 172.16.22.7, Dst: 10.8.122.244\\nTransmission Control Protocol, Src Port: 3863, Dst Port: 1433\\nApplication Data: SELECT * FROM users WHERE\\nusername=\\\'x\\\' or \\\'x\\\'=\\\'x\\\' AND password=\\\'x\\\' or \\\'x\\\'=\\\'x\\\'Which of the following would describe this log entry?',opts:['Phishing','Brute force','SQL injection','Cross-site scripting'],ans:[2],exp:'The application data shows SQL queries with OR \\\'x\\\'=\\\'x\\\' — a classic SQL injection payload using always-true conditions to bypass authentication. Port 1433 is Microsoft SQL Server.'},
+  {d:'5',q:'An incident response team would like to validate their disaster recovery plans without making any changes to the infrastructure. Which of the following would be the best course of action?',opts:['Tabletop exercise','Hot site fail-over','Simulation','Penetration test'],ans:[0],exp:'A tabletop exercise is a discussion-based DR plan validation that doesn\\\'t require any infrastructure changes or actual failover — exactly what \\\'without making changes\\\' requires.'},
+  {d:'3',q:'A system administrator has installed a new firewall between the corporate user network and the data center network. When the firewall is turned on with the default settings, users complain that the application in the data center is no longer working. Which of the following would be the BEST way to correct this application issue?',opts:['Create a single firewall rule with an explicit deny','Build a separate VLAN for the application','Create firewall rules that match the application traffic flow','Enable firewall threat blocking'],ans:[2],exp:'Default-deny firewalls block all traffic until explicit allow rules are created. The fix is to create firewall rules matching the application\\\'s specific traffic flows (ports, protocols, IPs).'},
+  {d:'3',q:'Which of these would be used to provide HA for a web-based database application?',opts:['SIEM','UPS','DLP','VPN concentrator'],ans:[1],exp:'A UPS (Uninterruptible Power Supply) maintains power during outages, providing high availability for the database application. SIEM is security monitoring; DLP prevents data loss; VPN concentrator manages VPNs.'},
+  {d:'5',q:'Each year, a certain number of laptops are lost or stolen and must be replaced by the company. Which of the following would describe the total cost the company spends each year on laptop replacements?',opts:['SLE','SLA','ALE','ARO'],ans:[2],exp:'ALE (Annual Loss Expectancy) = SLE × ARO — it\\\'s the total expected annual financial loss. The cost of replacing lost/stolen laptops each year is ALE. SLE is per-event cost; ARO is the annual frequency.'},
+  {d:'2',q:'A network administrator is viewing a log file from a web server:https://www.example.com/?s=/Index/think/app/invokefunction\\n&amp;function=call_user_func_array&amp;vars[0]=md5\\n&amp;vars[1][0]=__HelloThinkPHPWhich of the following would be the BEST way to prevent this attack?',opts:['Static code analyzer','Input validation','Allow list','Secure cookies'],ans:[1],exp:'The log shows a URL path traversal / code injection attempt using invokefunction parameters to execute PHP functions. Input validation prevents unintended user-supplied values from being executed.'},
+  {d:'1',q:'Sam would like to send an email to Jack and have Jack verify that Sam was the sender of the email. Which of these should Sam use to provide this verification?',opts:['Digitally sign with Sam\\\'s private key','Digitally sign with Sam\\\'s public key','Digitally sign with Jack\\\'s private key','Digitally sign with Jack\\\'s public key'],ans:[0],exp:'Sam signs with Sam\\\'s own private key. Jack can verify the signature using Sam\\\'s public key — this proves Sam (and only Sam) sent it, since only Sam has the private key.'},
+  {d:'5',q:'The contract of a long-term temporary employee is ending. Which of these would be the MOST important part of the off-boarding process?',opts:['Perform an on-demand audit of the user\\\'s privileges','Archive the decryption keys associated with the user account','Document the user\\\'s outstanding tasks','Obtain a signed copy of the Acceptable Use Policies'],ans:[1],exp:'Archiving decryption keys during offboarding ensures encrypted data remains accessible after the employee leaves. Losing these keys could permanently lock the organization out of their own data.'},
+  {d:'4',q:'A cybersecurity analyst has been asked to respond to a denial of service attack against a web server, and the analyst has collected the log files and data from the server. Which of the following would allow a future analyst to verify the data as original and unaltered?',opts:['E-discovery','Root cause analysis','Legal hold','Data hashing'],ans:[3],exp:'Data hashing creates a unique fingerprint of collected evidence. If anyone modifies the data, the hash changes — this proves the data is original and unaltered for legal chain of custody purposes.'},
+  {d:'2',q:'A security administrator is reviewing authentication logs. The logs show a large number of accounts with at least three failed authentication attempts during the previous week. Which of the following would BEST explain this report data?',opts:['Downgrade attack','Phishing','Injection','Spraying'],ans:[3],exp:'Multiple accounts each with ~3 failed attempts (not many from one account) is consistent with password spraying — trying a few common passwords across many accounts to avoid lockout.'},
+  {d:'4',q:'A security administrator has been asked to block all browsing to casino gaming websites. Which of the following would be the BEST way to implement this requirement?',opts:['Tune the IPS signatures','Block port tcp/443 on the firewall','Configure 802.1X for web browsing','Add a content filter rule'],ans:[3],exp:'A content filter (web filter / URL categorization) blocks access to specific categories of websites like gambling or gaming. DNS filtering and proxy rules can also do this; IPS tuning is for attack signatures.'},
+  {d:'5',q:'A company is experiencing downtime and outages when application patches and updates are deployed during the week. Which of the following would help to resolve these issues?',opts:['Onboarding considerations','Incident response policies','Change management procedures','Decentralized governance'],ans:[2],exp:'Change management procedures control when and how patches and updates are deployed, including testing, scheduling, and rollback plans — preventing unplanned outages from untested changes.'},
+  {d:'4',q:'A company is implementing a series of steps to follow when responding to a security event. Which of the following would provide this set of processes and procedures?',opts:['MDM','DLP','Playbook','Zero trust'],ans:[2],exp:'A playbook provides step-by-step procedures for responding to specific security events. MDM manages mobile devices; DLP prevents data loss; zero trust is an architecture model, not a procedure set.'},
+  {d:'3',q:'A transportation company maintains a scheduling application and a database in a virtualized cloud-based environment. Which of the following would be the BEST way to backup these services?',opts:['Journaling','Snapshot','RTOS','Containerization'],ans:[1],exp:'A snapshot captures the entire state of a VM or application at a point in time in a cloud environment — the best backup method for virtualized cloud workloads. Journaling is for databases.'},
+  {d:'1',q:'In an environment using discretionary access controls, which of these would control the rights and permissions associated with a file or directory?',opts:['Administrator','Owner','Group','System'],ans:[1],exp:'In DAC (Discretionary Access Control), the owner of the resource controls its permissions. This is in contrast to MAC (system-enforced) or RBAC (role-based) where owners may not control permissions.'},
+  {d:'1',q:'A security administrator has installed a network-based DLP solution to determine if file transfers contain PII. Which of the following describes the data during the file transfer?',opts:['In-use','In-transit','Highly available','At-rest'],ans:[1],exp:'Data in-transit (also called data in-motion) is data actively being transferred over a network. A DLP monitoring file transfers is inspecting in-transit data. In-use is being processed; at-rest is stored.'},
+  {d:'5',q:'A medical imaging company would like to connect all remote locations together with high speed network links. The network connections must maintain high throughput rates and must always be available during working hours. In which of the following should these requirements be enforced with the network provider?',opts:['Service level agreement','Memorandum of understanding','Non-disclosure agreement','Acceptable use policy'],ans:[0],exp:'An SLA (Service Level Agreement) is the contractual document that defines minimum performance requirements — throughput and availability guarantees — with a service provider.'},
+  {d:'5',q:'A company is implementing a security awareness program for their user community. Which of the following should be included for additional user guidance and training?',opts:['Daily firewall exception reporting','Information on proper password management','Periodic vulnerability scanning of external services','Adjustments to annualized loss expectancy'],ans:[1],exp:'Security awareness programs should include practical, actionable guidance like password best practices. Firewall reports and vulnerability scanning are technical processes, not awareness training content.'},
+  {d:'5',q:'A security administrator is preparing a phishing email as part of a periodic employee security awareness campaign. The email is spoofed to appear as an unknown third-party and asks employees to immediately click a link or their state licensing will be revoked. Which of the following should be the expected response from the users?',opts:['Delete the message','Click the link and make a note of the URL','Forward the message to others in the department','Report the suspicious link to the help desk'],ans:[3],exp:'Users should report suspicious emails to the help desk (security team) — not click links, not forward to others, and not just delete without reporting. Reporting enables the org to respond.'},
+  {d:'1',q:'A security administrator would like to minimize the number of certificate status checks made by web site clients to the certificate authority. Which of the following would be the BEST option for this requirement?',opts:['OCSP stapling','Self-signed certificates','CRL','Wildcards'],ans:[0],exp:'OCSP stapling has the server pre-fetch its own certificate status from the CA and include (staple) it in the TLS handshake, eliminating client-to-CA queries. CRL requires clients to download a list.'},
+  {d:'1',q:'A company is concerned their EDR solution will not be able to stop more advanced ransomware variants. Technicians have created a backup and restore utility to get most systems up and running less than an hour after an attack. What type of security control is associated with this restore process?',opts:['Directive','Compensating','Preventive','Detective'],ans:[1],exp:'A backup-and-restore utility that gets systems running again after an attack is a compensating control — it doesn\\\'t stop the attack (preventive) but provides an alternative recovery path.'},
+  {d:'5',q:'To upgrade an internal application, the development team provides the operations team with instructions for backing up, patching the application, and reverting the patch if needed. The operations team schedules a date for the upgrade, informs the business divisions, and tests the upgrade process after completion. Which of the following describes this process?',opts:['Code signing','Continuity planning','Usage auditing','Change management'],ans:[3],exp:'The development team provides instructions; operations schedules and communicates; testing occurs afterward — this full structured process of planning, communication, implementation, and validation is change management.'},
+  {d:'1',q:'A company is implementing a public file-storage and cloud-based sharing service, and would like users to authenticate with an existing account on a trusted third-party web site. Which of the following should the company implement?',opts:['SSO','Federation','Least privilege','Discretionary access controls'],ans:[1],exp:'Federation allows users to authenticate to a third-party service using their existing identity from a trusted provider. SSO is for within one organization; federation is for cross-organization authentication.'},
+  {d:'2',q:'A system administrator is viewing this output from Microsoft\\\'s System File Checker:15:43:01 - Repairing corrupted file C:\\\\Windows\\\\System32\\\\kernel32.dll\\n15:43:03 - Repairing corrupted file C:\\\\Windows\\\\System32\\\\netapi32.dll\\n15:43:07 - Repairing corrupted file C:\\\\Windows\\\\System32\\\\user32.dll\\n15:43:43 - Repair completeWhich of the following malware types is the MOST likely cause of this output?',opts:['Ransomware','Logic bomb','Rootkit','Keylogger'],ans:[2],exp:'System File Checker repairing core OS DLLs (kernel32, netapi32, user32) is characteristic of rootkit removal — rootkits modify core system files to maintain persistence and hide themselves.'},
+  {d:'2',q:'What type of vulnerability would be associated with this log information?GET http://example.com/show.asp?view=../../Windows/system.ini HTTP/1.1',opts:['Buffer overflow','Directory traversal','DoS','Cross-site scripting'],ans:[1],exp:'The URL ../../Windows/system.ini uses dot-dot-slash sequences to navigate outside the web root — this is directory traversal (path traversal), exploiting insufficient input validation on file paths.'},
+  {d:'1',q:'A developer has created an application to store password information in a database. Which of the following BEST describes a way of protecting these credentials by adding random data to the password?',opts:['Hashing','Data masking','Salting','Asymmetric encryption'],ans:[2],exp:'Salting adds random data to a password before hashing, ensuring identical passwords produce different hash values and preventing rainbow table attacks. It \\\'protects by adding random data.\\\''},
+  {d:'4',q:'Which of the following processes provides ongoing building and testing of newly written code?',opts:['Continuous integration','Continuity of operations','Version control','Race condition'],ans:[0],exp:'CI/CD (Continuous Integration/Continuous Delivery) automates the ongoing building, testing, and deployment of newly written code — enabling frequent, reliable software releases.'},
+  {d:'5',q:'Which of the following BEST describes a responsibility matrix?',opts:['A visual summary of cloud provider accountability','Identification of tasks at each step of a project plan','A list of cybersecurity requirements based on the identified risks','Ongoing group discussions regarding cybersecurity'],ans:[0],exp:'A responsibility matrix (like a RACI or shared responsibility model) documents which tasks belong to which party — defining who is responsible, accountable, consulted, and informed.'},
+  {d:'4',q:'A security administrator is implementing an authentication system for the company. Which of the following would be the best choice for validating login credentials for all usernames and passwords in the authentication system?',opts:['CA','SIEM','LDAP','WAF'],ans:[2],exp:'LDAP (Lightweight Directory Access Protocol) is the standard protocol for querying and authenticating against a directory service (like Active Directory) — validating credentials centrally.'},
+  {d:'4',q:'A technician is reviewing this information from an IPS log:MAIN_IPS: 22June2023 09:02:50 reject 10.1.111.7\\nAlert: HTTP Suspicious Webdav OPTIONS Method Request; Host: Server\\nSeverity: medium; Performance Impact:3;\\nCategory: info-leak; Packet capture; disable\\nProto:tcp; dst:192.168.11.1; src:10.1.111.7Which of the following can be associated with this log information? (Select TWO)',opts:['The attacker sent a non-authenticated BGP packet to trigger the IPS','The source of the attack is 192.168.11.1','The event was logged but no packets were dropped','The source of the attack is 10.1.111.7','The attacker sent an unusual HTTP packet to trigger the IPS'],ans:[3,4],multi:true,exp:'The log shows a WebDAV OPTIONS request from 10.1.111.7 to 192.168.11.1:80 — the source IP is the attacker. The category \\\'info-leak\\\' and HTTP method OPTIONS indicate reconnaissance activity.'},
+  {d:'4',q:'A company has contracted with a third-party to provide penetration testing services. The service includes a port scan of each externally-facing device. This is an example of:',opts:['Initial exploitation','Privilege escalation','Known environment','Active reconnaissance'],ans:[3],exp:'A third-party port scanning externally-facing devices is active reconnaissance conducted as part of a penetration test engagement.'},
+  {d:'3',q:'An access point in a corporate headquarters office has the following configuration:IP address: 10.1.10.1\\nSubnet mask: 255.255.255.0\\nDHCPv4 Server: Enabled\\nSSID: Wireless\\nWireless Mode: 802.11n\\nSecurity Mode: WEP-PSK\\nFrequency band: 2.4 GHz\\nSoftware revision: 2.1\\nMAC Address: 60:3D:26:71:FF:AA\\nIPv4 Firewall: EnabledWhich of the following would apply to this configuration?',opts:['Invalid frequency band','Weak encryption','Incorrect IP address and subnet mask','Invalid software version'],ans:[1],exp:'The AP is using WEP-PSK (Wired Equivalent Privacy) — an outdated, broken encryption standard deprecated since 2004. WPA2 or WPA3 should replace it immediately.'},
+  {d:'2',q:'An attacker has gained access to an application through the use of packet captures. Which of the following would be MOST likely used by the attacker?',opts:['Overflow','Forgery','Replay','Injection'],ans:[2],exp:'Gaining access through packet captures means the attacker used replay attack — capturing and replaying authentication tokens or credentials observed in cleartext network traffic.'},
+  {d:'2',q:'A company is receiving complaints of slowness and disconnections to their Internet-facing web server. A network administrator monitors the Internet link and finds excessive bandwidth utilization from thousands of different IP addresses. Which of the following would be the MOST likely reason for these performance issues?',opts:['DDoS','DNS spoofing','RFID cloning','Wireless jamming'],ans:[0],exp:'Excessive traffic from thousands of different IP addresses overwhelming a web server is a DDoS (Distributed Denial of Service) attack — the distributed nature distinguishes it from a regular DoS.'},
+  {d:'5',q:'A company has created an itemized list of tasks to be completed by a third-party service provider. After the services are complete, this document will be used to validate the completion of the services. Which of the following would describe this agreement type?',opts:['SLA','SOW','NDA','BPA'],ans:[1],exp:'An SOW (Statement of Work) itemizes specific tasks and deliverables and is used to validate completion of services. An SLA defines performance levels; an MOU is a broad partnership agreement.'},
+  {d:'3',q:'A company is deploying a series of internal applications to different cloud providers. Which of the following connection types should be deployed for this configuration?',opts:['Air-gapped','802.1X','Site-to-site IPsec VPN','Jump server','SD-WAN'],ans:[4],exp:'SD-WAN (Software-Defined WAN) is designed for connecting multiple sites to multiple cloud providers with intelligent path selection, flexibility, and centralized management — ideal for multi-cloud app deployment.'},
+  {d:'3',q:'A company is updating components within the control plane of their zero-trust implementation. Which of the following would be part of this update?',opts:['Policy engine','Subjects','Policy enforcement point','Zone configurations'],ans:[0],exp:'The zero-trust control plane contains the policy engine (evaluates access requests), policy administrator (executes decisions), and policy enforcement points. Subjects and zones are in the data plane.'},
+  {d:'2',q:'Which of the following malware types would cause a workstation to participate in a DDoS?',opts:['Bot','Logic bomb','Ransomware','Keylogger'],ans:[0],exp:'A bot is malware that registers the infected device in a botnet, which can then be commanded to participate in DDoS attacks. Ransomware encrypts; keyloggers capture keystrokes; logic bombs trigger on conditions.'},
+  {d:'4',q:'Which of these are used to force the preservation of data for later use in court?',opts:['Chain of custody','Data loss prevention','Legal hold','E-discovery'],ans:[2],exp:'A legal hold (litigation hold) preserves data from deletion or modification when litigation is anticipated. E-discovery is the process of finding/producing that data; chain of custody documents evidence handling.'},
+  {d:'3',q:'A company would like to automatically monitor and report on any movement occurring in an open field at the data center. Which of the following would be the BEST choice for this task?',opts:['Bollard','Microwave sensor','Access control vestibule','Fencing'],ans:[1],exp:'Motion sensors detect physical movement in open areas like fields around data centers, alerting to unauthorized presence. Video surveillance records but doesn\\\'t automatically detect motion without analytics.'},
+  {d:'5',q:'A company is releasing a new product, and part of the release includes the installation of load balancers to the public web site. Which of the following would best describe this process?',opts:['Platform diversity','Capacity planning','Multi-cloud systems','Permission restrictions'],ans:[1],exp:'Installing load balancers as part of a new product release is capacity planning — proactively adding infrastructure resources to support anticipated demand and ensure availability.'},
+  {d:'1',q:'A system administrator would like to prove an email message was sent by a specific person. Which of the following describes the verification of this message source?',opts:['Non-repudiation','Key escrow','Asymmetric encryption','Steganography'],ans:[0],exp:'Non-repudiation proves that a specific person sent a message — a digital signature using the sender\\\'s private key creates a cryptographic proof that cannot be denied (repudiated).'},
+  {d:'2',q:'A security administrator has created a policy to alert if a user modifies the hosts file on their system. Which of the following behaviors does this policy address?',opts:['Unexpected','Self-assessment','Unintentional','Risky'],ans:[3],exp:'Modifying the hosts file redirects DNS lookups locally, bypassing DNS servers — a technique used by malware and attackers for DNS hijacking or preventing access to security update sites.'},
+  {d:'2',q:'A company has identified a web server data breach resulting in the theft of financial records from 150 million customers. A security update to the company\\\'s web server software was available for two months prior to the breach. Which of the following would have prevented this breach from occurring?',opts:['Patch management','Full disk encryption','Disabling unnecessary services','Application allow lists'],ans:[0],exp:'The breach occurred because a security patch available for two months was not applied. Patch management (timely application of security updates) would have prevented the vulnerability from being exploited.'},
+  {d:'5',q:'During the onboarding process, the IT department requires a list of software applications associated with the new employee\\\'s job functions. Which of the following would describe the use of this information?',opts:['Access control configuration','Encryption settings','Physical security requirements','Change management'],ans:[0],exp:'Gathering a list of required software during onboarding is application allow-listing / least functionality — ensuring new employees only get the applications necessary for their specific job functions.'},
+  {d:'4',q:'A system administrator has identified an unexpected username on a database server, and the user has been transferring database files to an external server over the company\\\'s Internet connection. The administrator then performed these tasks:Physically disconnected the Ethernet cable on the database serverDisabled the unknown accountConfigured a firewall rule to prevent file transfers from the serverWhich of the following would BEST describe this part of the incident response process?',opts:['Eradication','Containment','Lessons learned','Preparation'],ans:[1],exp:'Disconnecting the Ethernet cable, disabling the account, and blocking file transfers via firewall rules are all containment actions — isolating the compromised system to stop the ongoing attack.'},
+  {d:'1',q:'Which of the following would be the MOST effective use of asymmetric encryption?',opts:['Real-time video encryption','Securely store passwords','Protect data on mobile devices','Create a shared session key'],ans:[3],exp:'The most effective use of asymmetric encryption is exchanging encrypted messages with someone you\\\'ve never met — using their public key to encrypt, ensuring only they can decrypt with their private key.'},
+  {d:'3',q:'Each salesperson in a company receives a laptop with applications and data to support their sales efforts. The IT manager would like to prevent third-parties from gaining access to this information if the laptop is stolen. Which of the following would be the BEST way to protect this data?',opts:['Remote wipe','Full disk encryption','Biometrics','VPN'],ans:[1],exp:'Full-disk encryption (FDE) protects all data on a laptop if stolen — the disk contents are unreadable without the encryption key. Without FDE, physical access to the drive exposes all data.'},
+  {d:'5',q:'A security administrator has compiled a list of all information stored and managed by an organization. Which of the following would best describe this list?',opts:['Sanitization','Metadata','Known environment','Data inventory'],ans:[3],exp:'A data inventory (also called an asset registry or data catalog) is a comprehensive list of all information assets stored and managed by an organization — required for data governance and compliance.'},
+  {d:'4',q:'A security administrator would like to monitor all outbound Internet connections for malicious software. Which of the following would provide this functionality?',opts:['Jump server','IPsec tunnel','Forward proxy','Load balancer'],ans:[2],exp:'An IPS or next-gen firewall with malware scanning monitors outbound connections and can detect/block C2 communications and data exfiltration by malicious software.'},
+  {d:'1',q:'What type of security control would be associated with corporate security policies?',opts:['Technical','Operational','Managerial','Physical'],ans:[2],exp:'Corporate security policies are directive controls — they provide instructions and requirements for behavior but rely on other controls for enforcement. They direct what should be done.'},
+  {d:'2',q:'Which of the following would be the MOST significant security concern when protecting against organized crime?',opts:['Prevent users from posting passwords near their workstations','Require identification cards for all employees and guests','Maintain reliable backup data','Use access control vestibules at all data center locations'],ans:[2],exp:'Organized crime is financially motivated and targets high-value data like financial account information. An unencrypted financial database exposed to the Internet is the most significant target.'},
+  {d:'3',q:'An application team has been provided with a hardened version of Linux to use with a new application installation, and this includes installing a web service and the application code on the server. Which of the following would BEST protect the application from attacks?',opts:['Build a backup server for the application','Run the application in a cloud-based environment','Implement a secure configuration of the web service','Send application logs to the SIEM via syslog'],ans:[2],exp:'A WAF (Web Application Firewall) specifically protects web applications from injection attacks, XSS, and other web-based exploits on a hardened server. It inspects HTTP/HTTPS traffic at the application layer.'},
+  {d:'3',q:'A system administrator has configured MAC filtering on their corporate access point, but access logs show unauthorized users accessing the network. Which of the following should the administrator configure to prevent future unauthorized use?',opts:['Enable WPA3 encryption','Remove unauthorized MAC addresses from the filter','Modify the SSID name','Modify the channel frequencies'],ans:[0],exp:'MAC filtering is easily bypassed by spoofing a legitimate MAC address. Implementing WPA2/WPA3 with proper encryption prevents unauthorized users even if they spoof a MAC address.'},
+  {d:'5',q:'A system administrator has been tasked with performing an application upgrade, but the upgrade has been delayed due to a different scheduled installation of an outdated device driver. Which of the following issues would best describe this change management delay?',opts:['Deny list','Legacy application','Dependency','Restricted activity'],ans:[2],exp:'A dependency is a change management issue where one upgrade is blocked because it depends on (or conflicts with) another scheduled change. The outdated driver installation is a dependency conflict.'},
+  {d:'3',q:'During an initial network connection, a supplicant communicates to an authenticator, which then sends an authentication request to an Active Directory database. Which of the following would BEST describe this authentication technology?',opts:['Federation','UTM','802.1X','PKI'],ans:[2],exp:'A supplicant-to-authenticator-to-RADIUS/AD flow is the 802.1X authentication model — the standard for port-based NAC used in enterprise wireless and wired networks.'},
+  {d:'2',q:'A security researcher has been notified of a potential hardware vulnerability. Which of the following should the researcher evaluate as a potential security issue?',opts:['Firmware versions','Firewall configuration','SQL requests','XSS attachments'],ans:[0],exp:'Hardware vulnerabilities (like speculative execution flaws in CPUs) can be exploited at the firmware/chip level. A hardware vulnerability report requires evaluating the affected CPU or chip.'},
+  {d:'3',q:'Visitors to a corporate data center must enter through the main doors of the building. Which of the following security controls would be the BEST choice to successfully guide people to the front door? (Select TWO)',opts:['Infrared sensors','Bollards','Biometrics','Fencing','Access badges','Video surveillance'],ans:[1,3],multi:true,exp:'Lighting and fencing/bollards guide visitors toward the main entrance by making other paths less visible and less accessible. Cameras and access controls don\\\'t physically direct foot traffic.'},
+  {d:'1',q:'A company\\\'s employees are required to authenticate each time a file share, printer, or SAN imaging system is accessed. Which of the following should be used to minimize the number of employee authentication requests?',opts:['SSO','OSINT','MFA','SCAP'],ans:[0],exp:'SSO (Single Sign-On) lets users authenticate once and access multiple resources without re-entering credentials — minimizing authentication prompts across file shares, printers, and storage systems.'},
+  {d:'5',q:'A company has recently moved from one accounting system to another, and the new system includes integration with many other divisions of the organization. Which of the following would ensure that the correct access has been provided to the proper employees in each division?',opts:['Geolocation','Onboarding process','Account de-provisioning','Internal self-assessment'],ans:[3],exp:'After a system migration, an access review (permission audit) verifies that each employee has been granted the correct access rights for their role in the new system — preventing over-provisioning.'},
+  {d:'2',q:'An attacker has circumvented a web-based application to send commands directly to a database. Which of the following would describe this attack type?',opts:['Downgrade','SQL injection','Cross-site scripting','On-path'],ans:[1],exp:'Bypassing a web application to send commands directly to a database is SQL injection — the attacker circumvents the app\\\'s intended query logic to issue arbitrary database commands.'},
+  {d:'1',q:'A group of business partners is using blockchain technology to monitor and track raw materials and parts as they are transferred between companies. Where would a partner find these tracking details?',opts:['Ledger','HSM','SIEM','HIPS'],ans:[0],exp:'Blockchain stores all transactions in a distributed, immutable ledger. Partners can find tracking details in the distributed ledger — all nodes have a copy and changes are permanent and transparent.'},
+  {d:'2',q:'A network technician at a bank has noticed a significant decrease in traffic to the bank\\\'s public website. After additional investigation, the technician finds that users are being directed to a web site which looks similar to the bank\\\'s site but is not under the bank\\\'s control. Flushing the local DNS cache and changing the DNS entry does not have any effect. Which of the following has most likely occurred?',opts:['DDoS','Disassociation attack','Buffer overflow','Domain hijacking'],ans:[3],exp:'DNS server poisoning affects the DNS infrastructure itself so that changing local cache or DNS entries has no effect. A rogue DNS server or upstream poisoning redirects all users regardless of local settings.'},
+  {d:'3',q:'A company runs two separate applications in their data center. The security administrator has been tasked with preventing all communication between these applications. Which of the following would be the BEST way to implement this security requirement?',opts:['Firewall','SDN','Air gap','VLANs'],ans:[2],exp:'An air gap physically separates two systems with zero network connectivity — the most absolute way to prevent all communication between two applications in a data center.'},
+  {d:'5',q:'A receptionist at a manufacturing company recently received an email from the CEO asking for a copy of the internal corporate employee directory. It was later determined that the email address was not sent from the CEO and the domain associated with the email address was not a corporate domain name. What type of training could help identify this type of attack in the future?',opts:['Recognizing social engineering','Proper password management','Securing remote work environments','Understanding insider threats'],ans:[0],exp:'An employee receiving a spoofed CEO email requesting the employee directory is a phishing/BEC (Business Email Compromise) attack. Security awareness training helps users recognize and report impersonation attempts.'},
+  {d:'5',q:'Which of the following deployment models would a company follow if they require individuals to use their personal phones for work purposes?',opts:['CYOD','MDM','BYOD','COPE'],ans:[2],exp:'BYOD (Bring Your Own Device) is the policy where employees use their personal phones for work purposes. COPE is company-owned personally-enabled; CYOD is choose your own device.'},
+];
+
+const DOMAIN_COLORS = {
+  '1':'#C0392B','2':'#E67E22','3':'#2E86C1','4':'#27AE60','5':'#8E44AD'
+};
+const DOMAIN_NAMES = {
+  '1':'Governance Risk & Compliance',
+  '2':'Threats Vulnerabilities & Mitigations',
+  '3':'Security Architecture',
+  '4':'Security Operations',
+  '5':'Program Management'
+};
+
+/* ══════════════════════════════════════
+   STATE
+══════════════════════════════════════ */
+let sessionQ = [];
+let curQ = 0;
+let answers = [];
+let revealed = [];
+let correct = 0, wrong = 0;
+let selectedTest = 1;
+let selectedCount = 10;
+let selectedTime = 0;
+let timerInterval = null;
+let timeLeft = 0;
+
+/* ══════════════════════════════════════
+   SETUP
+══════════════════════════════════════ */
+function selectCount(el, n) {
+  document.querySelectorAll('#q-count-grid .opt-btn').forEach(b => b.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedCount = n;
+}
+function selectTimer(el, t) {
+  document.querySelectorAll('#timer-grid .opt-btn').forEach(b => b.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedTime = t;
+}
+function selectTest(el, t) {
+  selectedTest = t;
+  document.querySelectorAll('#test-select-grid .opt-btn').forEach(b => b.classList.remove('selected'));
+  el.classList.add('selected');
+  // Update question count options based on pool size
+  const poolSize = t === 1 ? 129 : t === 2 ? 100 : 229;
+  // Update "All" button label
+  const allBtn = document.getElementById('all-q-btn');
+  if (allBtn) {
+    allBtn.querySelector('.ob-val').textContent = 'All';
+    allBtn.querySelector('.ob-lbl').textContent = poolSize + ' Qs';
+    allBtn.dataset.count = poolSize;
+  }
+  // Update session title label on results
+  const lbl = document.getElementById('res-label');
+  if (lbl) lbl.textContent = t === 'both' ? 'Combined Practice Exam Complete' : `Practice Test ${t} Complete`;
+}
+
+function toggleSessionBar() {
+  const body = document.getElementById('session-bar-body');
+  const chev = document.getElementById('bar-chevron');
+  body.classList.toggle('open');
+  chev.classList.toggle('open');
+}
+
+function startExam() {
+  const shuffled = [...SECPLUS_Q3].sort(() => Math.random() - 0.5);
+  sessionQ = shuffled.slice(0, Math.min(selectedCount, SECPLUS_Q3.length));
+  curQ = 0;
+  answers = new Array(sessionQ.length).fill(null);
+  revealed = new Array(sessionQ.length).fill(false);
+  correct = 0; wrong = 0;
+
+  document.getElementById('sc-total').textContent = sessionQ.length;
+  document.getElementById('session-q-pill').textContent = sessionQ.length + ' Qs';
+  document.getElementById('sbi-total').textContent = sessionQ.length;
+
+  if (selectedTime > 0) {
+    timeLeft = selectedTime;
+    const tLabel = formatTime(selectedTime);
+    document.getElementById('session-t-pill').textContent = '⏱ ' + tLabel;
+    document.getElementById('sbi-timer').textContent = tLabel;
+    document.getElementById('sbi-mode').textContent = 'Timed';
+    document.getElementById('timer-pill').style.display = 'inline-block';
+    document.getElementById('timer-pill').textContent = tLabel;
+    startTimer();
+  } else {
+    document.getElementById('session-t-pill').textContent = 'Untimed';
+    document.getElementById('sbi-timer').textContent = '∞';
+    document.getElementById('sbi-mode').textContent = 'Untimed';
+    document.getElementById('timer-pill').style.display = 'none';
+  }
+
+  document.getElementById('setup-screen').style.display = 'none';
+  document.getElementById('exam-screen').style.display = 'block';
+  renderQuestion();
+  updateScoreboard();
+}
+
+/* ══════════════════════════════════════
+   TIMER
+══════════════════════════════════════ */
+function startTimer() {
+  clearInterval(timerInterval);
+  timerInterval = setInterval(() => {
+    timeLeft--;
+    const pill = document.getElementById('timer-pill');
+    const tStr = formatTime(timeLeft);
+    pill.textContent = tStr;
+    document.getElementById('session-t-pill').textContent = '⏱ ' + tStr;
+    pill.className = 's-pill timer-pill';
+    if (timeLeft <= 60) pill.classList.add('danger');
+    else if (timeLeft <= 180) pill.classList.add('warning');
+    if (timeLeft <= 0) { clearInterval(timerInterval); endExam(); }
+  }, 1000);
+}
+function formatTime(s) {
+  const h = Math.floor(s / 3600);
+  const m = Math.floor((s % 3600) / 60);
+  const sec = s % 60;
+  if (h > 0) return `${h}:${String(m).padStart(2,'0')}:${String(sec).padStart(2,'0')}`;
+  return `${String(m).padStart(2,'0')}:${String(sec).padStart(2,'0')}`;
+}
+
+/* ══════════════════════════════════════
+   RENDER QUESTION
+══════════════════════════════════════ */
+function renderQuestion() {
+  const q = sessionQ[curQ];
+  document.getElementById('q-num-label').textContent = `Question ${curQ + 1}`;
+  document.getElementById('q-domain-label').textContent = q.domain;
+  document.getElementById('q-text').textContent = q.q;
+  document.getElementById('q-multi-note').style.display = q.multi ? 'block' : 'none';
+
+  const pct = Math.round(((curQ + 1) / sessionQ.length) * 100);
+  document.getElementById('prog-label').textContent = `Question ${curQ + 1} of ${sessionQ.length}`;
+  document.getElementById('prog-pct').textContent = pct + '%';
+  document.getElementById('prog-bar').style.width = pct + '%';
+
+  const fb = document.getElementById('q-feedback');
+  fb.className = 'feedback'; fb.innerHTML = '';
+
+  const opts = document.getElementById('q-options');
+  opts.innerHTML = '';
+  q.opts.forEach((o, i) => {
+    const el = document.createElement('div');
+    el.className = 'option';
+    el.dataset.idx = i;
+    el.innerHTML = `<div class="opt-key">${o.charAt(0)}</div><span>${o.slice(3)}</span>`;
+    el.onclick = () => selectOpt(i, el);
+    if (revealed[curQ]) {
+      el.classList.add('disabled');
+      if (q.ans.includes(i)) el.classList.add('correct');
+      else if (answers[curQ] && answers[curQ].includes(i)) el.classList.add('wrong');
+    } else if (answers[curQ] && answers[curQ].includes(i)) {
+      el.classList.add('selected');
+    }
+    opts.appendChild(el);
+  });
+
+  if (revealed[curQ] && answers[curQ] && answers[curQ].length > 0) showFeedback(q);
+
+  const btnNext = document.getElementById('btn-next');
+  btnNext.disabled = !(answers[curQ] && answers[curQ].length > 0);
+  btnNext.textContent = curQ === sessionQ.length - 1 ? 'Finish →' : 'Next →';
+  document.getElementById('btn-prev').disabled = curQ === 0;
+
+  buildNav();
+}
+
+function selectOpt(idx, el) {
+  if (revealed[curQ]) return;
+  const q = sessionQ[curQ];
+  if (!answers[curQ]) answers[curQ] = [];
+
+  if (q.multi) {
+    if (answers[curQ].includes(idx)) {
+      answers[curQ] = answers[curQ].filter(i => i !== idx);
+      el.classList.remove('selected');
+    } else {
+      answers[curQ].push(idx);
+      el.classList.add('selected');
+    }
+    document.getElementById('btn-next').disabled = answers[curQ].length === 0;
+    if (answers[curQ].length === q.ans.length) revealAnswer();
+  } else {
+    document.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+    answers[curQ] = [idx];
+    el.classList.add('selected');
+    revealAnswer();
+  }
+}
+
+function revealAnswer() {
+  if (revealed[curQ]) return;
+  revealed[curQ] = true;
+  const q = sessionQ[curQ];
+  const isCorrect = q.ans.slice().sort().join(',') === answers[curQ].slice().sort().join(',');
+  if (isCorrect) correct++; else wrong++;
+
+  document.querySelectorAll('.option').forEach(el => {
+    el.classList.add('disabled');
+    const i = parseInt(el.dataset.idx);
+    if (q.ans.includes(i)) el.classList.add('correct');
+    else if (answers[curQ].includes(i)) el.classList.add('wrong');
+    el.classList.remove('selected');
+  });
+
+  showFeedback(q);
+  document.getElementById('btn-next').disabled = false;
+  updateScoreboard();
+  buildNav();
+}
+
+function showFeedback(q) {
+  const isCorrect = q.ans.slice().sort().join(',') === (answers[curQ] || []).slice().sort().join(',');
+  const fb = document.getElementById('q-feedback');
+  fb.className = 'feedback show ' + (isCorrect ? 'correct-fb' : 'wrong-fb');
+  fb.innerHTML = `<strong>${isCorrect ? '✓ Correct!' : '✗ Incorrect'}</strong>${q.exp}`;
+}
+
+function handleNext() {
+  if (!revealed[curQ] && answers[curQ] && answers[curQ].length > 0) { revealAnswer(); return; }
+  if (curQ < sessionQ.length - 1) { goTo(curQ + 1); }
+  else { endExam(); }
+}
+
+function goTo(i) {
+  if (i < 0 || i >= sessionQ.length) return;
+  curQ = i;
+  renderQuestion();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function buildNav() {
+  const nav = document.getElementById('q-nav');
+  nav.innerHTML = '';
+  sessionQ.forEach((_, i) => {
+    const pill = document.createElement('div');
+    pill.className = 'q-pill';
+    pill.textContent = i + 1;
+    pill.onclick = () => goTo(i);
+    if (i === curQ) pill.classList.add('current');
+    else if (revealed[i]) {
+      const q = sessionQ[i];
+      const isCorr = q.ans.slice().sort().join(',') === (answers[i]||[]).slice().sort().join(',');
+      pill.classList.add(isCorr ? 'ans-correct' : 'ans-wrong');
+    } else if (answers[i] && answers[i].length > 0) pill.classList.add('ans-skip');
+    nav.appendChild(pill);
+  });
+}
+
+function updateScoreboard() {
+  const answered = revealed.filter(Boolean).length;
+  const pct = answered > 0 ? Math.round((correct / answered) * 100) : 0;
+  document.getElementById('sc-answered').textContent = answered;
+  document.getElementById('sc-correct').textContent = correct;
+  document.getElementById('sc-pct').textContent = pct + '%';
+}
+
+/* ══════════════════════════════════════
+   END / RESULTS
+══════════════════════════════════════ */
+function endExam() {
+  clearInterval(timerInterval);
+  const total = sessionQ.length;
+  const skipped = total - correct - wrong;
+  const pct = Math.round((correct / total) * 100);
+
+  document.getElementById('exam-screen').style.display = 'none';
+  document.getElementById('res-score').textContent = `${correct}/${total}`;
+  document.getElementById('res-correct').textContent = correct;
+  document.getElementById('res-wrong').textContent = wrong;
+  document.getElementById('res-skip').textContent = skipped;
+
+  const grade = document.getElementById('res-grade');
+  const resLbl = document.getElementById('res-label');
+  if (resLbl) resLbl.textContent = 'ISC2 CC Practice Exam Complete';
+  if (pct >= 72) { grade.className = 'result-grade pass'; grade.textContent = `${pct}% — PASS 🎉`; }
+  else { grade.className = 'result-grade fail'; grade.textContent = `${pct}% — Keep Studying`; }
+
+  document.getElementById('results-screen').style.display = 'block';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function backToSetup() {
+  clearInterval(timerInterval);
+  document.getElementById('results-screen').style.display = 'none';
+  document.getElementById('exam-screen').style.display = 'none';
+  document.getElementById('setup-screen').style.display = 'block';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+</script>
+</body>
+</html>
