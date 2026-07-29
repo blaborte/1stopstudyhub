@@ -33,21 +33,7 @@
     .hero h1 .accent{color:var(--sky)}
     .hero-sub{font-size:14px;color:rgba(255,255,255,0.6);line-height:1.7;max-width:540px}
     .main{max-width:900px;margin:0 auto;padding:2rem 2rem 3rem;flex:1}
-    /* AI BANNER */
-    .ai-banner{background:linear-gradient(135deg,rgba(255,153,0,0.1),rgba(255,153,0,0.05));border:1px solid rgba(255,153,0,0.3);border-radius:14px;padding:16px 20px;margin-bottom:1.5rem;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
-    .ai-icon{font-size:22px;flex-shrink:0}
-    .ai-text{flex:1;min-width:200px}
-    .ai-title{font-size:13px;font-weight:700;color:var(--aws);margin-bottom:3px}
-    .ai-sub{font-size:12px;color:var(--muted);line-height:1.55}
-    .fetch-btn{background:var(--aws);border:none;color:#fff;padding:10px 22px;border-radius:10px;font-family:"DM Sans",sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;white-space:nowrap;flex-shrink:0}
-    .fetch-btn:hover{background:#e68900;transform:translateY(-1px)}
-    .fetch-btn:disabled{background:#999;cursor:not-allowed;transform:none}
-    .fetch-status{font-size:12px;color:var(--muted);margin-top:8px;display:none;align-items:center;gap:8px}
-    .fetch-status.show{display:flex}
-    .spinner{width:14px;height:14px;border:2px solid var(--mid);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite;flex-shrink:0}
-    @keyframes spin{to{transform:rotate(360deg)}}
-    .live-badge{font-size:11px;padding:4px 10px;border-radius:20px;background:rgba(39,174,96,0.1);color:var(--green);border:1px solid rgba(39,174,96,0.25);display:none;align-items:center;gap:5px;margin-top:6px}
-    .live-badge.show{display:inline-flex}
+
     /* TOTAL BAR */
     .total-bar{background:var(--navy);border-radius:16px;padding:20px 28px;margin-bottom:2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;position:sticky;top:64px;z-index:50;box-shadow:0 4px 20px rgba(11,29,58,0.3)}
     .total-label{font-size:13px;color:rgba(255,255,255,0.55);font-weight:500}
@@ -108,7 +94,6 @@
     html.dark .btable{background:var(--white)}
     html.dark .btable td{border-color:var(--border);color:var(--text)}
     html.dark .fact{background:var(--white);border-color:var(--border)}
-    html.dark .ai-banner{background:rgba(30,42,58,0.8);border-color:rgba(255,153,0,0.25)}
     footer{background:var(--navy);padding:1.25rem 2rem;text-align:center;border-top:1px solid rgba(93,173,226,0.12)}
     footer p{font-size:12px;color:rgba(255,255,255,0.3)}
     footer a{color:var(--sky);text-decoration:none}
@@ -140,24 +125,12 @@
 </div>
 <div class="main">
 
-  <!-- AI BANNER -->
-  <div class="ai-banner">
-    <span class="ai-icon">&#x1F916;</span>
-    <div class="ai-text">
-      <div class="ai-title">AI-Powered Live Pricing</div>
-      <div class="ai-sub">Built-in rates load instantly. Click Fetch Live Prices to have Claude search the web for today's actual us-east-1 prices and update every calculation in real time.</div>
-      <div class="fetch-status" id="fetch-status"><div class="spinner"></div><span id="fetch-msg">Searching AWS pricing pages...</span></div>
-      <div class="live-badge" id="live-badge">&#x2713; Live prices active</div>
-    </div>
-    <button class="fetch-btn" id="fetch-btn" onclick="fetchLivePrices()">&#x26A1; Fetch Live Prices</button>
-  </div>
-
   <!-- TOTAL BAR -->
   <div class="total-bar">
     <div>
       <div class="total-label">Estimated Monthly Total</div>
       <div class="total-amount" id="grand-total">$0.00</div>
-      <div class="total-period" id="price-period">us-east-1 &middot; built-in rates</div>
+      <div class="total-period" id="price-period">us-east-1 &middot; approximate rates</div>
     </div>
     <div class="total-actions">
       <button class="btn btn-reset" onclick="resetAll()">&#8635; Reset</button>
@@ -406,60 +379,6 @@ const SNOTES = {
   '15000':'<strong>Enterprise ($15,000/mo):</strong> Dedicated TAM, business-critical &lt;15 min, proactive guidance.'
 };
 
-// ── AI Live Price Fetch ───────────────────────────────────────────────────────
-async function fetchLivePrices() {
-  const btn = document.getElementById('fetch-btn');
-  const st  = document.getElementById('fetch-status');
-  const msg = document.getElementById('fetch-msg');
-  const badge = document.getElementById('live-badge');
-  btn.disabled = true; btn.textContent = 'Fetching...';
-  st.classList.add('show'); badge.classList.remove('show');
-  msg.textContent = 'Searching AWS pricing pages...';
-
-  const prompt = `Search the web for current AWS us-east-1 On-Demand pricing and return ONLY valid JSON (no markdown, no explanation) in this exact structure. Use real prices from aws.amazon.com/ec2/pricing, aws.amazon.com/s3/pricing, aws.amazon.com/lambda/pricing, aws.amazon.com/rds/pricing today:
-{
-  "ec2":{"t3.micro":0,"t3.small":0,"t3.medium":0,"t3.large":0,"t3.xlarge":0,"m5.large":0,"m5.xlarge":0,"m5.2xlarge":0,"c5.xlarge":0,"r5.xlarge":0},
-  "ebs":0,
-  "s3":{"standard":0,"standard_ia":0,"onezone_ia":0,"glacier_instant":0,"glacier_flexible":0,"glacier_deep":0},
-  "s3_put":0,"s3_get":0,"s3_dt":0,
-  "lambda_req":0,"lambda_compute":0,"lambda_free_req":1,"lambda_free_gbsec":400000,
-  "rds":{"mysql_t3_micro":0,"mysql_t3_small":0,"mysql_t3_medium":0,"mysql_m5_large":0,"pg_t3_micro":0,"pg_t3_medium":0,"aurora_t3_medium":0},
-  "rds_storage":0,"dt_free":100,"dt_rate":0,"cf_rate":0
-}
-Replace every 0 with the real current price. Return only the JSON object.`;
-
-  try {
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({
-        model:'claude-sonnet-4-6',
-        max_tokens:1000,
-        tools:[{type:'web_search_20250305',name:'web_search'}],
-        messages:[{role:'user',content:prompt}]
-      })
-    });
-    if (!res.ok) throw new Error('API ' + res.status);
-    const data = await res.json();
-    const text = data.content.filter(b=>b.type==='text').map(b=>b.text).join('');
-    const m = text.match(/\{[\s\S]*\}/);
-    if (!m) throw new Error('No JSON in response');
-    const fresh = JSON.parse(m[0]);
-    if (!fresh.ec2 || !fresh.s3 || !fresh.rds) throw new Error('Incomplete data');
-    P = {...P, ...fresh, source:'live', fetched_at: new Date().toLocaleTimeString()};
-    badge.textContent = '✓ Live prices — fetched at ' + P.fetched_at;
-    badge.classList.add('show');
-    document.getElementById('price-period').textContent = 'us-east-1 · live prices fetched ' + P.fetched_at;
-    msg.textContent = 'Prices updated!';
-    setTimeout(()=>st.classList.remove('show'),2500);
-    calc();
-  } catch(e) {
-    msg.textContent = 'Could not fetch: ' + e.message + '. Using built-in rates.';
-    setTimeout(()=>st.classList.remove('show'),4000);
-  }
-  btn.disabled = false;
-  btn.textContent = '⚡ Refresh Prices';
-}
 
 // ── Calculator ────────────────────────────────────────────────────────────────
 function fmt(n){return '$'+n.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g,',')}
