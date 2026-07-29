@@ -288,6 +288,33 @@
     html.dark .wifi-diagram{background:var(--mid)}
     @media(max-width:700px){.cfg-row{grid-template-columns:1fr};.cfg-label{border-right:none;border-bottom:1px solid var(--border)}}
 
+  
+    /* ── PBQ4 MATCH DRAG ── */
+    .match-wrap{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:20px}
+    .match-col-label{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+    /* LEFT — standard chips (draggable) */
+    .std-pool{display:flex;flex-direction:column;gap:8px}
+    .std-chip{display:flex;align-items:center;gap:10px;background:var(--white);border:1px solid var(--border);border-radius:10px;padding:10px 14px;cursor:grab;user-select:none;transition:all .15s;font-family:'Space Mono',monospace;font-size:13px;font-weight:700;color:var(--text)}
+    .std-chip:active{cursor:grabbing;opacity:.6}
+    .std-chip.dragging{opacity:.35;transform:scale(.97)}
+    .std-chip .grip{color:var(--muted);font-size:15px;flex-shrink:0}
+    .std-chip.used{opacity:.35;cursor:not-allowed;border-style:dashed}
+    /* RIGHT — rate drop zones */
+    .rate-list{display:flex;flex-direction:column;gap:8px}
+    .rate-row{display:flex;align-items:center;gap:10px}
+    .rate-label{font-family:'Space Mono',monospace;font-size:13px;font-weight:700;color:var(--accent);min-width:90px;flex-shrink:0}
+    .rate-zone{flex:1;min-height:44px;border:2px dashed var(--border);border-radius:10px;padding:4px 8px;display:flex;align-items:center;flex-wrap:wrap;gap:6px;transition:all .15s;background:transparent}
+    .rate-zone.drag-over{border-color:var(--accent);background:rgba(46,134,193,0.07)}
+    .rate-zone .std-chip{font-size:11px;padding:5px 10px;cursor:pointer;margin:0}
+    .rate-zone .std-chip:hover{border-color:#E74C3C;background:rgba(231,76,60,0.05)}
+    .rate-zone-hint{font-size:11px;color:var(--muted);opacity:.55;pointer-events:none;padding:2px 6px}
+    /* feedback */
+    .rate-zone.zone-correct{border-color:#27AE60;background:rgba(39,174,96,0.07)}
+    .rate-zone.zone-wrong{border-color:#E74C3C;background:rgba(231,76,60,0.07)}
+    html.dark .std-chip{background:var(--white);border-color:var(--border);color:var(--text)}
+    html.dark .match-wrap .rate-label{color:var(--sky)}
+    @media(max-width:680px){.match-wrap{grid-template-columns:1fr}}
+
   </style>
 </head>
 <body>
@@ -323,6 +350,7 @@
     <button class="pbq-nav-btn active" onclick="showPBQ('pbq1',this)">🧩 PBQ 1 — Cable Identification</button>
     <button class="pbq-nav-btn" onclick="showPBQ('pbq2',this)">🔒 PBQ 2 — Firewall Rules</button>
     <button class="pbq-nav-btn" onclick="showPBQ('pbq3',this)">📶 PBQ 3 — WiFi Setup</button>
+    <button class="pbq-nav-btn" onclick="showPBQ('pbq4',this)">📡 PBQ 4 — Wireless Speeds</button>
   </div>
 
   <!-- PBQ 1 SECTION -->
@@ -566,7 +594,7 @@
     <div class="pbq-card">
     <div class="pbq-card-head">
       <div>
-        <div class="pbq-num">PBQ 3 of 3</div>
+        <div class="pbq-num">PBQ 3 of 4</div>
         <div class="pbq-title">Network Technician &mdash; Wireless AP Configuration</div>
       </div>
       <span class="pbq-badge" style="background:rgba(22,160,133,0.2);border-color:rgba(22,160,133,0.5);color:#7DCEA0">CONFIGURE AP</span>
@@ -745,6 +773,80 @@
       </div>
 
       <div class="pbq-result" id="wifi-result"></div>
+
+    </div>
+  </div>
+  </div>
+
+  <!-- PBQ 4 SECTION -->
+  <div class="pbq-section" id="section-pbq4">
+    <div class="pbq-card">
+    <div class="pbq-card-head">
+      <div>
+        <div class="pbq-num">PBQ 4 of 4</div>
+        <div class="pbq-title">Max Wireless Speeds &mdash; Match 802.11 Standards</div>
+      </div>
+      <span class="pbq-badge" style="background:rgba(214,137,16,0.2);border-color:rgba(214,137,16,0.5);color:#F9E79F">MATCH &amp; DROP</span>
+    </div>
+    <div class="pbq-body">
+
+      <div class="scenario-label">Task</div>
+      <div class="scenario-text">
+        <strong>Match each 802.11 standard to its maximum theoretical data rate.</strong><br>
+        Drag each 802.11 standard from the left column and drop it onto its matching maximum speed on the right.<br>
+        <span style="color:var(--muted);font-size:12px">&#x26A0; Note: Some standards may share the same maximum speed.</span>
+      </div>
+
+      <div class="match-wrap">
+
+        <!-- LEFT: 802.11 Standards pool -->
+        <div>
+          <div class="match-col-label">802.11 Standards</div>
+          <div class="std-pool" id="std-pool">
+            <div class="std-chip" draggable="true" data-std="802.11ac"><span class="grip">&#8942;&#8942;</span>802.11ac</div>
+            <div class="std-chip" draggable="true" data-std="802.11n"><span class="grip">&#8942;&#8942;</span>802.11n</div>
+            <div class="std-chip" draggable="true" data-std="802.11b"><span class="grip">&#8942;&#8942;</span>802.11b</div>
+            <div class="std-chip" draggable="true" data-std="802.11g"><span class="grip">&#8942;&#8942;</span>802.11g</div>
+            <div class="std-chip" draggable="true" data-std="802.11ax"><span class="grip">&#8942;&#8942;</span>802.11ax</div>
+          </div>
+        </div>
+
+        <!-- RIGHT: Data Rate drop zones -->
+        <div>
+          <div class="match-col-label">Maximum Data Rates</div>
+          <div class="rate-list">
+            <div class="rate-row">
+              <span class="rate-label">9.6 Gbps</span>
+              <div class="rate-zone" id="zone-9.6gbps" data-rate="9.6gbps" ondragover="m4DragOver(event)" ondragleave="m4DragLeave(event)" ondrop="m4Drop(event,'9.6gbps')"><span class="rate-zone-hint">Drop here</span></div>
+            </div>
+            <div class="rate-row">
+              <span class="rate-label">11 Mbps</span>
+              <div class="rate-zone" id="zone-11mbps" data-rate="11mbps" ondragover="m4DragOver(event)" ondragleave="m4DragLeave(event)" ondrop="m4Drop(event,'11mbps')"><span class="rate-zone-hint">Drop here</span></div>
+            </div>
+            <div class="rate-row">
+              <span class="rate-label">54 Mbps</span>
+              <div class="rate-zone" id="zone-54mbps" data-rate="54mbps" ondragover="m4DragOver(event)" ondragleave="m4DragLeave(event)" ondrop="m4Drop(event,'54mbps')"><span class="rate-zone-hint">Drop here</span></div>
+            </div>
+            <div class="rate-row">
+              <span class="rate-label">6.9 Gbps</span>
+              <div class="rate-zone" id="zone-6.9gbps" data-rate="6.9gbps" ondragover="m4DragOver(event)" ondragleave="m4DragLeave(event)" ondrop="m4Drop(event,'6.9gbps')"><span class="rate-zone-hint">Drop here</span></div>
+            </div>
+            <div class="rate-row">
+              <span class="rate-label">600 Mbps</span>
+              <div class="rate-zone" id="zone-600mbps" data-rate="600mbps" ondragover="m4DragOver(event)" ondragleave="m4DragLeave(event)" ondrop="m4Drop(event,'600mbps')"><span class="rate-zone-hint">Drop here</span></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="pbq-controls">
+        <button class="pbq-btn pbq-btn-check" onclick="m4Check()">&#10003; Check Answers</button>
+        <button class="pbq-btn pbq-btn-reset" onclick="m4Reset()">&#8635; Reset</button>
+        <button class="pbq-btn pbq-btn-reveal" onclick="m4Reveal()">&#128065; Show Answers</button>
+      </div>
+
+      <div class="pbq-result" id="m4-result"></div>
 
     </div>
   </div>
@@ -1155,6 +1257,184 @@ function resetWifi() {
     el.className = el.tagName === 'INPUT' ? 'cfg-text' : 'cfg-select';
   }
   const result = document.getElementById('wifi-result');
+  result.className = 'pbq-result';
+  result.innerHTML = '';
+}
+
+
+/* ══ PBQ 4 — MAX WIRELESS SPEEDS ════════════════════════════════════ */
+const M4_ANSWERS = {
+  '802.11ac':  '6.9gbps',
+  '802.11n':   '600mbps',
+  '802.11b':   '11mbps',
+  '802.11g':   '54mbps',
+  '802.11ax':  '9.6gbps',
+};
+const M4_RATIONALE = {
+  '802.11ac':  '802.11ac (Wi-Fi 5) max = 6.9 Gbps with 8x8 MU-MIMO at 5 GHz. Commonly cited as ~3.5 Gbps in practice.',
+  '802.11n':   '802.11n (Wi-Fi 4) max = 600 Mbps with 4x4 MIMO on 2.4 or 5 GHz (40 MHz channel).',
+  '802.11b':   '802.11b max = 11 Mbps. First widely adopted Wi-Fi standard, 2.4 GHz only.',
+  '802.11g':   '802.11g max = 54 Mbps. Backward compatible with 802.11b, 2.4 GHz.',
+  '802.11ax':  '802.11ax (Wi-Fi 6) max = 9.6 Gbps. Introduces OFDMA, MU-MIMO, and BSS Coloring.',
+};
+const M4_RATE_LABELS = {
+  '9.6gbps':'9.6 Gbps','11mbps':'11 Mbps','54mbps':'54 Mbps','6.9gbps':'6.9 Gbps','600mbps':'600 Mbps'
+};
+
+let m4DragStd = null;
+let m4DragFrom = null; // 'pool' or rate key
+
+function m4InitChips() {
+  document.querySelectorAll('.std-pool .std-chip, .rate-zone .std-chip').forEach(chip => {
+    chip.addEventListener('dragstart', e => {
+      m4DragStd  = chip.dataset.std;
+      m4DragFrom = chip.closest('.rate-zone') ? chip.closest('.rate-zone').dataset.rate : 'pool';
+      chip.classList.add('dragging');
+      e.dataTransfer.effectAllowed = 'move';
+    });
+    chip.addEventListener('dragend', () => chip.classList.remove('dragging'));
+  });
+}
+m4InitChips();
+
+function m4DragOver(e)  { e.preventDefault(); e.currentTarget.classList.add('drag-over'); }
+function m4DragLeave(e) { e.currentTarget.classList.remove('drag-over'); }
+
+function m4Drop(e, targetRate) {
+  e.preventDefault();
+  e.currentTarget.classList.remove('drag-over');
+  if (!m4DragStd) return;
+
+  const chip = document.querySelector(`.std-chip[data-std="${m4DragStd}"]`);
+  if (!chip) return;
+
+  // Remove from current parent
+  chip.parentElement.removeChild(chip);
+
+  const zone = document.getElementById('zone-' + targetRate);
+
+  // If zone already has this exact chip back to pool, skip
+  // Send any existing chip in zone back to pool (zones allow 1 chip each here)
+  // Actually for this PBQ each rate can have 1 chip
+  const existing = zone.querySelector('.std-chip');
+  if (existing) {
+    existing.parentElement.removeChild(existing);
+    existing.style.fontSize = '';
+    existing.style.padding  = '';
+    existing.onclick = null;
+    document.getElementById('std-pool').appendChild(existing);
+  }
+
+  // Remove hint
+  const hint = zone.querySelector('.rate-zone-hint');
+  if (hint) hint.remove();
+
+  // Restyle chip for zone
+  chip.onclick = () => m4ReturnToPool(chip, targetRate);
+  zone.appendChild(chip);
+  zone.classList.remove('zone-correct','zone-wrong');
+
+  m4InitChips();
+  m4DragStd  = null;
+  m4DragFrom = null;
+}
+
+function m4ReturnToPool(chip, fromRate) {
+  const zone = document.getElementById('zone-' + fromRate);
+  zone.removeChild(chip);
+  if (!zone.querySelector('.std-chip')) {
+    const hint = document.createElement('span');
+    hint.className = 'rate-zone-hint';
+    hint.textContent = 'Drop here';
+    zone.appendChild(hint);
+  }
+  chip.onclick = null;
+  zone.classList.remove('zone-correct','zone-wrong');
+  document.getElementById('std-pool').appendChild(chip);
+  m4InitChips();
+}
+
+function m4Check() {
+  const result = document.getElementById('m4-result');
+  // Check all placed
+  const unplaced = Object.keys(M4_ANSWERS).filter(std => {
+    const chip = document.querySelector(`.std-chip[data-std="${std}"]`);
+    return chip && chip.closest('#std-pool');
+  });
+  if (unplaced.length > 0) {
+    result.className = 'pbq-result show fail';
+    result.innerHTML = '<strong>&#9888; Please place all standards before checking. Unplaced: ' + unplaced.join(', ') + '</strong>';
+    return;
+  }
+
+  let correct = 0;
+  let rows = '';
+  for (const [std, correctRate] of Object.entries(M4_ANSWERS)) {
+    const chip = document.querySelector(`.std-chip[data-std="${std}"]`);
+    const zone = chip ? chip.closest('.rate-zone') : null;
+    const placed = zone ? zone.dataset.rate : null;
+    const isCorrect = placed === correctRate;
+    if (isCorrect) correct++;
+    // Highlight zone
+    if (zone) {
+      zone.classList.remove('zone-correct','zone-wrong');
+      zone.classList.add(isCorrect ? 'zone-correct' : 'zone-wrong');
+    }
+    const icon = isCorrect ? '&#10003;' : '&#10007;';
+    rows += '<div class="result-row"><span class="ri">' + icon + '</span>'
+      + '<span style="font-family:Space Mono,monospace;font-weight:700;min-width:90px">' + std + '</span>'
+      + (isCorrect ? '' : '<span style="color:#E74C3C">Got: ' + (placed ? M4_RATE_LABELS[placed] : '(none)') + '</span> &rarr; ')
+      + '<span style="color:#27AE60">' + M4_RATE_LABELS[correctRate] + '</span>'
+      + ' <span style="color:var(--muted);font-size:11px"> — ' + M4_RATIONALE[std] + '</span></div>';
+  }
+
+  const total = Object.keys(M4_ANSWERS).length;
+  const pct   = Math.round((correct / total) * 100);
+  result.className = 'pbq-result show ' + (correct === total ? 'pass' : 'fail');
+  result.innerHTML = '<strong>' + (correct === total ? '&#127881; Perfect! All standards matched correctly.'
+    : correct + '/' + total + ' Correct (' + pct + '%)') + '</strong><div class="result-rows">' + rows + '</div>';
+}
+
+function m4Reveal() {
+  m4Reset();
+  for (const [std, rate] of Object.entries(M4_ANSWERS)) {
+    const chip = document.querySelector(`.std-chip[data-std="${std}"]`);
+    const zone = document.getElementById('zone-' + rate);
+    if (!chip || !zone) continue;
+    chip.parentElement.removeChild(chip);
+    const hint = zone.querySelector('.rate-zone-hint');
+    if (hint) hint.remove();
+    chip.onclick = () => m4ReturnToPool(chip, rate);
+    zone.appendChild(chip);
+    zone.classList.add('zone-correct');
+  }
+  const result = document.getElementById('m4-result');
+  result.className = 'pbq-result show reveal';
+  result.innerHTML = '<strong>&#128065; Correct matches revealed — study the rationale, then reset and try yourself!</strong>';
+}
+
+function m4Reset() {
+  const pool = document.getElementById('std-pool');
+  document.querySelectorAll('.rate-zone').forEach(zone => {
+    const chip = zone.querySelector('.std-chip');
+    if (chip) {
+      zone.removeChild(chip);
+      chip.onclick = null;
+      pool.appendChild(chip);
+    }
+    zone.classList.remove('zone-correct','zone-wrong');
+    if (!zone.querySelector('.rate-zone-hint')) {
+      const hint = document.createElement('span');
+      hint.className = 'rate-zone-hint';
+      hint.textContent = 'Drop here';
+      zone.appendChild(hint);
+    }
+  });
+  // Re-sort chips
+  const chips = [...pool.querySelectorAll('.std-chip')].sort((a,b) => a.dataset.std.localeCompare(b.dataset.std));
+  chips.forEach(c => pool.appendChild(c));
+  m4InitChips();
+  const result = document.getElementById('m4-result');
   result.className = 'pbq-result';
   result.innerHTML = '';
 }
