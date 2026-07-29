@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Attack Types — Security+ SY0-701 | BL Cert Hub</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
+  <style>
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    :root{--navy:#0B1D3A;--blue:#1A5276;--accent:#2E86C1;--sky:#5DADE2;--light:#EAF4FB;--mid:#D6EAF8;--white:#fff;--text:#0B1D3A;--muted:#5D7A8C;--border:rgba(30,80,130,0.13);--shadow:0 2px 12px rgba(11,29,58,0.08)}
+    html{scroll-behavior:smooth}
+    body{font-family:"DM Sans",sans-serif;background:var(--light);color:var(--text);min-height:100vh;display:flex;flex-direction:column}
+    nav{background:var(--navy);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:56px;position:sticky;top:0;z-index:100;border-bottom:1px solid rgba(93,173,226,0.15)}
+    .nav-brand{display:flex;align-items:center;gap:10px;text-decoration:none}
+    .bl-circle{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#2E86C1,#5DADE2);display:flex;align-items:center;justify-content:center;font-family:"Space Mono",monospace;font-size:10px;font-weight:700;color:#fff;flex-shrink:0}
+    .nav-brand span{font-size:13px;font-weight:500;color:rgba(255,255,255,0.85);letter-spacing:.02em}
+    .nav-links{display:flex;gap:6px}
+    .nav-links a{font-size:12px;font-weight:500;color:rgba(255,255,255,0.6);text-decoration:none;padding:6px 12px;border-radius:6px;transition:all .18s}
+    .nav-links a:hover{color:#fff;background:rgba(255,255,255,0.08)}
+    .nav-links a.active{color:var(--sky);background:rgba(93,173,226,0.12)}
+    .theme-btn{width:34px;height:34px;border-radius:8px;border:1px solid rgba(255,255,255,0.18);background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.75);cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;transition:all .18s;flex-shrink:0}
+    .theme-btn:hover{background:rgba(255,255,255,0.15);color:#fff}
+    .hero{background:linear-gradient(135deg,#0B1D3A 0%,#1A5276 55%,#2E86C1 100%);padding:3rem 2rem 2.5rem;position:relative;overflow:hidden}
+    .hero-grid-pattern{position:absolute;inset:0;background-image:linear-gradient(rgba(93,173,226,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(93,173,226,0.04) 1px,transparent 1px);background-size:32px 32px;pointer-events:none}
+    .hero-bg-ring{position:absolute;border-radius:50%;border:40px solid rgba(93,173,226,0.08);pointer-events:none}
+    .hero-bg-ring.r1{width:300px;height:300px;top:-70px;right:-50px}
+    .hero-bg-ring.r2{width:180px;height:180px;bottom:-60px;left:40%;border-width:22px}
+    .hero-inner{position:relative;max-width:860px;margin:0 auto}
+    .exam-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.18);border-radius:20px;padding:5px 14px 5px 5px;margin-bottom:1.25rem}
+    .exam-badge .bl-circle{width:26px;height:26px;font-size:9px}
+    .exam-badge span{font-size:12px;color:rgba(255,255,255,0.8);font-weight:500}
+    .hero h1{font-family:"Space Mono",monospace;font-size:clamp(22px,3.5vw,38px);font-weight:700;color:#fff;line-height:1.2;margin-bottom:.5rem}
+    .hero h1 .accent{color:var(--sky)}
+    .hero-sub{font-size:14px;color:rgba(255,255,255,0.6);font-weight:300;line-height:1.7;max-width:500px}
+    .main{max-width:860px;margin:0 auto;padding:2rem 2rem 3rem;flex:1}
+    /* CONTROLS */
+    .controls-bar{background:var(--white);border:1px solid var(--border);border-radius:14px;padding:14px 20px;margin-bottom:1.5rem;box-shadow:var(--shadow);display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between}
+    .filter-group{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+    .filter-label{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-right:2px}
+    .filter-btn{font-size:11px;font-weight:500;padding:5px 12px;border-radius:20px;border:1px solid var(--border);background:var(--light);color:var(--muted);cursor:pointer;transition:all .16s;font-family:"DM Sans",sans-serif}
+    .filter-btn:hover{border-color:var(--accent);color:var(--accent)}
+    .filter-btn.active{background:var(--accent);border-color:var(--accent);color:#fff}
+    .filter-btn[data-domain="1"].active{background:#6B3FA0;border-color:#6B3FA0}
+    .filter-btn[data-domain="2"].active{background:#C0531A;border-color:#C0531A}
+    .filter-btn[data-domain="3"].active{background:#0E7A8A;border-color:#0E7A8A}
+    .filter-btn[data-domain="4"].active{background:#B8860B;border-color:#B8860B}
+    .filter-btn[data-domain="5"].active{background:#2E7D32;border-color:#2E7D32}
+    .filter-btn[data-domain="6"].active{background:#5D6D7E;border-color:#5D6D7E}
+    .action-group{display:flex;gap:8px}
+    .btn{font-family:"DM Sans",sans-serif;font-size:12px;font-weight:500;padding:7px 16px;border-radius:8px;border:1px solid;cursor:pointer;transition:all .18s}
+    .btn-primary{background:var(--accent);border-color:var(--accent);color:#fff}
+    .btn-primary:hover{background:var(--blue)}
+    .btn-outline{background:transparent;border-color:var(--border);color:var(--text)}
+    .btn-outline:hover{border-color:var(--accent);color:var(--accent)}
+    /* STATS */
+    .stats-row{display:flex;gap:10px;margin-bottom:1.5rem;flex-wrap:wrap}
+    .stat-pill{font-size:12px;font-weight:500;padding:6px 14px;border-radius:8px;background:var(--white);border:1px solid var(--border);color:var(--muted)}
+    .stat-pill span{font-family:"Space Mono",monospace;font-weight:700;color:var(--accent)}
+    .stat-pill.mastered span{color:#2E7D32}
+    .stat-pill.reviewing span{color:#B8860B}
+    /* PROGRESS */
+    .prog-wrap{margin-bottom:1.5rem}
+    .prog-row{display:flex;justify-content:space-between;margin-bottom:5px}
+    .prog-lbl{font-size:12px;color:var(--muted)}
+    .prog-pct{font-family:"Space Mono",monospace;font-size:12px;font-weight:700;color:var(--accent)}
+    .prog-track{height:5px;background:var(--mid);border-radius:3px;overflow:hidden}
+    .prog-fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--sky));border-radius:3px;transition:width .5s}
+    /* FLASHCARD */
+    .fc-area{display:flex;flex-direction:column;align-items:center;margin-bottom:1.5rem}
+    .fc-counter-row{display:flex;align-items:center;justify-content:space-between;width:100%;max-width:620px;margin-bottom:10px}
+    .fc-counter{font-family:"Space Mono",monospace;font-size:12px;color:var(--muted)}
+    .fc-domain-badge{font-size:10px;font-weight:600;padding:3px 10px;border-radius:20px;border:1px solid}
+    .fc-scene{perspective:1400px;width:100%;max-width:620px;height:240px;cursor:pointer}
+    .fc-inner{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .55s cubic-bezier(.4,0,.2,1)}
+    .fc-inner.flipped{transform:rotateY(180deg)}
+    .fc-face{position:absolute;inset:0;backface-visibility:hidden;border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:28px 32px;text-align:center;border:1px solid var(--border);box-shadow:0 4px 20px rgba(11,29,58,0.1)}
+    .fc-front{background:var(--navy)}
+    .fc-back{background:var(--blue);transform:rotateY(180deg)}
+    .fc-side-label{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,0.35);position:absolute;top:16px;left:20px}
+    .fc-term{font-family:"Space Mono",monospace;font-size:clamp(16px,3vw,22px);font-weight:700;color:#fff;line-height:1.3}
+    .fc-def{font-size:13px;color:rgba(255,255,255,0.9);line-height:1.7;font-weight:300}
+    .fc-hint{font-size:11px;color:rgba(255,255,255,0.35);margin-top:12px}
+    .fc-dots{display:flex;gap:5px;justify-content:center;margin-bottom:14px}
+    .fc-dot{width:7px;height:7px;border-radius:50%;background:var(--mid);transition:all .2s;cursor:pointer}
+    .fc-dot.active{background:var(--accent);transform:scale(1.3)}
+    .fc-dot.mastered{background:#2E7D32}
+    .fc-dot.reviewing{background:#B8860B}
+    /* CONTROLS */
+    .fc-controls{display:flex;align-items:center;gap:10px;justify-content:center;width:100%;max-width:620px;margin-bottom:1.5rem}
+    .fc-nav-btn{width:40px;height:40px;border-radius:50%;border:1px solid var(--border);background:var(--white);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;transition:all .18s;color:var(--text)}
+    .fc-nav-btn:hover:not(:disabled){border-color:var(--accent);color:var(--accent)}
+    .fc-nav-btn:disabled{opacity:.3;pointer-events:none}
+    .fc-center-btns{display:flex;gap:8px}
+    .grade-btn{font-size:11px;font-weight:600;padding:8px 16px;border-radius:8px;border:1px solid;cursor:pointer;transition:all .18s;font-family:"DM Sans",sans-serif;letter-spacing:.02em}
+    .grade-btn.mastered{background:rgba(46,125,50,0.08);border-color:rgba(46,125,50,0.3);color:#2E7D32}
+    .grade-btn.mastered:hover{background:#2E7D32;color:#fff}
+    .grade-btn.reviewing{background:rgba(184,134,11,0.08);border-color:rgba(184,134,11,0.3);color:#B8860B}
+    .grade-btn.reviewing:hover{background:#B8860B;color:#fff}
+    .grade-btn.again{background:rgba(192,57,43,0.08);border-color:rgba(192,57,43,0.3);color:#C0392B}
+    .grade-btn.again:hover{background:#C0392B;color:#fff}
+    .grade-note{font-size:11px;color:var(--muted);text-align:center;margin-bottom:1rem}
+    /* CARD LIST */
+    .section-label{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);display:flex;align-items:center;gap:10px;margin-bottom:.9rem}
+    .section-label::after{content:"";flex:1;height:1px;background:var(--border)}
+    .card-list{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+    .card-mini{background:var(--white);border:1px solid var(--border);border-radius:10px;padding:10px 12px;cursor:pointer;transition:all .18s;position:relative;overflow:hidden}
+    .card-mini::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--dm-color)}
+    .card-mini:hover{border-color:var(--dm-color);transform:translateY(-1px);box-shadow:0 3px 10px rgba(11,29,58,0.08)}
+    .card-mini.is-mastered{background:rgba(46,125,50,0.05);border-color:rgba(46,125,50,0.25)}
+    .card-mini.is-reviewing{background:rgba(184,134,11,0.05);border-color:rgba(184,134,11,0.25)}
+    .card-mini-term{font-size:11px;font-weight:600;color:var(--text);margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .card-mini-status{font-size:10px;color:var(--muted)}
+    /* DARK */
+    html.dark{--light:#131b27;--mid:#1a2535;--white:#1e2a3a;--text:#d4e6f7;--muted:#7aa3c0;--border:rgba(93,173,226,0.14)}
+    html.dark body{background:var(--light);color:var(--text)}
+    html.dark nav,html.dark footer{background:#0a1220}
+    html.dark .controls-bar,html.dark .stat-pill,html.dark .fc-nav-btn,html.dark .card-mini{background:var(--white);border-color:var(--border)}
+    html.dark .filter-btn,html.dark .btn-outline{background:var(--mid);border-color:var(--border);color:var(--muted)}
+    html.dark .fc-front{background:#0d1929}
+    html.dark .fc-back{background:#122040}
+    html.dark .fc-dot{background:rgba(93,173,226,0.2)}
+    html.dark .card-mini-term{color:var(--text)}
+    html.dark .card-mini.is-mastered{background:rgba(46,125,50,0.1)}
+    html.dark .card-mini.is-reviewing{background:rgba(184,134,11,0.1)}
+    footer{background:var(--navy);padding:1.25rem 2rem;text-align:center;border-top:1px solid rgba(93,173,226,0.12)}
+    footer p{font-size:12px;color:rgba(255,255,255,0.3)}
+    footer a{color:var(--sky);text-decoration:none}
+    @media(max-width:600px){.main{padding:1.25rem};nav{padding:0 1.25rem};.hero{padding:2rem 1.25rem 2rem};.card-list{grid-template-columns:repeat(2,1fr)};.controls-bar{flex-direction:column;align-items:flex-start}}
+  
+    /* ── ATTACKS PAGE ── */
+    .attacks-wrap{max-width:900px;margin:0 auto;padding:2rem}
+    .section-title{font-family:'Space Mono',monospace;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);display:flex;align-items:center;gap:10px;margin:2rem 0 1rem}
+    .section-title::after{content:'';flex:1;height:1px;background:var(--border)}
+    .attack-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:1.5rem}
+    .attack-card{background:var(--white);border:1px solid var(--border);border-radius:14px;overflow:hidden;box-shadow:var(--shadow);transition:transform .18s,box-shadow .18s}
+    .attack-card:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(11,29,58,0.12)}
+    .attack-card-head{padding:12px 16px;display:flex;align-items:center;gap:10px}
+    .attack-tag{font-family:'Space Mono',monospace;font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:3px 8px;border-radius:4px;border:1px solid}
+    .attack-name{font-family:'Space Mono',monospace;font-size:13px;font-weight:700;color:var(--text)}
+    .attack-body{padding:0 16px 14px}
+    .attack-desc{font-size:12px;color:var(--muted);line-height:1.65;margin-bottom:8px}
+    .attack-defense{font-size:11px;color:var(--text);line-height:1.6;padding:8px 12px;border-radius:8px;border-left:3px solid}
+    .attack-defense strong{display:block;font-size:10px;text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px;color:var(--muted)}
+    .filter-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1.5rem}
+    .cat-btn{font-size:11px;font-weight:600;padding:6px 14px;border-radius:8px;border:1px solid var(--border);background:var(--white);color:var(--muted);cursor:pointer;transition:all .18s}
+    .cat-btn.active,.cat-btn:hover{background:var(--navy);color:#fff;border-color:var(--navy)}
+    .stat-row{display:flex;gap:12px;margin-bottom:1.5rem;flex-wrap:wrap}
+    .stat-chip{background:var(--white);border:1px solid var(--border);border-radius:10px;padding:10px 16px;text-align:center;min-width:90px;box-shadow:var(--shadow)}
+    .stat-chip .sv{font-family:'Space Mono',monospace;font-size:18px;font-weight:700;color:var(--text)}
+    .stat-chip .sl{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-top:2px}
+    html.dark .attack-card{background:var(--white);border-color:var(--border)}
+    html.dark .attack-defense{background:rgba(255,255,255,0.04)}
+    html.dark .cat-btn{background:var(--white);color:var(--muted);border-color:var(--border)}
+    html.dark .stat-chip{background:var(--white);border-color:var(--border)}
+    @media(max-width:700px){.attack-grid{grid-template-columns:1fr};.attacks-wrap{padding:1.25rem}}
+
+  </style>
+</head>
+<body>
+<script>
+(function(){const K="bl-theme";function apply(d){document.documentElement.classList.toggle("dark",d);const b=document.getElementById("theme-btn");if(b)b.textContent=d?"☀":"☾"}apply(localStorage.getItem(K)==="dark");window.__toggleTheme=function(){const d=!document.documentElement.classList.contains("dark");localStorage.setItem(K,d?"dark":"light");apply(d)};window.addEventListener("storage",function(e){if(e.key===K)apply(e.newValue==="dark")})})();
+</script>
+<nav>
+  <a class="nav-brand" href="index.html"><div class="bl-circle">BL</div><span>BL Cert Hub</span></a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="secplus-home.html">Security+</a>
+    <a href="#" class="active">Attack Types</a>
+    <button class="theme-btn" id="theme-btn" onclick="__toggleTheme()">&#9790;</button>
+  </div>
+</nav>
+<div class="hero">
+  <div class="hero-grid-pattern"></div>
+  <div class="hero-bg-ring r1"></div>
+  <div class="hero-bg-ring r2"></div>
+  <div class="hero-inner">
+    <div class="exam-badge"><div class="bl-circle">BL</div><span>CompTIA Security+ SY0-701</span></div>
+    <h1>Attack <span class="accent">Types</span></h1>
+    <p class="hero-sub">44 attack types across 6 categories — with descriptions and defenses. Filter by category.</p>
+  </div>
+</div>
+<div class="attacks-wrap">
+  <div class="stat-row">
+    <div class="stat-chip"><div class="sv">44</div><div class="sl">Total Attacks</div></div>
+    <div class="stat-chip"><div class="sv" id="stat-visible">44</div><div class="sl">Showing</div></div>
+    <div class="stat-chip"><div class="sv">6</div><div class="sl">Categories</div></div>
+  </div>
+  <div class="filter-row">
+    <button class="cat-btn active" data-cat="all" onclick="filterCat(this,'all')">All</button>
+    <button class="cat-btn" data-cat="Social Engineering" onclick="filterCat(this,'Social Engineering')">Social Engineering</button>
+    <button class="cat-btn" data-cat="Network Attacks" onclick="filterCat(this,'Network Attacks')">Network Attacks</button>
+    <button class="cat-btn" data-cat="Application Attacks" onclick="filterCat(this,'Application Attacks')">Application Attacks</button>
+    <button class="cat-btn" data-cat="Cryptographic Attacks" onclick="filterCat(this,'Cryptographic Attacks')">Cryptographic Attacks</button>
+    <button class="cat-btn" data-cat="Malware" onclick="filterCat(this,'Malware')">Malware</button>
+    <button class="cat-btn" data-cat="Insider & Physical" onclick="filterCat(this,'Insider & Physical')">Insider & Physical</button>
+
+  </div>
+    <div class="section-title">Social Engineering</div>
+  <div class="attack-grid" id="grid-Social_Engineering">
+<div class="attack-card" data-cat="Social Engineering">
+      <div class="attack-card-head">
+        <span class="attack-tag" style="color:#C0392B;background:rgba(192,57,43,0.1);border-color:#C0392B">Social Engineering</span>
+        <span class="attack-name">Phishing</span>
+      </div>
+      <div class="attack-body">
+        <div class="attack-desc">Mass email impersonating a trusted source to steal credentials or deliver malware. Uses urgency, fear, or reward as psychological triggers.</div>
+        <div class="attack-defense" style="background:rgba(192,57,43,0.1);border-color:#C0392B">
+          <strong>Defense</strong>Email filtering, SPF/DKIM/DMARC, security awareness training, MFA.
+        </div>
+      </div>
+    </div>
+<div class="attack-card" data-cat="Social Engineering">
+      <div class="attack-card-head">
+        <span class="attack-tag" style="color:#C0392B;background:rgba(192,57,43,0.1);border-color:#C0392B">Social Engineering</span>
+        <span class="attack-name">Spear Phishing</span>
+      </div>
+      <div class="attack-body">
+        <div class="attack-desc">Targeted phishing at a specific individual or organization using personalized details gathered from OSINT to increase believability.</div>
+        <div class="attack-defense" style="background:rgba(192,57,43,0.1);border-color:#C0392B">
+          <strong>Defense</strong>User training, email authentication, MFA, verify requests out-of-band.
+        </div>
+      </div>
+    </div>
+<div class="attack-card" data-cat="Social Engineering">
+      <div class="attack-card-head">
+        <span class="attack-tag" style="color:#C0392B;background:rgba(192,57,43,0.1);border-color:#C0392B">Social Engineering</span>
+        <span class="attack-name">Whaling</span>
+      </div>
+      <div class="attack-body">
+        <div class="attack-desc">Spear phishing targeting senior executives (CEO, CFO) to authorize wire transfers or expose sensitive data. Also called CEO fraud.</div>
+        <div class="attack-defense" style="background:rgba(192,57,43,0.1);border-color:#C0392B">
+          <strong>Defense</strong>Executive security training, strict wire transfer verification procedures, MFA.
+        </div>
+      </div>
+    </div>
+<div class="attack-card" data-cat="Social Engineering">
+      <div class="attack-card-head">
+        <span class="attack-tag" style="color:#C0392B;background:rgba(192,57,43,0.1);border-color:#C0392B">Social Engineering</span>
+        <span class="attack-name">Vishing</span>
+      </div>
+      <div class="attack-body">
+        <div class="attack-desc">Voice/phone-based social engineering. Attacker calls posing as IT, bank, or government to extract info or gain remote access.</div>
+        <div class="attack-defense" style="background:rgba(192,57,43,0.1);border-color:#C0392B">
+          <strong>Defense</strong>Never provide credentials over phone; call back on official numbers; user awareness training.
+        </div>
+      </div>
+    </div>
+<div class="attack-card" data-cat="Social Engineering">
+      <div class="attack-card-head">
+        <span class="attack-tag" style="color:#C0392B;background:rgba(192,57,43,0.1);border-color:#C0392B">Social Engineering</span>
+        <span class="attack-name">Smishing</span>
+      </div>
+      <div class="attack-body">
+        <div class="attack-desc">SMS-based phishing. Malicious links or requests sent via text message — exploits trust in SMS as a channel.</div>
+        <div class="attack-defense" style="background:rgba(192,57,43,0.1);border-color:#C0392B">
+          <strong>Defense</strong>Do not click unsolicited SMS links; verify with sender directly; mobile security solutions.
+        </div>
+      </div>
+    </div>
+<div class="attack-card" data-cat="Social Engineering">
+      <div class="attack-card-head">
+        <span class="attack-tag" style="color:#C0392B;background:rgba(192,57,43,0.1);border-color:#C0392B">Social Engineering</span>
+        <span class="attack-name">Pretexting</span>
+      </div>
+      <div class="attack-body">
+        <div class="attack-desc">Attacker fabricates a believable scenario (pretext) — e.g., posing as an auditor or IT support — to gain information or access.</div>
+        <div class="attack-defense" style="background:rgba(192,57,43,0.1);border-color:#C0392B">
+          <strong>Defense</strong>Identity verification procedures, need-to-know policy, security awareness training.
+        </div>
+      </div>
+    </div>
+<div class="attack-card" data-cat="Social Engineering">
+      <div class="attack-card-head">
+        <span class="attack-tag" style="color:#C0392B;background:rgba(192,57,43,0.1);border-color:#C0392B">Social Engineering</span>
+        <span class="attack-name">Tailgating/Piggybacking</span>
+      </div>
+      <div class="attack-body">
+        <div class="attack-desc">Physically following an authorized person into a restricted area without using their own credentials. Exploits politeness.</div>
+        <div class="attack-defense" style="background:rgba(192,57,43,0.1);border-color:#C0392B">
+          <strong>Defense</strong>Mantraps, badge access, security guards, employee training to challenge unknown individuals.
+        </div>
+      </div>
+    </div>
+<div class="attack-card" data-cat="Social Engineering">
+      <div class="attack-card-head">
+        <span class="attack-tag" style="color:#C0392B;background:rgba(192,57,43,0.1);border-color:#C0392B">Social Engineering</span>
+        <span class="attack-name">Baiting</span>
+      </div>
+      <div class="attack-body">
+        <div class="attack-desc">Leaving infected USB drives or other media in public places hoping someone plugs them in. Also applies to fake download offers.</div>
+        <div class="attack-defense" style="background:rgba(192,57,43,0.1);border-color:#C0392B">
+          <strong>Defense</strong>Disable AutoRun, USB port controls, endpoint protection, user training to never plug in unknown devices.
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="section-title">Network Attacks</div>
+  <div class="attack-grid" id="grid-Network_Attacks">
+<div class="attack-card" data-cat="Network Attacks">
+      <div class="attack-card-head">
+        <span class="attack-tag" style="color:#E67E22;background:rgba(230,126,34,0.1);border-color:#E67E22">Network Attacks</span>
+        <span class="attack-name">DoS (Denial of Service)</span>
+      </div>
+      <div class="attack-body">
+        <div class="attack-desc">Single attacker floods a system with traffic or requests to exhaust resources (bandwidth, CPU, memory), making it unavailable to legitimate users.</div>
+        <div class="attack-defense" style="background:rgba(230,126,34,0.1);border-color:#E67E22">
+          <strong>Defense</strong>Rate limiting, firewalls, ISP-level filtering, load balancers, failover systems.
+        </div>
+      </div>
+    </div>
+<div class="attack-card" data-cat="Network Attacks">
+      <div class="attack-card-head">
+        <span class="attack-tag" style="color:#E67E22;background:rgba(230,126,34,0.1);border-color:#E67E22">Network Attacks</span>
+        <span class="attack-name">DDoS (Distributed DoS)</span>
+      </div>
+      <div class="attack-body">
+        <div class="attack-desc">Coordinated attack using a botnet of thousands of compromised devices to overwhelm a target simultaneously. Much harder to block than single-source DoS.</div>
+        <div class="attack-defense" style="background:rgba(230,126,34,0.1);border-color:#E67E22">
+          <strong>Defense</strong>DDoS scrubbing services, CDN, anycast routing, ISP upstream filtering, web application firewalls.
+        </div>
+      </div>
+    </div>
+<div class="attack-card" data-cat="Network Attacks">
+      <div class="attack-card-head">
+        <span class="attack-tag" style="color:#E67E22;background:rgba(230,126,34,0.1);border-color:#E67E22">Network Attacks</span>
+        <span class="attack-name">SYN Flood</span>
+      </div>
+      <div class="attack-body">
+        <div class="attack-desc">TCP protocol attack that sends massive SYN packets without completing the handshake, exhausting server connection tables (half-open connections).</div>
+        <div class="attack-defense" style="background:rgba(230,126,34,0.1);border-color:#E67E22">
+          <strong>Defense</strong>SYN cookies, firewall rate limiting, TCP connection timeouts, IPS signatures.
+        </div>
+      </div>
+    </div>
+<div class="attack-card" data-cat="Network Attacks">
+      <div class="attack-card-head">
+        <span class="attack-tag" style="color:#E67E22;background:rgba(230,126,34,0.1);border-color:#E67E22">Network Attacks</span>
+        <span class="attack-name">ARP Spoofing</span>
+      </div>
+      <div class="attack-body">
+        <div class="attack-desc">Attacker sends fake ARP replies to associate their MAC with a legitimate IP, enabling on-path attacks, traffic interception, or DoS on a LAN.</div>
+        <div class="attack-defense" style="background:rgba(230,126,34,0.1);border-color:#E67E22">
+          <strong>Defense</strong>Dynamic ARP Inspection (DAI), static ARP entries, VLAN segmentation, port security.
+        </div>
+      </div>
+    </div>
+<div class="attack-card" data-cat="Network Attacks">
+      <div class="attack-card-head">
+        <span class="attack-tag" style="color:#E67E22;background:rgba(230,126,34,0.1);border-color:#E67E22">Network Attacks</span>
+        <span class="attack-name">DNS Spoofing/Poisoning</span>
+      </div>
+      <div class="attack-body">
+        <div class="attack-desc">Injecting false DNS records into a resolver cache so victims are redirected to attacker-controlled servers when visiting legitimate domains.</div>
+        <div class="attack-defense" style="background:rgba(230,126,34,0.1);border-color:#E67E22">
+          <strong>Defense</strong>DNSSEC, encrypted DNS (DoH/DoT), validate resolver sources, monitor DNS traffic anomalies.
+        </div>
+      </div>
+    </div>
+<div class="attack-card" data-cat="Network Attacks">
+      <div class="attack-card-head">
+        <span class="attack-tag" style="color:#E67E22;background:rgba(230,126,34,0.1);border-color:#E67E22">Network Attacks</span>
+        <span class="attack-name">Man-in-the-Middle (On-Path)</span>
+      </div>
+      <div class="attack-body">
+        <div class="attack-desc">Attacker secretly intercepts and potentially alters communications between two parties who believe they are communicating directly.</div>
+        <div class="attack-defense" style="background:rgba(230,126,34,0.1);border-color:#E67E22">
+          <strong>Defense</strong>TLS/HTTPS, certificate pinning, HSTS, MFA, VPN, network monitoring for anomalous traffic.
+        </div>
+      </div>
+    </div>
+<div class="attack-card" data-cat="Network Attacks">
+      <div class="attack-card-head">
+        <span class="attack-tag" style="color:#E67E22;background:rgba(230,126,34,0.1);border-color:#E67E22">Network Attacks</span>
+        <span class="attack-name">SSL Stripping</span>
+      </div>
+      <div class="attack-body">
+        <div class="attack-desc">Downgrades HTTPS to HTTP during an on-path attack so traffic is sent in cleartext. Victim sees HTTP; attacker reads everything.</div>
+        <div class="attack-defense" style="background:rgba(230,126,34,0.1);border-color:#E67E22">
+          <strong>Defense</strong>HSTS (HTTP Strict Transport Security), certificate transparency, HTTPS-everywhere enforcement.
+        </div>
+      </div>
+    </div>
+<div class="attack-card" data-cat="Network Attacks">
+      <div class="attack-card-head">
+        <span class="attack-tag" style="color:#E67E22;background:rgba(230,126,34,0.1);border-color:#E67E22">Network Attacks</span>
+        <span class="attack-name">Replay Attack</span>
+      </div>
+      <div class="attack-body">
+        <div class="attack-desc">Attacker captures a valid authentication token or session and retransmits it to impersonate the legitimate user without knowing credentials.</div>
+        <div class="attack-defense" style="background:rgba(230,126,34,0.1);border-color:#E67E22">
+          <strong>Defense</strong>Session tokens with timestamps, nonces (one-time values), TLS, Kerberos ticket expiry.
+        </div>
+      </div>
+    </div>
+<div class="attack-card" data-cat="Network Attacks">
+      <div class="attack-card-head">
+        <span class="attack-tag" style="color:#E67E22;background:rgba(230,126,34,0.1);border-color:#E67E22">Network Attacks</span>
+        <span class="attack-name">Evil Twin</span>
+      </div>
+      <div class="attack-body">
+        <div class="attack-desc">Rogue Wi-Fi AP broadcasting a legitimate SSID to lure users into connecting. Enables on-path attacks, credential theft, and traffic interception.</div>
+        <div class="attack-defense" style="background:rgba(230,126,34,0.1);border-color:#E67E22">
+          <strong>Defense</strong>Wireless IDS/IPS, certificate-based 802.1X authentication, VPN on untrusted networks, WLAN monitoring.
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="section-title">Application Attacks</div>
+  <div class="attack-grid" id="grid-Application_Attacks">
+<div class="attack-card" data-cat="Application Attacks">
+      <div class="attack-card-head">
+        <span class="attack-tag" style="color:#2E86C1;background:rgba(46,134,193,0.1);border-color:#2E86C1">Application Attacks</span>
+        <span class="attack-name">SQL Injection (SQLi)</span>
+      </div>
+      <div class="attack-body">
+        <div class="attack-desc">Malicious SQL inserted into input fields manipulates the backend database — bypassing authentication, dumping data, or destroying records.</div>
+        <div class="attack-defense" style="background:rgba(46,134,193,0.1);border-color:#2E86C1">
+          <strong>Defense</strong>Parameterized queries (prepared statements), input validation/sanitization, WAF, least-privilege DB accounts.
+        </div>
+      </div>
+    </div>
+<div class="attack-card" data-cat="Application Attacks">
+      <div class="attack-card-head">
+        <span class="attack-tag" style="color:#2E86C1;background:rgba(46,134,193,0.1);border-color:#2E86C1">Application Attacks</span>
+        <span class="attack-name">Cross-Site Scripting (XSS)</span>
+      </div>
+      <div class="attack-body">
+        <div class="attack-desc">Malicious scripts injected into web pages execute in other users' browsers. Stored XSS persists in DB; Reflected XSS is in the URL; DOM-based modifies client-side code.</div>
+        <div class="attack-defense" style="background:rgba(46,134,193,0.1);border-color:#2E86C1">
+          <strong>Defense</strong>Output encoding, Content Security Policy (CSP) headers, input validation, HttpOnly cookies.
+        </div>
+      </div>
+    </div>
+<div class="attack-card" data-cat="Application Attacks">
+      <div class="attack-card-head">
+        <span class="attack-tag" style="color:#2E86C1;background:rgba(46,134,193,0.1);border-color:#2E86C1">Application Attacks</span>
+        <span class="attack-name">Cross-Site Request Forgery (CSRF)</span>
+      </div>
+      <div class="attack-body">
+        <div class="attack-desc">Tricks an authenticated user's browser into making unauthorized requests to a trusted site. Exploits that the site trusts the user's session cookie.</div>
+        <div class="attack-defense" style="background:rgba(46,134,193,0.1);border-color:#2E86C1">
+          <strong>Defense</strong>CSRF tokens (synchronizer token pattern), SameSite cookie attribute, re-authentication for sensitive actions.
+        </div>
+      </div>
+    </div>
+<div class="attack-card" data-cat="Application Attacks">
+      <div class="attack-card-head">
+        <span class="attack-tag" style="color:#2E86C1;background:rgba(46,134,193,0.1);border-color:#2E86C1">Application Attacks</span>
+        <span class="attack-name">Buffer Overflow</span>
+      </div>
+      <div class="attack-body">
+        <div class="attack-desc">Writing data beyond the allocated buffer boundary overwrites adjacent memory. Can overwrite return addresses to redirect code execution to attacker's shellcode.</div>
+        <div class="attack-defense" style="background:rgba(46,134,193,0.1);border-color:#2E86C1">
+          <strong>Defense</strong>ASLR, DEP/NX (no-execute memory), stack canaries, safe coding practices, compiler protections.
+        </div>
+      </div>
+    </div>
+<div class="attack-card" data-cat="Application Attacks">
+      <div class="attack-card-head">
+        <span class="attack-tag" style="color:#2E86C1;background:rgba(46,134,193,0.1);border-color:#2E86C1">Application Attacks</span>
+        <span class="attack-name">Directory Traversal</span>
+      </div>
+      <div class="attack-body">
+        <div class="attack-desc">Using ../ sequences in file path inputs to access files outside the intended directory — reading config files, password stores, or system files.</div>
+        <div class="attack-defense" style="background:rgba(46,134,193,0.1);border-color:#2E86C1">
+          <strong>Defense</strong>Input validation, canonicalization, chroot jails, web server configuration to restrict document root.
+        </div>
+      </div>
+    </div>
+<div class="attack-card" data-cat="Application Attacks">
+      <div class="attack-card-head">
+        <span class="attack-tag" style="color:#2E86C1;background:rgba(46,134,193,0.1);border-color:#2E86C1">Application Attacks</span>
+        <span class="attack-name">XML External Entity (XXE)</span>
+      </div>
+      <div class="attack-body">
+        <div class="attack-desc">Exploits XML parsers that process external entity references — can read local files, SSRF, or DoS by referencing infinite recursive entities.</div>
+        <div class="attack-defense" style="background:rgba(46,134,193,0.1);border-color:#2E86C1">
+          <strong>Defense</strong>Disable XML external entity processing in parsers, input validation, WAF, use JSON instead of XML where possible.
+        </div>
+      </div>
+    </div>
+<div class="attack-card" data-cat="Application Attacks">
+      <div class="attack-card-head">
+        <span class="attack-tag" style="color:#2E86C1;background:rgba(46,134,193,0.1);border-color:#2E86C1">Application Attacks</span>
+        <span class="attack-name">Insecure Deserialization</span>
+      </div>
+      <div class="attack-body">
+        <div class="attack-desc">Attacker modifies serialized object data that is blindly deserialized, leading to remote code execution, privilege escalation, or injection attacks.</div>
+        <div class="attack-defense" style="background:rgba(46,134,193,0.1);border-color:#2E86C1">
+          <strong>Defense</strong>Never deserialize untrusted input; use serialization-less data formats; input validation; integrity checks on serialized objects.
+        </div>
+      </div>
+    </div>
+<div class="attack-card" data-cat="Application Attacks">
+      <div class="attack-card-head">
+        <span class="attack-tag" style="color:#2E86C1;background:rgba(46,134,193,0.1);border-color:#2E86C1">Application Attacks</span>
+        <span class="attack-name">Command Injection</span>
+      </div>
+      <div class="attack-body">
+        <div class="attack-desc">Attacker injects OS commands through application input fields that are passed unsanitized to a system shell, gaining code execution on the server.</div>
+        <div class="attack-defense" style="background:rgba(46,134,193,0.1);border-color:#2E86C1">
+          <strong>Defense</strong>Input validation, avoid shell calls from application code, least privilege for application accounts, WAF.
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="section-title">Cryptographic Attacks</div>
+  <div class="attack-grid" id="grid-Cryptographic_Attacks">
+<div class="attack-card" data-cat="Cryptographic Attacks">
+      <div class="attack-card-head">
+        <span class="attack-tag" style="color:#27AE60;background:rgba(39,174,96,0.1);border-color:#27AE60">Cryptographic Attacks</span>
+        <span class="attack-name">Brute Force</span>
+      </div>
+      <div class="attack-body">
+        <div class="attack-desc">Systematically trying every possible password or key combination until the correct one is found. Effective against short/weak passwords offline.</div>
+        <div class="attack-defense" style="background:rgba(39,174,96,0.1);border-color:#27AE60">
+          <strong>Defense</strong>Long/complex passwords, account lockout policies, MFA, salted hashes, rate limiting, CAPTCHA.
+        </div>
+      </div>
+    </div>
+<div class="attack-card" data-cat="Cryptographic Attacks">
+      <div class="attack-card-head">
+        <span class="attack-tag" style="color:#27AE60;background:rgba(39,174,96,0.1);border-color:#27AE60">Cryptographic Attacks</span>
+        <span class="attack-name">Dictionary Attack</span>
+      </div>
+      <div class="attack-body">
+        <div class="attack-desc">Uses a precompiled list of common words, phrases, and known passwords to crack credentials — much faster than full brute force.</div>
+        <div class="attack-defense" style="background:rgba(39,174,96,0.1);border-color:#27AE60">
+          <strong>Defense</strong>Strong unique passwords, password manager, MFA, bcrypt/scrypt/Argon2 for password hashing with salt.
+        </div>
+      </div>
+    </div>
+<div class="attack-card" data-cat="Cryptographic Attacks">
+      <div class="attack-card-head">
+        <span class="attack-tag" style="color:#27AE60;background:rgba(39,174,96,0.1);border-color:#27AE60">Cryptographic Attacks</span>
+        <span class="attack-name">Rainbow Table Attack</span>
+      </div>
+      <div class="attack-body">
+        <div class="attack-desc">Uses precomputed tables mapping hash values to plaintext to instantly reverse unsalted hashes without recomputing.</div>
+        <div class="attack-defense" style="background:rgba(39,174,96,0.1);border-color:#27AE60">
+          <strong>Defense</strong>Password salting (adds unique random value before hashing), use bcrypt/scrypt/Argon2 which salt automatically.
+        </div>
+      </div>
+    </div>
+<div class="attack-card" data-cat="Cryptographic Attacks">
+      <div class="attack-card-head">
+        <span class="attack-tag" style="color:#27AE60;background:rgba(39,174,96,0.1);border-color:#27AE60">Cryptographic Attacks</span>
+        <span class="attack-name">Password Spraying</span>
+      </div>
+      <div class="attack-body">
+        <div class="attack-desc">Tries one common password (e.g., "Summer2024!") across many accounts to avoid lockout thresholds — often succeeds against weak password policies.</div>
+        <div class="attack-defense" style="background:rgba(39,174,96,0.1);border-color:#27AE60">
+          <strong>Defense</strong>MFA, strong password policy, account lockout (with threshold awareness), anomaly detection for distributed failures.
+        </div>
+      </div>
+    </div>
+<div class="attack-card" data-cat="Cryptographic Attacks">
+      <div class="attack-card-head">
+        <span class="attack-tag" style="color:#27AE60;background:rgba(39,174,96,0.1);border-color:#27AE60">Cryptographic Attacks</span>
+        <span class="attack-name">Credential Stuffing</span>
+      </div>
+      <div class="attack-body">
+        <div class="attack-desc">Uses breached username/password pairs from other sites to log into services — exploits password reuse across multiple accounts.</div>
+        <div class="attack-defense" style="background:rgba(39,174,96,0.1);border-color:#27AE60">
+          <strong>Defense</strong>MFA, password managers (unique passwords per site), breach monitoring, CAPTCHA, anomaly detection.
+        </div>
+      </div>
+    </div>
+<div class="attack-card" data-cat="Cryptographic Attacks">
+      <div class="attack-card-head">
+        <span class="attack-tag" style="color:#27AE60;background:rgba(39,174,96,0.1);border-color:#27AE60">Cryptographic Attacks</span>
+        <span class="attack-name">Downgrade Attack</span>
+      </div>
+      <div class="attack-body">
+        <div class="attack-desc">Forces a system to use a weaker encryption algorithm or protocol version (e.g., TLS 1.0, DES) so the attacker can break the weaker encryption.</div>
+        <div class="attack-defense" style="background:rgba(39,174,96,0.1);border-color:#27AE60">
+          <strong>Defense</strong>Disable legacy/weak protocols and cipher suites, HSTS, TLS 1.2+ only, cipher suite ordering enforcement.
+        </div>
+      </div>
+    </div>
+<div class="attack-card" data-cat="Cryptographic Attacks">
+      <div class="attack-card-head">
+        <span class="attack-tag" style="color:#27AE60;background:rgba(39,174,96,0.1);border-color:#27AE60">Cryptographic Attacks</span>
+        <span class="attack-name">Collision Attack</span>
+      </div>
+      <div class="attack-body">
+        <div class="attack-desc">Finding two different inputs that produce the same hash output — breaks integrity checks. MD5 and SHA-1 are vulnerable to practical collision attacks.</div>
+        <div class="attack-defense" style="background:rgba(39,174,96,0.1);border-color:#27AE60">
+          <strong>Defense</strong>Use SHA-256 or stronger, replace MD5/SHA-1 in all security contexts, digital signatures with strong hash functions.
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="section-title">Malware</div>
+  <div class="attack-grid" id="grid-Malware">
+<div class="attack-card" data-cat="Malware">
+      <div class="attack-card-head">
+        <span class="attack-tag" style="color:#8E44AD;background:rgba(142,68,173,0.1);border-color:#8E44AD">Malware</span>
+        <span class="attack-name">Virus</span>
+      </div>
+      <div class="attack-body">
+        <div class="attack-desc">Malicious code that attaches itself to legitimate files and replicates when executed. Requires user action to spread (opening an infected file).</div>
+        <div class="attack-defense" style="background:rgba(142,68,173,0.1);border-color:#8E44AD">
+          <strong>Defense</strong>Antivirus/EDR, email filtering, patch management, least privilege, user training.
+        </div>
+      </div>
+    </div>
+<div class="attack-card" data-cat="Malware">
+      <div class="attack-card-head">
+        <span class="attack-tag" style="color:#8E44AD;background:rgba(142,68,173,0.1);border-color:#8E44AD">Malware</span>
+        <span class="attack-name">Worm</span>
+      </div>
+      <div class="attack-body">
+        <div class="attack-desc">Self-replicating malware that spreads across networks without user interaction, exploiting vulnerabilities in network services or OS components.</div>
+        <div class="attack-defense" style="background:rgba(142,68,173,0.1);border-color:#8E44AD">
+          <strong>Defense</strong>Patch management, network segmentation, IDS/IPS, disable unnecessary services, host-based firewalls.
+        </div>
+      </div>
+    </div>
+<div class="attack-card" data-cat="Malware">
+      <div class="attack-card-head">
+        <span class="attack-tag" style="color:#8E44AD;background:rgba(142,68,173,0.1);border-color:#8E44AD">Malware</span>
+        <span class="attack-name">Trojan Horse</span>
+      </div>
+      <div class="attack-body">
+        <div class="attack-desc">Malicious software disguised as legitimate/useful software. Does not self-replicate but creates backdoors, downloads additional malware, or steals data.</div>
+        <div class="attack-defense" style="background:rgba(142,68,173,0.1);border-color:#8E44AD">
+          <strong>Defense</strong>Application whitelisting, code signing verification, EDR, download only from trusted sources, user training.
+        </div>
+      </div>
+    </div>
+<div class="attack-card" data-cat="Malware">
+      <div class="attack-card-head">
+        <span class="attack-tag" style="color:#8E44AD;background:rgba(142,68,173,0.1);border-color:#8E44AD">Malware</span>
+        <span class="attack-name">Ransomware</span>
+      </div>
+      <div class="attack-body">
+        <div class="attack-desc">Encrypts victim files and demands cryptocurrency payment for decryption key. Modern variants also exfiltrate data and threaten to publish it (double extortion).</div>
+        <div class="attack-defense" style="background:rgba(142,68,173,0.1);border-color:#8E44AD">
+          <strong>Defense</strong>Immutable offline backups (3-2-1 rule), patch management, email filtering, MFA, least privilege, network segmentation, EDR.
+        </div>
+      </div>
+    </div>
+<div class="attack-card" data-cat="Malware">
+      <div class="attack-card-head">
+        <span class="attack-tag" style="color:#8E44AD;background:rgba(142,68,173,0.1);border-color:#8E44AD">Malware</span>
+        <span class="attack-name">Rootkit</span>
+      </div>
+      <div class="attack-body">
+        <div class="attack-desc">Malware that hides its presence (and other malware) from the OS and security tools by operating at kernel level or even below the OS (bootkit/firmware).</div>
+        <div class="attack-defense" style="background:rgba(142,68,173,0.1);border-color:#8E44AD">
+          <strong>Defense</strong>Secure Boot, TPM, UEFI protections, memory integrity, offline scanning, OS reinstall when detected.
+        </div>
+      </div>
+    </div>
+<div class="attack-card" data-cat="Malware">
+      <div class="attack-card-head">
+        <span class="attack-tag" style="color:#8E44AD;background:rgba(142,68,173,0.1);border-color:#8E44AD">Malware</span>
+        <span class="attack-name">Keylogger</span>
+      </div>
+      <div class="attack-body">
+        <div class="attack-desc">Records keystrokes to capture passwords, credit card numbers, and sensitive data. Can be software or hardware (device plugged between keyboard and computer).</div>
+        <div class="attack-defense" style="background:rgba(142,68,173,0.1);border-color:#8E44AD">
+          <strong>Defense</strong>MFA (keylogged passwords alone unusable), EDR, physical inspection of workstations, encrypted keyboard input.
+        </div>
+      </div>
+    </div>
+<div class="attack-card" data-cat="Malware">
+      <div class="attack-card-head">
+        <span class="attack-tag" style="color:#8E44AD;background:rgba(142,68,173,0.1);border-color:#8E44AD">Malware</span>
+        <span class="attack-name">Spyware</span>
+      </div>
+      <div class="attack-body">
+        <div class="attack-desc">Silently monitors and exfiltrates user activity, browsing habits, credentials, and personal data without user knowledge.</div>
+        <div class="attack-defense" style="background:rgba(142,68,173,0.1);border-color:#8E44AD">
+          <strong>Defense</strong>Antimalware/EDR, browser security settings, OS updates, DLP, network monitoring for unusual outbound traffic.
+        </div>
+      </div>
+    </div>
+<div class="attack-card" data-cat="Malware">
+      <div class="attack-card-head">
+        <span class="attack-tag" style="color:#8E44AD;background:rgba(142,68,173,0.1);border-color:#8E44AD">Malware</span>
+        <span class="attack-name">Botnet/RAT</span>
+      </div>
+      <div class="attack-body">
+        <div class="attack-desc">Remote Access Trojan (RAT) gives attacker full control of the infected system. Botnets aggregate thousands of RAT-infected machines for DDoS, spam, or cryptomining.</div>
+        <div class="attack-defense" style="background:rgba(142,68,173,0.1);border-color:#8E44AD">
+          <strong>Defense</strong>EDR, network monitoring, IPS signatures, firewall egress filtering, patch management.
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="section-title">Insider & Physical</div>
+  <div class="attack-grid" id="grid-Insider_and_Physical">
+<div class="attack-card" data-cat="Insider & Physical">
+      <div class="attack-card-head">
+        <span class="attack-tag" style="color:#5D6D7E;background:rgba(93,109,126,0.1);border-color:#5D6D7E">Insider & Physical</span>
+        <span class="attack-name">Insider Threat</span>
+      </div>
+      <div class="attack-body">
+        <div class="attack-desc">Malicious or negligent employee/contractor using legitimate access to steal data, sabotage systems, or enable external attackers.</div>
+        <div class="attack-defense" style="background:rgba(93,109,126,0.1);border-color:#5D6D7E">
+          <strong>Defense</strong>Least privilege, separation of duties, DLP, UEBA (User Entity Behavior Analytics), mandatory vacation, offboarding procedures.
+        </div>
+      </div>
+    </div>
+<div class="attack-card" data-cat="Insider & Physical">
+      <div class="attack-card-head">
+        <span class="attack-tag" style="color:#5D6D7E;background:rgba(93,109,126,0.1);border-color:#5D6D7E">Insider & Physical</span>
+        <span class="attack-name">Shoulder Surfing</span>
+      </div>
+      <div class="attack-body">
+        <div class="attack-desc">Physically observing someone enter a password, PIN, or sensitive information. Effective in public places, open offices, or against unlocked screens.</div>
+        <div class="attack-defense" style="background:rgba(93,109,126,0.1);border-color:#5D6D7E">
+          <strong>Defense</strong>Privacy screens, screen lock policies, awareness training, positioning workstations away from public view.
+        </div>
+      </div>
+    </div>
+<div class="attack-card" data-cat="Insider & Physical">
+      <div class="attack-card-head">
+        <span class="attack-tag" style="color:#5D6D7E;background:rgba(93,109,126,0.1);border-color:#5D6D7E">Insider & Physical</span>
+        <span class="attack-name">Dumpster Diving</span>
+      </div>
+      <div class="attack-body">
+        <div class="attack-desc">Searching through discarded materials (physical or digital) for sensitive information — old documents, printouts, hardware containing data.</div>
+        <div class="attack-defense" style="background:rgba(93,109,126,0.1);border-color:#5D6D7E">
+          <strong>Defense</strong>Shredding policy, secure disposal of media (degaussing, physical destruction), clean desk policy.
+        </div>
+      </div>
+    </div>
+<div class="attack-card" data-cat="Insider & Physical">
+      <div class="attack-card-head">
+        <span class="attack-tag" style="color:#5D6D7E;background:rgba(93,109,126,0.1);border-color:#5D6D7E">Insider & Physical</span>
+        <span class="attack-name">Physical Theft</span>
+      </div>
+      <div class="attack-body">
+        <div class="attack-desc">Stealing devices (laptops, phones, USB drives, hard drives) containing sensitive data or credentials.</div>
+        <div class="attack-defense" style="background:rgba(93,109,126,0.1);border-color:#5D6D7E">
+          <strong>Defense</strong>Full disk encryption (FDE), strong BIOS/boot passwords, cable locks, remote wipe capability, asset tagging, secure facilities.
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+<footer><p>Built by <a href="https://blaborte.github.io" target="_blank">Baltazar Laborte</a> · BL Cert Hub · Cisco Security+ SY0-701</p></footer>
+<script>
+
+let activeFilter='all';
+function filterCat(btn,cat){
+  document.querySelectorAll('.cat-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  activeFilter=cat;
+  document.querySelectorAll('.attack-card').forEach(c=>{
+    if(cat==='all'||c.dataset.cat===cat){c.style.display=''}
+    else c.style.display='none';
+  });
+  document.querySelectorAll('.section-title,.attack-grid').forEach(el=>{
+    if(cat==='all'){el.style.display=''}
+    else{
+      if(el.classList.contains('section-title'))el.style.display='none';
+    }
+  });
+  // count visible
+  const vis=document.querySelectorAll('.attack-card:not([style*="none"])').length;
+  document.getElementById('stat-visible').textContent=vis;
+}
+document.getElementById('stat-visible').textContent=document.querySelectorAll('.attack-card').length;
+
+</script>
+</body>
+</html>

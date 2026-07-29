@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Acronyms — Security+ SY0-701 | BL Cert Hub</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
+  <style>
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    :root{--navy:#0B1D3A;--blue:#1A5276;--accent:#2E86C1;--sky:#5DADE2;--light:#EAF4FB;--mid:#D6EAF8;--white:#fff;--text:#0B1D3A;--muted:#5D7A8C;--border:rgba(30,80,130,0.13);--shadow:0 2px 12px rgba(11,29,58,0.08)}
+    html{scroll-behavior:smooth}
+    body{font-family:"DM Sans",sans-serif;background:var(--light);color:var(--text);min-height:100vh;display:flex;flex-direction:column}
+    nav{background:var(--navy);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:56px;position:sticky;top:0;z-index:100;border-bottom:1px solid rgba(93,173,226,0.15)}
+    .nav-brand{display:flex;align-items:center;gap:10px;text-decoration:none}
+    .bl-circle{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#2E86C1,#5DADE2);display:flex;align-items:center;justify-content:center;font-family:"Space Mono",monospace;font-size:10px;font-weight:700;color:#fff;flex-shrink:0}
+    .nav-brand span{font-size:13px;font-weight:500;color:rgba(255,255,255,0.85);letter-spacing:.02em}
+    .nav-links{display:flex;gap:6px}
+    .nav-links a{font-size:12px;font-weight:500;color:rgba(255,255,255,0.6);text-decoration:none;padding:6px 12px;border-radius:6px;transition:all .18s}
+    .nav-links a:hover{color:#fff;background:rgba(255,255,255,0.08)}
+    .nav-links a.active{color:var(--sky);background:rgba(93,173,226,0.12)}
+    .theme-btn{width:34px;height:34px;border-radius:8px;border:1px solid rgba(255,255,255,0.18);background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.75);cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;transition:all .18s;flex-shrink:0}
+    .theme-btn:hover{background:rgba(255,255,255,0.15);color:#fff}
+    .hero{background:linear-gradient(135deg,#0B1D3A 0%,#1A5276 55%,#2E86C1 100%);padding:3rem 2rem 2.5rem;position:relative;overflow:hidden}
+    .hero-grid-pattern{position:absolute;inset:0;background-image:linear-gradient(rgba(93,173,226,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(93,173,226,0.04) 1px,transparent 1px);background-size:32px 32px;pointer-events:none}
+    .hero-bg-ring{position:absolute;border-radius:50%;border:40px solid rgba(93,173,226,0.08);pointer-events:none}
+    .hero-bg-ring.r1{width:300px;height:300px;top:-70px;right:-50px}
+    .hero-bg-ring.r2{width:180px;height:180px;bottom:-60px;left:40%;border-width:22px}
+    .hero-inner{position:relative;max-width:860px;margin:0 auto}
+    .exam-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.18);border-radius:20px;padding:5px 14px 5px 5px;margin-bottom:1.25rem}
+    .exam-badge .bl-circle{width:26px;height:26px;font-size:9px}
+    .exam-badge span{font-size:12px;color:rgba(255,255,255,0.8);font-weight:500}
+    .hero h1{font-family:"Space Mono",monospace;font-size:clamp(22px,3.5vw,38px);font-weight:700;color:#fff;line-height:1.2;margin-bottom:.5rem}
+    .hero h1 .accent{color:var(--sky)}
+    .hero-sub{font-size:14px;color:rgba(255,255,255,0.6);font-weight:300;line-height:1.7;max-width:520px}
+    .main{max-width:860px;margin:0 auto;padding:2rem 2rem 3rem;flex:1}
+    /* MODE */
+    .mode-bar{background:var(--white);border:1px solid var(--border);border-radius:14px;padding:14px 20px;margin-bottom:1.25rem;box-shadow:var(--shadow);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+    .mode-tabs{display:flex;gap:6px}
+    .mode-tab{font-size:12px;font-weight:500;padding:7px 18px;border-radius:8px;border:1px solid var(--border);background:var(--light);color:var(--muted);cursor:pointer;transition:all .18s;font-family:"DM Sans",sans-serif}
+    .mode-tab.active{background:var(--navy);border-color:var(--navy);color:#fff}
+    .mode-tab:hover:not(.active){border-color:var(--accent);color:var(--accent)}
+    .mode-count{font-family:"Space Mono",monospace;font-size:12px;color:var(--muted)}
+    .mode-count span{color:var(--accent);font-weight:700}
+    /* CONTROLS */
+    .controls-bar{background:var(--white);border:1px solid var(--border);border-radius:14px;padding:14px 20px;margin-bottom:1.25rem;box-shadow:var(--shadow);display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+    .search-wrap{position:relative;flex:1;min-width:180px}
+    .search-icon{position:absolute;left:11px;top:50%;transform:translateY(-50%);font-size:13px;pointer-events:none}
+    .search-input{width:100%;padding:9px 12px 9px 34px;border:1px solid var(--border);border-radius:8px;font-family:"DM Sans",sans-serif;font-size:13px;color:var(--text);background:var(--light);outline:none;transition:border-color .18s}
+    .search-input:focus{border-color:var(--accent);background:var(--white)}
+    .alpha-group{display:flex;gap:4px;flex-wrap:wrap}
+    .alpha-btn{font-family:"Space Mono",monospace;font-size:10px;font-weight:700;width:26px;height:26px;border-radius:5px;border:1px solid var(--border);background:var(--light);color:var(--muted);cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:center}
+    .alpha-btn:hover{border-color:var(--accent);color:var(--accent)}
+    .alpha-btn.active{background:var(--accent);border-color:var(--accent);color:#fff}
+    .btn{font-family:"DM Sans",sans-serif;font-size:12px;font-weight:500;padding:7px 14px;border-radius:8px;border:1px solid;cursor:pointer;transition:all .18s}
+    .btn-outline{background:transparent;border-color:var(--border);color:var(--text)}
+    .btn-outline:hover{border-color:var(--accent);color:var(--accent)}
+    /* REFERENCE */
+    #reference-view{display:block}
+    .section-label{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);display:flex;align-items:center;gap:10px;margin-bottom:.9rem;margin-top:.5rem}
+    .section-label::after{content:"";flex:1;height:1px;background:var(--border)}
+    .alpha-section{margin-bottom:1.5rem}
+    .alpha-heading{font-family:"Space Mono",monospace;font-size:12px;font-weight:700;color:var(--navy);background:var(--mid);border-radius:6px;padding:4px 10px;display:inline-block;margin-bottom:8px}
+    .acronym-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+    .acronym-card{background:var(--white);border:1px solid var(--border);border-radius:10px;padding:12px 14px;transition:all .18s;cursor:pointer;position:relative;overflow:hidden}
+    .acronym-card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--accent);opacity:0;transition:opacity .18s}
+    .acronym-card:hover{border-color:var(--accent);box-shadow:0 3px 10px rgba(11,29,58,0.08)}
+    .acronym-card:hover::before{opacity:1}
+    .acronym-card.is-mastered{background:rgba(46,125,50,0.05);border-color:rgba(46,125,50,0.25)}
+    .acronym-card.is-mastered::before{background:#2E7D32;opacity:1}
+    .ac-term{font-family:"Space Mono",monospace;font-size:13px;font-weight:700;color:var(--accent);margin-bottom:3px}
+    .ac-def{font-size:12px;color:var(--muted);line-height:1.5}
+    .ac-status{position:absolute;top:10px;right:12px;font-size:9px;font-weight:700;padding:2px 7px;border-radius:10px}
+    .ac-status.mastered{background:rgba(46,125,50,0.12);color:#2E7D32}
+    .no-results{text-align:center;padding:3rem;color:var(--muted);font-size:14px}
+    /* FLASHCARD MODE */
+    #flashcard-view{display:none}
+    .stats-row{display:flex;gap:10px;margin-bottom:1.25rem;flex-wrap:wrap}
+    .stat-pill{font-size:12px;font-weight:500;padding:6px 14px;border-radius:8px;background:var(--white);border:1px solid var(--border);color:var(--muted)}
+    .stat-pill span{font-family:"Space Mono",monospace;font-weight:700;color:var(--accent)}
+    .stat-pill.mastered span{color:#2E7D32}
+    .prog-wrap{margin-bottom:1.25rem}
+    .prog-row{display:flex;justify-content:space-between;margin-bottom:5px}
+    .prog-lbl{font-size:12px;color:var(--muted)}
+    .prog-pct{font-family:"Space Mono",monospace;font-size:12px;font-weight:700;color:var(--accent)}
+    .prog-track{height:5px;background:var(--mid);border-radius:3px;overflow:hidden}
+    .prog-fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--sky));border-radius:3px;transition:width .5s}
+    .fc-area{display:flex;flex-direction:column;align-items:center;margin-bottom:1.5rem}
+    .fc-counter-row{display:flex;align-items:center;justify-content:space-between;width:100%;max-width:620px;margin-bottom:10px}
+    .fc-counter{font-family:"Space Mono",monospace;font-size:12px;color:var(--muted)}
+    .fc-hint-badge{font-size:11px;color:var(--muted);font-style:italic}
+    .fc-scene{perspective:1400px;width:100%;max-width:620px;height:220px;cursor:pointer}
+    .fc-inner{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .55s cubic-bezier(.4,0,.2,1)}
+    .fc-inner.flipped{transform:rotateY(180deg)}
+    .fc-face{position:absolute;inset:0;backface-visibility:hidden;border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:28px 32px;text-align:center;border:1px solid var(--border);box-shadow:0 4px 20px rgba(11,29,58,0.1)}
+    .fc-front{background:var(--navy)}
+    .fc-back{background:var(--blue);transform:rotateY(180deg)}
+    .fc-side-label{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,0.35);position:absolute;top:16px;left:20px}
+    .fc-acronym{font-family:"Space Mono",monospace;font-size:clamp(22px,5vw,36px);font-weight:700;color:#fff;letter-spacing:1px}
+    .fc-hint{font-size:11px;color:rgba(255,255,255,0.35);margin-top:10px}
+    .fc-expanded{font-size:clamp(14px,2.5vw,17px);color:#fff;line-height:1.6;font-weight:400}
+    .fc-dots{display:flex;gap:5px;justify-content:center;margin-bottom:14px}
+    .fc-dot{width:7px;height:7px;border-radius:50%;background:var(--mid);transition:all .2s;cursor:pointer}
+    .fc-dot.active{background:var(--accent);transform:scale(1.3)}
+    .fc-dot.mastered{background:#2E7D32}
+    .fc-controls{display:flex;align-items:center;gap:10px;justify-content:center;width:100%;max-width:620px;margin-bottom:1.25rem}
+    .fc-nav-btn{width:40px;height:40px;border-radius:50%;border:1px solid var(--border);background:var(--white);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;transition:all .18s;color:var(--text)}
+    .fc-nav-btn:hover:not(:disabled){border-color:var(--accent);color:var(--accent)}
+    .fc-nav-btn:disabled{opacity:.3;pointer-events:none}
+    .fc-center-btns{display:flex;gap:8px}
+    .grade-btn{font-size:11px;font-weight:600;padding:8px 16px;border-radius:8px;border:1px solid;cursor:pointer;transition:all .18s;font-family:"DM Sans",sans-serif}
+    .grade-btn.mastered{background:rgba(46,125,50,0.08);border-color:rgba(46,125,50,0.3);color:#2E7D32}
+    .grade-btn.mastered:hover{background:#2E7D32;color:#fff}
+    .grade-btn.again{background:rgba(192,57,43,0.08);border-color:rgba(192,57,43,0.3);color:#C0392B}
+    .grade-btn.again:hover{background:#C0392B;color:#fff}
+    .grade-note{font-size:11px;color:var(--muted);text-align:center;margin-bottom:1.5rem}
+    .fc-actions{display:flex;gap:8px;justify-content:center;margin-bottom:1.5rem}
+    /* DARK */
+    html.dark{--light:#131b27;--mid:#1a2535;--white:#1e2a3a;--text:#d4e6f7;--muted:#7aa3c0;--border:rgba(93,173,226,0.14)}
+    html.dark body{background:var(--light);color:var(--text)}
+    html.dark nav,html.dark footer{background:#0a1220}
+    html.dark .mode-bar,html.dark .controls-bar,html.dark .acronym-card,html.dark .stat-pill,html.dark .fc-nav-btn{background:var(--white);border-color:var(--border)}
+    html.dark .mode-tab,html.dark .alpha-btn,html.dark .btn-outline{background:var(--mid);border-color:var(--border);color:var(--muted)}
+    html.dark .search-input{background:var(--mid);border-color:var(--border);color:var(--text)}
+    html.dark .search-input:focus{background:var(--white)}
+    html.dark .alpha-heading{background:var(--mid);color:var(--text)}
+    html.dark .fc-front{background:#0d1929}
+    html.dark .fc-back{background:#122040}
+    footer{background:var(--navy);padding:1.25rem 2rem;text-align:center;border-top:1px solid rgba(93,173,226,0.12)}
+    footer p{font-size:12px;color:rgba(255,255,255,0.3)}
+    footer a{color:var(--sky);text-decoration:none}
+    @media(max-width:600px){.main{padding:1.25rem};nav{padding:0 1.25rem};.hero{padding:2rem 1.25rem 2rem};.acronym-grid{grid-template-columns:1fr};.alpha-group{display:none}}
+  
+  </style>
+</head>
+<body>
+<script>
+(function(){const K="bl-theme";function apply(d){document.documentElement.classList.toggle("dark",d);const b=document.getElementById("theme-btn");if(b)b.textContent=d?"☀":"☾"}apply(localStorage.getItem(K)==="dark");window.__toggleTheme=function(){const d=!document.documentElement.classList.contains("dark");localStorage.setItem(K,d?"dark":"light");apply(d)};window.addEventListener("storage",function(e){if(e.key===K)apply(e.newValue==="dark")})})();
+</script>
+<nav>
+  <a class="nav-brand" href="index.html"><div class="bl-circle">BL</div><span>BL Cert Hub</span></a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="secplus-home.html">Security+</a>
+    <a href="#" class="active">Acronyms</a>
+    <button class="theme-btn" id="theme-btn" onclick="__toggleTheme()">&#9790;</button>
+  </div>
+</nav>
+<div class="hero">
+  <div class="hero-grid-pattern"></div>
+  <div class="hero-bg-ring r1"></div>
+  <div class="hero-bg-ring r2"></div>
+  <div class="hero-inner">
+    <div class="exam-badge"><div class="bl-circle">BL</div><span>CompTIA Security+ SY0-701</span></div>
+    <h1><span class="accent">Acronyms</span></h1>
+    <p class="hero-sub">112 Security+ acronyms A-Z. Search, jump by letter, or flip into flashcard mode.</p>
+  </div>
+</div>
+<div class="main">
+  <div class="mode-bar">
+    <div class="mode-tabs">
+      <button class="mode-tab active" id="tab-ref" onclick="setMode('reference')">📋 Reference</button>
+      <button class="mode-tab" id="tab-fc" onclick="setMode('flashcard')">🃏 Flashcard Mode</button>
+    </div>
+    <span class="mode-count">Total: <span id="mode-total">0</span> acronyms</span>
+  </div>
+  <div class="controls-bar">
+    <div class="search-wrap">
+      <span class="search-icon">🔍</span>
+      <input class="search-input" id="search-input" type="text" placeholder="Search acronym or definition..." oninput="onSearch()"/>
+    </div>
+    <div class="alpha-group" id="alpha-group"></div>
+    <button class="btn btn-outline" onclick="clearSearch()">Clear</button>
+  </div>
+  <div id="reference-view">
+    <div class="section-label" id="ref-section-label">All Acronyms</div>
+    <div id="acronym-container"></div>
+    <div class="no-results" id="no-results" style="display:none">No acronyms found.</div>
+  </div>
+  <div id="flashcard-view">
+    <div class="stats-row">
+      <div class="stat-pill">Total: <span id="fc-stat-total">0</span></div>
+      <div class="stat-pill mastered">Mastered: <span id="fc-stat-mastered">0</span></div>
+      <div class="stat-pill">Remaining: <span id="fc-stat-remaining">0</span></div>
+    </div>
+    <div class="prog-wrap">
+      <div class="prog-row"><span class="prog-lbl">Mastery Progress</span><span class="prog-pct" id="fc-prog-pct">0%</span></div>
+      <div class="prog-track"><div class="prog-fill" id="fc-prog-fill" style="width:0%"></div></div>
+    </div>
+    <div class="fc-area">
+      <div class="fc-counter-row">
+        <span class="fc-counter" id="fc-counter">1 / 0</span>
+        <span class="fc-hint-badge">Tap card to reveal</span>
+      </div>
+      <div class="fc-scene" onclick="fcFlip()">
+        <div class="fc-inner" id="fc-inner">
+          <div class="fc-face fc-front">
+            <span class="fc-side-label">Acronym</span>
+            <div class="fc-acronym" id="fc-acronym">—</div>
+            <div class="fc-hint">Tap to see full term</div>
+          </div>
+          <div class="fc-face fc-back">
+            <span class="fc-side-label">Stands for</span>
+            <div class="fc-expanded" id="fc-expanded">—</div>
+          </div>
+        </div>
+      </div>
+      <div class="fc-dots" id="fc-dots"></div>
+    </div>
+    <div class="fc-controls">
+      <button class="fc-nav-btn" id="fc-prev" onclick="fcNav(-1)" disabled>←</button>
+      <div class="fc-center-btns">
+        <button class="grade-btn again" onclick="fcGrade('again')">✗ Again</button>
+        <button class="grade-btn mastered" onclick="fcGrade('mastered')">✓ Got it</button>
+      </div>
+      <button class="fc-nav-btn" id="fc-next" onclick="fcNav(1)">→</button>
+    </div>
+    <div class="grade-note">Flip the card first, then grade yourself</div>
+    <div class="fc-actions">
+      <button class="btn btn-outline" onclick="fcShuffle()">⇄ Shuffle</button>
+      <button class="btn btn-outline" onclick="fcStudyWeak()">Study Weak</button>
+      <button class="btn btn-outline" onclick="fcReset()">↺ Reset All</button>
+    </div>
+  </div>
+</div>
+<footer><p>Built by <a href="https://blaborte.github.io" target="_blank">Baltazar Laborte</a> · BL Cert Hub · Cisco Security+ SY0-701</p></footer>
+<script>
+const ACRONYMS=[
+  ['AAA','Authentication, Authorization, and Accounting'],
+  ['ACL','Access Control List'],
+  ['AES','Advanced Encryption Standard'],
+  ['AH','Authentication Header (IPsec)'],
+  ['ASLR','Address Space Layout Randomization'],
+  ['APT','Advanced Persistent Threat'],
+  ['API','Application Programming Interface'],
+  ['ARP','Address Resolution Protocol'],
+  ['ATT&CK','Adversarial Tactics, Techniques, and Common Knowledge (MITRE)'],
+  ['AUP','Acceptable Use Policy'],
+  ['ABAC','Attribute-Based Access Control'],
+  ['BCP','Business Continuity Plan'],
+  ['BIA','Business Impact Analysis'],
+  ['BYOD','Bring Your Own Device'],
+  ['CA','Certificate Authority'],
+  ['CASB','Cloud Access Security Broker'],
+  ['CCPA','California Consumer Privacy Act'],
+  ['CDN','Content Delivery Network'],
+  ['CERT','Computer Emergency Response Team'],
+  ['CIA','Confidentiality, Integrity, Availability'],
+  ['CIS','Center for Internet Security'],
+  ['CISA','Cybersecurity and Infrastructure Security Agency'],
+  ['CISO','Chief Information Security Officer'],
+  ['CMDB','Configuration Management Database'],
+  ['CRL','Certificate Revocation List'],
+  ['CSP','Content Security Policy'],
+  ['CSPM','Cloud Security Posture Management'],
+  ['CVE','Common Vulnerabilities and Exposures'],
+  ['CVSS','Common Vulnerability Scoring System'],
+  ['DAC','Discretionary Access Control'],
+  ['DEP','Data Execution Prevention'],
+  ['DLP','Data Loss Prevention'],
+  ['DMZ','Demilitarized Zone'],
+  ['DNS','Domain Name System'],
+  ['DNSSEC','DNS Security Extensions'],
+  ['DR','Disaster Recovery'],
+  ['DMARC','Domain-based Message Authentication, Reporting, and Conformance'],
+  ['DoS','Denial of Service'],
+  ['DDoS','Distributed Denial of Service'],
+  ['EAP','Extensible Authentication Protocol'],
+  ['EDR','Endpoint Detection and Response'],
+  ['ESP','Encapsulating Security Payload (IPsec)'],
+  ['FDE','Full Disk Encryption'],
+  ['FIM','File Integrity Monitoring'],
+  ['GDPR','General Data Protection Regulation'],
+  ['GPO','Group Policy Object'],
+  ['HIDS','Host-based Intrusion Detection System'],
+  ['HIPS','Host-based Intrusion Prevention System'],
+  ['HIPAA','Health Insurance Portability and Accountability Act'],
+  ['HSM','Hardware Security Module'],
+  ['HSTS','HTTP Strict Transport Security'],
+  ['HTTP','Hypertext Transfer Protocol'],
+  ['HTTPS','HTTP Secure (HTTP over TLS)'],
+  ['IAM','Identity and Access Management'],
+  ['IDS','Intrusion Detection System'],
+  ['IKE','Internet Key Exchange'],
+  ['IPS','Intrusion Prevention System'],
+  ['IPsec','Internet Protocol Security'],
+  ['IR','Incident Response'],
+  ['IOC','Indicator of Compromise'],
+  ['ISO','International Organization for Standardization'],
+  ['LDAP','Lightweight Directory Access Protocol'],
+  ['MAC','Mandatory Access Control'],
+  ['MFA','Multi-Factor Authentication'],
+  ['MTBF','Mean Time Between Failures'],
+  ['MTTD','Mean Time to Detect'],
+  ['MTTR','Mean Time to Respond/Recover'],
+  ['NAC','Network Access Control'],
+  ['NGFW','Next-Generation Firewall'],
+  ['NIDS','Network Intrusion Detection System'],
+  ['NIPS','Network Intrusion Prevention System'],
+  ['NIST','National Institute of Standards and Technology'],
+  ['NTP','Network Time Protocol'],
+  ['OAuth','Open Authorization'],
+  ['OCSP','Online Certificate Status Protocol'],
+  ['OIDC','OpenID Connect'],
+  ['OSINT','Open-Source Intelligence'],
+  ['OWASP','Open Web Application Security Project'],
+  ['PAM','Privileged Access Management'],
+  ['PCI-DSS','Payment Card Industry Data Security Standard'],
+  ['PGP','Pretty Good Privacy'],
+  ['PHI','Protected Health Information'],
+  ['PII','Personally Identifiable Information'],
+  ['PKI','Public Key Infrastructure'],
+  ['PPTP','Point-to-Point Tunneling Protocol'],
+  ['RA','Registration Authority'],
+  ['RBAC','Role-Based Access Control'],
+  ['RPO','Recovery Point Objective'],
+  ['RTO','Recovery Time Objective'],
+  ['SAML','Security Assertion Markup Language'],
+  ['SCAP','Security Content Automation Protocol'],
+  ['SIEM','Security Information and Event Management'],
+  ['SOC','Security Operations Center'],
+  ['SOX','Sarbanes-Oxley Act'],
+  ['SOAR','Security Orchestration, Automation, and Response'],
+  ['SPF','Sender Policy Framework'],
+  ['SQL','Structured Query Language'],
+  ['SSH','Secure Shell'],
+  ['SSL','Secure Sockets Layer (deprecated)'],
+  ['SSO','Single Sign-On'],
+  ['TACACS+','Terminal Access Controller Access-Control System Plus'],
+  ['TLS','Transport Layer Security'],
+  ['TOTP','Time-Based One-Time Password'],
+  ['TPM','Trusted Platform Module'],
+  ['TTP','Tactics, Techniques, and Procedures'],
+  ['UEBA','User and Entity Behavior Analytics'],
+  ['VPN','Virtual Private Network'],
+  ['WAF','Web Application Firewall'],
+  ['XDR','Extended Detection and Response'],
+  ['XSS','Cross-Site Scripting'],
+  ['XXE','XML External Entity'],
+  ['ZTA','Zero Trust Architecture'],
+];
+ACRONYMS.sort((a,b)=>a[0].localeCompare(b[0]));
+let fcStatus={};ACRONYMS.forEach((_,i)=>{fcStatus[i]='unseen'});
+let currentMode='reference',searchQ='',activeAlpha='',fcDeck=[],fcIdx=0,fcIsFlipped=false;
+document.getElementById('mode-total').textContent=ACRONYMS.length;
+function setMode(m){
+  currentMode=m;
+  document.getElementById('reference-view').style.display=m==='reference'?'block':'none';
+  document.getElementById('flashcard-view').style.display=m==='flashcard'?'block':'none';
+  document.getElementById('tab-ref').classList.toggle('active',m==='reference');
+  document.getElementById('tab-fc').classList.toggle('active',m==='flashcard');
+  if(m==='flashcard'){fcDeck=ACRONYMS.map((_,i)=>i);fcIdx=0;fcRenderCard();fcUpdateStats()}
+}
+function buildAlphaBtns(){
+  const letters=[...new Set(ACRONYMS.map(a=>a[0][0].toUpperCase()))].sort();
+  const grp=document.getElementById('alpha-group');grp.innerHTML='';
+  letters.forEach(l=>{const b=document.createElement('button');b.className='alpha-btn';b.textContent=l;b.onclick=()=>filterByAlpha(l,b);grp.appendChild(b)});
+}
+function filterByAlpha(l,btn){
+  if(activeAlpha===l){activeAlpha='';document.querySelectorAll('.alpha-btn').forEach(b=>b.classList.remove('active'))}
+  else{activeAlpha=l;document.querySelectorAll('.alpha-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active')}
+  document.getElementById('search-input').value='';searchQ='';renderReference();
+}
+function onSearch(){
+  searchQ=document.getElementById('search-input').value.toLowerCase().trim();
+  activeAlpha='';document.querySelectorAll('.alpha-btn').forEach(b=>b.classList.remove('active'));renderReference();
+}
+function clearSearch(){
+  searchQ='';activeAlpha='';document.getElementById('search-input').value='';
+  document.querySelectorAll('.alpha-btn').forEach(b=>b.classList.remove('active'));renderReference();
+}
+function renderReference(){
+  const container=document.getElementById('acronym-container');container.innerHTML='';
+  let filtered=ACRONYMS.map((a,i)=>({a,i}));
+  if(searchQ)filtered=filtered.filter(({a})=>a[0].toLowerCase().includes(searchQ)||a[1].toLowerCase().includes(searchQ));
+  if(activeAlpha)filtered=filtered.filter(({a})=>a[0][0].toUpperCase()===activeAlpha);
+  const noR=document.getElementById('no-results'),secL=document.getElementById('ref-section-label');
+  if(!filtered.length){noR.style.display='block';secL.textContent='No results';return}
+  noR.style.display='none';
+  if(searchQ||activeAlpha){
+    secL.textContent=`${filtered.length} result${filtered.length!==1?'s':''}`;
+    const grid=document.createElement('div');grid.className='acronym-grid';
+    filtered.forEach(({a,i})=>grid.appendChild(buildCard(a,i)));container.appendChild(grid);
+  } else {
+    secL.textContent=`All ${ACRONYMS.length} Acronyms`;
+    const groups={};filtered.forEach(({a,i})=>{const l=a[0][0].toUpperCase();if(!groups[l])groups[l]=[];groups[l].push({a,i})});
+    Object.keys(groups).sort().forEach(l=>{
+      const sec=document.createElement('div');sec.className='alpha-section';
+      sec.innerHTML=`<div class="alpha-heading">${l}</div>`;
+      const grid=document.createElement('div');grid.className='acronym-grid';
+      groups[l].forEach(({a,i})=>grid.appendChild(buildCard(a,i)));
+      sec.appendChild(grid);container.appendChild(sec);
+    });
+  }
+}
+function buildCard(a,i){
+  const card=document.createElement('div');const isMastered=fcStatus[i]==='mastered';
+  card.className='acronym-card'+(isMastered?' is-mastered':'');
+  card.innerHTML=`<div class="ac-term">${a[0]}</div><div class="ac-def">${a[1]}</div>${isMastered?'<div class="ac-status mastered">✓ Mastered</div>':''}`;
+  card.onclick=()=>{fcStatus[i]=fcStatus[i]==='mastered'?'unseen':'mastered';renderReference();fcUpdateStats()};
+  return card;
+}
+function fcRenderCard(){
+  if(!fcDeck.length)return;
+  fcIsFlipped=false;document.getElementById('fc-inner').classList.remove('flipped');
+  const[acr,def]=ACRONYMS[fcDeck[fcIdx]];
+  setTimeout(()=>{document.getElementById('fc-acronym').textContent=acr;document.getElementById('fc-expanded').textContent=def},40);
+  document.getElementById('fc-counter').textContent=`${fcIdx+1} / ${fcDeck.length}`;
+  document.getElementById('fc-prev').disabled=fcIdx===0;
+  document.getElementById('fc-next').disabled=fcIdx===fcDeck.length-1;
+  fcRenderDots();
+}
+function fcFlip(){fcIsFlipped=!fcIsFlipped;document.getElementById('fc-inner').classList.toggle('flipped',fcIsFlipped)}
+function fcNav(d){const n=fcIdx+d;if(n<0||n>=fcDeck.length)return;fcIdx=n;fcRenderCard()}
+function fcGrade(g){
+  fcStatus[fcDeck[fcIdx]]=g;fcUpdateStats();fcRenderDots();
+  if(fcIdx<fcDeck.length-1){fcIdx++;fcRenderCard()}
+}
+function fcShuffle(){fcDeck=fcDeck.sort(()=>Math.random()-.5);fcIdx=0;fcRenderCard()}
+function fcStudyWeak(){
+  const w=ACRONYMS.map((_,i)=>i).filter(i=>fcStatus[i]!=='mastered');
+  if(!w.length){alert('All mastered! 🎉 Try resetting.');return}
+  fcDeck=w.sort(()=>Math.random()-.5);fcIdx=0;fcRenderCard();
+}
+function fcReset(){ACRONYMS.forEach((_,i)=>{fcStatus[i]='unseen'});fcDeck=ACRONYMS.map((_,i)=>i);fcIdx=0;fcRenderCard();fcUpdateStats();renderReference()}
+function fcUpdateStats(){
+  const total=ACRONYMS.length;const m=Object.values(fcStatus).filter(s=>s==='mastered').length;
+  const pct=Math.round((m/total)*100);
+  document.getElementById('fc-stat-total').textContent=total;
+  document.getElementById('fc-stat-mastered').textContent=m;
+  document.getElementById('fc-stat-remaining').textContent=total-m;
+  document.getElementById('fc-prog-pct').textContent=pct+'%';
+  document.getElementById('fc-prog-fill').style.width=pct+'%';
+}
+function fcRenderDots(){
+  const dots=document.getElementById('fc-dots');const max=Math.min(fcDeck.length,15);dots.innerHTML='';
+  for(let i=0;i<max;i++){
+    const d=document.createElement('div');
+    d.className='fc-dot'+(i===fcIdx?' active':fcStatus[fcDeck[i]]==='mastered'?' mastered':'');
+    d.onclick=((idx)=>()=>{fcIdx=idx;fcRenderCard()})(i);dots.appendChild(d);
+  }
+}
+buildAlphaBtns();renderReference();fcDeck=ACRONYMS.map((_,i)=>i);fcUpdateStats();
+
+</script>
+</body>
+</html>

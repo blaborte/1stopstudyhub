@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ports & Protocols — Security+ SY0-701 | BL Cert Hub</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
+  <style>
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    :root{--navy:#0B1D3A;--blue:#1A5276;--accent:#2E86C1;--sky:#5DADE2;--light:#EAF4FB;--mid:#D6EAF8;--white:#fff;--text:#0B1D3A;--muted:#5D7A8C;--border:rgba(30,80,130,0.13);--shadow:0 2px 12px rgba(11,29,58,0.08)}
+    html{scroll-behavior:smooth}
+    body{font-family:"DM Sans",sans-serif;background:var(--light);color:var(--text);min-height:100vh;display:flex;flex-direction:column}
+    /* NAV */
+    nav{background:var(--navy);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:56px;position:sticky;top:0;z-index:100;border-bottom:1px solid rgba(93,173,226,0.15)}
+    .nav-brand{display:flex;align-items:center;gap:10px;text-decoration:none}
+    .bl-circle{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#2E86C1,#5DADE2);display:flex;align-items:center;justify-content:center;font-family:"Space Mono",monospace;font-size:10px;font-weight:700;color:#fff;flex-shrink:0}
+    .nav-brand span{font-size:13px;font-weight:500;color:rgba(255,255,255,0.85);letter-spacing:.02em}
+    .nav-links{display:flex;gap:6px}
+    .nav-links a{font-size:12px;font-weight:500;color:rgba(255,255,255,0.6);text-decoration:none;padding:6px 12px;border-radius:6px;transition:all .18s}
+    .nav-links a:hover{color:#fff;background:rgba(255,255,255,0.08)}
+    .nav-links a.active{color:var(--sky);background:rgba(93,173,226,0.12)}
+    .theme-btn{width:34px;height:34px;border-radius:8px;border:1px solid rgba(255,255,255,0.18);background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.75);cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;transition:all .18s;flex-shrink:0}
+    .theme-btn:hover{background:rgba(255,255,255,0.15);color:#fff}
+    /* HERO */
+    .hero{background:linear-gradient(135deg,#0B1D3A 0%,#1A5276 55%,#2E86C1 100%);padding:3rem 2rem 2.5rem;position:relative;overflow:hidden}
+    .hero-grid-pattern{position:absolute;inset:0;background-image:linear-gradient(rgba(93,173,226,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(93,173,226,0.04) 1px,transparent 1px);background-size:32px 32px;pointer-events:none}
+    .hero-bg-ring{position:absolute;border-radius:50%;border:40px solid rgba(93,173,226,0.08);pointer-events:none}
+    .hero-bg-ring.r1{width:300px;height:300px;top:-70px;right:-50px}
+    .hero-bg-ring.r2{width:180px;height:180px;bottom:-60px;left:40%;border-width:22px}
+    .hero-inner{position:relative;max-width:860px;margin:0 auto}
+    .exam-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.18);border-radius:20px;padding:5px 14px 5px 5px;margin-bottom:1.25rem}
+    .exam-badge .bl-circle{width:26px;height:26px;font-size:9px}
+    .exam-badge span{font-size:12px;color:rgba(255,255,255,0.8);font-weight:500}
+    .hero h1{font-family:"Space Mono",monospace;font-size:clamp(22px,3.5vw,38px);font-weight:700;color:#fff;line-height:1.2;margin-bottom:.5rem}
+    .hero h1 .accent{color:var(--sky)}
+    .hero-sub{font-size:14px;color:rgba(255,255,255,0.6);font-weight:300;line-height:1.7;max-width:520px}
+    /* MAIN */
+    .main{max-width:860px;margin:0 auto;padding:2rem 2rem 3rem;flex:1}
+    .section-label{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);display:flex;align-items:center;gap:10px;margin-bottom:1rem}
+    .section-label::after{content:"";flex:1;height:1px;background:var(--border)}
+    /* CONTROLS */
+    .controls{background:var(--white);border:1px solid var(--border);border-radius:14px;padding:14px 18px;margin-bottom:1.25rem;box-shadow:var(--shadow);display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+    .search-wrap{position:relative;flex:1;min-width:180px}
+    .search-icon{position:absolute;left:11px;top:50%;transform:translateY(-50%);font-size:13px;pointer-events:none}
+    .search-input{width:100%;padding:9px 12px 9px 34px;border:1px solid var(--border);border-radius:8px;font-family:"DM Sans",sans-serif;font-size:13px;color:var(--text);background:var(--light);outline:none;transition:border-color .18s}
+    .search-input:focus{border-color:var(--accent);background:var(--white)}
+    .filter-group{display:flex;gap:6px}
+    .f-btn{font-size:11px;font-weight:500;padding:6px 14px;border-radius:20px;border:1px solid var(--border);background:var(--light);color:var(--muted);cursor:pointer;transition:all .16s;font-family:"DM Sans",sans-serif}
+    .f-btn:hover{border-color:var(--accent);color:var(--accent)}
+    .f-btn.active{background:var(--accent);border-color:var(--accent);color:#fff}
+    .f-btn.tcp.active{background:#C0392B;border-color:#C0392B}
+    .f-btn.udp.active{background:#117A65;border-color:#117A65}
+    .result-count{font-size:12px;color:var(--muted);margin-left:auto}
+    /* PORT TABLE */
+    .port-table-wrap{background:var(--white);border:1px solid var(--border);border-radius:14px;overflow:hidden;box-shadow:var(--shadow);margin-bottom:1.5rem}
+    table{width:100%;border-collapse:collapse}
+    thead tr{background:var(--navy)}
+    th{text-align:left;padding:12px 16px;font-size:11px;font-weight:600;color:rgba(255,255,255,0.65);letter-spacing:.06em;text-transform:uppercase}
+    td{padding:11px 16px;border-bottom:1px solid var(--border);font-size:13px;vertical-align:middle}
+    tr:last-child td{border-bottom:none}
+    tr:hover td{background:rgba(46,134,193,0.04)}
+    .port-num{font-family:"Space Mono",monospace;font-size:13px;font-weight:700;color:var(--accent)}
+    .proto-badge{font-size:10px;font-weight:700;padding:2px 8px;border-radius:4px;letter-spacing:.04em}
+    .proto-badge.tcp{background:rgba(192,57,43,0.1);color:#C0392B;border:1px solid rgba(192,57,43,0.2)}
+    .proto-badge.udp{background:rgba(17,122,101,0.1);color:#117A65;border:1px solid rgba(17,122,101,0.2)}
+    .proto-badge.both{background:rgba(46,134,193,0.1);color:var(--accent);border:1px solid rgba(46,134,193,0.2)}
+    .category-badge{font-size:10px;font-weight:500;padding:2px 8px;border-radius:10px;background:var(--mid);color:var(--blue)}
+    .no-results{text-align:center;padding:2.5rem;color:var(--muted);font-size:13px}
+    /* QUIZ MODE */
+    .quiz-wrap{background:var(--white);border:1px solid var(--border);border-radius:14px;overflow:hidden;box-shadow:var(--shadow);margin-bottom:1.5rem}
+    .quiz-header{background:var(--navy);padding:13px 20px;display:flex;align-items:center;justify-content:space-between}
+    .quiz-title{font-family:"Space Mono",monospace;font-size:13px;font-weight:700;color:#fff}
+    .quiz-badge{font-size:10px;font-weight:500;padding:3px 10px;border-radius:10px;background:rgba(93,173,226,0.2);color:var(--sky);border:1px solid rgba(93,173,226,0.3)}
+    .quiz-body{padding:20px}
+    .quiz-q{background:var(--light);border:1px solid var(--border);border-radius:10px;padding:16px 18px;margin-bottom:14px}
+    .quiz-q-label{font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
+    .quiz-q-text{font-size:15px;font-weight:500;color:var(--text)}
+    .quiz-options{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}
+    .quiz-opt{padding:10px 14px;border-radius:8px;border:1px solid var(--border);background:var(--light);cursor:pointer;font-size:13px;font-weight:500;color:var(--text);transition:all .16s;text-align:center;font-family:"DM Sans",sans-serif}
+    .quiz-opt:hover:not(.disabled){border-color:var(--accent);background:rgba(46,134,193,0.06);color:var(--accent)}
+    .quiz-opt.correct{border-color:#27AE60;background:rgba(39,174,96,0.1);color:#1A6B3A}
+    .quiz-opt.wrong{border-color:#E74C3C;background:rgba(231,76,60,0.1);color:#A93226}
+    .quiz-opt.disabled{pointer-events:none}
+    .quiz-feedback{display:none;padding:11px 14px;border-radius:8px;font-size:13px;margin-bottom:14px;border:1px solid}
+    .quiz-feedback.show{display:block}
+    .quiz-feedback.ok{background:rgba(39,174,96,0.08);border-color:rgba(39,174,96,0.28);color:#1A6B3A}
+    .quiz-feedback.bad{background:rgba(231,76,60,0.08);border-color:rgba(231,76,60,0.28);color:#A93226}
+    .quiz-controls{display:flex;align-items:center;justify-content:space-between}
+    .quiz-score{font-family:"Space Mono",monospace;font-size:12px;color:var(--muted)}
+    .btn-primary{background:var(--accent);border:1px solid var(--accent);color:#fff;padding:8px 18px;border-radius:8px;font-family:"DM Sans",sans-serif;font-size:12px;font-weight:500;cursor:pointer;transition:all .18s}
+    .btn-primary:hover{background:var(--blue)}
+    .btn-primary:disabled{opacity:.4;pointer-events:none}
+    .btn-outline{background:transparent;border:1px solid var(--border);color:var(--text);padding:8px 18px;border-radius:8px;font-family:"DM Sans",sans-serif;font-size:12px;font-weight:500;cursor:pointer;transition:all .18s}
+    .btn-outline:hover{border-color:var(--accent);color:var(--accent)}
+    /* DARK MODE */
+    html.dark{--light:#131b27;--mid:#1a2535;--white:#1e2a3a;--text:#d4e6f7;--muted:#7aa3c0;--border:rgba(93,173,226,0.14)}
+    html.dark body{background:var(--light);color:var(--text)}
+    html.dark nav,html.dark footer{background:#0a1220}
+    html.dark .controls,html.dark .port-table-wrap,html.dark .quiz-wrap{background:var(--white);border-color:var(--border)}
+    html.dark thead tr,html.dark .quiz-header{background:#0a1220}
+    html.dark td{border-color:var(--border);color:var(--text)}
+    html.dark tr:hover td{background:rgba(93,173,226,0.04)}
+    html.dark .search-input{background:var(--mid);border-color:var(--border);color:var(--text)}
+    html.dark .search-input:focus{background:var(--white)}
+    html.dark .f-btn{background:var(--mid);border-color:var(--border);color:var(--muted)}
+    html.dark .quiz-q{background:var(--mid);border-color:var(--border)}
+    html.dark .quiz-opt{background:var(--mid);border-color:var(--border);color:var(--text)}
+    footer{background:var(--navy);padding:1.25rem 2rem;text-align:center;border-top:1px solid rgba(93,173,226,0.12)}
+    footer p{font-size:12px;color:rgba(255,255,255,0.3)}
+    footer a{color:var(--sky);text-decoration:none}
+    @media(max-width:600px){.main{padding:1.25rem};nav{padding:0 1.25rem};.hero{padding:2rem 1.25rem 2rem};.quiz-options{grid-template-columns:1fr}}
+  
+  </style>
+</head>
+<body>
+<script>
+(function(){const K="bl-theme";function apply(d){document.documentElement.classList.toggle("dark",d);const b=document.getElementById("theme-btn");if(b)b.textContent=d?"☀":"☾"}apply(localStorage.getItem(K)==="dark");window.__toggleTheme=function(){const d=!document.documentElement.classList.contains("dark");localStorage.setItem(K,d?"dark":"light");apply(d)};window.addEventListener("storage",function(e){if(e.key===K)apply(e.newValue==="dark")})})();
+</script>
+<nav>
+  <a class="nav-brand" href="index.html"><div class="bl-circle">BL</div><span>BL Cert Hub</span></a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="secplus-home.html">Security+</a>
+    <a href="#" class="active">Ports & Protocols</a>
+    <button class="theme-btn" id="theme-btn" onclick="__toggleTheme()">&#9790;</button>
+  </div>
+</nav>
+<div class="hero">
+  <div class="hero-grid-pattern"></div>
+  <div class="hero-bg-ring r1"></div>
+  <div class="hero-bg-ring r2"></div>
+  <div class="hero-inner">
+    <div class="exam-badge"><div class="bl-circle">BL</div><span>CompTIA Security+ SY0-701</span></div>
+    <h1>Ports &amp; <span class="accent">Protocols</span></h1>
+    <p class="hero-sub">49 ports and protocols tested on the SY0-701 exam. Search, filter by category, and quiz yourself.</p>
+  </div>
+</div>
+<div class="main">
+  <!-- CONTROLS -->
+  <div class="controls">
+    <div class="search-wrap">
+      <span class="search-icon">🔍</span>
+      <input class="search-input" id="search" type="text" placeholder="Search port, protocol, or description..." oninput="renderTable()">
+    </div>
+    <div class="filter-group">
+      <button class="f-btn active" data-f="all" onclick="setFilter('all',this)">All</button>
+      <button class="f-btn tcp" data-f="TCP" onclick="setFilter('TCP',this)">TCP</button>
+      <button class="f-btn udp" data-f="UDP" onclick="setFilter('UDP',this)">UDP</button>
+      <button class="f-btn" data-f="Both" onclick="setFilter('Both',this)">Both</button>
+    </div>
+    <span class="result-count" id="result-count">29 ports</span>
+  </div>
+
+  <!-- TABLE -->
+  <div class="section-label">Reference Table</div>
+  <div class="port-table-wrap">
+    <table>
+      <thead><tr>
+        <th>Port</th><th>Protocol</th><th>Name</th><th>Transport</th><th>Category</th>
+      </tr></thead>
+      <tbody id="port-tbody"></tbody>
+    </table>
+    <div class="no-results" id="no-results" style="display:none">No ports match your search.</div>
+  </div>
+
+  <!-- QUIZ -->
+  <div class="section-label">Port Quiz</div>
+  <div class="quiz-wrap">
+    <div class="quiz-header">
+      <span class="quiz-title">Guess the Port</span>
+      <span class="quiz-badge" id="qbadge">Score: 0/0</span>
+    </div>
+    <div class="quiz-body">
+      <div class="quiz-q">
+        <div class="quiz-q-label" id="q-type-label">What port does this protocol use?</div>
+        <div class="quiz-q-text" id="q-text">Loading...</div>
+      </div>
+      <div class="quiz-options" id="q-opts"></div>
+      <div class="quiz-feedback" id="q-fb"></div>
+      <div class="quiz-controls">
+        <span class="quiz-score" id="q-score">Score: 0 / 0</span>
+        <div style="display:flex;gap:8px">
+          <button class="btn-outline" onclick="initQuiz()">↺ New Quiz</button>
+          <button class="btn-primary" id="btn-next" onclick="nextQ()" disabled>Next →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<footer><p>Built by <a href="https://blaborte.github.io" target="_blank">Baltazar Laborte</a> · BL Cert Hub · CompTIA Security+ SY0-701</p></footer>
+<script>
+const PORTS = [
+  {port:'20',   proto:'FTP Data',                transport:'TCP',  cat:'File Transfer'},
+  {port:'21',   proto:'FTP Control',             transport:'TCP',  cat:'File Transfer'},
+  {port:'22',   proto:'SSH / SFTP / SCP',        transport:'TCP',  cat:'Remote Access'},
+  {port:'23',   proto:'Telnet',                  transport:'TCP',  cat:'Remote Access'},
+  {port:'25',   proto:'SMTP',                    transport:'TCP',  cat:'Email'},
+  {port:'49',   proto:'TACACS+',                 transport:'TCP',  cat:'Authentication'},
+  {port:'53',   proto:'DNS',                     transport:'TCP/UDP', cat:'Name Resolution'},
+  {port:'67',   proto:'DHCP Server',             transport:'UDP',  cat:'IP Services'},
+  {port:'68',   proto:'DHCP Client',             transport:'UDP',  cat:'IP Services'},
+  {port:'69',   proto:'TFTP',                    transport:'UDP',  cat:'File Transfer'},
+  {port:'80',   proto:'HTTP',                    transport:'TCP',  cat:'Web'},
+  {port:'88',   proto:'Kerberos',                transport:'TCP/UDP', cat:'Authentication'},
+  {port:'110',  proto:'POP3',                    transport:'TCP',  cat:'Email'},
+  {port:'119',  proto:'NNTP',                    transport:'TCP',  cat:'Messaging'},
+  {port:'123',  proto:'NTP',                     transport:'UDP',  cat:'Time Sync'},
+  {port:'135',  proto:'RPC / DCOM',              transport:'TCP',  cat:'Windows'},
+  {port:'137',  proto:'NetBIOS Name Service',    transport:'UDP',  cat:'Windows'},
+  {port:'138',  proto:'NetBIOS Datagram',        transport:'UDP',  cat:'Windows'},
+  {port:'139',  proto:'NetBIOS Session / SMB',   transport:'TCP',  cat:'Windows'},
+  {port:'143',  proto:'IMAP',                    transport:'TCP',  cat:'Email'},
+  {port:'161',  proto:'SNMP',                    transport:'UDP',  cat:'Management'},
+  {port:'162',  proto:'SNMP Trap',               transport:'UDP',  cat:'Management'},
+  {port:'179',  proto:'BGP',                     transport:'TCP',  cat:'Routing'},
+  {port:'389',  proto:'LDAP',                    transport:'TCP',  cat:'Directory'},
+  {port:'427',  proto:'SLP',                     transport:'TCP/UDP', cat:'Discovery'},
+  {port:'443',  proto:'HTTPS / TLS',             transport:'TCP',  cat:'Web'},
+  {port:'445',  proto:'SMB / CIFS',              transport:'TCP',  cat:'File Sharing'},
+  {port:'465',  proto:'SMTPS (Legacy)',           transport:'TCP',  cat:'Email'},
+  {port:'500',  proto:'IKE / IPsec VPN',         transport:'UDP',  cat:'VPN'},
+  {port:'514',  proto:'Syslog',                  transport:'UDP',  cat:'Management'},
+  {port:'587',  proto:'SMTP Submission',         transport:'TCP',  cat:'Email'},
+  {port:'636',  proto:'LDAPS',                   transport:'TCP',  cat:'Directory'},
+  {port:'993',  proto:'IMAPS',                   transport:'TCP',  cat:'Email'},
+  {port:'995',  proto:'POP3S',                   transport:'TCP',  cat:'Email'},
+  {port:'1194', proto:'OpenVPN',                 transport:'UDP',  cat:'VPN'},
+  {port:'1433', proto:'MS SQL Server',           transport:'TCP',  cat:'Database'},
+  {port:'1521', proto:'Oracle DB',               transport:'TCP',  cat:'Database'},
+  {port:'1812', proto:'RADIUS Auth',             transport:'UDP',  cat:'Authentication'},
+  {port:'1813', proto:'RADIUS Accounting',       transport:'UDP',  cat:'Authentication'},
+  {port:'3306', proto:'MySQL / MariaDB',         transport:'TCP',  cat:'Database'},
+  {port:'3389', proto:'RDP',                     transport:'TCP',  cat:'Remote Access'},
+  {port:'4500', proto:'IPsec NAT-T',             transport:'UDP',  cat:'VPN'},
+  {port:'5060', proto:'SIP (VoIP)',              transport:'TCP/UDP', cat:'VoIP'},
+  {port:'5061', proto:'SIP over TLS',           transport:'TCP',  cat:'VoIP'},
+  {port:'5432', proto:'PostgreSQL',              transport:'TCP',  cat:'Database'},
+  {port:'5900', proto:'VNC',                     transport:'TCP',  cat:'Remote Access'},
+  {port:'6514', proto:'Syslog over TLS',         transport:'TCP',  cat:'Management'},
+  {port:'8080', proto:'HTTP Alt / Proxy',        transport:'TCP',  cat:'Web'},
+  {port:'8443', proto:'HTTPS Alt',              transport:'TCP',  cat:'Web'},
+];
+
+const CAT_COLORS = {
+  'File Transfer':'#1A5276','Remote Access':'#6C3483','Email':'#C0392B',
+  'Name Resolution':'#117A65','IP Services':'#D68910','Web':'#2E86C1',
+  'Windows':'#5D6D7E','Time Sync':'#0E7A8A','Management':'#B7770D',
+  'Directory':'#4A235A','File Sharing':'#1E8449','VPN':'#784212',
+  'Authentication':'#8E44AD','Routing':'#2E7D32','Database':'#5D4037',
+  'VoIP':'#1565C0','Messaging':'#00695C','Discovery':'#6D4C41',
+  'Logging':'#5D4037','Database':'#1A5276','VoIP':'#117A65','News':'#5D6D7E'
+};
+
+let activeFilter = 'all';
+
+function setFilter(f, btn) {
+  activeFilter = f;
+  document.querySelectorAll('.f-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderTable();
+}
+
+function renderTable() {
+  const q = document.getElementById('search').value.toLowerCase();
+  const tbody = document.getElementById('port-tbody');
+  tbody.innerHTML = '';
+  let filtered = PORTS.filter(p => {
+    const matchFilter = activeFilter === 'all' || p.transport === activeFilter;
+    const matchSearch = !q || p.port.includes(q) || p.proto.toLowerCase().includes(q) || p.transport.toLowerCase().includes(q) || p.cat.toLowerCase().includes(q);
+    return matchFilter && matchSearch;
+  });
+  document.getElementById('result-count').textContent = filtered.length + ' port' + (filtered.length !== 1 ? 's' : '');
+  document.getElementById('no-results').style.display = filtered.length === 0 ? 'block' : 'none';
+  filtered.forEach(p => {
+    const tr = document.createElement('tr');
+    const tClass = p.transport.toLowerCase() === 'both' ? 'both' : p.transport.toLowerCase();
+    const col = CAT_COLORS[p.cat] || 'var(--accent)';
+    tr.innerHTML = `
+      <td><span class="port-num">${p.port}</span></td>
+      <td style="font-weight:500">${p.proto}</td>
+      <td></td>
+      <td><span class="proto-badge ${tClass}">${p.transport}</span></td>
+      <td><span class="category-badge" style="color:${col}">${p.cat}</span></td>`;
+    tbody.appendChild(tr);
+  });
+}
+
+/* ── QUIZ ── */
+let qPorts = [], qIdx = 0, qScore = 0, qAnswered = 0, qMode = 'name';
+
+function initQuiz() {
+  qPorts = [...PORTS].sort(() => Math.random() - 0.5).slice(0, 15);
+  qIdx = 0; qScore = 0; qAnswered = 0;
+  document.getElementById('q-score').textContent = 'Score: 0 / 0';
+  document.getElementById('qbadge').textContent = 'Score: 0/0';
+  document.getElementById('btn-next').disabled = true;
+  renderQ();
+}
+
+function renderQ() {
+  if (qIdx >= qPorts.length) { showQResult(); return; }
+  const p = qPorts[qIdx];
+  const fb = document.getElementById('q-fb');
+  fb.className = 'quiz-feedback'; fb.textContent = '';
+  document.getElementById('btn-next').disabled = true;
+  // Alternate: guess port from name, or guess name from port
+  qMode = qIdx % 2 === 0 ? 'port' : 'name';
+  if (qMode === 'port') {
+    document.getElementById('q-type-label').textContent = 'What port number does this use?';
+    document.getElementById('q-text').textContent = p.proto;
+  } else {
+    document.getElementById('q-type-label').textContent = 'What protocol uses this port?';
+    document.getElementById('q-text').textContent = 'Port ' + p.port;
+  }
+  // Generate 4 options
+  const correct = qMode === 'port' ? p.port : p.proto;
+  const others = PORTS.filter(x => x.port !== p.port)
+    .sort(() => Math.random() - 0.5).slice(0, 3)
+    .map(x => qMode === 'port' ? x.port : x.proto);
+  const options = [...others, correct].sort(() => Math.random() - 0.5);
+  const optsDiv = document.getElementById('q-opts');
+  optsDiv.innerHTML = '';
+  options.forEach(o => {
+    const btn = document.createElement('button');
+    btn.className = 'quiz-opt'; btn.textContent = o;
+    btn.onclick = () => checkQ(o, correct);
+    optsDiv.appendChild(btn);
+  });
+}
+
+function checkQ(chosen, correct) {
+  document.querySelectorAll('.quiz-opt').forEach(b => b.classList.add('disabled'));
+  document.querySelectorAll('.quiz-opt').forEach(b => { if(b.textContent === correct) b.classList.add('correct'); });
+  const fb = document.getElementById('q-fb');
+  qAnswered++;
+  if (chosen === correct) {
+    qScore++;
+    document.querySelectorAll('.quiz-opt').forEach(b => { if(b.textContent === chosen) b.classList.add('correct'); });
+    fb.className = 'quiz-feedback show ok'; fb.textContent = '✓ Correct!';
+  } else {
+    document.querySelectorAll('.quiz-opt').forEach(b => { if(b.textContent === chosen) b.classList.add('wrong'); });
+    fb.className = 'quiz-feedback show bad'; fb.textContent = `✗ The correct answer is: ${correct}`;
+  }
+  document.getElementById('q-score').textContent = `Score: ${qScore} / ${qAnswered}`;
+  document.getElementById('qbadge').textContent = `Score: ${qScore}/${qAnswered}`;
+  document.getElementById('btn-next').disabled = false;
+}
+
+function nextQ() { qIdx++; renderQ(); }
+
+function showQResult() {
+  const pct = Math.round(qScore / qPorts.length * 100);
+  document.getElementById('q-opts').innerHTML = '';
+  document.querySelector('.quiz-q').innerHTML = `<div style="text-align:center;padding:1rem"><div style="font-family:'Space Mono',monospace;font-size:30px;font-weight:700;color:var(--accent)">${qScore}/${qPorts.length}</div><div style="font-size:13px;color:var(--muted);margin-top:6px">${pct >= 70 ? 'Great job! 🎉' : 'Keep practicing!'}</div></div>`;
+  document.getElementById('q-fb').className = 'quiz-feedback';
+  document.getElementById('btn-next').disabled = true;
+}
+
+renderTable();
+initQuiz();
+
+</script>
+</body>
+</html>
