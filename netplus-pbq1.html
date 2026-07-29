@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PBQ 1 — Network+ N10-009 | BL Cert Hub</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
+  <style>
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    :root{--navy:#0B1D3A;--blue:#1A5276;--accent:#2E86C1;--sky:#5DADE2;--light:#EAF4FB;--mid:#D6EAF8;--white:#fff;--text:#0B1D3A;--muted:#5D7A8C;--border:rgba(30,80,130,0.13);--shadow:0 2px 12px rgba(11,29,58,0.08)}
+    html{scroll-behavior:smooth}
+    body{font-family:"DM Sans",sans-serif;background:var(--light);color:var(--text);min-height:100vh;display:flex;flex-direction:column}
+    /* NAV */
+    nav{background:var(--navy);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:56px;position:sticky;top:0;z-index:100;border-bottom:1px solid rgba(93,173,226,0.15)}
+    .nav-brand{display:flex;align-items:center;gap:10px;text-decoration:none}
+    .bl-circle{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#2E86C1,#5DADE2);display:flex;align-items:center;justify-content:center;font-family:"Space Mono",monospace;font-size:10px;font-weight:700;color:#fff;flex-shrink:0}
+    .nav-brand span{font-size:13px;font-weight:500;color:rgba(255,255,255,0.85);letter-spacing:.02em}
+    .nav-links{display:flex;gap:6px}
+    .nav-links a{font-size:12px;font-weight:500;color:rgba(255,255,255,0.6);text-decoration:none;padding:6px 12px;border-radius:6px;transition:all .18s}
+    .nav-links a:hover{color:#fff;background:rgba(255,255,255,0.08)}
+    .nav-links a.active{color:var(--sky);background:rgba(93,173,226,0.12)}
+    .theme-btn{width:34px;height:34px;border-radius:8px;border:1px solid rgba(255,255,255,0.18);background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.75);cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;transition:all .18s;flex-shrink:0}
+    .theme-btn:hover{background:rgba(255,255,255,0.15);color:#fff}
+    /* HERO */
+    .hero{background:linear-gradient(135deg,#0B1D3A 0%,#1A5276 55%,#2E86C1 100%);padding:3rem 2rem 2.5rem;position:relative;overflow:hidden}
+    .hero-grid-pattern{position:absolute;inset:0;background-image:linear-gradient(rgba(93,173,226,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(93,173,226,0.04) 1px,transparent 1px);background-size:32px 32px;pointer-events:none}
+    .hero-bg-ring{position:absolute;border-radius:50%;border:40px solid rgba(93,173,226,0.08);pointer-events:none}
+    .hero-bg-ring.r1{width:300px;height:300px;top:-70px;right:-50px}
+    .hero-bg-ring.r2{width:180px;height:180px;bottom:-60px;left:40%;border-width:22px}
+    .hero-inner{position:relative;max-width:860px;margin:0 auto}
+    .exam-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.18);border-radius:20px;padding:5px 14px 5px 5px;margin-bottom:1.25rem}
+    .exam-badge .bl-circle{width:26px;height:26px;font-size:9px}
+    .exam-badge span{font-size:12px;color:rgba(255,255,255,0.8);font-weight:500}
+    .hero h1{font-family:"Space Mono",monospace;font-size:clamp(22px,3.5vw,38px);font-weight:700;color:#fff;line-height:1.2;margin-bottom:.5rem}
+    .hero h1 .accent{color:var(--sky)}
+    .hero-sub{font-size:14px;color:rgba(255,255,255,0.6);font-weight:300;line-height:1.7;max-width:520px}
+    /* MAIN */
+    .main{max-width:860px;margin:0 auto;padding:2rem 2rem 3rem;flex:1}
+    .section-label{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);display:flex;align-items:center;gap:10px;margin-bottom:1rem}
+    .section-label::after{content:"";flex:1;height:1px;background:var(--border)}
+    /* CONTROLS */
+    .controls{background:var(--white);border:1px solid var(--border);border-radius:14px;padding:14px 18px;margin-bottom:1.25rem;box-shadow:var(--shadow);display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+    .search-wrap{position:relative;flex:1;min-width:180px}
+    .search-icon{position:absolute;left:11px;top:50%;transform:translateY(-50%);font-size:13px;pointer-events:none}
+    .search-input{width:100%;padding:9px 12px 9px 34px;border:1px solid var(--border);border-radius:8px;font-family:"DM Sans",sans-serif;font-size:13px;color:var(--text);background:var(--light);outline:none;transition:border-color .18s}
+    .search-input:focus{border-color:var(--accent);background:var(--white)}
+    .filter-group{display:flex;gap:6px}
+    .f-btn{font-size:11px;font-weight:500;padding:6px 14px;border-radius:20px;border:1px solid var(--border);background:var(--light);color:var(--muted);cursor:pointer;transition:all .16s;font-family:"DM Sans",sans-serif}
+    .f-btn:hover{border-color:var(--accent);color:var(--accent)}
+    .f-btn.active{background:var(--accent);border-color:var(--accent);color:#fff}
+    .f-btn.tcp.active{background:#C0392B;border-color:#C0392B}
+    .f-btn.udp.active{background:#117A65;border-color:#117A65}
+    .result-count{font-size:12px;color:var(--muted);margin-left:auto}
+    /* PORT TABLE */
+    .port-table-wrap{background:var(--white);border:1px solid var(--border);border-radius:14px;overflow:hidden;box-shadow:var(--shadow);margin-bottom:1.5rem}
+    table{width:100%;border-collapse:collapse}
+    thead tr{background:var(--navy)}
+    th{text-align:left;padding:12px 16px;font-size:11px;font-weight:600;color:rgba(255,255,255,0.65);letter-spacing:.06em;text-transform:uppercase}
+    td{padding:11px 16px;border-bottom:1px solid var(--border);font-size:13px;vertical-align:middle}
+    tr:last-child td{border-bottom:none}
+    tr:hover td{background:rgba(46,134,193,0.04)}
+    .port-num{font-family:"Space Mono",monospace;font-size:13px;font-weight:700;color:var(--accent)}
+    .proto-badge{font-size:10px;font-weight:700;padding:2px 8px;border-radius:4px;letter-spacing:.04em}
+    .proto-badge.tcp{background:rgba(192,57,43,0.1);color:#C0392B;border:1px solid rgba(192,57,43,0.2)}
+    .proto-badge.udp{background:rgba(17,122,101,0.1);color:#117A65;border:1px solid rgba(17,122,101,0.2)}
+    .proto-badge.both{background:rgba(46,134,193,0.1);color:var(--accent);border:1px solid rgba(46,134,193,0.2)}
+    .category-badge{font-size:10px;font-weight:500;padding:2px 8px;border-radius:10px;background:var(--mid);color:var(--blue)}
+    .no-results{text-align:center;padding:2.5rem;color:var(--muted);font-size:13px}
+    /* QUIZ MODE */
+    .quiz-wrap{background:var(--white);border:1px solid var(--border);border-radius:14px;overflow:hidden;box-shadow:var(--shadow);margin-bottom:1.5rem}
+    .quiz-header{background:var(--navy);padding:13px 20px;display:flex;align-items:center;justify-content:space-between}
+    .quiz-title{font-family:"Space Mono",monospace;font-size:13px;font-weight:700;color:#fff}
+    .quiz-badge{font-size:10px;font-weight:500;padding:3px 10px;border-radius:10px;background:rgba(93,173,226,0.2);color:var(--sky);border:1px solid rgba(93,173,226,0.3)}
+    .quiz-body{padding:20px}
+    .quiz-q{background:var(--light);border:1px solid var(--border);border-radius:10px;padding:16px 18px;margin-bottom:14px}
+    .quiz-q-label{font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
+    .quiz-q-text{font-size:15px;font-weight:500;color:var(--text)}
+    .quiz-options{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}
+    .quiz-opt{padding:10px 14px;border-radius:8px;border:1px solid var(--border);background:var(--light);cursor:pointer;font-size:13px;font-weight:500;color:var(--text);transition:all .16s;text-align:center;font-family:"DM Sans",sans-serif}
+    .quiz-opt:hover:not(.disabled){border-color:var(--accent);background:rgba(46,134,193,0.06);color:var(--accent)}
+    .quiz-opt.correct{border-color:#27AE60;background:rgba(39,174,96,0.1);color:#1A6B3A}
+    .quiz-opt.wrong{border-color:#E74C3C;background:rgba(231,76,60,0.1);color:#A93226}
+    .quiz-opt.disabled{pointer-events:none}
+    .quiz-feedback{display:none;padding:11px 14px;border-radius:8px;font-size:13px;margin-bottom:14px;border:1px solid}
+    .quiz-feedback.show{display:block}
+    .quiz-feedback.ok{background:rgba(39,174,96,0.08);border-color:rgba(39,174,96,0.28);color:#1A6B3A}
+    .quiz-feedback.bad{background:rgba(231,76,60,0.08);border-color:rgba(231,76,60,0.28);color:#A93226}
+    .quiz-controls{display:flex;align-items:center;justify-content:space-between}
+    .quiz-score{font-family:"Space Mono",monospace;font-size:12px;color:var(--muted)}
+    .btn-primary{background:var(--accent);border:1px solid var(--accent);color:#fff;padding:8px 18px;border-radius:8px;font-family:"DM Sans",sans-serif;font-size:12px;font-weight:500;cursor:pointer;transition:all .18s}
+    .btn-primary:hover{background:var(--blue)}
+    .btn-primary:disabled{opacity:.4;pointer-events:none}
+    .btn-outline{background:transparent;border:1px solid var(--border);color:var(--text);padding:8px 18px;border-radius:8px;font-family:"DM Sans",sans-serif;font-size:12px;font-weight:500;cursor:pointer;transition:all .18s}
+    .btn-outline:hover{border-color:var(--accent);color:var(--accent)}
+    /* DARK MODE */
+    html.dark{--light:#131b27;--mid:#1a2535;--white:#1e2a3a;--text:#d4e6f7;--muted:#7aa3c0;--border:rgba(93,173,226,0.14)}
+    html.dark body{background:var(--light);color:var(--text)}
+    html.dark nav,html.dark footer{background:#0a1220}
+    html.dark .controls,html.dark .port-table-wrap,html.dark .quiz-wrap{background:var(--white);border-color:var(--border)}
+    html.dark thead tr,html.dark .quiz-header{background:#0a1220}
+    html.dark td{border-color:var(--border);color:var(--text)}
+    html.dark tr:hover td{background:rgba(93,173,226,0.04)}
+    html.dark .search-input{background:var(--mid);border-color:var(--border);color:var(--text)}
+    html.dark .search-input:focus{background:var(--white)}
+    html.dark .f-btn{background:var(--mid);border-color:var(--border);color:var(--muted)}
+    html.dark .quiz-q{background:var(--mid);border-color:var(--border)}
+    html.dark .quiz-opt{background:var(--mid);border-color:var(--border);color:var(--text)}
+    footer{background:var(--navy);padding:1.25rem 2rem;text-align:center;border-top:1px solid rgba(93,173,226,0.12)}
+    footer p{font-size:12px;color:rgba(255,255,255,0.3)}
+    footer a{color:var(--sky);text-decoration:none}
+    @media(max-width:600px){.main{padding:1.25rem};nav{padding:0 1.25rem};.hero{padding:2rem 1.25rem 2rem};.quiz-options{grid-template-columns:1fr}}
+  
+    /* ── PBQ PAGE ── */
+    .pbq-wrap{max-width:900px;margin:0 auto;padding:2rem 2rem 3rem}
+    .pbq-card{background:var(--white);border:1px solid var(--border);border-radius:16px;overflow:hidden;box-shadow:var(--shadow);margin-bottom:2rem}
+    .pbq-card-head{background:var(--navy);padding:18px 24px;display:flex;align-items:center;gap:14px}
+    .pbq-num{font-family:'Space Mono',monospace;font-size:11px;font-weight:700;color:rgba(255,255,255,0.5);letter-spacing:.1em;text-transform:uppercase}
+    .pbq-title{font-family:'Space Mono',monospace;font-size:16px;font-weight:700;color:#fff}
+    .pbq-badge{margin-left:auto;font-size:10px;font-weight:700;padding:4px 10px;border-radius:20px;background:rgba(93,173,226,0.2);border:1px solid rgba(93,173,226,0.4);color:var(--sky);letter-spacing:.06em}
+    .pbq-body{padding:24px}
+    .scenario-label{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+    .scenario-text{font-size:13px;color:var(--muted);line-height:1.75;margin-bottom:20px;padding:14px 16px;background:rgba(234,244,251,0.6);border-left:3px solid var(--accent);border-radius:0 8px 8px 0}
+    .task-label{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--text);margin-bottom:6px;display:flex;align-items:center;gap:8px}
+    .task-label::after{content:'';flex:1;height:1px;background:var(--border)}
+    .task-desc{font-size:13px;color:var(--text);line-height:1.7;margin-bottom:20px}
+    /* DRAG AREA */
+    .drag-section{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px}
+    .drag-pool-label,.drop-table-label{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+    .drag-pool{background:var(--light);border:1px dashed var(--border);border-radius:10px;padding:12px;min-height:80px;display:flex;flex-direction:column;gap:6px}
+    .drag-chip{background:var(--white);border:1px solid var(--border);border-radius:8px;padding:8px 12px;font-size:12px;font-weight:500;color:var(--text);cursor:grab;display:flex;align-items:center;gap:8px;user-select:none;transition:all .15s;line-height:1.4}
+    .drag-chip:active{cursor:grabbing;opacity:.7}
+    .drag-chip.dragging{opacity:.4;transform:scale(.97)}
+    .drag-chip .grip{font-size:14px;color:var(--muted);flex-shrink:0}
+    .drag-chip .chip-highlight{color:var(--accent);font-weight:700}
+    /* DROP TABLE */
+    .drop-table{width:100%;border-collapse:collapse}
+    .drop-table th{background:var(--navy);color:rgba(255,255,255,0.7);padding:9px 14px;text-align:left;font-size:11px;font-weight:600;letter-spacing:.04em}
+    .drop-table th:first-child{border-radius:8px 0 0 0;width:160px}
+    .drop-table th:last-child{border-radius:0 8px 0 0}
+    .drop-table td{padding:6px 10px;border-bottom:1px solid var(--border);vertical-align:middle}
+    .drop-table td:first-child{font-size:12px;font-weight:700;color:var(--text);background:rgba(234,244,251,0.4);padding:10px 14px;width:160px}
+    .drop-zone{min-height:36px;border:2px dashed var(--border);border-radius:8px;padding:4px 8px;display:flex;align-items:center;gap:6px;flex-wrap:wrap;transition:all .15s;background:transparent}
+    .drop-zone.drag-over{border-color:var(--accent);background:rgba(46,134,193,0.07)}
+    .drop-zone .drag-chip{font-size:11px;padding:4px 10px;cursor:pointer}
+    .drop-zone .drag-chip:hover{border-color:var(--wrong,#E74C3C);background:rgba(231,76,60,0.05)}
+    .drop-zone-hint{font-size:11px;color:var(--muted);opacity:.6;pointer-events:none}
+    /* CONTROLS */
+    .pbq-controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:20px}
+    .pbq-btn{font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;padding:10px 22px;border-radius:10px;border:none;cursor:pointer;transition:all .2s}
+    .pbq-btn-check{background:var(--accent);color:#fff}
+    .pbq-btn-check:hover{background:#1a5276}
+    .pbq-btn-reset{background:transparent;color:var(--muted);border:1px solid var(--border)}
+    .pbq-btn-reset:hover{border-color:var(--accent);color:var(--accent)}
+    .pbq-btn-reveal{background:rgba(39,174,96,0.1);color:#27AE60;border:1px solid rgba(39,174,96,0.3)}
+    .pbq-btn-reveal:hover{background:rgba(39,174,96,0.2)}
+    /* RESULTS */
+    .pbq-result{margin-top:16px;padding:14px 18px;border-radius:10px;font-size:13px;font-weight:600;display:none}
+    .pbq-result.show{display:block}
+    .pbq-result.pass{background:rgba(39,174,96,0.1);border:1px solid rgba(39,174,96,0.3);color:#1a7a40}
+    .pbq-result.fail{background:rgba(231,76,60,0.08);border:1px solid rgba(231,76,60,0.25);color:#b83228}
+    .pbq-result.reveal{background:rgba(46,134,193,0.08);border:1px solid rgba(46,134,193,0.25);color:#1a5276}
+    .result-rows{margin-top:10px;display:flex;flex-direction:column;gap:4px}
+    .result-row{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:500;padding:5px 0}
+    .result-row .ri{font-size:14px;flex-shrink:0}
+    .result-row .cable{font-weight:700;min-width:130px}
+    .result-row .got{color:var(--muted)}
+    .result-row .correct-ans{color:#27AE60}
+    /* SCORE BAR */
+    .score-bar{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:14px 20px;margin-bottom:2rem;display:flex;align-items:center;gap:20px;box-shadow:var(--shadow)}
+    .score-lbl{font-size:12px;color:var(--muted);font-weight:500}
+    .score-val{font-family:'Space Mono',monospace;font-size:22px;font-weight:700;color:var(--text)}
+    .score-pct{font-family:'Space Mono',monospace;font-size:13px;color:var(--accent);margin-left:auto}
+    /* DARK */
+    html.dark .pbq-card{background:var(--white);border-color:var(--border)}
+    html.dark .scenario-text{background:rgba(0,0,0,0.2)}
+    html.dark .drag-pool{background:var(--mid);border-color:var(--border)}
+    html.dark .drag-chip{background:var(--white);border-color:var(--border);color:var(--text)}
+    html.dark .drop-table td:first-child{background:rgba(0,0,0,0.15)}
+    html.dark .score-bar{background:var(--white);border-color:var(--border)}
+    @media(max-width:700px){.drag-section{grid-template-columns:1fr};.pbq-wrap{padding:1.25rem}}
+
+  </style>
+</head>
+<body>
+<script>
+(function(){const K="bl-theme";function apply(d){document.documentElement.classList.toggle("dark",d);const b=document.getElementById("theme-btn");if(b)b.textContent=d?"☀":"☾"}apply(localStorage.getItem(K)==="dark");window.__toggleTheme=function(){const d=!document.documentElement.classList.contains("dark");localStorage.setItem(K,d?"dark":"light");apply(d)};window.addEventListener("storage",function(e){if(e.key===K)apply(e.newValue==="dark")})})();
+</script>
+
+<nav>
+  <a class="nav-brand" href="index.html"><div class="bl-circle">BL</div><span>BL Cert Hub</span></a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="network-plus.html">Network+</a>
+    <a href="#" class="active">PBQ 1</a>
+    <button class="theme-btn" id="theme-btn" onclick="__toggleTheme()">&#9790;</button>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-grid-pattern"></div>
+  <div class="hero-bg-ring r1"></div>
+  <div class="hero-bg-ring r2"></div>
+  <div class="hero-inner">
+    <div class="exam-badge"><div class="bl-circle">BL</div><span>CompTIA Network+ N10-009</span></div>
+    <h1>Performance-Based <span class="accent">Questions</span></h1>
+    <p class="hero-sub">PBQ 1 — Drag and drop elements to complete each task. Click Check to score your answers.</p>
+  </div>
+</div>
+
+<div class="pbq-wrap">
+
+  <!-- PBQ 1 -->
+  <div class="pbq-card" id="pbq1">
+    <div class="pbq-card-head">
+      <div>
+        <div class="pbq-num">PBQ 1 of 1</div>
+        <div class="pbq-title">Network Security Analyst — Cable Identification</div>
+      </div>
+      <span class="pbq-badge">DRAG &amp; DROP</span>
+    </div>
+    <div class="pbq-body">
+
+      <div class="scenario-label">Scenario</div>
+      <div class="scenario-text">You are a network security analyst for a mid-sized company. Recently, the company's network experienced several performance issues and potential security threats due to improper configurations and outdated practices. Your tasks include identifying network components, interpreting vulnerability scan results, and creating firewall rules to secure the network.</div>
+
+      <div class="task-label">Task 1 — Identify Network Cable Types</div>
+      <div class="task-desc">List the network cable types used in the company's infrastructure, including their attenuation, maximum distance, bandwidth, and connection types for both fiber and cat cables. Drag each specification card to the correct cable type row.</div>
+
+      <!-- DRAG POOL -->
+      <div class="drag-pool-label">Sort elements — drag to the correct cable below</div>
+      <div class="drag-pool" id="drag-pool">
+        <div class="drag-chip" draggable="true" data-id="c1"><span class="grip">&#8942;&#8942;</span><span><span class="chip-highlight">22 dB/100m</span> 100 meters <span class="chip-highlight">10 Gbps</span> RJ45</span></div>
+        <div class="drag-chip" draggable="true" data-id="c2"><span class="grip">&#8942;&#8942;</span><span><span class="chip-highlight">24 dB/100m</span> 100 meters <span class="chip-highlight">1 Gbps</span> RJ45</span></div>
+        <div class="drag-chip" draggable="true" data-id="c3"><span class="grip">&#8942;&#8942;</span><span><span class="chip-highlight">0.4 dB/km</span> 40 km (10 Gbps) <span class="chip-highlight">10 Gbps</span> SC, LC, ST</span></div>
+        <div class="drag-chip" draggable="true" data-id="c4"><span class="grip">&#8942;&#8942;</span><span><span class="chip-highlight">20 dB/100m</span> 100 meters <span class="chip-highlight">10 Gbps</span> GG45, TERA</span></div>
+        <div class="drag-chip" draggable="true" data-id="c5"><span class="grip">&#8942;&#8942;</span><span><span class="chip-highlight">21 dB/100m</span> 100 meters <span class="chip-highlight">10 Gbps</span> RJ45</span></div>
+        <div class="drag-chip" draggable="true" data-id="c6"><span class="grip">&#8942;&#8942;</span><span><span class="chip-highlight">2.5 dB/km</span> 300 meters (10 Gbps) <span class="chip-highlight">10 Gbps</span> SC, LC, ST</span></div>
+      </div>
+
+      <!-- DROP TABLE -->
+      <div style="margin-top:16px">
+        <div class="drop-table-label">Cable type targets</div>
+        <table class="drop-table">
+          <thead>
+            <tr><th>Cable Type</th><th>Attenuation · Distance · Bandwidth · Connector</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Cat5e</td>
+              <td><div class="drop-zone" id="drop-cat5e" data-cable="cat5e" ondragover="onDragOver(event)" ondragleave="onDragLeave(event)" ondrop="onDrop(event,'cat5e')"><span class="drop-zone-hint">Drop here</span></div></td>
+            </tr>
+            <tr>
+              <td>Cat6</td>
+              <td><div class="drop-zone" id="drop-cat6" data-cable="cat6" ondragover="onDragOver(event)" ondragleave="onDragLeave(event)" ondrop="onDrop(event,'cat6')"><span class="drop-zone-hint">Drop here</span></div></td>
+            </tr>
+            <tr>
+              <td>Cat6a</td>
+              <td><div class="drop-zone" id="drop-cat6a" data-cable="cat6a" ondragover="onDragOver(event)" ondragleave="onDragLeave(event)" ondrop="onDrop(event,'cat6a')"><span class="drop-zone-hint">Drop here</span></div></td>
+            </tr>
+            <tr>
+              <td>Cat7</td>
+              <td><div class="drop-zone" id="drop-cat7" data-cable="cat7" ondragover="onDragOver(event)" ondragleave="onDragLeave(event)" ondrop="onDrop(event,'cat7')"><span class="drop-zone-hint">Drop here</span></div></td>
+            </tr>
+            <tr>
+              <td style="color:#2E86C1">Multimode Fiber (OM3)</td>
+              <td><div class="drop-zone" id="drop-om3" data-cable="om3" ondragover="onDragOver(event)" ondragleave="onDragLeave(event)" ondrop="onDrop(event,'om3')"><span class="drop-zone-hint">Drop here</span></div></td>
+            </tr>
+            <tr>
+              <td style="color:#2E86C1">Single-mode Fiber (OS2)</td>
+              <td><div class="drop-zone" id="drop-os2" data-cable="os2" ondragover="onDragOver(event)" ondragleave="onDragLeave(event)" ondrop="onDrop(event,'os2')"><span class="drop-zone-hint">Drop here</span></div></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="pbq-controls">
+        <button class="pbq-btn pbq-btn-check" onclick="checkAnswers()">&#10003; Check Answers</button>
+        <button class="pbq-btn pbq-btn-reset" onclick="resetAll()">&#8635; Reset</button>
+        <button class="pbq-btn pbq-btn-reveal" onclick="revealAnswers()">&#128065; Show Answers</button>
+      </div>
+
+      <div class="pbq-result" id="pbq-result"></div>
+
+    </div>
+  </div>
+
+</div>
+
+<footer><p>Built by <a href="https://blaborte.github.io" target="_blank">Baltazar Laborte</a> &middot; BL Cert Hub &middot; CompTIA Network+ N10-009 &middot; Performance-Based Questions</p></footer>
+
+<script>
+// ── ANSWER KEY ────────────────────────────────────────────────────────────────
+const ANSWERS = {
+  'cat5e': 'c2',   // 24 dB/100m 100m 1 Gbps RJ45
+  'cat6':  'c5',   // 21 dB/100m 100m 10 Gbps RJ45
+  'cat6a': 'c1',   // 22 dB/100m 100m 10 Gbps RJ45
+  'cat7':  'c4',   // 20 dB/100m 100m 10 Gbps GG45, TERA
+  'om3':   'c6',   // 2.5 dB/km 300m 10 Gbps SC,LC,ST
+  'os2':   'c3',   // 0.4 dB/km 40km 10 Gbps SC,LC,ST
+};
+
+const LABELS = {
+  'c1':'22 dB/100m · 100m · 10 Gbps · RJ45',
+  'c2':'24 dB/100m · 100m · 1 Gbps · RJ45',
+  'c3':'0.4 dB/km · 40 km · 10 Gbps · SC, LC, ST',
+  'c4':'20 dB/100m · 100m · 10 Gbps · GG45, TERA',
+  'c5':'21 dB/100m · 100m · 10 Gbps · RJ45',
+  'c6':'2.5 dB/km · 300m · 10 Gbps · SC, LC, ST',
+};
+
+const CABLE_NAMES = {
+  'cat5e':'Cat5e','cat6':'Cat6','cat6a':'Cat6a',
+  'cat7':'Cat7','om3':'Multimode Fiber (OM3)','os2':'Single-mode Fiber (OS2)'
+};
+
+let dragId = null;
+let dragSource = null; // 'pool' or cable key
+
+// ── DRAG EVENTS ───────────────────────────────────────────────────────────────
+document.querySelectorAll('.drag-chip').forEach(chip => {
+  chip.addEventListener('dragstart', e => {
+    dragId = chip.dataset.id;
+    dragSource = chip.parentElement.id === 'drag-pool' ? 'pool' : chip.parentElement.dataset.cable;
+    chip.classList.add('dragging');
+    e.dataTransfer.effectAllowed = 'move';
+  });
+  chip.addEventListener('dragend', () => chip.classList.remove('dragging'));
+});
+
+function onDragOver(e) {
+  e.preventDefault();
+  e.currentTarget.classList.add('drag-over');
+}
+function onDragLeave(e) {
+  e.currentTarget.classList.remove('drag-over');
+}
+
+function onDrop(e, targetCable) {
+  e.preventDefault();
+  e.currentTarget.classList.remove('drag-over');
+  if (!dragId) return;
+
+  // Find the chip
+  const chip = document.querySelector(`.drag-chip[data-id="${dragId}"]`);
+  if (!chip) return;
+
+  // Remove from current location
+  chip.parentElement.removeChild(chip);
+
+  // If target drop zone already has a chip, send it back to pool
+  const targetZone = document.getElementById('drop-' + targetCable);
+  const existing = targetZone.querySelector('.drag-chip');
+  if (existing) {
+    existing.parentElement.removeChild(existing);
+    document.getElementById('drag-pool').appendChild(existing);
+    existing.addEventListener('dragstart', e => {
+      dragId = existing.dataset.id;
+      dragSource = 'pool';
+      existing.classList.add('dragging');
+      e.dataTransfer.effectAllowed = 'move';
+    });
+    existing.addEventListener('dragend', () => existing.classList.remove('dragging'));
+  }
+
+  // Remove hint if present
+  const hint = targetZone.querySelector('.drop-zone-hint');
+  if (hint) hint.remove();
+
+  // Add chip to drop zone
+  chip.style.fontSize = '11px';
+  chip.style.padding = '4px 10px';
+  // Click to return to pool
+  chip.onclick = () => returnToPool(chip, targetCable);
+  targetZone.appendChild(chip);
+
+  // Re-bind dragstart for the moved chip
+  chip.addEventListener('dragstart', e2 => {
+    dragId = chip.dataset.id;
+    dragSource = targetCable;
+    chip.classList.add('dragging');
+    e2.dataTransfer.effectAllowed = 'move';
+  });
+  chip.addEventListener('dragend', () => chip.classList.remove('dragging'));
+
+  updatePoolHint();
+  dragId = null;
+}
+
+function returnToPool(chip, fromCable) {
+  const zone = document.getElementById('drop-' + fromCable);
+  zone.removeChild(chip);
+  if (!zone.querySelector('.drag-chip')) {
+    const hint = document.createElement('span');
+    hint.className = 'drop-zone-hint';
+    hint.textContent = 'Drop here';
+    zone.appendChild(hint);
+  }
+  chip.style.fontSize = '';
+  chip.style.padding = '';
+  chip.onclick = null;
+  document.getElementById('drag-pool').appendChild(chip);
+  chip.addEventListener('dragstart', e => {
+    dragId = chip.dataset.id;
+    dragSource = 'pool';
+    chip.classList.add('dragging');
+    e.dataTransfer.effectAllowed = 'move';
+  });
+  chip.addEventListener('dragend', () => chip.classList.remove('dragging'));
+  updatePoolHint();
+}
+
+function updatePoolHint() {
+  const pool = document.getElementById('drag-pool');
+  const remaining = pool.querySelectorAll('.drag-chip').length;
+  // no-op, just for extensibility
+}
+
+// ── CHECK ─────────────────────────────────────────────────────────────────────
+function checkAnswers() {
+  const result = document.getElementById('pbq-result');
+  let correct = 0;
+  const cables = Object.keys(ANSWERS);
+  let rows = '';
+
+  cables.forEach(cable => {
+    const zone = document.getElementById('drop-' + cable);
+    const chip = zone.querySelector('.drag-chip');
+    const placed = chip ? chip.dataset.id : null;
+    const expected = ANSWERS[cable];
+    const isCorrect = placed === expected;
+    if (isCorrect) correct++;
+    const icon = isCorrect ? '&#10003;' : '&#10007;';
+    const gotText = placed ? LABELS[placed] : '(empty)';
+    const correctText = LABELS[expected];
+    rows += `<div class="result-row">
+      <span class="ri">${icon}</span>
+      <span class="cable">${CABLE_NAMES[cable]}</span>
+      ${isCorrect
+        ? `<span class="correct-ans">${correctText}</span>`
+        : `<span class="got">Got: ${gotText}</span> &rarr; <span class="correct-ans">${correctText}</span>`
+      }
+    </div>`;
+  });
+
+  const pct = Math.round((correct / cables.length) * 100);
+  const pass = correct === cables.length;
+  result.className = 'pbq-result show ' + (pass ? 'pass' : 'fail');
+  result.innerHTML = `
+    <strong>${pass ? '&#127881; Perfect Score!' : `${correct}/${cables.length} Correct (${pct}%)`}</strong>
+    <div class="result-rows">${rows}</div>`;
+}
+
+// ── REVEAL ────────────────────────────────────────────────────────────────────
+function revealAnswers() {
+  // Reset first
+  resetAll();
+  // Place correct answers
+  Object.entries(ANSWERS).forEach(([cable, chipId]) => {
+    const chip = document.querySelector(`.drag-chip[data-id="${chipId}"]`);
+    const zone = document.getElementById('drop-' + cable);
+    if (!chip || !zone) return;
+    chip.parentElement.removeChild(chip);
+    const hint = zone.querySelector('.drop-zone-hint');
+    if (hint) hint.remove();
+    chip.style.fontSize = '11px';
+    chip.style.padding = '4px 10px';
+    chip.onclick = () => returnToPool(chip, cable);
+    zone.appendChild(chip);
+  });
+  const result = document.getElementById('pbq-result');
+  result.className = 'pbq-result show reveal';
+  result.innerHTML = '<strong>&#128065; Answers revealed — review the correct placements above, then try resetting and doing it yourself!</strong>';
+}
+
+// ── RESET ─────────────────────────────────────────────────────────────────────
+function resetAll() {
+  const pool = document.getElementById('drag-pool');
+  // Return all chips from drop zones to pool
+  document.querySelectorAll('.drop-zone').forEach(zone => {
+    const chip = zone.querySelector('.drag-chip');
+    if (chip) {
+      zone.removeChild(chip);
+      chip.style.fontSize = '';
+      chip.style.padding = '';
+      chip.onclick = null;
+      pool.appendChild(chip);
+    }
+    // Restore hint
+    if (!zone.querySelector('.drop-zone-hint')) {
+      const hint = document.createElement('span');
+      hint.className = 'drop-zone-hint';
+      hint.textContent = 'Drop here';
+      zone.appendChild(hint);
+    }
+  });
+  // Re-order chips in pool by data-id
+  const chips = [...pool.querySelectorAll('.drag-chip')].sort((a,b) => a.dataset.id.localeCompare(b.dataset.id));
+  chips.forEach(c => pool.appendChild(c));
+  // Rebind events
+  pool.querySelectorAll('.drag-chip').forEach(chip => {
+    chip.addEventListener('dragstart', e => {
+      dragId = chip.dataset.id;
+      dragSource = 'pool';
+      chip.classList.add('dragging');
+      e.dataTransfer.effectAllowed = 'move';
+    });
+    chip.addEventListener('dragend', () => chip.classList.remove('dragging'));
+  });
+  // Hide result
+  const result = document.getElementById('pbq-result');
+  result.className = 'pbq-result';
+  result.innerHTML = '';
+}
+</script>
+</body>
+</html>
