@@ -255,6 +255,39 @@
     @media(max-width:700px){.pbq-wrap{padding:1.25rem};.fw-table{font-size:11px}}
 
   
+  
+    /* ── PBQ3 WIFI ── */
+    .wifi-diagram{background:var(--light);border:1px solid var(--border);border-radius:12px;padding:16px 20px;margin-bottom:20px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+    .wifi-device{display:flex;flex-direction:column;align-items:center;gap:6px;font-size:11px;font-weight:600;color:var(--muted)}
+    .wifi-device .icon{font-size:28px}
+    .wifi-line{flex:1;height:2px;background:repeating-linear-gradient(90deg,var(--accent) 0,var(--accent) 8px,transparent 8px,transparent 16px);min-width:40px;position:relative}
+    .wifi-line::after{content:'802.11';position:absolute;top:-14px;left:50%;transform:translateX(-50%);font-size:9px;font-weight:700;color:var(--accent);white-space:nowrap}
+    .wifi-cfg{background:var(--white);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:20px;box-shadow:var(--shadow)}
+    .wifi-cfg-head{background:var(--navy);padding:10px 16px;display:flex;align-items:center;gap:10px}
+    .wifi-cfg-head-icon{font-size:16px}
+    .wifi-cfg-title{font-family:'Space Mono',monospace;font-size:13px;font-weight:700;color:#fff}
+    .wifi-cfg-body{padding:0}
+    .cfg-row{display:grid;grid-template-columns:200px 1fr;border-bottom:1px solid var(--border);align-items:center}
+    .cfg-row:last-child{border-bottom:none}
+    .cfg-label{padding:12px 16px;font-size:12px;font-weight:600;color:var(--text);background:rgba(234,244,251,0.4);border-right:1px solid var(--border)}
+    .cfg-label span{display:block;font-size:10px;font-weight:400;color:var(--muted);margin-top:2px}
+    .cfg-input-cell{padding:8px 14px}
+    .cfg-select{width:100%;max-width:360px;padding:8px 12px;border:1px solid var(--border);border-radius:8px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--text);background:var(--light);outline:none;cursor:pointer;transition:border-color .18s}
+    .cfg-select:focus{border-color:var(--accent);background:var(--white)}
+    .cfg-select.correct{border-color:#27AE60;background:rgba(39,174,96,0.06)}
+    .cfg-select.wrong{border-color:#E74C3C;background:rgba(231,76,60,0.06)}
+    .cfg-text{width:100%;max-width:360px;padding:8px 12px;border:1px solid var(--border);border-radius:8px;font-family:'Space Mono',monospace;font-size:12px;color:var(--text);background:var(--light);outline:none;transition:border-color .18s}
+    .cfg-text:focus{border-color:var(--accent);background:var(--white)}
+    .cfg-text.correct{border-color:#27AE60;background:rgba(39,174,96,0.06)}
+    .cfg-text.wrong{border-color:#E74C3C;background:rgba(231,76,60,0.06)}
+    .cfg-hint{font-size:10px;color:var(--muted);margin-top:4px;line-height:1.5}
+    .req-badge{display:inline-block;font-size:9px;font-weight:700;padding:2px 6px;border-radius:4px;background:rgba(230,126,34,0.12);border:1px solid rgba(230,126,34,0.3);color:#d35400;margin-left:6px;vertical-align:middle;text-transform:uppercase;letter-spacing:.05em}
+    html.dark .wifi-cfg{background:var(--white);border-color:var(--border)}
+    html.dark .cfg-label{background:rgba(0,0,0,0.15)}
+    html.dark .cfg-select,.cfg-text{background:var(--mid);color:var(--text)}
+    html.dark .wifi-diagram{background:var(--mid)}
+    @media(max-width:700px){.cfg-row{grid-template-columns:1fr};.cfg-label{border-right:none;border-bottom:1px solid var(--border)}}
+
   </style>
 </head>
 <body>
@@ -289,6 +322,7 @@
   <div class="pbq-nav-bar">
     <button class="pbq-nav-btn active" onclick="showPBQ('pbq1',this)">🧩 PBQ 1 — Cable Identification</button>
     <button class="pbq-nav-btn" onclick="showPBQ('pbq2',this)">🔒 PBQ 2 — Firewall Rules</button>
+    <button class="pbq-nav-btn" onclick="showPBQ('pbq3',this)">📶 PBQ 3 — WiFi Setup</button>
   </div>
 
   <!-- PBQ 1 SECTION -->
@@ -373,7 +407,7 @@
     <div class="pbq-card">
     <div class="pbq-card-head">
       <div>
-        <div class="pbq-num">PBQ 2 of 2</div>
+        <div class="pbq-num">PBQ 2 of 3</div>
         <div class="pbq-title">Network Security Analyst &mdash; Firewall Rule Configuration</div>
       </div>
       <span class="pbq-badge">PERMIT / DENY</span>
@@ -521,6 +555,196 @@
       </div>
 
       <div class="pbq-result" id="pbq-result"></div>
+
+    </div>
+  </div>
+  </div>
+
+
+  <!-- PBQ 3 SECTION -->
+  <div class="pbq-section" id="section-pbq3">
+    <div class="pbq-card">
+    <div class="pbq-card-head">
+      <div>
+        <div class="pbq-num">PBQ 3 of 3</div>
+        <div class="pbq-title">Network Technician &mdash; Wireless AP Configuration</div>
+      </div>
+      <span class="pbq-badge" style="background:rgba(22,160,133,0.2);border-color:rgba(22,160,133,0.5);color:#7DCEA0">CONFIGURE AP</span>
+    </div>
+    <div class="pbq-body">
+
+      <div class="scenario-label">Scenario</div>
+      <div class="scenario-text">You are a network technician deploying a new wireless access point for a small office. The office requires a secure dual-band wireless network that meets the following requirements:
+        <ul style="margin-top:8px;padding-left:18px;line-height:2">
+          <li>Network name must be <strong>CorpNet-HQ</strong> but <strong>hidden</strong> from broadcast</li>
+          <li>Must support devices at <strong>5 GHz</strong> for reduced interference with maximum throughput</li>
+          <li>Wireless standard must be <strong>802.11ac (Wi-Fi 5)</strong></li>
+          <li>Use a <strong>non-overlapping channel</strong> — channel <strong>36</strong></li>
+          <li>Security: <strong>WPA3-Personal</strong> with <strong>AES (CCMP)</strong> encryption</li>
+          <li>Authentication: <strong>Pre-Shared Key (PSK)</strong></li>
+          <li>Disable <strong>WPS</strong> (known vulnerability)</li>
+          <li>Enable <strong>Band Steering</strong> to push capable clients to 5 GHz</li>
+        </ul>
+      </div>
+
+      <div class="task-label">Task 3 &mdash; Configure the Wireless Access Point</div>
+      <div class="task-desc">Using the AP admin panel below, select or enter the correct value for each setting based on the office requirements above.</div>
+
+      <!-- TOPOLOGY DIAGRAM -->
+      <div class="wifi-diagram">
+        <div class="wifi-device"><span class="icon">&#x1F4BB;</span>Client</div>
+        <div class="wifi-line"></div>
+        <div class="wifi-device"><span class="icon">&#x1F4F6;</span>AP</div>
+        <div class="wifi-line"></div>
+        <div class="wifi-device"><span class="icon">&#x1F517;</span>Switch</div>
+        <div class="wifi-line" style="background:none;border-top:2px solid var(--border)"></div>
+        <div class="wifi-device"><span class="icon">&#x1F30E;</span>Internet</div>
+      </div>
+
+      <!-- AP CONFIG PANEL -->
+      <div class="wifi-cfg">
+        <div class="wifi-cfg-head">
+          <span class="wifi-cfg-head-icon">&#x2699;</span>
+          <span class="wifi-cfg-title">Wireless AP Admin Panel — Basic Wireless Settings</span>
+        </div>
+        <div class="wifi-cfg-body">
+
+          <div class="cfg-row">
+            <div class="cfg-label">SSID (Network Name)<span>Visible name of the Wi-Fi network</span></div>
+            <div class="cfg-input-cell">
+              <input class="cfg-text" id="cfg-ssid" type="text" placeholder="Enter SSID..." />
+              <div class="cfg-hint">&#x26A0; SSIDs are case-sensitive</div>
+            </div>
+          </div>
+
+          <div class="cfg-row">
+            <div class="cfg-label">SSID Broadcast<span>Whether the network name is visible</span></div>
+            <div class="cfg-input-cell">
+              <select class="cfg-select" id="cfg-broadcast">
+                <option value="">— Select —</option>
+                <option value="enabled">Enabled (visible to clients)</option>
+                <option value="disabled">Disabled (hidden network)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="cfg-row">
+            <div class="cfg-label">Frequency Band<span>Radio frequency for transmission</span></div>
+            <div class="cfg-input-cell">
+              <select class="cfg-select" id="cfg-band">
+                <option value="">— Select —</option>
+                <option value="2.4">2.4 GHz</option>
+                <option value="5">5 GHz</option>
+                <option value="6">6 GHz (Wi-Fi 6E)</option>
+                <option value="dual">Dual-Band (2.4 + 5 GHz)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="cfg-row">
+            <div class="cfg-label">Wireless Standard<span>802.11 protocol generation</span></div>
+            <div class="cfg-input-cell">
+              <select class="cfg-select" id="cfg-standard">
+                <option value="">— Select —</option>
+                <option value="b">802.11b (2.4 GHz, 11 Mbps)</option>
+                <option value="g">802.11g (2.4 GHz, 54 Mbps)</option>
+                <option value="n">802.11n / Wi-Fi 4 (2.4/5 GHz, 600 Mbps)</option>
+                <option value="ac">802.11ac / Wi-Fi 5 (5 GHz, 3.5 Gbps)</option>
+                <option value="ax">802.11ax / Wi-Fi 6 (2.4/5/6 GHz, 9.6 Gbps)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="cfg-row">
+            <div class="cfg-label">Channel<span>Frequency sub-division to avoid interference</span></div>
+            <div class="cfg-input-cell">
+              <select class="cfg-select" id="cfg-channel">
+                <option value="">— Select —</option>
+                <option value="1">Channel 1 (2.4 GHz, non-overlapping)</option>
+                <option value="6">Channel 6 (2.4 GHz, non-overlapping)</option>
+                <option value="11">Channel 11 (2.4 GHz, non-overlapping)</option>
+                <option value="36">Channel 36 (5 GHz, non-overlapping)</option>
+                <option value="40">Channel 40 (5 GHz)</option>
+                <option value="auto">Auto (let AP decide)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="cfg-row">
+            <div class="cfg-label">Security Protocol<span>Authentication and key management</span></div>
+            <div class="cfg-input-cell">
+              <select class="cfg-select" id="cfg-security">
+                <option value="">— Select —</option>
+                <option value="open">Open (no security)</option>
+                <option value="wep">WEP (deprecated, broken)</option>
+                <option value="wpa">WPA (TKIP, deprecated)</option>
+                <option value="wpa2">WPA2-Personal (AES)</option>
+                <option value="wpa3">WPA3-Personal (SAE)</option>
+                <option value="wpa2ent">WPA2-Enterprise (802.1X/RADIUS)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="cfg-row">
+            <div class="cfg-label">Encryption Method<span>Cipher used to encrypt wireless data</span></div>
+            <div class="cfg-input-cell">
+              <select class="cfg-select" id="cfg-encryption">
+                <option value="">— Select —</option>
+                <option value="none">None</option>
+                <option value="wep40">WEP 40-bit (broken)</option>
+                <option value="tkip">TKIP (deprecated)</option>
+                <option value="aes">AES / CCMP (recommended)</option>
+                <option value="gcmp">GCMP-256 (WPA3)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="cfg-row">
+            <div class="cfg-label">Authentication Method<span>How clients prove identity</span></div>
+            <div class="cfg-input-cell">
+              <select class="cfg-select" id="cfg-auth">
+                <option value="">— Select —</option>
+                <option value="open">Open System</option>
+                <option value="psk">Pre-Shared Key (PSK)</option>
+                <option value="radius">RADIUS / 802.1X</option>
+                <option value="sae">SAE (WPA3)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="cfg-row">
+            <div class="cfg-label">WPS (Wi-Fi Protected Setup)<span>PIN/button-based device pairing</span></div>
+            <div class="cfg-input-cell">
+              <select class="cfg-select" id="cfg-wps">
+                <option value="">— Select —</option>
+                <option value="enabled">Enabled</option>
+                <option value="disabled">Disabled</option>
+              </select>
+              <div class="cfg-hint">&#x26A0; WPS PIN is vulnerable to brute-force attacks (Reaver tool)</div>
+            </div>
+          </div>
+
+          <div class="cfg-row">
+            <div class="cfg-label">Band Steering<span>Pushes dual-band clients to 5 GHz</span></div>
+            <div class="cfg-input-cell">
+              <select class="cfg-select" id="cfg-steering">
+                <option value="">— Select —</option>
+                <option value="enabled">Enabled</option>
+                <option value="disabled">Disabled</option>
+              </select>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="pbq-controls">
+        <button class="pbq-btn pbq-btn-check" onclick="checkWifi()">&#10003; Check Configuration</button>
+        <button class="pbq-btn pbq-btn-reset" onclick="resetWifi()">&#8635; Reset</button>
+        <button class="pbq-btn pbq-btn-reveal" onclick="revealWifi()">&#128065; Show Correct Config</button>
+      </div>
+
+      <div class="pbq-result" id="wifi-result"></div>
 
     </div>
   </div>
@@ -842,6 +1066,95 @@ function resetAll() {
     document.getElementById('row' + i).classList.remove('row-correct','row-wrong');
   }
   const result = document.getElementById('pbq-result');
+  result.className = 'pbq-result';
+  result.innerHTML = '';
+}
+
+
+/* ══ PBQ 3 — WIFI CONFIGURATION ══════════════════════════════════════ */
+const WIFI_ANSWERS = {
+  'cfg-ssid':       { val: 'CorpNet-HQ',  label: 'SSID',             correct_text: 'CorpNet-HQ' },
+  'cfg-broadcast':  { val: 'disabled',    label: 'SSID Broadcast',    correct_text: 'Disabled (hidden network)' },
+  'cfg-band':       { val: '5',           label: 'Frequency Band',    correct_text: '5 GHz' },
+  'cfg-standard':   { val: 'ac',          label: 'Wireless Standard', correct_text: '802.11ac / Wi-Fi 5' },
+  'cfg-channel':    { val: '36',          label: 'Channel',           correct_text: 'Channel 36 (5 GHz, non-overlapping)' },
+  'cfg-security':   { val: 'wpa3',        label: 'Security Protocol', correct_text: 'WPA3-Personal (SAE)' },
+  'cfg-encryption': { val: 'aes',         label: 'Encryption Method', correct_text: 'AES / CCMP (recommended)' },
+  'cfg-auth':       { val: 'psk',         label: 'Authentication',    correct_text: 'Pre-Shared Key (PSK)' },
+  'cfg-wps':        { val: 'disabled',    label: 'WPS',               correct_text: 'Disabled' },
+  'cfg-steering':   { val: 'enabled',     label: 'Band Steering',     correct_text: 'Enabled' },
+};
+
+const WIFI_RATIONALE = {
+  'cfg-ssid':       'The scenario requires the SSID to be exactly "CorpNet-HQ" (case-sensitive).',
+  'cfg-broadcast':  'Hiding the SSID means clients must know the name to connect — adds a small layer of obscurity.',
+  'cfg-band':       '5 GHz provides less interference and higher throughput than 2.4 GHz for an office environment.',
+  'cfg-standard':   '802.11ac (Wi-Fi 5) operates exclusively on 5 GHz and provides up to 3.5 Gbps throughput.',
+  'cfg-channel':    'Channel 36 is a non-overlapping 5 GHz channel. 2.4 GHz non-overlapping channels are 1, 6, 11.',
+  'cfg-security':   'WPA3-Personal uses SAE (Simultaneous Authentication of Equals) — more resistant to offline dictionary attacks than WPA2.',
+  'cfg-encryption': 'AES/CCMP is the encryption standard for WPA2 and WPA3. TKIP is deprecated and vulnerable.',
+  'cfg-auth':       'PSK (Pre-Shared Key) is used for personal/home networks. Enterprise uses RADIUS/802.1X.',
+  'cfg-wps':        'WPS PIN mode is vulnerable to brute-force attacks (Reaver). Always disable WPS in secure environments.',
+  'cfg-steering':   'Band Steering pushes dual-band capable clients to the less congested 5 GHz band automatically.',
+};
+
+function checkWifi() {
+  const result = document.getElementById('wifi-result');
+  let correct = 0;
+  const total = Object.keys(WIFI_ANSWERS).length;
+  const unanswered = [];
+  let rows = '';
+
+  for (const [id, ans] of Object.entries(WIFI_ANSWERS)) {
+    const el = document.getElementById(id);
+    const val = el ? el.value.trim() : '';
+    if (!val) { unanswered.push(ans.label); continue; }
+    const isText = el.tagName === 'INPUT';
+    const isCorrect = isText ? val === ans.val : val === ans.val;
+    if (isCorrect) correct++;
+    el.className = el.tagName === 'INPUT' ? 'cfg-text ' + (isCorrect ? 'correct' : 'wrong')
+                                           : 'cfg-select ' + (isCorrect ? 'correct' : 'wrong');
+    const icon = isCorrect ? '&#10003;' : '&#10007;';
+    rows += '<div class="result-row"><span class="ri">' + icon + '</span>'
+          + '<span style="font-weight:700;min-width:160px">' + ans.label + '</span>';
+    if (!isCorrect) rows += '<span style="color:#E74C3C">Got: ' + (val || '(empty)') + '</span> &rarr; ';
+    rows += '<span style="color:#27AE60">' + ans.correct_text + '</span>'
+          + ' <span style="color:var(--muted);font-size:11px"> — ' + WIFI_RATIONALE[id] + '</span></div>';
+  }
+
+  if (unanswered.length > 0) {
+    result.className = 'pbq-result show fail';
+    result.innerHTML = '<strong>&#9888; Please configure all settings. Missing: ' + unanswered.join(', ') + '</strong>';
+    return;
+  }
+
+  const pct = Math.round((correct / total) * 100);
+  result.className = 'pbq-result show ' + (correct === total ? 'pass' : 'fail');
+  result.innerHTML = '<strong>' + (correct === total ? '&#127881; Perfect Configuration! All 10 settings correct.'
+    : correct + '/' + total + ' Correct (' + pct + '%)') + '</strong><div class="result-rows">' + rows + '</div>';
+}
+
+function revealWifi() {
+  resetWifi();
+  for (const [id, ans] of Object.entries(WIFI_ANSWERS)) {
+    const el = document.getElementById(id);
+    if (!el) continue;
+    el.value = ans.val;
+    el.className = (el.tagName === 'INPUT' ? 'cfg-text' : 'cfg-select') + ' correct';
+  }
+  const result = document.getElementById('wifi-result');
+  result.className = 'pbq-result show reveal';
+  result.innerHTML = '<strong>&#128065; Correct configuration revealed — study each setting, then reset and try yourself!</strong>';
+}
+
+function resetWifi() {
+  for (const id of Object.keys(WIFI_ANSWERS)) {
+    const el = document.getElementById(id);
+    if (!el) continue;
+    el.value = '';
+    el.className = el.tagName === 'INPUT' ? 'cfg-text' : 'cfg-select';
+  }
+  const result = document.getElementById('wifi-result');
   result.className = 'pbq-result';
   result.innerHTML = '';
 }
