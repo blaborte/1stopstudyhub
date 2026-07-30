@@ -718,6 +718,7 @@
       .search-overlay { padding-top: 8vh; }
     }
   </style>
+  <script src="search-data.js" defer></script>
 </head>
 <body>
 
@@ -769,7 +770,7 @@
   <div class="search-modal">
     <div class="search-input-row">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-      <input id="search-input" type="text" placeholder="Search certs, domains, exam codes…" autocomplete="off" />
+      <input id="search-input" type="text" placeholder="Search topics, questions, certs, exam codes…" autocomplete="off" />
       <span class="search-esc">ESC</span>
     </div>
     <div class="search-results" id="search-results"></div>
@@ -1127,11 +1128,25 @@ function highlight(text, q) {
   return text.slice(0, i) + '<mark>' + text.slice(i, i + q.length) + '</mark>' + text.slice(i + q.length);
 }
 
+const DOMAIN_COLORS = {
+  'Network Troubleshooting': '#C0392B', 'Networking Concepts': '#1A5276',
+  'Network Security': '#922B21', 'Network Implementation': '#117A65',
+  'Network Operations': '#B36B00'
+};
+
+function scoreQuestionMatch(item, q) {
+  let score = 0;
+  if (item.title.toLowerCase().includes(q)) score += 3;
+  if (item.domain.toLowerCase().includes(q)) score += 2;
+  if (item.keywords.includes(q)) score += 1;
+  return score;
+}
+
 function renderSearchResults(query) {
   const box = document.getElementById('search-results');
   const q = query.trim().toLowerCase();
 
-  searchResults = !q
+  const certMatches = !q
     ? SEARCH_INDEX
     : SEARCH_INDEX.filter(item =>
         item.title.toLowerCase().includes(q) ||
@@ -1139,16 +1154,31 @@ function renderSearchResults(query) {
         item.keywords.toLowerCase().includes(q)
       );
 
+  let topicMatches = [];
+  if (q && q.length >= 2 && typeof NETPLUS_SEARCH_DATA !== 'undefined') {
+    topicMatches = NETPLUS_SEARCH_DATA
+      .map(item => ({ item, score: scoreQuestionMatch(item, q) }))
+      .filter(x => x.score > 0)
+      .sort((a, b) => b.score - a.score)
+      .slice(0, 8)
+      .map(x => x.item);
+  }
+
+  searchResults = [
+    ...certMatches.map(item => ({ ...item, _kind: 'cert' })),
+    ...topicMatches.map(item => ({ ...item, _kind: 'topic' }))
+  ];
   searchActive = searchResults.length ? 0 : -1;
 
   if (!searchResults.length) {
-    box.innerHTML = '<div class="search-empty">No results for “' + query + '”. Try a cert name, vendor, or exam code.</div>';
+    box.innerHTML = '<div class="search-empty">No results for “' + query + '”. Try a topic like “VLAN”, “subnetting”, or a cert name.</div>';
     return;
   }
 
-  box.innerHTML =
-    '<div class="search-section-label">' + (q ? 'Results' : 'Certification Exams') + '</div>' +
-    searchResults.map((item, i) => `
+  let html = '';
+  if (certMatches.length) {
+    html += '<div class="search-section-label">' + (q ? 'Certification Exams' : 'Browse Certification Exams') + '</div>';
+    html += certMatches.map((item, i) => `
       <a class="search-result${i === 0 ? ' active' : ''}" href="${item.url}" data-idx="${i}">
         <div class="search-result-icon" style="background:${item.color}">${item.badge}</div>
         <div class="search-result-body">
@@ -1158,6 +1188,25 @@ function renderSearchResults(query) {
         <div class="search-result-type">${item.type}</div>
       </a>
     `).join('');
+  }
+  if (topicMatches.length) {
+    html += '<div class="search-section-label">Matching Questions &amp; Topics</div>';
+    html += topicMatches.map((item, i) => {
+      const idx = certMatches.length + i;
+      const color = DOMAIN_COLORS[item.domain] || '#5D7A8C';
+      return `
+      <a class="search-result${idx === 0 ? ' active' : ''}" href="network-plus.html" data-idx="${idx}">
+        <div class="search-result-icon" style="background:${color};font-size:14px">?</div>
+        <div class="search-result-body">
+          <div class="search-result-title">${highlight(item.title, query)}</div>
+          <div class="search-result-sub">${item.domain} · Network+ ${item.test}</div>
+        </div>
+        <div class="search-result-type">Question</div>
+      </a>
+    `;
+    }).join('');
+  }
+  box.innerHTML = html;
 }
 
 function moveSearchActive(delta) {
