@@ -869,6 +869,23 @@ const PT4_Q = [
 /* ══════════════════════════════════════
    STATE
 ══════════════════════════════════════ */
+/* ══════════════════════════════════════
+   DEEP LINK: pre-select test from ?test= param
+══════════════════════════════════════ */
+(function() {
+  const params = new URLSearchParams(window.location.search);
+  const testParam = params.get('test');
+  if (!testParam) return;
+  window.addEventListener('DOMContentLoaded', () => {
+    const btn = document.querySelector(`#test-select-grid .opt-btn[data-test="${testParam}"]`);
+    if (btn) {
+      const t = testParam === 'both' ? 'both' : parseInt(testParam);
+      selectTest(btn, t);
+      btn.scrollIntoView({ block: 'center', behavior: 'smooth' });
+    }
+  });
+})();
+
 let sessionQ = [];
 let curQ = 0;
 let answers = [];

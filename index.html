@@ -1166,7 +1166,11 @@ function renderSearchResults(query) {
 
   searchResults = [
     ...certMatches.map(item => ({ ...item, _kind: 'cert' })),
-    ...topicMatches.map(item => ({ ...item, _kind: 'topic' }))
+    ...topicMatches.map(item => {
+      const testNum = (item.test.match(/\d+/) || [''])[0];
+      const url = 'netplus-practice.html' + (testNum ? '?test=' + testNum : '');
+      return { ...item, _kind: 'topic', url };
+    })
   ];
   searchActive = searchResults.length ? 0 : -1;
 
@@ -1195,7 +1199,7 @@ function renderSearchResults(query) {
       const idx = certMatches.length + i;
       const color = DOMAIN_COLORS[item.domain] || '#5D7A8C';
       return `
-      <a class="search-result${idx === 0 ? ' active' : ''}" href="network-plus.html" data-idx="${idx}">
+      <a class="search-result${idx === 0 ? ' active' : ''}" href="${item.url}" data-idx="${idx}">
         <div class="search-result-icon" style="background:${color};font-size:14px">?</div>
         <div class="search-result-body">
           <div class="search-result-title">${highlight(item.title, query)}</div>
