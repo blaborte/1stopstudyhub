@@ -299,6 +299,7 @@
 
   
   </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
 </head>
 <body>
 <script>
@@ -440,6 +441,7 @@
     </div>
     <div class="result-actions">
       <button class="btn btn-primary" onclick="backToSetup()">↺ New Session</button>
+      <button class="btn btn-outline" id="btn-pdf" onclick="downloadPDFReport()">⬇ Download PDF Report</button>
       <button class="btn btn-outline" onclick="location.href='network-plus.html'">← Back to Hub</button>
     </div>
   </div>
@@ -997,6 +999,150 @@ function endExam() {
 
   document.getElementById('results-screen').style.display = 'block';
   window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* ══════════════════════════════════════
+   PDF REPORT
+══════════════════════════════════════ */
+function downloadPDFReport() {
+  if (!window.jspdf) { alert('PDF library is still loading — please try again in a second.'); return; }
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({ unit: 'pt', format: 'letter' });
+  const pageW = doc.internal.pageSize.getWidth();
+  const pageH = doc.internal.pageSize.getHeight();
+  const margin = 48;
+  const contentW = pageW - margin * 2;
+  let y = margin;
+
+  const NAVY = [11, 29, 58];
+  const ACCENT = [46, 134, 193];
+  const CORRECT = [39, 174, 96];
+  const WRONG = [231, 76, 60];
+  const MUTED = [93, 122, 140];
+
+  function checkPageBreak(neededHeight) {
+    if (y + neededHeight > pageH - margin) {
+      doc.addPage();
+      y = margin;
+    }
+  }
+
+  function addWrappedText(text, x, width, opts = {}) {
+    const fontSize = opts.fontSize || 10;
+    const lineHeight = opts.lineHeight || fontSize * 1.35;
+    doc.setFontSize(fontSize);
+    doc.setFont('helvetica', opts.style || 'normal');
+    doc.setTextColor(...(opts.color || [20, 20, 20]));
+    const lines = doc.splitTextToSize(text, width);
+    lines.forEach(line => {
+      checkPageBreak(lineHeight);
+      doc.text(line, x, y);
+      y += lineHeight;
+    });
+    return lines.length * lineHeight;
+  }
+
+  const total = sessionQ.length;
+  const skipped = total - correct - wrong;
+  const pct = Math.round((correct / total) * 100);
+  const testLabel = selectedTest === 'all' ? 'All Exams Combined' : `Security+ Practice Exam ${selectedTest}`;
+
+  // ── Header ──
+  doc.setFillColor(...NAVY);
+  doc.rect(0, 0, pageW, 86, 'F');
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(16);
+  doc.setTextColor(255, 255, 255);
+  doc.text('CompTIA Security+ SY0-701 — Practice Exam Report', margin, 36);
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(10);
+  doc.setTextColor(200, 220, 235);
+  doc.text(`${testLabel} · ${new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}`, margin, 56);
+  doc.text('BL Cert Hub · blaborte.github.io', margin, 72);
+  y = 116;
+
+  // ── Score summary ──
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(22);
+  doc.setTextColor(pct >= 72 ? CORRECT[0] : WRONG[0], pct >= 72 ? CORRECT[1] : WRONG[1], pct >= 72 ? CORRECT[2] : WRONG[2]);
+  doc.text(`${correct}/${total} — ${pct}% (${pct >= 72 ? 'PASS' : 'Keep Studying'})`, margin, y);
+  y += 22;
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(10);
+  doc.setTextColor(...MUTED);
+  doc.text(`Correct: ${correct}   ·   Incorrect: ${wrong}   ·   Skipped: ${skipped}`, margin, y);
+  y += 28;
+  doc.setDrawColor(220, 220, 220);
+  doc.line(margin, y, pageW - margin, y);
+  y += 20;
+
+  // ── Questions ──
+  sessionQ.forEach((q, i) => {
+    checkPageBreak(40);
+    const userAns = answers[i] || [];
+    const wasAnswered = revealed[i] && userAns.length > 0;
+    const isCorrect = wasAnswered && q.ans.slice().sort().join(',') === userAns.slice().sort().join(',');
+    const status = !wasAnswered ? 'SKIPPED' : (isCorrect ? 'CORRECT' : 'INCORRECT');
+    const statusColor = !wasAnswered ? MUTED : (isCorrect ? CORRECT : WRONG);
+
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(11);
+    doc.setTextColor(...NAVY);
+    doc.text(`Q${i + 1}.`, margin, y);
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(9);
+    doc.setTextColor(...ACCENT);
+    doc.text(q.domain || '', margin + 28, y);
+    doc.setFont('helvetica', 'bold');
+    doc.setTextColor(...statusColor);
+    doc.text(status, pageW - margin, y, { align: 'right' });
+    y += 16;
+
+    y += addWrappedText(q.q, margin, contentW, { fontSize: 10.5, style: 'normal', color: [20, 20, 20] });
+    y += 4;
+
+    q.opts.forEach((optRaw, idx) => {
+      const hasPrefix = /^[A-Z]\.\s/.test(optRaw);
+      const optText = hasPrefix ? optRaw.slice(3) : optRaw;
+      const letter = String.fromCharCode(65 + idx);
+      const isRightAnswer = q.ans.includes(idx);
+      const wasPicked = userAns.includes(idx);
+      let color = [60, 60, 60];
+      let tag = '';
+      if (isRightAnswer) { color = CORRECT; tag = '  [correct answer]'; }
+      if (wasPicked && !isRightAnswer) { color = WRONG; tag = '  [your answer]'; }
+      else if (wasPicked && isRightAnswer) { tag = '  [your answer - correct]'; }
+      checkPageBreak(14);
+      y += addWrappedText(`${letter}. ${optText}${tag}`, margin + 12, contentW - 12, { fontSize: 9.5, color });
+    });
+    y += 4;
+
+    checkPageBreak(20);
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(9);
+    doc.setTextColor(...MUTED);
+    doc.text('Explanation:', margin + 12, y);
+    y += 12;
+    y += addWrappedText(q.exp, margin + 12, contentW - 12, { fontSize: 9, color: [90, 90, 90] });
+
+    y += 14;
+    doc.setDrawColor(230, 230, 230);
+    doc.line(margin, y, pageW - margin, y);
+    y += 16;
+  });
+
+  const pageCount = doc.internal.getNumberOfPages();
+  for (let p = 1; p <= pageCount; p++) {
+    doc.setPage(p);
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(8);
+    doc.setTextColor(...MUTED);
+    doc.text(`Page ${p} of ${pageCount}`, pageW - margin, pageH - 24, { align: 'right' });
+    doc.text('BL Cert Hub — Personal, non-commercial study material', margin, pageH - 24);
+  }
+
+  const dateStr = new Date().toISOString().slice(0, 10);
+  doc.save(`SecurityPlus-${testLabel.replace(/\s+/g, '')}-${dateStr}.pdf`);
 }
 
 function backToSetup() {
