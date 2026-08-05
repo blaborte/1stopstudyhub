@@ -51,7 +51,9 @@
     .setup-section-label{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin-bottom:14px;display:flex;align-items:center;gap:8px}
     .setup-section-label::after{content:'';flex:1;height:1px;background:var(--border)}
     .option-grid{display:grid;gap:10px}
+    .option-grid.cols-auto{grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
     .option-grid.cols-3{grid-template-columns:repeat(3,1fr)}
+    .option-grid.cols-5{grid-template-columns:repeat(5,1fr)}
     .option-grid.cols-6{grid-template-columns:repeat(6,1fr)}
     .opt-btn{
       padding:12px 10px;border-radius:10px;border:1.5px solid var(--border);
@@ -169,6 +171,7 @@
       .exam-wrap{padding:1.25rem}
       .scoreboard{grid-template-columns:repeat(2,1fr)}
       .option-grid.cols-6{grid-template-columns:repeat(3,1fr)}
+      .option-grid.cols-5{grid-template-columns:repeat(2,1fr)}
       .option-grid.cols-3{grid-template-columns:1fr}
       nav{padding:0 1.25rem}
       .hero{padding:2rem 1.25rem 2rem}
@@ -333,7 +336,7 @@
   <div id="setup-screen">
     <div class="setup-section">
       <div class="setup-section-label">Select Practice Test(s) — tap to toggle, pick one or more</div>
-      <div class="option-grid cols-3" id="test-select-grid">
+      <div class="option-grid cols-auto" id="test-select-grid">
         <div class="opt-btn selected" data-test="1" onclick="toggleTest(this,1)">
           <span class="ob-val">Practice Test 1</span>
           <span class="ob-lbl">100 Questions</span>
@@ -342,10 +345,6 @@
           <span class="ob-val">Practice Test 2</span>
           <span class="ob-lbl">91 Questions</span>
         </div>
-        <div class="opt-btn" data-test="all" onclick="toggleTest(this,'all')">
-          <span class="ob-val">All Practice Tests</span>
-          <span class="ob-lbl">250 Questions</span>
-        </div>
         <div class="opt-btn" data-test="3" onclick="toggleTest(this,3)">
           <span class="ob-val">NPower Test 1</span>
           <span class="ob-lbl">AWS Basics — 29 Questions</span>
@@ -353,6 +352,10 @@
         <div class="opt-btn" data-test="4" onclick="toggleTest(this,4)">
           <span class="ob-val">NPower Test 2</span>
           <span class="ob-lbl">30 Questions</span>
+        </div>
+        <div class="opt-btn" data-test="all" onclick="toggleTest(this,'all')">
+          <span class="ob-val">All Practice Tests</span>
+          <span class="ob-lbl">250 Questions</span>
         </div>
       </div>
     </div>
