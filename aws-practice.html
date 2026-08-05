@@ -323,7 +323,7 @@
   <div class="hero-inner">
     <div class="exam-badge"><div class="bl-circle">BL</div><span>AWS Certified Cloud Practitioner CLF-C02</span></div>
     <h1>Practice <span class="accent">Exams</span></h1>
-    <p class="hero-sub">Two full practice exams covering all 4 CLF-C02 domains — 100 + 91 = 191 total questions. Select an exam, choose session length and timer, then start.</p>
+    <p class="hero-sub">Three practice exams covering all 4 CLF-C02 domains — 100 + 91 + 29 (NPower Test 1) = 220 total questions. Select an exam, choose session length and timer, then start.</p>
   </div>
 </div>
 
@@ -345,6 +345,10 @@
         <div class="opt-btn" data-test="all" onclick="selectTest(this,'all')">
           <span class="ob-val">All Exams</span>
           <span class="ob-lbl">191 Questions</span>
+        </div>
+        <div class="opt-btn" data-test="3" onclick="selectTest(this,3)">
+          <span class="ob-val">NPower Test 1</span>
+          <span class="ob-lbl">AWS Basics — 29 Questions</span>
         </div>
       </div>
     </div>
@@ -659,6 +663,38 @@ const AWS_Q2 = [
   {d:'4',q:'What is the primary cost advantage of AWS cloud over traditional on-premises?',opts:['A. AWS eliminates all IT costs','B. Trading CapEx for OpEx with pay-as-you-go pricing','C. AWS always costs less than on-premises','D. No data transfer costs within AWS'],ans:[1],exp:'AWS converts large upfront capital expenditures (servers, data centers) into variable operational expenses. Pay only for what you use. Improves cash flow, eliminates over-provisioning, and enables rapid scaling.'},
 ];
 
+const AWS_Q3 = [
+  {d:'3',q:'Which of the following storage mechanisms can be used to store messages effectively across distributed systems?',opts:['A. Amazon EBS Volumes','B. Amazon SQS','C. Amazon EBS Snapshots','D. Amazon Glacier'],ans:[1],exp:'Amazon SQS (Simple Queue Service) stores and delivers messages between services, even if they run at different times — great for decoupling distributed systems.'},
+  {d:'3',q:'Your company is trying to deploy a two-tier, highly available web application to AWS. The application needs a storage layer to store artifacts such as photos and videos. Which of the following services can be used as the underlying storage mechanism?',opts:['A. Amazon EC2 Instance Store','B. Amazon RDS Instance','C. Amazon S3','D. Amazon EBS Volume'],ans:[2],exp:'Amazon S3 stores files like pictures, videos, and documents — perfect for apps that need to store or serve media.'},
+  {d:'2',q:'Which of the following services allows you to analyze EC2 Instances against pre-defined security templates to check for vulnerabilities?',opts:['A. AWS WAF','B. AWS Inspector','C. AWS Trusted Advisor','D. AWS Shield'],ans:[1],exp:'Amazon Inspector scans your EC2 instances for weak points, like missing updates or unsafe settings, against security best-practice templates.'},
+  {d:'3',q:'Which AWS network feature can help you make a private connection between AWS and your data center?',opts:['A. AWS Direct Connect','B. Amazon CloudFront','C. AWS Route 53','D. AWS Snowball'],ans:[0],exp:'AWS Direct Connect acts like a private cable between your office and AWS — faster and more secure than a connection over the internet.'},
+  {d:'3',q:'You have developed a microservices application. Which of the following should you use to make sure that each EC2 instance in a system gets the same amount of traffic?',opts:['A. Classic Load Balancer','B. Auto Scaling','C. Application Load Balancer','D. Network Load Balancer'],ans:[2],exp:'The Application Load Balancer is smart — it sends traffic based on the URL path, helping microservices get the right traffic.'},
+  {d:'3',q:'Which of the following can be used to automate multiple AWS services through scripts?',opts:['A. AWS Console','B. AWS CLI','C. AWS PowerShell','D. AWS Bash'],ans:[1],exp:'The AWS Command Line Interface (CLI) lets you write commands in a terminal or script to manage AWS services without clicking around the web console.'},
+  {d:'3',q:'AWS provides a storage option known as Amazon Glacier, which is designed for ____________ and ______________. (Select the two correct options.)',opts:['A. Cached Session Data','B. Data Archives','C. Infrequently Accessed Data','D. Active Database Storage'],ans:[1,2],exp:'Glacier is used to store old data that you rarely access — perfect for backups or data archives that must be kept long term but aren\'t used daily.'},
+  {d:'4',q:'You decided to pay a low upfront fee and get a significantly discounted hourly rate. What is the payment model you are going to use?',opts:['A. Save when you reserve (Reserved Instance)','B. Pay less as AWS grows','C. Custom Pricing','D. Pay as you go — pay by the hour or second with no discount'],ans:[0],exp:'This is called a Reserved Instance. You pay part of the cost upfront and save money long-term.'},
+  {d:'2',q:'Your company requires that all the data on your EBS-backed EC2 volumes be encrypted. How would you go about doing this?',opts:['A. None of the above','B. Encryption can be done on the OS layer of the EBS volume','C. AWS allows you to encrypt the file system on an EBS volume during volume setup','D. You cannot enable EBS encryption on a specific volume'],ans:[2],exp:'You can enable encryption when creating the EBS volume. It keeps your data safe at rest.'},
+  {d:'1',q:'Kim is managing a web application running on the AWS Cloud. The application is currently utilizing eight EC2 servers for its computing platform. Earlier today, two of those web servers crashed; however, none of her customers were affected. What has Kim done correctly in this scenario?',opts:['A. Properly built an elastic system','B. None of the above','C. Properly built a scalable system','D. Properly built a fault-tolerant system'],ans:[3],exp:'A fault-tolerant system keeps working even when parts of it fail. Kim\'s setup handled the server crashes without affecting users.'},
+  {d:'3',q:'There is a need to analyze and process a large number of data sets. Which of the following services can help fulfill this requirement?',opts:['A. Storage Gateway','B. EMR','C. Glacier','D. S3'],ans:[1],exp:'Amazon EMR (Elastic MapReduce) helps process big data using tools like Apache Spark and Hadoop — great for large-scale data crunching.'},
+  {d:'2',q:'A company is hosting a web application in the AWS Cloud using a set of EC2 instances. Which of the following can help protect them from DDoS attacks? (Select all that apply)',opts:['A. Using the Internet Gateway','B. Using Security Groups','C. Using AWS Config','D. Using Network Access Control Lists'],ans:[1,3],exp:'Security Groups act like virtual firewalls controlling what traffic is allowed in or out of your EC2 instances. Network ACLs help control traffic at the subnet level, blocking bad IP addresses before they reach your servers.'},
+  {d:'1',q:'What are the services/features required to have highly available and fault-tolerant architecture in AWS? (Choose two)',opts:['A. Amazon EC2 Auto Scaling','B. AWS NACL','C. Elastic Load Balancer','D. CloudFormation'],ans:[0,2],exp:'EC2 Auto Scaling automatically adds or removes instances depending on traffic, keeping your system running smoothly even if demand changes. An Elastic Load Balancer shares traffic across multiple instances — if one goes down, another takes over without users noticing.'},
+  {d:'4',q:'You are trying to calculate the Total Cost of Ownership (TCO) for the AWS Cloud. Which of the following should you provide?',opts:['A. The number of servers migrated to AWS','B. The number of applications migrated to AWS','C. The number of end-users you are currently serving','D. The number of active passwords'],ans:[0],exp:'The more physical or virtual servers you move to AWS, the more accurately you can estimate how much money you\'re saving.'},
+  {d:'3',q:'Which of the following services allows you to run containerized applications on a cluster of EC2 instances?',opts:['A. Amazon Elastic Container Service','B. Amazon Elastic Docker Service','C. Amazon Elastic Compute Service','D. AWS Docker Manager'],ans:[0],exp:'Think of containers like app boxes — Amazon ECS helps you run many boxes (apps) across multiple EC2 instances easily.'},
+  {d:'2',q:'Which of the following is one of the benefits of AWS Security?',opts:['A. Free for AWS Premium members','B. Scale quickly','C. Starts automatically once you upload your data','D. None of the above'],ans:[1],exp:'As your system grows, AWS security features grow with you. You don\'t have to rebuild your security setup as things get bigger.'},
+  {d:'3',q:'Which of the following features of RDS allows for data redundancy across regions and improves disaster recovery?',opts:['A. Using Snapshots','B. Creating Read Replicas','C. Multi-Region Replication','D. Multi-AZ'],ans:[1],exp:'Creating a Read Replica makes a copy of your database in another location, so if something goes wrong in one place, you still have access from the other. "Multi-Region Replication" isn\'t a direct RDS feature name — that term is more commonly used in contexts like S3.'},
+  {d:'3',q:'Which service allows the customer to retain full administrative privileges of the underlying virtual infrastructure?',opts:['A. Amazon DynamoDB','B. Amazon EC2','C. Amazon S3','D. Amazon Lambda'],ans:[1],exp:'Amazon EC2 gives users root/admin access to the virtual machine, unlike fully managed services.'},
+  {d:'3',q:'What does Amazon ElastiCache provide?',opts:['A. A managed in-memory cache service','B. An Amazon EC2 instance with the Memcached software already pre-installed','C. A virtual server with a huge amount of memory','D. A service by this name doesn\'t exist'],ans:[0],exp:'Amazon ElastiCache is a fully managed service that provides in-memory data caching using Redis or Memcached to improve application performance.'},
+  {d:'2',q:'An organization has multiple running systems that use different AWS products. Which of the following services allows them to control access to each of these products?',opts:['A. AWS Integrity Management','B. Amazon RDS','C. Amazon EMR','D. AWS Identity and Access Management'],ans:[3],exp:'IAM allows the organization to control access to all AWS services by managing users, groups, roles, and permissions.'},
+  {d:'3',q:'Which of the following is NOT a feature of an edge location?',opts:['A. Distribute content to users','B. Used in conjunction with the CloudFront service','C. Distribute load across multiple resources','D. Cache common responses'],ans:[2],exp:'Distributing load across multiple resources is a feature of Elastic Load Balancing (ELB), not edge locations. Edge locations cache and distribute CloudFront content close to users.'},
+  {d:'3',q:'Miller is working with a large data set, and he needs to import it into a relational database service. What AWS service will meet his needs?',opts:['A. Neptune','B. RDS','C. ElastiCache','D. DynamoDB'],ans:[1],exp:'AWS Relational Database Service (RDS) is designed to handle large datasets using relational databases such as MySQL, PostgreSQL, or Oracle.'},
+  {d:'2',q:'Which of the following security requirements is managed by AWS? (Select all that apply)',opts:['A. VPC Security','B. Hardware Patching','C. User Permissions','D. Password Policies','E. Disk Disposal'],ans:[1,4],exp:'AWS manages hardware patching as part of maintaining the underlying infrastructure, and handles secure media destruction when hardware is decommissioned. VPC security, user permissions, and password policies remain the customer\'s responsibility.'},
+  {d:'1',q:'What are the pillars of the AWS Well-Architected Framework? (Select all that apply)',opts:['A. Reliability','B. Agility','C. Validity','D. Performance Efficiency'],ans:[0,3],exp:'Reliability ensures your system recovers from failures, scales on demand, and maintains availability. Performance Efficiency focuses on using resources efficiently, adapting to demand, and selecting appropriate technologies.'},
+  {d:'2',q:'Which of the following is your responsibility when dealing with the PCI DSS? (Select all that apply)',opts:['A. You are responsible for validating compliance annually and documenting results in an AOC document','B. You are responsible for the network and firewall configuration','C. You are responsible for identity and access management','D. You are responsible for protecting stored cardholder data','E. You are responsible for designing, building, and maintaining a compliant environment in AWS'],ans:[0,2,3,4],exp:'You must validate your own PCI DSS compliance annually and document it in an AOC. You must design and enforce IAM policies (users, roles, MFA, least privilege), encrypt and protect stored cardholder data, and design/maintain a compliant environment (patching, segmentation, logging, encryption). General network/firewall configuration is more nuanced — AWS manages the underlying cloud infrastructure firewalls, while only your in-scope deployment configuration falls to you.'},
+  {d:'2',q:'Which of the following services can help protect your web applications from SQL injection and other vulnerabilities in your application code?',opts:['A. AWS Web Application Firewall','B. Amazon Aurora','C. IAM','D. Amazon Cognito'],ans:[0],exp:'AWS WAF is a web application firewall that lets you create rules to inspect HTTP requests and block patterns like SQL injection and XSS — protecting your app layer without changing its code.'},
+  {d:'3',q:'What does S3 stand for?',opts:['A. Simple Storage Service','B. Service for Simple Storage','C. Simplified Storage Service','D. Simple Store Service'],ans:[0],exp:'Amazon S3 stands for Simple Storage Service, a cloud object storage solution that scales massively and provides high availability via a web services interface.'},
+  {d:'2',q:'Using Amazon RDS is under the shared responsibility model. Which of the following would be the customer responsibilities? (Select all that apply)',opts:['A. Managing the database settings','B. Building the relational schema','C. Installing the database software','D. Performing backups'],ans:[0,1],exp:'You\'re in charge of configuring DB parameter groups, security groups, instance class, storage, and maintenance windows — that\'s "security in the cloud." Designing tables, indexes, relationships, and optimizing queries is your job too. AWS handles installing the database software and automated backups as the managed service provider.'},
+  {d:'1',q:'Which of the following is a Cloud Computing model that removes the need for your organization to manage the operating systems?',opts:['A. None of the above','B. IaaS','C. PaaS','D. SaaS'],ans:[2],exp:'Platform as a Service (PaaS) abstracts away servers, OS, runtime, and middleware — letting you focus solely on your application code.'},
+];
+
 /* ══════════════════════════════════════
    STATE
 ══════════════════════════════════════ */
@@ -691,7 +727,7 @@ function selectTest(el, t) {
   document.querySelectorAll('#test-select-grid .opt-btn').forEach(b => b.classList.remove('selected'));
   el.classList.add('selected');
   // Update question count options based on pool size
-  const poolSize = t === 1 ? 100 : t === 2 ? 91 : 191;
+  const poolSize = t === 1 ? 100 : t === 2 ? 91 : t === 3 ? 29 : 191;
   // Update "All" button label
   const allBtn = document.getElementById('all-q-btn');
   if (allBtn) {
@@ -701,7 +737,7 @@ function selectTest(el, t) {
   }
   // Update session title label on results
   const lbl = document.getElementById('res-label');
-  if (lbl) lbl.textContent = t === 'all' ? 'All Exams Complete' : `AWS CCP Practice Exam ${t} Complete`;
+  if (lbl) lbl.textContent = t === 'all' ? 'All Exams Complete' : t === 3 ? 'NPower Test 1 — AWS Basics Complete' : `AWS CCP Practice Exam ${t} Complete`;
 }
 
 function toggleSessionBar() {
@@ -712,7 +748,7 @@ function toggleSessionBar() {
 }
 
 function startExam() {
-  const pool = selectedTest === 1 ? AWS_Q : selectedTest === 2 ? AWS_Q2 : [...AWS_Q, ...AWS_Q2];
+  const pool = selectedTest === 1 ? AWS_Q : selectedTest === 2 ? AWS_Q2 : selectedTest === 3 ? AWS_Q3 : [...AWS_Q, ...AWS_Q2];
   const shuffled = [...pool].sort(() => Math.random() - 0.5);
   sessionQ = shuffled.slice(0, Math.min(selectedCount, pool.length));
   curQ = 0;
