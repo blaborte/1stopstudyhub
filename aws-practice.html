@@ -332,25 +332,25 @@
   <!-- SETUP SCREEN -->
   <div id="setup-screen">
     <div class="setup-section">
-      <div class="setup-section-label">Select Practice Exam</div>
+      <div class="setup-section-label">Select Practice Exam(s) — tap to toggle, pick one or more</div>
       <div class="option-grid cols-3" id="test-select-grid">
-        <div class="opt-btn selected" data-test="1" onclick="selectTest(this,1)">
+        <div class="opt-btn selected" data-test="1" onclick="toggleTest(this,1)">
           <span class="ob-val">Exam 1</span>
           <span class="ob-lbl">100 Questions</span>
         </div>
-        <div class="opt-btn" data-test="2" onclick="selectTest(this,2)">
+        <div class="opt-btn" data-test="2" onclick="toggleTest(this,2)">
           <span class="ob-val">Exam 2</span>
           <span class="ob-lbl">91 Questions</span>
         </div>
-        <div class="opt-btn" data-test="all" onclick="selectTest(this,'all')">
+        <div class="opt-btn" data-test="all" onclick="toggleTest(this,'all')">
           <span class="ob-val">All Exams</span>
-          <span class="ob-lbl">191 Questions</span>
+          <span class="ob-lbl">250 Questions</span>
         </div>
-        <div class="opt-btn" data-test="3" onclick="selectTest(this,3)">
+        <div class="opt-btn" data-test="3" onclick="toggleTest(this,3)">
           <span class="ob-val">NPower Test 1</span>
           <span class="ob-lbl">AWS Basics — 29 Questions</span>
         </div>
-        <div class="opt-btn" data-test="4" onclick="selectTest(this,4)">
+        <div class="opt-btn" data-test="4" onclick="toggleTest(this,4)">
           <span class="ob-val">NPower Test 2</span>
           <span class="ob-lbl">30 Questions</span>
         </div>
@@ -740,11 +740,27 @@ let curQ = 0;
 let answers = [];
 let revealed = [];
 let correct = 0, wrong = 0;
-let selectedTest = 1;
+let selectedTests = [1];
 let selectedCount = 10;
 let selectedTime = 0;
 let timerInterval = null;
 let timeLeft = 0;
+
+const TEST_NAMES = {1: 'Exam 1', 2: 'Exam 2', 3: 'NPower Test 1', 4: 'NPower Test 2'};
+const ALL_TEST_IDS = [1, 2, 3, 4];
+
+function getPoolForTest(t) {
+  return t === 1 ? AWS_Q : t === 2 ? AWS_Q2 : t === 3 ? AWS_Q3 : AWS_Q4;
+}
+function getCombinedPool() {
+  let combined = [];
+  selectedTests.slice().sort().forEach(t => { combined = combined.concat(getPoolForTest(t)); });
+  return combined;
+}
+function getSelectedLabel() {
+  if (ALL_TEST_IDS.every(id => selectedTests.includes(id))) return 'All Exams';
+  return selectedTests.slice().sort().map(t => TEST_NAMES[t]).join(' + ');
+}
 
 /* ══════════════════════════════════════
    SETUP
@@ -759,22 +775,32 @@ function selectTimer(el, t) {
   el.classList.add('selected');
   selectedTime = t;
 }
-function selectTest(el, t) {
-  selectedTest = t;
-  document.querySelectorAll('#test-select-grid .opt-btn').forEach(b => b.classList.remove('selected'));
-  el.classList.add('selected');
-  // Update question count options based on pool size
-  const poolSize = t === 1 ? 100 : t === 2 ? 91 : t === 3 ? 29 : t === 4 ? 30 : 191;
-  // Update "All" button label
+function toggleTest(el, t) {
+  if (t === 'all') {
+    const alreadyAll = ALL_TEST_IDS.every(id => selectedTests.includes(id));
+    selectedTests = alreadyAll ? [1] : [...ALL_TEST_IDS];
+  } else if (selectedTests.includes(t)) {
+    if (selectedTests.length > 1) selectedTests = selectedTests.filter(x => x !== t);
+    // if it's the last one selected, ignore the click so at least one exam stays active
+  } else {
+    selectedTests.push(t);
+  }
+
+  // Sync button highlighting
+  document.querySelectorAll('#test-select-grid .opt-btn').forEach(b => {
+    const bt = b.dataset.test;
+    if (bt === 'all') b.classList.toggle('selected', ALL_TEST_IDS.every(id => selectedTests.includes(id)));
+    else b.classList.toggle('selected', selectedTests.includes(parseInt(bt)));
+  });
+
+  // Update question count options based on combined pool size
+  const poolSize = getCombinedPool().length;
   const allBtn = document.getElementById('all-q-btn');
   if (allBtn) {
     allBtn.querySelector('.ob-val').textContent = 'All';
     allBtn.querySelector('.ob-lbl').textContent = poolSize + ' Qs';
     allBtn.dataset.count = poolSize;
   }
-  // Update session title label on results
-  const lbl = document.getElementById('res-label');
-  if (lbl) lbl.textContent = t === 'all' ? 'All Exams Complete' : t === 3 ? 'NPower Test 1 — AWS Basics Complete' : t === 4 ? 'NPower Test 2 Complete' : `AWS CCP Practice Exam ${t} Complete`;
 }
 
 function toggleSessionBar() {
@@ -785,7 +811,7 @@ function toggleSessionBar() {
 }
 
 function startExam() {
-  const pool = selectedTest === 1 ? AWS_Q : selectedTest === 2 ? AWS_Q2 : selectedTest === 3 ? AWS_Q3 : selectedTest === 4 ? AWS_Q4 : [...AWS_Q, ...AWS_Q2];
+  const pool = getCombinedPool();
   const shuffled = [...pool].sort(() => Math.random() - 0.5);
   sessionQ = shuffled.slice(0, Math.min(selectedCount, pool.length));
   curQ = 0;
@@ -997,7 +1023,7 @@ function endExam() {
 
   const grade = document.getElementById('res-grade');
   const resLbl = document.getElementById('res-label');
-  if (resLbl) resLbl.textContent = selectedTest === 'all' ? 'All Exams Complete' : `AWS CCP Practice Exam ${selectedTest} Complete`;
+  if (resLbl) resLbl.textContent = getSelectedLabel() + ' Complete';
   if (pct >= 72) { grade.className = 'result-grade pass'; grade.textContent = `${pct}% — PASS 🎉`; }
   else { grade.className = 'result-grade fail'; grade.textContent = `${pct}% — Keep Studying`; }
 
@@ -1049,7 +1075,7 @@ function downloadPDFReport() {
   const total = sessionQ.length;
   const skipped = total - correct - wrong;
   const pct = Math.round((correct / total) * 100);
-  const testLabel = selectedTest === 'all' ? 'All Exams Combined' : `AWS CCP Practice Exam ${selectedTest}`;
+  const testLabel = getSelectedLabel();
 
   // ── Header ──
   doc.setFillColor(...NAVY);
