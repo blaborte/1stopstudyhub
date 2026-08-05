@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Practice Exams — Network+ N10-009 | BL Cert Hub</title>
+  <title>Practice Tests — Network+ N10-009 | BL Cert Hub</title>
   <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
   <style>
@@ -319,7 +319,7 @@
   <div class="nav-links">
     <a href="index.html">Home</a>
     <a href="network-plus.html">Network+</a>
-    <a href="#" class="active">Practice Exams</a>
+    <a href="#" class="active">Practice Tests</a>
     <button class="theme-btn" id="theme-btn" onclick="__toggleTheme()" title="Toggle dark mode">☾</button>
   </div>
 </nav>
@@ -330,7 +330,7 @@
   <div class="hero-bg-ring r2"></div>
   <div class="hero-inner">
     <div class="exam-badge"><div class="bl-circle">BL</div><span>CompTIA Network+ N10-009</span></div>
-    <h1>Practice <span class="accent">Exams</span></h1>
+    <h1>Practice <span class="accent">Tests</span></h1>
     <p class="hero-sub">Three full practice tests covering all N10-009 domains. Select a test, choose session length and timer, then start.</p>
   </div>
 </div>
@@ -340,43 +340,43 @@
   <!-- SETUP SCREEN -->
   <div id="setup-screen">
     <div class="setup-section">
-      <div class="setup-section-label">Select Practice Test</div>
+      <div class="setup-section-label">Select Practice Test(s) — tap to toggle, pick one or more</div>
       <div class="option-grid cols-9" id="test-select-grid">
-        <div class="opt-btn selected" data-test="1" onclick="selectTest(this,1)">
-          <span class="ob-val">Test 1</span>
-          <span class="ob-lbl">129 Questions</span>
+        <div class="opt-btn selected" data-test="1" onclick="toggleTest(this,1)">
+          <span class="ob-val">Practice Test 1</span>
+          <span class="ob-lbl">111 Questions</span>
         </div>
-        <div class="opt-btn" data-test="2" onclick="selectTest(this,2)">
-          <span class="ob-val">Test 2</span>
+        <div class="opt-btn" data-test="2" onclick="toggleTest(this,2)">
+          <span class="ob-val">Practice Test 2</span>
           <span class="ob-lbl">100 Questions</span>
         </div>
-        <div class="opt-btn" data-test="3" onclick="selectTest(this,3)">
-          <span class="ob-val">Test 3</span>
+        <div class="opt-btn" data-test="3" onclick="toggleTest(this,3)">
+          <span class="ob-val">Practice Test 3</span>
           <span class="ob-lbl">90 Questions</span>
         </div>
-        <div class="opt-btn" data-test="4" onclick="selectTest(this,4)">
-          <span class="ob-val">Test 4</span>
+        <div class="opt-btn" data-test="4" onclick="toggleTest(this,4)">
+          <span class="ob-val">Practice Test 4</span>
           <span class="ob-lbl">90 Questions</span>
         </div>
-        <div class="opt-btn" data-test="5" onclick="selectTest(this,5)">
-          <span class="ob-val">Test 5</span>
+        <div class="opt-btn" data-test="5" onclick="toggleTest(this,5)">
+          <span class="ob-val">Practice Test 5</span>
           <span class="ob-lbl">90 Questions</span>
         </div>
-        <div class="opt-btn" data-test="6" onclick="selectTest(this,6)">
-          <span class="ob-val">Test 6</span>
+        <div class="opt-btn" data-test="6" onclick="toggleTest(this,6)">
+          <span class="ob-val">Practice Test 6</span>
           <span class="ob-lbl">90 Questions</span>
         </div>
-        <div class="opt-btn" data-test="7" onclick="selectTest(this,7)">
-          <span class="ob-val">Test 7</span>
+        <div class="opt-btn" data-test="7" onclick="toggleTest(this,7)">
+          <span class="ob-val">Practice Test 7</span>
           <span class="ob-lbl">90 Questions</span>
         </div>
-        <div class="opt-btn" data-test="8" onclick="selectTest(this,8)">
-          <span class="ob-val">Test 8</span>
+        <div class="opt-btn" data-test="8" onclick="toggleTest(this,8)">
+          <span class="ob-val">Practice Test 8</span>
           <span class="ob-lbl">90 Questions</span>
         </div>
-        <div class="opt-btn" data-test="both" onclick="selectTest(this,'both')">
-          <span class="ob-val">All Tests</span>
-          <span class="ob-lbl">769 Questions</span>
+        <div class="opt-btn" data-test="both" onclick="toggleTest(this,'both')">
+          <span class="ob-val">All Practice Tests</span>
+          <span class="ob-lbl">751 Questions</span>
         </div>
       </div>
     </div>
@@ -402,7 +402,7 @@
         <div class="opt-btn" data-time="5400" onclick="selectTimer(this,5400)"><span class="ob-val">1.5h</span><span class="ob-lbl">1.5 Hours</span></div>
       </div>
     </div>
-    <button class="start-btn" onclick="startExam()">Start Practice Exam →</button>
+    <button class="start-btn" onclick="startExam()">Start Practice Test →</button>
   </div>
 
   <!-- EXAM SCREEN -->
@@ -450,7 +450,7 @@
       </div>
       <div class="q-controls">
         <button class="btn btn-outline" onclick="goTo(curQ-1)" id="btn-prev">← Prev</button>
-        <button class="btn btn-danger" onclick="endExam()">End Exam</button>
+        <button class="btn btn-danger" onclick="endExam()">End Test</button>
         <button class="btn btn-primary" id="btn-next" onclick="handleNext()" disabled>Next →</button>
       </div>
     </div>
@@ -459,7 +459,7 @@
   <!-- RESULTS SCREEN -->
   <div id="results-screen">
     <div class="result-score" id="res-score">0/0</div>
-    <div class="result-label" id="res-label">Practice Exam Complete</div>
+    <div class="result-label" id="res-label">Practice Test Complete</div>
     <div class="result-grade" id="res-grade">—</div>
     <div class="result-stats">
       <div class="rs-item"><div class="rs-val" id="res-correct" style="color:var(--correct)">0</div><div class="rs-lbl">Correct</div></div>
@@ -474,7 +474,7 @@
   </div>
 
 </div>
-<footer><p>Built by <a href="https://blaborte.github.io" target="_blank">Baltazar Laborte</a> · BL Cert Hub · CompTIA Network+ N10-009 · Practice Exams 1–8</p></footer>
+<footer><p>Built by <a href="https://blaborte.github.io" target="_blank">Baltazar Laborte</a> · BL Cert Hub · CompTIA Network+ N10-009 · Practice Tests 1–8</p></footer>
 
 <script>
 
@@ -1264,11 +1264,27 @@ let curQ = 0;
 let answers = [];
 let revealed = [];
 let correct = 0, wrong = 0;
-let selectedTest = 1;
+let selectedTests = [1];
 let selectedCount = 10;
 let selectedTime = 0;
 let timerInterval = null;
 let timeLeft = 0;
+
+const TEST_NAMES = {1: 'Practice Test 1', 2: 'Practice Test 2', 3: 'Practice Test 3', 4: 'Practice Test 4', 5: 'Practice Test 5', 6: 'Practice Test 6', 7: 'Practice Test 7', 8: 'Practice Test 8'};
+const ALL_TEST_IDS = [1, 2, 3, 4, 5, 6, 7, 8];
+
+function getPoolForTest(t) {
+  return t === 1 ? ALL_Q : t === 2 ? PT2_Q : t === 3 ? PT3_Q : t === 4 ? PT4_Q : t === 5 ? PT5_Q : t === 6 ? PT6_Q : t === 7 ? PT7_Q : PT8_Q;
+}
+function getCombinedPool() {
+  let combined = [];
+  selectedTests.slice().sort().forEach(t => { combined = combined.concat(getPoolForTest(t)); });
+  return combined;
+}
+function getSelectedLabel() {
+  if (ALL_TEST_IDS.every(id => selectedTests.includes(id))) return 'All Practice Tests';
+  return selectedTests.slice().sort().map(t => TEST_NAMES[t]).join(' + ');
+}
 
 /* ══════════════════════════════════════
    SETUP
@@ -1283,22 +1299,29 @@ function selectTimer(el, t) {
   el.classList.add('selected');
   selectedTime = t;
 }
-function selectTest(el, t) {
-  selectedTest = t;
-  document.querySelectorAll('#test-select-grid .opt-btn').forEach(b => b.classList.remove('selected'));
-  el.classList.add('selected');
-  // Update question count options based on pool size
-  const poolSize = t === 1 ? 129 : t === 2 ? 100 : t === 3 ? 90 : t === 4 ? 90 : t === 5 ? 90 : t === 6 ? 90 : t === 7 ? 90 : t === 8 ? 90 : 769;
-  // Update "All" button label
+function toggleTest(el, t) {
+  if (t === 'both') {
+    const alreadyAll = ALL_TEST_IDS.every(id => selectedTests.includes(id));
+    selectedTests = alreadyAll ? [1] : [...ALL_TEST_IDS];
+  } else if (selectedTests.includes(t)) {
+    if (selectedTests.length > 1) selectedTests = selectedTests.filter(x => x !== t);
+  } else {
+    selectedTests.push(t);
+  }
+
+  document.querySelectorAll('#test-select-grid .opt-btn').forEach(b => {
+    const bt = b.dataset.test;
+    if (bt === 'both') b.classList.toggle('selected', ALL_TEST_IDS.every(id => selectedTests.includes(id)));
+    else b.classList.toggle('selected', selectedTests.includes(parseInt(bt)));
+  });
+
+  const poolSize = getCombinedPool().length;
   const allBtn = document.getElementById('all-q-btn');
   if (allBtn) {
     allBtn.querySelector('.ob-val').textContent = 'All';
     allBtn.querySelector('.ob-lbl').textContent = poolSize + ' Qs';
     allBtn.dataset.count = poolSize;
   }
-  // Update session title label on results
-  const lbl = document.getElementById('res-label');
-  if (lbl) lbl.textContent = t === 'both' ? 'Combined Practice Exam Complete' : `Practice Test ${t} Complete`;
 }
 
 function toggleSessionBar() {
@@ -1309,7 +1332,7 @@ function toggleSessionBar() {
 }
 
 function startExam() {
-  const pool = selectedTest === 1 ? ALL_Q : selectedTest === 2 ? PT2_Q : selectedTest === 3 ? PT3_Q : selectedTest === 4 ? PT4_Q : selectedTest === 5 ? PT5_Q : selectedTest === 6 ? PT6_Q : selectedTest === 7 ? PT7_Q : selectedTest === 8 ? PT8_Q : [...ALL_Q, ...PT2_Q, ...PT3_Q, ...PT4_Q, ...PT5_Q, ...PT6_Q, ...PT7_Q, ...PT8_Q];
+  const pool = getCombinedPool();
   const shuffled = [...pool].sort(() => Math.random() - 0.5);
   sessionQ = shuffled.slice(0, Math.min(selectedCount, pool.length));
   curQ = 0;
@@ -1525,7 +1548,7 @@ function endExam() {
 
   const grade = document.getElementById('res-grade');
   const resLbl = document.getElementById('res-label');
-  if (resLbl) resLbl.textContent = selectedTest === 'both' ? 'All Tests Complete' : `Practice Test ${selectedTest} Complete`;
+  if (resLbl) resLbl.textContent = getSelectedLabel() + ' Complete';
   if (pct >= 72) { grade.className = 'result-grade pass'; grade.textContent = `${pct}% — PASS 🎉`; }
   else { grade.className = 'result-grade fail'; grade.textContent = `${pct}% — Keep Studying`; }
 
@@ -1577,7 +1600,7 @@ function downloadPDFReport() {
   const total = sessionQ.length;
   const skipped = total - correct - wrong;
   const pct = Math.round((correct / total) * 100);
-  const testLabel = selectedTest === 'both' ? 'All Tests Combined' : `Practice Test ${selectedTest}`;
+  const testLabel = getSelectedLabel();
 
   // ── Header ──
   doc.setFillColor(...NAVY);
@@ -1585,7 +1608,7 @@ function downloadPDFReport() {
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(16);
   doc.setTextColor(255, 255, 255);
-  doc.text('CompTIA Network+ N10-009 — Practice Exam Report', margin, 36);
+  doc.text('CompTIA Network+ N10-009 — Practice Test Report', margin, 36);
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(10);
   doc.setTextColor(200, 220, 235);

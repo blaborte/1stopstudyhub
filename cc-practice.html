@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Practice Exam — ISC2 CC | BL Cert Hub</title>
+  <title>Practice Tests — ISC2 CC | BL Cert Hub</title>
   <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
   <style>
     *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
@@ -313,7 +313,7 @@
   <div class="nav-links">
     <a href="index.html">Home</a>
     <a href="cc-home.html">CC</a>
-    <a href="#" class="active">Practice Exam</a>
+    <a href="#" class="active">Practice Tests</a>
     <button class="theme-btn" id="theme-btn" onclick="__toggleTheme()" title="Toggle dark mode">☾</button>
   </div>
 </nav>
@@ -324,8 +324,8 @@
   <div class="hero-bg-ring r2"></div>
   <div class="hero-inner">
     <div class="exam-badge"><div class="bl-circle">BL</div><span>ISC2 Certified in Cybersecurity (CC)</span></div>
-    <h1>Practice <span class="accent">Exam</span></h1>
-    <p class="hero-sub">203 questions from the ISC2 CC question bank covering all 5 domains. Choose your session length and timer, then start.</p>
+    <h1>Practice <span class="accent">Tests</span></h1>
+    <p class="hero-sub">Three practice exams covering all 5 ISC2 CC domains — 203 + 50 + 50 = 303 total questions. Select one or more exams, choose session length and timer, then start.</p>
   </div>
 </div>
 
@@ -333,6 +333,27 @@
 
   <!-- SETUP SCREEN -->
   <div id="setup-screen">
+    <div class="setup-section">
+      <div class="setup-section-label">Select Practice Test(s) — tap to toggle, pick one or more</div>
+      <div class="option-grid cols-4" id="test-select-grid">
+        <div class="opt-btn selected" data-test="1" onclick="toggleTest(this,1)">
+          <span class="ob-val">Practice Test 1</span>
+          <span class="ob-lbl">203 Questions</span>
+        </div>
+        <div class="opt-btn" data-test="2" onclick="toggleTest(this,2)">
+          <span class="ob-val">Practice Test 2</span>
+          <span class="ob-lbl">50 Questions</span>
+        </div>
+        <div class="opt-btn" data-test="3" onclick="toggleTest(this,3)">
+          <span class="ob-val">Practice Test 3</span>
+          <span class="ob-lbl">50 Questions</span>
+        </div>
+        <div class="opt-btn" data-test="all" onclick="toggleTest(this,'all')">
+          <span class="ob-val">All Practice Tests</span>
+          <span class="ob-lbl">303 Questions</span>
+        </div>
+      </div>
+    </div>
     <div class="setup-section">
       <div class="setup-section-label">Number of Questions</div>
       <div class="option-grid cols-6" id="q-count-grid">
@@ -355,7 +376,7 @@
         <div class="opt-btn" data-time="5400" onclick="selectTimer(this,5400)"><span class="ob-val">1.5h</span><span class="ob-lbl">1.5 Hours</span></div>
       </div>
     </div>
-    <button class="start-btn" onclick="startExam()">Start Practice Exam →</button>
+    <button class="start-btn" onclick="startExam()">Start Practice Test →</button>
   </div>
 
   <!-- EXAM SCREEN -->
@@ -403,7 +424,7 @@
       </div>
       <div class="q-controls">
         <button class="btn btn-outline" onclick="goTo(curQ-1)" id="btn-prev">← Prev</button>
-        <button class="btn btn-danger" onclick="endExam()">End Exam</button>
+        <button class="btn btn-danger" onclick="endExam()">End Test</button>
         <button class="btn btn-primary" id="btn-next" onclick="handleNext()" disabled>Next →</button>
       </div>
     </div>
@@ -412,7 +433,7 @@
   <!-- RESULTS SCREEN -->
   <div id="results-screen">
     <div class="result-score" id="res-score">0/0</div>
-    <div class="result-label" id="res-label">ISC2 CC Practice Exam Complete</div>
+    <div class="result-label" id="res-label">ISC2 CC Practice Test Complete</div>
     <div class="result-grade" id="res-grade">—</div>
     <div class="result-stats">
       <div class="rs-item"><div class="rs-val" id="res-correct" style="color:var(--correct)">0</div><div class="rs-lbl">Correct</div></div>
@@ -637,6 +658,112 @@ const CC_Q = [
   {q:'Which physical access control is LESS effective at preventing unauthorized individual access?',opts:['A. Turnstiles','B. Barriers','C. Fences','D. Bollards'],ans:[3],exp:'Bollards prevent vehicles but are less effective at controlling individual pedestrian access. Turnstiles, barriers, and fences directly control individual entry.',domain:'Access Controls'},
 ];
 
+const CC_Q2 = [
+  {q:"Which of the following is NOT one of the three pillars of the CIA triad?",opts:["A. Confidentiality","B. Integrity","C. Availability","D. Authentication"],ans:[3],exp:"The CIA triad consists of Confidentiality, Integrity, and Availability. Authentication is an access control concept, not one of the three CIA pillars.",domain:"Security Principles"},
+  {q:"Which CIA triad principle ensures that data has not been altered in an unauthorized manner?",opts:["A. Confidentiality","B. Integrity","C. Availability","D. Accountability"],ans:[1],exp:"Integrity ensures data remains accurate and unaltered except by authorized parties. Hashing and digital signatures help verify integrity.",domain:"Security Principles"},
+  {q:"In risk management, which formula best represents how risk is generally calculated?",opts:["A. Risk = Threat + Vulnerability","B. Risk = Threat x Vulnerability x Impact","C. Risk = Asset Value / Vulnerability","D. Risk = Impact - Likelihood"],ans:[1],exp:"Risk is commonly expressed as a function of threat, vulnerability, and impact. Option B best captures this relationship among the choices given.",domain:"Security Principles"},
+  {q:"Which type of security control is designed to reduce the likelihood of an incident before it happens?",opts:["A. Detective","B. Corrective","C. Preventive","D. Compensating"],ans:[2],exp:"Preventive controls (e.g., firewalls, locks, training) act before an incident occurs to stop it from happening. Detective controls identify incidents after the fact.",domain:"Security Principles"},
+  {q:"Due diligence in a security context primarily refers to:",opts:["A. Reacting quickly to an incident","B. The ongoing practice of maintaining protections and staying informed","C. The one-time research done before entering a business relationship","D. Ensuring least privilege is applied"],ans:[2],exp:"Due diligence is the research and investigation performed before making a decision (e.g., vetting a vendor). Due care is the ongoing, continuous effort to maintain proper protections.",domain:"Security Principles"},
+  {q:"Which document provides high-level, mandatory statements of management intent regarding security?",opts:["A. Procedure","B. Guideline","C. Policy","D. Standard"],ans:[2],exp:"A policy is a high-level, mandatory statement of management's intent. Standards provide specific mandatory requirements, procedures give step-by-step instructions, and guidelines are recommended (not mandatory) practices.",domain:"Security Principles"},
+  {q:"Non-repudiation ensures that:",opts:["A. Data cannot be read by unauthorized users","B. A user cannot deny having performed an action","C. A system remains available during an attack","D. Data is encrypted at rest"],ans:[1],exp:"Non-repudiation provides proof of the origin and integrity of data, so a party cannot later deny having sent a message or performed an action \u2014 typically achieved via digital signatures and logging.",domain:"Security Principles"},
+  {q:"What is the key difference between privacy and confidentiality?",opts:["A. They are the same concept","B. Privacy protects personal information about individuals; confidentiality protects any sensitive data from unauthorized disclosure","C. Confidentiality only applies to government data","D. Privacy only applies to encrypted data"],ans:[1],exp:"Confidentiality is a broad principle limiting access to sensitive information of any kind, while privacy specifically concerns the appropriate handling of personal information about individuals.",domain:"Security Principles"},
+  {q:"The primary purpose of a risk register is to:",opts:["A. Store user passwords securely","B. Track identified risks, their ratings, and mitigation status","C. Log network traffic","D. Record incident response procedures"],ans:[1],exp:"A risk register is a repository that documents identified risks, their likelihood/impact assessments, ownership, and the status of mitigation efforts.",domain:"Security Principles"},
+  {q:"Which security control category includes items such as fences, locks, and security guards?",opts:["A. Administrative","B. Technical","C. Physical","D. Logical"],ans:[2],exp:"Physical controls include tangible measures like fences, locks, badges, and guards that protect physical assets and facilities.",domain:"Security Principles"},
+  {q:"Which metric defines the maximum acceptable amount of data loss measured in time?",opts:["A. RTO","B. RPO","C. MTD","D. SLA"],ans:[1],exp:"The Recovery Point Objective (RPO) defines how much data loss (in time) is tolerable, determining how frequently backups must occur.",domain:"BC/DR/IR"},
+  {q:"Which metric defines how quickly a system or process must be restored after a disruption?",opts:["A. RPO","B. MTD","C. RTO","D. BIA"],ans:[2],exp:"The Recovery Time Objective (RTO) is the target duration within which a business process must be restored after a disruption.",domain:"BC/DR/IR"},
+  {q:"The primary purpose of a Business Impact Analysis (BIA) is to:",opts:["A. Identify vulnerabilities in the network","B. Identify and prioritize critical business functions and the impact of their loss","C. Draft the incident response plan","D. Test backup restoration"],ans:[1],exp:"A BIA identifies critical business functions, assesses the impact of their disruption, and helps prioritize recovery efforts.",domain:"BC/DR/IR"},
+  {q:"Which best describes the difference between a Business Continuity Plan (BCP) and a Disaster Recovery Plan (DRP)?",opts:["A. They are identical documents","B. A BCP focuses on keeping the overall business running; a DRP focuses on restoring IT systems and infrastructure","C. A DRP is broader and includes the BCP","D. A BCP only applies to natural disasters"],ans:[1],exp:"The BCP addresses how the entire organization continues operating during a disruption, while the DRP is more narrowly focused on recovering IT systems and technical infrastructure.",domain:"BC/DR/IR"},
+  {q:"What is the correct order of the incident response lifecycle phases according to common frameworks?",opts:["A. Detection, Preparation, Containment, Recovery","B. Preparation, Detection & Analysis, Containment/Eradication/Recovery, Post-Incident Activity","C. Containment, Preparation, Eradication, Detection","D. Recovery, Detection, Preparation, Analysis"],ans:[1],exp:"The standard incident response lifecycle is: Preparation, Detection & Analysis, Containment/Eradication/Recovery, and Post-Incident Activity (lessons learned).",domain:"BC/DR/IR"},
+  {q:"Which backup type captures only the data that has changed since the last full backup, regardless of any intervening backups?",opts:["A. Full backup","B. Incremental backup","C. Differential backup","D. Snapshot backup"],ans:[2],exp:"A differential backup captures all changes since the last FULL backup. An incremental backup only captures changes since the last backup of ANY type (full or incremental).",domain:"BC/DR/IR"},
+  {q:"A fully equipped alternate site with real-time data replication that can take over operations almost immediately is known as a:",opts:["A. Cold site","B. Warm site","C. Hot site","D. Mobile site"],ans:[2],exp:"A hot site is a fully operational duplicate facility with near real-time data replication, allowing for minimal downtime during failover.",domain:"BC/DR/IR"},
+  {q:"The maximum amount of time a business process can be unavailable before causing unacceptable harm to the organization is known as the:",opts:["A. RPO","B. RTO","C. MTD","D. SLA"],ans:[2],exp:"The Maximum Tolerable Downtime (MTD), also called Maximum Allowable Outage, is the longest period a process can be down before serious harm occurs to the organization.",domain:"BC/DR/IR"},
+  {q:"Maintaining a documented chain of custody during an incident investigation is important primarily to:",opts:["A. Speed up system recovery","B. Preserve the integrity and admissibility of evidence","C. Notify affected customers","D. Update the risk register"],ans:[1],exp:"Chain of custody documents who handled evidence and when, preserving its integrity so it remains admissible in legal or disciplinary proceedings.",domain:"BC/DR/IR"},
+  {q:"A tabletop exercise is primarily used to:",opts:["A. Physically test failover to a backup data center","B. Walk stakeholders through a simulated incident scenario in a discussion-based format","C. Perform a live penetration test","D. Restore data from backup tapes"],ans:[1],exp:"A tabletop exercise is a discussion-based session where team members talk through their roles and responses to a simulated incident, without actually executing technical failover.",domain:"BC/DR/IR"},
+  {q:"IAAA is best described as the four core concepts of access control, standing for:",opts:["A. Identification, Authentication, Authorization, Accounting","B. Integrity, Access, Availability, Auditing","C. Identification, Authorization, Availability, Accounting","D. Identity, Authentication, Access, Auditing"],ans:[0],exp:"IAAA stands for Identification, Authentication, Authorization, and Accounting \u2014 the four core functions of access control.",domain:"Access Controls"},
+  {q:"Which access control model assigns permissions based on a user's job function within the organization?",opts:["A. DAC","B. MAC","C. RBAC","D. ABAC"],ans:[2],exp:"Role-Based Access Control (RBAC) grants permissions according to a user's assigned role or job function within the organization.",domain:"Access Controls"},
+  {q:"Which access control model uses security labels and clearance levels set by the organization, which users cannot alter?",opts:["A. DAC","B. MAC","C. RBAC","D. ABAC"],ans:[1],exp:"Mandatory Access Control (MAC) enforces access based on fixed security labels/clearances defined by a central authority; individual users cannot change these labels.",domain:"Access Controls"},
+  {q:"Requiring both a password and a one-time code from a mobile app before granting access is an example of:",opts:["A. Single-factor authentication","B. Multi-factor authentication","C. Single sign-on","D. Role-based access control"],ans:[1],exp:"Multi-factor authentication (MFA) requires two or more independent authentication factors \u2014 here, something you know (password) and something you have (mobile device generating a code).",domain:"Access Controls"},
+  {q:"The principle that users should only be granted the minimum access necessary to perform their job is known as:",opts:["A. Separation of duties","B. Least privilege","C. Need to know","D. Defense in depth"],ans:[1],exp:"Least privilege limits a user's overall access rights to the minimum required for their role. Need to know is related but specifically concerns access to particular pieces of information.",domain:"Access Controls"},
+  {q:"A system that allows a user to authenticate once and gain access to multiple independent applications without re-entering credentials is called:",opts:["A. Federation","B. Single Sign-On (SSO)","C. Multi-factor authentication","D. Role mining"],ans:[1],exp:"Single Sign-On (SSO) allows a user to authenticate once and access multiple systems or applications without logging in again to each one.",domain:"Access Controls"},
+  {q:"In biometric authentication, the rate at which an unauthorized user is incorrectly granted access is called the:",opts:["A. False Rejection Rate (FRR)","B. False Acceptance Rate (FAR)","C. Crossover Error Rate (CER)","D. Equal Error Rate (EER)"],ans:[1],exp:"The False Acceptance Rate (FAR) measures how often a biometric system incorrectly accepts an unauthorized user. The False Rejection Rate (FRR) measures the opposite error.",domain:"Access Controls"},
+  {q:"A physical access control consisting of a small enclosed space with two interlocking doors, allowing only one person through at a time, is called a:",opts:["A. Turnstile","B. Mantrap","C. Bollard","D. Checkpoint"],ans:[1],exp:"A mantrap is a small vestibule with two interlocking doors; the second door won't open until the first is closed, preventing tailgating and controlling access one person at a time.",domain:"Access Controls"},
+  {q:"Which of the following is considered a strong password policy practice?",opts:["A. Requiring frequent, mandatory password changes every 30 days regardless of compromise","B. Allowing the reuse of the last five passwords","C. Enforcing length and complexity while avoiding unnecessary forced periodic changes","D. Allowing simple, easy-to-remember passwords for convenience"],ans:[2],exp:"Modern guidance (e.g., NIST) favors long, complex passwords and only requiring changes when there's evidence of compromise, rather than frequent forced rotation, which often leads to weaker password choices.",domain:"Access Controls"},
+  {q:"The process of removing a user's system access rights when they leave an organization is known as:",opts:["A. Provisioning","B. Deprovisioning","C. Federation","D. Escalation"],ans:[1],exp:"Deprovisioning is the process of revoking a user's access and accounts when they no longer need them, such as upon termination or role change.",domain:"Access Controls"},
+  {q:"A firewall that tracks the state of active connections and makes filtering decisions based on the context of traffic is called a:",opts:["A. Stateless firewall","B. Stateful firewall","C. Proxy firewall","D. Packet filter"],ans:[1],exp:"A stateful firewall tracks the state of active network connections and uses that context to make more intelligent filtering decisions than a simple stateless packet filter.",domain:"Network Security"},
+  {q:"The primary purpose of a Virtual Private Network (VPN) is to:",opts:["A. Increase internet bandwidth","B. Provide a secure, encrypted tunnel for data across an untrusted network","C. Block malicious websites","D. Balance load across multiple servers"],ans:[1],exp:"A VPN creates an encrypted tunnel that protects data confidentiality and integrity as it traverses an untrusted network, such as the public internet.",domain:"Network Security"},
+  {q:"A network segment that sits between the internal trusted network and the untrusted internet, hosting public-facing servers, is called a:",opts:["A. VLAN","B. DMZ","C. Intranet","D. Extranet"],ans:[1],exp:"A Demilitarized Zone (DMZ) is a buffer network segment that hosts public-facing services (e.g., web servers) while isolating them from the fully trusted internal network.",domain:"Network Security"},
+  {q:"Which port is commonly associated with HTTPS traffic?",opts:["A. 21","B. 80","C. 443","D. 3389"],ans:[2],exp:"Port 443 is the well-known port for HTTPS (HTTP over TLS/SSL). Port 80 is for unencrypted HTTP, 21 is FTP, and 3389 is RDP.",domain:"Network Security"},
+  {q:"An attack in which an overwhelming volume of traffic from many distributed sources is used to make a service unavailable is called a:",opts:["A. Man-in-the-middle attack","B. Distributed Denial of Service (DDoS) attack","C. Phishing attack","D. SQL injection attack"],ans:[1],exp:"A DDoS attack floods a target with traffic from many distributed sources simultaneously, overwhelming resources and denying service to legitimate users.",domain:"Network Security"},
+  {q:"An attacker secretly intercepts and possibly alters communications between two parties who believe they are communicating directly with each other. This is known as a:",opts:["A. Replay attack","B. Man-in-the-middle (MITM) attack","C. Brute-force attack","D. Cross-site scripting attack"],ans:[1],exp:"A man-in-the-middle attack occurs when an attacker positions themselves between two communicating parties, intercepting and potentially altering the traffic without either party's knowledge.",domain:"Network Security"},
+  {q:"Network Address Translation (NAT) is primarily used to:",opts:["A. Encrypt network traffic","B. Translate private internal IP addresses to a public IP address for internet access","C. Detect intrusions","D. Segment a network into VLANs"],ans:[1],exp:"NAT translates private, internal IP addresses to one or more public IP addresses, allowing devices on a private network to communicate with the internet while conserving public address space.",domain:"Network Security"},
+  {q:"The primary purpose of a Virtual Local Area Network (VLAN) is to:",opts:["A. Encrypt data in transit","B. Logically segment a physical network into separate broadcast domains","C. Provide remote access over the internet","D. Filter malicious email"],ans:[1],exp:"VLANs logically divide a single physical network into multiple separate broadcast domains, improving security and traffic management without requiring separate physical switches.",domain:"Network Security"},
+  {q:"Compared to WEP, WPA3 wireless security primarily improves security by:",opts:["A. Using weaker encryption for compatibility","B. Removing the need for a password","C. Using stronger encryption algorithms and protecting against offline dictionary attacks","D. Disabling all encryption"],ans:[2],exp:"WPA3 uses stronger encryption (e.g., SAE - Simultaneous Authentication of Equals) than the outdated and easily-broken WEP protocol, and it protects against offline password-guessing attacks.",domain:"Network Security"},
+  {q:"Which of the following best distinguishes an Intrusion Prevention System (IPS) from an Intrusion Detection System (IDS)?",opts:["A. An IPS can only monitor; an IDS can block traffic","B. An IPS can actively block or prevent malicious traffic, while an IDS only monitors and alerts","C. They are functionally identical","D. An IDS requires signatures; an IPS does not use signatures"],ans:[1],exp:"An IDS passively monitors traffic and generates alerts on suspicious activity, while an IPS sits inline and can actively block or prevent malicious traffic in real time.",domain:"Network Security"},
+  {q:"The process of applying updates to fix known vulnerabilities in software and systems is called:",opts:["A. Configuration management","B. Patch management","C. Change management","D. Asset management"],ans:[1],exp:"Patch management is the process of identifying, testing, and applying updates (patches) to fix known vulnerabilities and bugs in software and systems.",domain:"Security Operations"},
+  {q:"A tool that aggregates and correlates log data from multiple sources to detect security events in near real time is called a:",opts:["A. Firewall","B. SIEM","C. VPN concentrator","D. Load balancer"],ans:[1],exp:"A Security Information and Event Management (SIEM) system collects, aggregates, and correlates logs from across an environment to detect and alert on potential security events.",domain:"Security Operations"},
+  {q:"Assigning labels such as Public, Internal, Confidential, and Restricted to organizational data is an example of:",opts:["A. Data classification","B. Data masking","C. Data minimization","D. Data retention"],ans:[0],exp:"Data classification assigns sensitivity labels to data (e.g., Public, Internal, Confidential, Restricted) to determine appropriate handling and protection requirements.",domain:"Security Operations"},
+  {q:"Encrypting a database file stored on a hard drive protects data:",opts:["A. In transit","B. At rest","C. In use","D. During processing"],ans:[1],exp:"Data at rest refers to data stored on a physical medium such as a hard drive or database file, and encrypting it protects that stored data from unauthorized access.",domain:"Security Operations"},
+  {q:"A documented, approved standard configuration that all systems of a given type must follow is known as a:",opts:["A. Configuration baseline","B. Change request","C. Risk register","D. Access control list"],ans:[0],exp:"A configuration baseline is the documented, approved standard state for a system's configuration, used as a reference point for detecting unauthorized changes.",domain:"Security Operations"},
+  {q:"The primary goal of security awareness training for employees is to:",opts:["A. Replace the need for technical controls","B. Reduce human-related risk by teaching employees to recognize and avoid threats like phishing","C. Satisfy legal requirements only","D. Train IT staff on firewall configuration"],ans:[1],exp:"Security awareness training helps reduce the human element of risk by teaching all employees to recognize social engineering, phishing, and other threats and to follow secure practices.",domain:"Security Operations"},
+  {q:"Which activity involves actively attempting to exploit vulnerabilities to determine real-world impact, typically with explicit authorization?",opts:["A. Vulnerability scanning","B. Penetration testing","C. Log review","D. Risk assessment"],ans:[1],exp:"Penetration testing involves authorized, active attempts to exploit identified vulnerabilities to assess real-world impact, going beyond the passive identification done in vulnerability scanning.",domain:"Security Operations"},
+  {q:"Retaining security logs for a defined period of time is important primarily to support:",opts:["A. Faster network speeds","B. Forensic investigation, compliance, and trend analysis","C. Reducing storage costs","D. Encrypting data at rest"],ans:[1],exp:"Log retention ensures historical data is available for forensic investigations, regulatory compliance requirements, and identifying long-term trends or patterns of malicious activity.",domain:"Security Operations"},
+  {q:"A formal group that reviews and approves proposed changes to IT systems before implementation is known as a:",opts:["A. Incident Response Team","B. Change Advisory Board (CAB)","C. Risk Register Committee","D. Security Operations Center"],ans:[1],exp:"The Change Advisory Board (CAB) is a formal group responsible for reviewing, evaluating, and approving or rejecting proposed changes as part of the change management process.",domain:"Security Operations"},
+  {q:"Maintaining an accurate, up-to-date inventory of all hardware and software within an organization is a core part of:",opts:["A. Asset management","B. Vulnerability management","C. Patch management","D. Identity management"],ans:[0],exp:"Asset management involves tracking and maintaining an accurate inventory of all hardware and software assets, which is foundational to effectively securing and managing an environment.",domain:"Security Operations"},
+];
+
+const CC_Q3 = [
+  {q:"Which term describes the potential for loss or damage when a threat exploits a vulnerability?",opts:["A. Risk","B. Control","C. Asset","D. Impact"],ans:[0],exp:"Risk is the potential for loss or damage that occurs when a threat successfully exploits a vulnerability affecting an asset.",domain:"Security Principles"},
+  {q:"Which of the following best describes 'availability' in the CIA triad?",opts:["A. Ensuring only authorized users can view data","B. Ensuring data is accurate and unmodified","C. Ensuring authorized users can access systems and data when needed","D. Ensuring actions can be traced to a specific user"],ans:[2],exp:"Availability ensures that systems, applications, and data are accessible to authorized users whenever they are needed.",domain:"Security Principles"},
+  {q:"An organization chooses to purchase cybersecurity insurance to offset potential financial losses from a breach. This is an example of which risk treatment?",opts:["A. Risk avoidance","B. Risk mitigation","C. Risk transfer","D. Risk acceptance"],ans:[2],exp:"Purchasing insurance shifts the financial impact of a risk to a third party (the insurer), which is the definition of risk transfer.",domain:"Security Principles"},
+  {q:"A company decides to discontinue a risky product line entirely rather than manage the associated cyber risk. This is an example of:",opts:["A. Risk transfer","B. Risk avoidance","C. Risk mitigation","D. Risk acceptance"],ans:[1],exp:"Risk avoidance means eliminating the activity or exposure that creates the risk altogether, rather than managing or accepting it.",domain:"Security Principles"},
+  {q:"Which security control type is designed to identify that a security incident has already occurred?",opts:["A. Preventive","B. Detective","C. Deterrent","D. Corrective"],ans:[1],exp:"Detective controls (such as IDS or log monitoring) identify that a security incident or policy violation has already occurred, so it can be investigated and addressed.",domain:"Security Principles"},
+  {q:"A document that provides recommended, non-mandatory guidance on how to achieve policy objectives is called a:",opts:["A. Policy","B. Standard","C. Procedure","D. Guideline"],ans:[3],exp:"Guidelines offer recommended (but not mandatory) advice on achieving objectives set out in policies, offering flexibility in how the objective is met.",domain:"Security Principles"},
+  {q:"The concept that multiple layers of different security controls are used so that if one fails, others still provide protection is called:",opts:["A. Least privilege","B. Defense in depth","C. Separation of duties","D. Zero trust"],ans:[1],exp:"Defense in depth uses multiple, overlapping layers of security controls (physical, technical, administrative) so that the failure of any single layer does not result in a complete compromise.",domain:"Security Principles"},
+  {q:"Requiring that no single individual has complete control over a critical process, such as requiring two people to approve a large financial transaction, is an example of:",opts:["A. Least privilege","B. Separation of duties","C. Defense in depth","D. Non-repudiation"],ans:[1],exp:"Separation of duties divides critical tasks among multiple people so that no single individual can complete a sensitive process alone, reducing the risk of fraud or error.",domain:"Security Principles"},
+  {q:"Which of the following is an example of an administrative security control?",opts:["A. A firewall","B. A security awareness training policy","C. A door lock","D. Data encryption"],ans:[1],exp:"Administrative controls consist of policies, procedures, and training programs, such as a security awareness training requirement \u2014 as opposed to technical (encryption, firewalls) or physical (locks) controls.",domain:"Security Principles"},
+  {q:"The ISC2 Code of Ethics requires members to act:",opts:["A. Honorably, honestly, justly, responsibly, and legally","B. Quickly, quietly, and without documentation","C. Only within their own department","D. According to personal judgment alone"],ans:[0],exp:"One of the four ISC2 canons requires members to act honorably, honestly, justly, responsibly, and legally in all professional matters.",domain:"Security Principles"},
+  {q:"Which document outlines specific steps for restoring IT systems and infrastructure after a disruptive event?",opts:["A. Business Continuity Plan","B. Disaster Recovery Plan","C. Incident Response Policy","D. Risk Register"],ans:[1],exp:"The Disaster Recovery Plan (DRP) provides the specific technical steps and procedures for restoring IT systems, applications, and infrastructure following a disruptive event.",domain:"BC/DR/IR"},
+  {q:"An alternate recovery site with basic infrastructure (power, space, connectivity) but no pre-installed systems or data is known as a:",opts:["A. Hot site","B. Warm site","C. Cold site","D. Mirror site"],ans:[2],exp:"A cold site provides only basic infrastructure like power, space, and connectivity, requiring equipment and data to be brought in and configured before it can become operational \u2014 resulting in the longest recovery time of the three site types.",domain:"BC/DR/IR"},
+  {q:"During the eradication phase of incident response, the primary goal is to:",opts:["A. Identify that an incident has occurred","B. Remove the root cause of the incident from affected systems","C. Notify law enforcement","D. Draft the after-action report"],ans:[1],exp:"Eradication focuses on removing the root cause of the incident \u2014 such as malware, backdoors, or compromised accounts \u2014 from all affected systems before recovery.",domain:"BC/DR/IR"},
+  {q:"A backup strategy that captures all data every time it runs, regardless of previous backups, is called a:",opts:["A. Incremental backup","B. Differential backup","C. Full backup","D. Snapshot"],ans:[2],exp:"A full backup captures the entirety of the selected data set every time it is run, providing the simplest restoration process but requiring the most time and storage.",domain:"BC/DR/IR"},
+  {q:"Which of the following best defines a disaster in the context of business continuity?",opts:["A. Any minor service interruption","B. A sudden, unplanned event causing significant disruption requiring the activation of continuity or recovery plans","C. A routine scheduled maintenance window","D. A planned system upgrade"],ans:[1],exp:"A disaster is a sudden, unplanned, and significant disruptive event that exceeds normal operational capacity and requires activation of formal continuity or disaster recovery plans.",domain:"BC/DR/IR"},
+  {q:"The 'lessons learned' or post-incident review is conducted primarily to:",opts:["A. Assign blame to individuals","B. Identify what worked well and what can be improved for future incident response","C. Notify customers of the breach","D. Restore affected systems"],ans:[1],exp:"The post-incident review (lessons learned) analyzes the response to an incident to identify successes and gaps, feeding improvements back into future incident response planning.",domain:"BC/DR/IR"},
+  {q:"Which of the following is typically the FIRST step when an organization suspects a security incident has occurred?",opts:["A. Eradicate the threat","B. Detect and analyze the event to confirm it is a genuine incident","C. Notify the media","D. Restore from backups"],ans:[1],exp:"Before any containment or eradication activities begin, the team must first detect and analyze the suspicious activity to confirm whether it constitutes a genuine security incident.",domain:"BC/DR/IR"},
+  {q:"A Service Level Agreement (SLA) primarily defines:",opts:["A. The maximum data loss a business can tolerate","B. The agreed-upon performance and availability commitments between a provider and customer","C. The chain of custody for evidence","D. The steps to restore a database"],ans:[1],exp:"An SLA is a contract that defines the agreed-upon level of service, including performance, availability, and response time commitments, between a service provider and its customer.",domain:"BC/DR/IR"},
+  {q:"Which team model for incident response relies on drawing staff from existing IT and security roles as needed, rather than maintaining a dedicated full-time team?",opts:["A. Dedicated","B. Leveraged","C. Hybrid","D. Outsourced"],ans:[1],exp:"The leveraged model uses existing staff from across the organization's departments to respond to incidents as needed, rather than maintaining a dedicated, full-time incident response team.",domain:"BC/DR/IR"},
+  {q:"Testing the actual failover of production systems to a backup data center, including real data and users, is known as a:",opts:["A. Tabletop exercise","B. Walkthrough","C. Full-scale/live test","D. Checklist review"],ans:[2],exp:"A full-scale (or live) test actually executes the failover process to a backup location using real systems and data, providing the most realistic validation of recovery plans \u2014 but also the highest risk and cost.",domain:"BC/DR/IR"},
+  {q:"Which of the following is an example of 'something you have' as an authentication factor?",opts:["A. A password","B. A fingerprint","C. A hardware token or smart card","D. A security question answer"],ans:[2],exp:"'Something you have' refers to a physical object in the user's possession, such as a hardware token, smart card, or mobile device used to generate one-time codes.",domain:"Access Controls"},
+  {q:"Which of the following is an example of 'something you are' as an authentication factor?",opts:["A. A PIN","B. A fingerprint or retina scan","C. A key fob","D. A password"],ans:[1],exp:"'Something you are' refers to biometric characteristics unique to an individual, such as fingerprints, retina patterns, or facial geometry.",domain:"Access Controls"},
+  {q:"In an access control model where the resource owner decides who is granted access, this is known as:",opts:["A. Mandatory Access Control (MAC)","B. Discretionary Access Control (DAC)","C. Role-Based Access Control (RBAC)","D. Rule-Based Access Control"],ans:[1],exp:"Discretionary Access Control (DAC) allows the owner of a resource to decide, at their discretion, who else is granted access to it.",domain:"Access Controls"},
+  {q:"Which access control model grants or denies access based on a combination of user, resource, and environmental attributes (such as time of day or location)?",opts:["A. DAC","B. MAC","C. RBAC","D. ABAC"],ans:[3],exp:"Attribute-Based Access Control (ABAC) evaluates multiple attributes \u2014 such as user role, resource sensitivity, time, and location \u2014 to make dynamic access decisions.",domain:"Access Controls"},
+  {q:"The concept of 'need to know' specifically restricts access to:",opts:["A. Any system resource regardless of relevance","B. Only the specific information required to perform a particular task, even among authorized users","C. All resources within a user's department","D. Physical facilities only"],ans:[1],exp:"Need to know further restricts access beyond least privilege \u2014 even users with appropriate clearance or role should only access the specific pieces of information necessary for their current task.",domain:"Access Controls"},
+  {q:"Federation allows users to:",opts:["A. Reset passwords automatically","B. Use credentials from one trusted organization to access resources in another organization","C. Bypass multi-factor authentication","D. Encrypt data at rest"],ans:[1],exp:"Federation establishes trust relationships between organizations, allowing users to authenticate with credentials from their home organization to access resources in a partner organization.",domain:"Access Controls"},
+  {q:"A security guard checking employee badges before allowing entry to a building is an example of which type of control?",opts:["A. Technical","B. Physical","C. Administrative","D. Logical"],ans:[1],exp:"A security guard checking badges is a physical control \u2014 a tangible, real-world measure that restricts physical access to a facility.",domain:"Access Controls"},
+  {q:"The process of granting a new employee the accounts and access rights they need to begin work is known as:",opts:["A. Deprovisioning","B. Provisioning","C. Federation","D. Authorization review"],ans:[1],exp:"Provisioning is the process of creating accounts and granting the appropriate access rights to a new user so they can begin performing their job duties.",domain:"Access Controls"},
+  {q:"Which of the following best describes 'authorization' in the context of access control?",opts:["A. Proving a claimed identity","B. Determining what an authenticated user is permitted to do","C. Recording user activity for audit purposes","D. Verifying a password meets complexity requirements"],ans:[1],exp:"Authorization occurs after authentication and determines what actions or resources an authenticated user is permitted to access based on their granted permissions.",domain:"Access Controls"},
+  {q:"Periodically reviewing user accounts and their access rights to ensure they remain appropriate is known as:",opts:["A. Access recertification / access review","B. Provisioning","C. Federation","D. Data classification"],ans:[0],exp:"Access recertification (or access review) is the periodic process of verifying that existing user access rights remain appropriate and necessary, helping prevent privilege creep.",domain:"Access Controls"},
+  {q:"Which type of firewall makes filtering decisions based solely on individual packet headers without tracking connection state?",opts:["A. Stateful firewall","B. Stateless (packet-filtering) firewall","C. Application-layer firewall","D. Next-generation firewall"],ans:[1],exp:"A stateless, or packet-filtering, firewall evaluates each packet individually based on header information (like source/destination IP and port) without tracking the state of the overall connection.",domain:"Network Security"},
+  {q:"Which protocol is commonly used to securely encrypt web traffic between a browser and a server?",opts:["A. HTTP","B. FTP","C. TLS/SSL","D. Telnet"],ans:[2],exp:"TLS (and its predecessor SSL) provides encryption for web traffic, most commonly seen as the 'S' in HTTPS, protecting data in transit between browser and server.",domain:"Network Security"},
+  {q:"An attack where an attacker floods a single target from a single source with excessive traffic to make it unavailable is best described as a:",opts:["A. Distributed Denial of Service (DDoS) attack","B. Denial of Service (DoS) attack","C. Man-in-the-middle attack","D. Phishing attack"],ans:[1],exp:"A Denial of Service (DoS) attack originates from a single source attempting to overwhelm and disable a target, as opposed to a DDoS attack which uses many distributed sources.",domain:"Network Security"},
+  {q:"Which port is the well-known port for unencrypted remote command-line access via Telnet?",opts:["A. 22","B. 23","C. 443","D. 3389"],ans:[1],exp:"Port 23 is the well-known port for Telnet, an insecure, unencrypted remote access protocol that has largely been replaced by SSH (port 22).",domain:"Network Security"},
+  {q:"An attacker captures legitimate network traffic and later resends it to trick a system into granting unauthorized access. This describes a:",opts:["A. Replay attack","B. Man-in-the-middle attack","C. Brute-force attack","D. Cross-site scripting attack"],ans:[0],exp:"A replay attack involves intercepting valid data transmissions and retransmitting them later to deceive the receiving system, often to bypass authentication.",domain:"Network Security"},
+  {q:"Which network device operates by forwarding traffic based on MAC addresses within a local network segment?",opts:["A. Router","B. Switch","C. Firewall","D. Modem"],ans:[1],exp:"A switch operates at Layer 2 and forwards traffic within a local network based on the destination device's MAC address.",domain:"Network Security"},
+  {q:"Which network device is primarily responsible for forwarding traffic between different networks based on IP addresses?",opts:["A. Switch","B. Hub","C. Router","D. Access point"],ans:[2],exp:"A router operates at Layer 3 and forwards traffic between different networks based on IP addressing, determining the best path for data to travel.",domain:"Network Security"},
+  {q:"Segmenting a network so that IoT devices are isolated from critical business systems is an example of applying which security concept?",opts:["A. Least privilege","B. Network segmentation","C. Non-repudiation","D. Federation"],ans:[1],exp:"Network segmentation divides a network into smaller, isolated segments (such as separating IoT devices from critical systems) to limit the potential spread of an attack.",domain:"Network Security"},
+  {q:"Which wireless security protocol is considered obsolete and easily broken, and should not be used?",opts:["A. WPA3","B. WPA2","C. WEP","D. 802.1X"],ans:[2],exp:"WEP (Wired Equivalent Privacy) is an outdated wireless security protocol with well-known cryptographic weaknesses that make it easily broken; it has been superseded by WPA2 and WPA3.",domain:"Network Security"},
+  {q:"The practice of monitoring inbound and outbound network traffic to detect signs of malicious activity, without the ability to actively block it, best describes:",opts:["A. An IPS","B. An IDS","C. A next-generation firewall","D. A VPN concentrator"],ans:[1],exp:"An Intrusion Detection System (IDS) passively monitors traffic for signs of malicious activity and generates alerts, but unlike an IPS, does not actively block traffic.",domain:"Network Security"},
+  {q:"Regularly scanning systems for known vulnerabilities using automated tools, without actively exploiting them, is known as:",opts:["A. Penetration testing","B. Vulnerability scanning","C. Red teaming","D. Threat hunting"],ans:[1],exp:"Vulnerability scanning uses automated tools to passively identify known weaknesses in systems without attempting to actively exploit them, unlike penetration testing.",domain:"Security Operations"},
+  {q:"Data that is actively being processed in a system's memory (RAM) is referred to as data:",opts:["A. At rest","B. In transit","C. In use","D. Archived"],ans:[2],exp:"Data in use refers to data that is actively being processed or accessed in memory (such as RAM), which presents unique protection challenges compared to data at rest or in transit.",domain:"Security Operations"},
+  {q:"Which activity ensures that an organization's inventory of hardware and software is accurate and up to date?",opts:["A. Asset management","B. Change management","C. Patch management","D. Vulnerability management"],ans:[0],exp:"Asset management maintains an accurate, current inventory of all hardware and software assets, which is foundational for effective security operations.",domain:"Security Operations"},
+  {q:"A defined schedule for how long different types of logs and records must be kept before they can be deleted is called a:",opts:["A. Configuration baseline","B. Data retention policy","C. Access control list","D. Change request"],ans:[1],exp:"A data retention policy defines how long various types of data and logs must be kept to satisfy legal, regulatory, and operational requirements before they can be safely disposed of.",domain:"Security Operations"},
+  {q:"Reviewing and formally approving all proposed modifications to production systems before they are implemented is a core part of:",opts:["A. Risk management","B. Change management","C. Configuration management","D. Vulnerability management"],ans:[1],exp:"Change management is the formal process of proposing, reviewing, approving, and documenting modifications to production systems to minimize the risk of unintended disruption.",domain:"Security Operations"},
+  {q:"A device that does not match its organization's approved configuration baseline is said to be:",opts:["A. Compliant","B. Non-compliant / out of compliance","C. Hardened","D. Deprovisioned"],ans:[1],exp:"A device that deviates from its organization's approved configuration baseline is considered non-compliant and should typically be remediated or isolated until it can be brought back into compliance.",domain:"Security Operations"},
+  {q:"The primary goal of encrypting data both at rest and in transit is to protect its:",opts:["A. Availability only","B. Confidentiality and integrity","C. Retention period","D. Classification label"],ans:[1],exp:"Encryption primarily protects the confidentiality of data by making it unreadable to unauthorized parties, and in many implementations also helps protect integrity by detecting tampering.",domain:"Security Operations"},
+  {q:"Which type of testing simulates a real-world attacker attempting to exploit vulnerabilities, with explicit authorization from the organization?",opts:["A. Vulnerability scanning","B. Penetration testing","C. Code review","D. Log analysis"],ans:[1],exp:"Penetration testing is authorized, simulated attack activity intended to actively exploit vulnerabilities and determine their real-world business impact, going further than a passive vulnerability scan.",domain:"Security Operations"},
+  {q:"Reducing the amount of personal data collected and retained to only what is strictly necessary for a defined purpose is known as:",opts:["A. Data classification","B. Data minimization","C. Data masking","D. Data retention"],ans:[1],exp:"Data minimization is the practice of collecting and retaining only the minimum amount of personal or sensitive data necessary to fulfill a specific, defined purpose.",domain:"Security Operations"},
+  {q:"Security awareness training that specifically simulates phishing emails to test and educate employees is an example of:",opts:["A. Penetration testing","B. A phishing simulation exercise","C. Vulnerability scanning","D. Chain of custody"],ans:[1],exp:"A phishing simulation exercise sends realistic but harmless mock phishing emails to employees to measure susceptibility and reinforce awareness training in a controlled, educational way.",domain:"Security Operations"},
+];
+
 /* ══════════════════════════════════════
    STATE
 ══════════════════════════════════════ */
@@ -645,11 +772,27 @@ let curQ = 0;
 let answers = [];
 let revealed = [];
 let correct = 0, wrong = 0;
-let selectedTest = 1;
+let selectedTests = [1];
 let selectedCount = 10;
 let selectedTime = 0;
 let timerInterval = null;
 let timeLeft = 0;
+
+const TEST_NAMES = {1: 'Practice Test 1', 2: 'Practice Test 2', 3: 'Practice Test 3'};
+const ALL_TEST_IDS = [1, 2, 3];
+
+function getPoolForTest(t) {
+  return t === 1 ? CC_Q : t === 2 ? CC_Q2 : CC_Q3;
+}
+function getCombinedPool() {
+  let combined = [];
+  selectedTests.slice().sort().forEach(t => { combined = combined.concat(getPoolForTest(t)); });
+  return combined;
+}
+function getSelectedLabel() {
+  if (ALL_TEST_IDS.every(id => selectedTests.includes(id))) return 'All Practice Tests';
+  return selectedTests.slice().sort().map(t => TEST_NAMES[t]).join(' + ');
+}
 
 /* ══════════════════════════════════════
    SETUP
@@ -664,22 +807,29 @@ function selectTimer(el, t) {
   el.classList.add('selected');
   selectedTime = t;
 }
-function selectTest(el, t) {
-  selectedTest = t;
-  document.querySelectorAll('#test-select-grid .opt-btn').forEach(b => b.classList.remove('selected'));
-  el.classList.add('selected');
-  // Update question count options based on pool size
-  const poolSize = t === 1 ? 129 : t === 2 ? 100 : 229;
-  // Update "All" button label
+function toggleTest(el, t) {
+  if (t === 'all') {
+    const alreadyAll = ALL_TEST_IDS.every(id => selectedTests.includes(id));
+    selectedTests = alreadyAll ? [1] : [...ALL_TEST_IDS];
+  } else if (selectedTests.includes(t)) {
+    if (selectedTests.length > 1) selectedTests = selectedTests.filter(x => x !== t);
+  } else {
+    selectedTests.push(t);
+  }
+
+  document.querySelectorAll('#test-select-grid .opt-btn').forEach(b => {
+    const bt = b.dataset.test;
+    if (bt === 'all') b.classList.toggle('selected', ALL_TEST_IDS.every(id => selectedTests.includes(id)));
+    else b.classList.toggle('selected', selectedTests.includes(parseInt(bt)));
+  });
+
+  const poolSize = getCombinedPool().length;
   const allBtn = document.getElementById('all-q-btn');
   if (allBtn) {
     allBtn.querySelector('.ob-val').textContent = 'All';
     allBtn.querySelector('.ob-lbl').textContent = poolSize + ' Qs';
     allBtn.dataset.count = poolSize;
   }
-  // Update session title label on results
-  const lbl = document.getElementById('res-label');
-  if (lbl) lbl.textContent = t === 'both' ? 'Combined Practice Exam Complete' : `Practice Test ${t} Complete`;
 }
 
 function toggleSessionBar() {
@@ -690,8 +840,9 @@ function toggleSessionBar() {
 }
 
 function startExam() {
-  const shuffled = [...CC_Q].sort(() => Math.random() - 0.5);
-  sessionQ = shuffled.slice(0, Math.min(selectedCount, CC_Q.length));
+  const pool = getCombinedPool();
+  const shuffled = [...pool].sort(() => Math.random() - 0.5);
+  sessionQ = shuffled.slice(0, Math.min(selectedCount, pool.length));
   curQ = 0;
   answers = new Array(sessionQ.length).fill(null);
   revealed = new Array(sessionQ.length).fill(false);
@@ -901,7 +1052,7 @@ function endExam() {
 
   const grade = document.getElementById('res-grade');
   const resLbl = document.getElementById('res-label');
-  if (resLbl) resLbl.textContent = 'ISC2 CC Practice Exam Complete';
+  if (resLbl) resLbl.textContent = getSelectedLabel() + ' Complete';
   if (pct >= 72) { grade.className = 'result-grade pass'; grade.textContent = `${pct}% — PASS 🎉`; }
   else { grade.className = 'result-grade fail'; grade.textContent = `${pct}% — Keep Studying`; }
 
@@ -953,7 +1104,7 @@ function downloadPDFReport() {
   const total = sessionQ.length;
   const skipped = total - correct - wrong;
   const pct = Math.round((correct / total) * 100);
-  const testLabel = 'ISC2 CC Practice Exam';
+  const testLabel = getSelectedLabel();
 
   // ── Header ──
   doc.setFillColor(...NAVY);
@@ -961,7 +1112,7 @@ function downloadPDFReport() {
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(16);
   doc.setTextColor(255, 255, 255);
-  doc.text('ISC2 Certified in Cybersecurity (CC) — Practice Exam Report', margin, 36);
+  doc.text('ISC2 Certified in Cybersecurity (CC) — Practice Test Report', margin, 36);
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(10);
   doc.setTextColor(200, 220, 235);
