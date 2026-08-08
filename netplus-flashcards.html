@@ -294,7 +294,7 @@
   <div class="hero-inner">
     <div class="exam-badge"><div class="bl-circle">BL</div><span>CompTIA Network+ N10-009</span></div>
     <h1>Flash<span class="accent">cards</span></h1>
-    <p class="hero-sub">80 cards covering all 5 domains. Tap to flip, mark as mastered or review again, filter by domain.</p>
+    <p class="hero-sub">96 cards covering all 5 domains. Tap to flip, mark as mastered or review again, filter by domain.</p>
   </div>
 </div>
 
@@ -320,10 +320,10 @@
 
   <!-- STATS -->
   <div class="stats-row">
-    <div class="stat-pill">Total: <span id="stat-total">80</span></div>
+    <div class="stat-pill">Total: <span id="stat-total">96</span></div>
     <div class="stat-pill mastered">Mastered: <span id="stat-mastered">0</span></div>
     <div class="stat-pill reviewing">Reviewing: <span id="stat-reviewing">0</span></div>
-    <div class="stat-pill">Unseen: <span id="stat-unseen">80</span></div>
+    <div class="stat-pill">Unseen: <span id="stat-unseen">96</span></div>
   </div>
 
   <!-- PROGRESS -->
@@ -335,7 +335,7 @@
   <!-- FLASHCARD -->
   <div class="fc-area">
     <div class="fc-counter-row">
-      <span class="fc-counter" id="fc-counter">1 / 80</span>
+      <span class="fc-counter" id="fc-counter">1 / 96</span>
       <span class="fc-domain-badge" id="fc-domain-badge"></span>
     </div>
 
@@ -378,7 +378,7 @@
 
 <script>
 /* ══════════════════════════════════
-   ALL 80 FLASHCARDS
+   ALL 96 FLASHCARDS
 ══════════════════════════════════ */
 const ALL_CARDS = [
   // Domain 1 – Networking Concepts
@@ -401,6 +401,10 @@ const ALL_CARDS = [
   { d:'1', term:'IPv6 Addressing', def:'128-bit address written in 8 groups of hex separated by colons; :: compresses consecutive zero groups (once per address). Loopback = ::1. Link-local = fe80::/10, auto-assigned, not routable off-segment. No broadcast — uses multicast instead.' },
   { d:'1', term:'Network Topologies', def:'Star: all nodes to a central switch — most common LAN design. Mesh: every node connects to every other — max redundancy, costly. Ring: closed loop, token-based. Bus: single backbone cable. Hybrid: combination of topologies. Point-to-point: dedicated link between two endpoints.' },
   { d:'1', term:'WAN Transmission Media', def:'T1: 1.544Mbps leased line. T3: 44.736Mbps. MPLS: label-switched private WAN, low latency. Metro Ethernet: Ethernet over a metro provider network. DSL/Cable: last-mile broadband. Satellite: high latency, works anywhere. Cellular (LTE/5G): mobile WAN backup.' },
+  { d:'1', term:'IEEE 802 Standards Family', def:'802.1D: Spanning Tree Protocol (STP). 802.1Q: VLAN tagging. 802.1X: port-based Network Access Control (NAC/authentication). 802.3: base wired Ethernet standard. 802.3af/at/bt: PoE / PoE+ / PoE++. 802.11: Wi-Fi family (a/b/g/n/ac/ax). 802.15: Bluetooth/personal area networks. 802.16: WiMAX fixed wireless broadband.' },
+  { d:'1', term:'Three-Tier Datacenter Architecture', def:'Core layer: high-speed backbone connecting separate parts of the network, usually redundant routers. Distribution/aggregation layer: enforces policy via ACLs/filters, sits between core and access. Access/edge layer: connects end devices (PCs, APs, printers). The "control layer" is an SDN concept, not part of this model.' },
+  { d:'1', term:'Playbooks vs. Templates', def:'Playbook: a defined set of tasks/actions run in an automated order (e.g., via Ansible) to configure devices. Template: a reusable predefined configuration or pattern applied to deploy devices/services consistently. Both support automation but serve different roles.' },
+  { d:'1', term:'NFC vs RFID vs Bluetooth vs Wi-Fi', def:'NFC: ~4cm range, two-way, used for contactless payments (Apple/Google Pay). RFID: longer range, one-way tag identification (inventory, badges). Bluetooth: ~10m PAN, pairs peripherals. Wi-Fi: up to ~150m, high-speed LAN access based on 802.11.' },
 
   // Domain 2 – Network Implementation
   { d:'2', term:'Subnetting', def:'Dividing a network into smaller segments. Borrowing host bits to create additional network bits. /25 splits a /24 into 2 subnets of 128 IPs each. Formula: 2^n subnets, 2^h - 2 usable hosts.' },
@@ -422,6 +426,12 @@ const ALL_CARDS = [
   { d:'2', term:'Ethernet Standards', def:'10BASE-T: 10Mbps copper. 100BASE-TX: 100Mbps (Fast Ethernet). 1000BASE-T: 1Gbps copper (Gigabit). 10GBASE-T: 10Gbps copper. Fiber naming: "S" = short/multimode, "L" = long/single-mode (e.g., 1000BASE-SX vs 1000BASE-LX).' },
   { d:'2', term:'FHRP – First Hop Redundancy Protocol', def:'Provides a shared virtual gateway IP across multiple routers for failover. HSRP: Cisco-proprietary, active/standby. VRRP: open standard, active/backup. GLBP: Cisco, adds load balancing across multiple active routers.' },
   { d:'2', term:'Load Balancing', def:'Distributes traffic across multiple servers to improve availability and performance. Round robin: rotates requests evenly. Active-active: all nodes handle traffic simultaneously. Active-passive: standby node takes over only on failure.' },
+  { d:'2', term:'STP Port States', def:'Blocking: least-desirable path, discards frames, no MAC learning — prevents loops. Listening: root/designated port processing BPDUs, still not forwarding. Learning: builds the MAC address table, still not forwarding. Forwarding: fully active, forwards frames and processes BPDUs.' },
+  { d:'2', term:'Antenna Types', def:'Omnidirectional: radiates signal equally in all directions — best for open/central coverage. Unidirectional (incl. Yagi): focuses signal in one direction for longer range. Bidirectional: sends signal in two directions. Choose based on the coverage shape you need, not just distance.' },
+  { d:'2', term:'PAT – Port Address Translation', def:'Also called NAT overload. Maps many private IP addresses to a single public IP by assigning each connection a unique source port, so all internal hosts can share one public address.' },
+  { d:'2', term:'Band Steering', def:'A router feature that automatically nudges capable client devices toward the less-congested/faster band (2.4GHz vs 5GHz) based on signal strength and current load, without manual reconfiguration.' },
+  { d:'2', term:'WPS & the PIN Attack', def:'Wi-Fi Protected Setup lets a device join a network via an 8-digit PIN instead of the passphrase. The router checks each 4-digit half separately, cutting the real keyspace from 100,000,000 to about 11,000 combinations — brute-forceable in minutes unless lockout/MAC-lockout defenses are in place.' },
+  { d:'2', term:'Rack Mount Types', def:'Open frame: easy access for frequent maintenance, no physical security. Wall-mounted: saves floor space in small wiring closets. Adjustable: flexible depth for varied equipment. Lockable: restricts physical access to authorized personnel — best choice when protecting sensitive gear.' },
 
   // Domain 3 – Network Operations
   { d:'3', term:'DHCP', def:'Dynamic Host Configuration Protocol (port 67/68). Auto-assigns IP, subnet mask, default gateway, DNS to clients. Process: DORA — Discover → Offer → Request → Acknowledge. IP helper forwards across routers.' },
@@ -440,6 +450,9 @@ const ALL_CARDS = [
   { d:'3', term:'Change Management', def:'Formal process for requesting, approving, and documenting network changes. Includes: request for change, approval/rollback plan, maintenance window, and a post-change review. Reduces unplanned outages from undocumented changes.' },
   { d:'3', term:'Backup Types', def:'Full: copies all data every time — slowest backup, fastest restore. Incremental: only data changed since the last backup (full or incremental) — fastest backup, slower restore (needs full + all increments). Differential: data changed since last full — restore needs only full + latest differential. Snapshot: point-in-time image, often used for VMs.' },
   { d:'3', term:'Performance Metrics', def:'Bandwidth: max data capacity of a link. Throughput: actual data delivered, usually less than bandwidth. Latency: delay for data to travel end to end. Jitter: variation in latency, disrupts VoIP/video. Packet loss: % of packets that never arrive.' },
+  { d:'3', term:'DNS Server Roles', def:'Primary/authoritative: holds and serves the master zone records for domains it owns. Secondary: read-only copy replicated from the primary, for redundancy. Non-authoritative (caching/recursive): resolves external names by caching answers from other DNS servers — reduces latency for repeat lookups.' },
+  { d:'3', term:'Encrypted DNS (DoT vs DoH vs DNSSEC)', def:'DoT (DNS over TLS): encrypts queries, uses its own dedicated port (853) separate from standard DNS. DoH (DNS over HTTPS): encrypts queries inside HTTPS traffic on port 443, harder to distinguish/block. DNSSEC: adds authenticity/integrity via digital signatures — does NOT encrypt queries, so it doesn\'t stop eavesdropping.' },
+  { d:'3', term:'SLAAC', def:'Stateless Address Autoconfiguration. Lets IPv6 devices generate their own address from a prefix advertised by the local router — no DHCPv6 server or manual config required. Ideal for large IoT deployments needing zero-touch connectivity.' },
 
   // Domain 4 – Network Security
   { d:'4', term:'CIA Triad', def:'Confidentiality: data only accessible to authorized users (encryption). Integrity: data hasn\'t been altered (hashing, checksums). Availability: systems accessible when needed (redundancy, backups, HA). Foundation of all security.' },
@@ -456,6 +469,9 @@ const ALL_CARDS = [
   { d:'4', term:'IPSec & VPN Modes', def:'IPSec secures IP traffic using AH (integrity only) and ESP (encryption + integrity). Transport mode: encrypts payload only, used host-to-host. Tunnel mode: encrypts entire packet, used site-to-site. Full tunnel: all traffic routed through VPN. Split tunnel: only corporate traffic routed through VPN.' },
   { d:'4', term:'Physical Security', def:'Controls that protect hardware and facilities. Badge/smart card access, biometrics (fingerprint/retina), mantrap (two interlocked doors preventing tailgating), security cameras, and locking cabinets/server rooms.' },
   { d:'4', term:'Wireless Attacks', def:'Evil twin: rogue AP mimicking a legitimate SSID to intercept traffic. Deauthentication attack: forces clients off a network, often to capture a handshake. Rogue AP: unauthorized AP added to the network. WPS attack: brute-forces the weak WPS PIN. War driving: scanning for open/vulnerable Wi-Fi while mobile.' },
+  { d:'4', term:'Least Privilege vs Zero Trust', def:'Least privilege: give users/accounts only the access their specific job requires, nothing more (e.g., only HR can see employee records). Zero trust: a broader framework requiring every user/device — inside or outside the network — to be continuously authenticated and validated before and during access, never trusted by default.' },
+  { d:'4', term:'Physical Social Engineering', def:'Tailgating: an unauthorized person follows an authorized person through a secure door without their knowledge. Piggybacking: the authorized person knowingly lets the unauthorized person in (e.g., holding the door, swiping them in). Shoulder surfing: observing someone\'s screen, PIN, or password by looking over their shoulder.' },
+  { d:'4', term:'DHCP Snooping & Related Guards', def:'DHCP snooping: blocks rogue/malicious DHCP servers and malformed DHCP traffic on switches, preventing duplicate-IP and man-in-the-middle issues. Dynamic ARP Inspection (DAI): validates ARP packets against trusted IP-MAC bindings. IPv6 RA Guard: blocks unwanted/rogue router advertisement messages.' },
 
   // Domain 5 – Network Troubleshooting
   { d:'5', term:'Troubleshooting Methodology', def:'CompTIA 7 steps: 1-Identify problem, 2-Establish theory, 3-Test theory, 4-Plan of action, 5-Implement solution, 6-Verify functionality, 7-Document. OSI bottom-up: start at Physical, work up to Application.' },
