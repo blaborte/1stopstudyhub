@@ -294,7 +294,7 @@
   <div class="hero-inner">
     <div class="exam-badge"><div class="bl-circle">BL</div><span>CompTIA Network+ N10-009</span></div>
     <h1>Flash<span class="accent">cards</span></h1>
-    <p class="hero-sub">60 cards covering all 5 domains. Tap to flip, mark as mastered or review again, filter by domain.</p>
+    <p class="hero-sub">80 cards covering all 5 domains. Tap to flip, mark as mastered or review again, filter by domain.</p>
   </div>
 </div>
 
@@ -320,10 +320,10 @@
 
   <!-- STATS -->
   <div class="stats-row">
-    <div class="stat-pill">Total: <span id="stat-total">60</span></div>
+    <div class="stat-pill">Total: <span id="stat-total">80</span></div>
     <div class="stat-pill mastered">Mastered: <span id="stat-mastered">0</span></div>
     <div class="stat-pill reviewing">Reviewing: <span id="stat-reviewing">0</span></div>
-    <div class="stat-pill">Unseen: <span id="stat-unseen">60</span></div>
+    <div class="stat-pill">Unseen: <span id="stat-unseen">80</span></div>
   </div>
 
   <!-- PROGRESS -->
@@ -335,7 +335,7 @@
   <!-- FLASHCARD -->
   <div class="fc-area">
     <div class="fc-counter-row">
-      <span class="fc-counter" id="fc-counter">1 / 60</span>
+      <span class="fc-counter" id="fc-counter">1 / 80</span>
       <span class="fc-domain-badge" id="fc-domain-badge"></span>
     </div>
 
@@ -378,7 +378,7 @@
 
 <script>
 /* ══════════════════════════════════
-   ALL 60 FLASHCARDS
+   ALL 80 FLASHCARDS
 ══════════════════════════════════ */
 const ALL_CARDS = [
   // Domain 1 – Networking Concepts
@@ -397,6 +397,10 @@ const ALL_CARDS = [
   { d:'1', term:'Cloud Service Models', def:'SaaS: vendor manages everything, user accesses app (Gmail, Office 365). PaaS: vendor manages OS/infrastructure, user manages app. IaaS: vendor manages hardware, user manages everything else.' },
   { d:'1', term:'Cloud Deployment Models', def:'Public: shared infrastructure, owned by provider (AWS, Azure). Private: dedicated infrastructure for one org. Hybrid: mix of public and private — key services on-prem, enterprise in cloud.' },
   { d:'1', term:'SD-WAN', def:'Software-Defined Wide Area Network. Centralizes WAN management via software, enables automatic failover, traffic routing across multiple links (MPLS, broadband, LTE), and zero-touch provisioning.' },
+  { d:'1', term:'Common Ports & Protocols', def:'FTP 20/21, SSH/SFTP 22, Telnet 23, SMTP 25, DNS 53, DHCP 67/68, TFTP 69, HTTP 80, POP3 110, NTP 123, IMAP 143, SNMP 161/162, LDAP 389, HTTPS 443, SMB 445, Syslog 514, LDAPS 636, POP3S 995, RDP 3389.' },
+  { d:'1', term:'IPv6 Addressing', def:'128-bit address written in 8 groups of hex separated by colons; :: compresses consecutive zero groups (once per address). Loopback = ::1. Link-local = fe80::/10, auto-assigned, not routable off-segment. No broadcast — uses multicast instead.' },
+  { d:'1', term:'Network Topologies', def:'Star: all nodes to a central switch — most common LAN design. Mesh: every node connects to every other — max redundancy, costly. Ring: closed loop, token-based. Bus: single backbone cable. Hybrid: combination of topologies. Point-to-point: dedicated link between two endpoints.' },
+  { d:'1', term:'WAN Transmission Media', def:'T1: 1.544Mbps leased line. T3: 44.736Mbps. MPLS: label-switched private WAN, low latency. Metro Ethernet: Ethernet over a metro provider network. DSL/Cable: last-mile broadband. Satellite: high latency, works anywhere. Cellular (LTE/5G): mobile WAN backup.' },
 
   // Domain 2 – Network Implementation
   { d:'2', term:'Subnetting', def:'Dividing a network into smaller segments. Borrowing host bits to create additional network bits. /25 splits a /24 into 2 subnets of 128 IPs each. Formula: 2^n subnets, 2^h - 2 usable hosts.' },
@@ -412,6 +416,12 @@ const ALL_CARDS = [
   { d:'2', term:'NAT – Network Address Translation', def:'Maps private internal IP addresses to a public IP for internet access. PAT (Port Address Translation / NAT Overload): many private IPs share one public IP using different port numbers.' },
   { d:'2', term:'Routing Protocols', def:'Static: manually configured, no overhead. Dynamic: RIP (hop count, max 15), OSPF (link-state, Dijkstra, unlimited), EIGRP (Cisco, composite metric), BGP (internet, AS-path, policy-based).' },
   { d:'2', term:'Administrative Distance', def:'Router\'s trustworthiness rating for a route source. Lower = more preferred. Connected: 0, Static: 1, EIGRP: 90, OSPF: 110, RIP: 120, BGP external: 20. Used to choose between multiple routing protocols.' },
+  { d:'2', term:'Cable Types', def:'UTP: unshielded twisted pair, most common copper cable. STP: shielded, resists EMI. Coax: single conductor, used for cable internet/CATV. Fiber: light-based, immune to EMI — single-mode (long distance, laser) vs multimode (shorter distance, LED).' },
+  { d:'2', term:'Fiber Connectors', def:'LC: small form-factor, push-pull, common in data centers. SC: square, push-pull, older standard. ST: round, bayonet twist-lock. MPO/MTP: multi-fiber push-on, used for high-density trunk cabling and 40/100GbE.' },
+  { d:'2', term:'T568A vs T568B Wiring', def:'Two pin-out standards for terminating UTP into RJ-45. Same wires, different color-pair order. Straight-through cable: same standard both ends. Crossover cable: T568A one end, T568B the other — used to directly connect like devices without MDIX.' },
+  { d:'2', term:'Ethernet Standards', def:'10BASE-T: 10Mbps copper. 100BASE-TX: 100Mbps (Fast Ethernet). 1000BASE-T: 1Gbps copper (Gigabit). 10GBASE-T: 10Gbps copper. Fiber naming: "S" = short/multimode, "L" = long/single-mode (e.g., 1000BASE-SX vs 1000BASE-LX).' },
+  { d:'2', term:'FHRP – First Hop Redundancy Protocol', def:'Provides a shared virtual gateway IP across multiple routers for failover. HSRP: Cisco-proprietary, active/standby. VRRP: open standard, active/backup. GLBP: Cisco, adds load balancing across multiple active routers.' },
+  { d:'2', term:'Load Balancing', def:'Distributes traffic across multiple servers to improve availability and performance. Round robin: rotates requests evenly. Active-active: all nodes handle traffic simultaneously. Active-passive: standby node takes over only on failure.' },
 
   // Domain 3 – Network Operations
   { d:'3', term:'DHCP', def:'Dynamic Host Configuration Protocol (port 67/68). Auto-assigns IP, subnet mask, default gateway, DNS to clients. Process: DORA — Discover → Offer → Request → Acknowledge. IP helper forwards across routers.' },
@@ -426,6 +436,10 @@ const ALL_CARDS = [
   { d:'3', term:'Port Mirroring (SPAN)', def:'Copies all traffic from monitored switch ports to a dedicated monitoring port. Used for passive IDS/IPS, packet capture, and network analysis without being inline. Does not introduce latency.' },
   { d:'3', term:'Out-of-Band Management', def:'Manages network devices via a separate dedicated management network with different IP addresses. Allows device access even when the main network is down. Examples: console port, dedicated management interface, OOBM network.' },
   { d:'3', term:'IPAM', def:'IP Address Management. Tool or process for planning, tracking, and managing IP address space. Prevents conflicts, tracks DHCP leases, and maintains an accurate inventory of all assigned IPs in the network.' },
+  { d:'3', term:'Network Documentation', def:'Physical diagram: shows real-world cabling, rack layout, and hardware placement. Logical diagram: shows IP scheme, VLANs, and traffic flow. IDF (Intermediate Distribution Frame): floor wiring closet. MDF (Main Distribution Frame): central point where all IDFs connect.' },
+  { d:'3', term:'Change Management', def:'Formal process for requesting, approving, and documenting network changes. Includes: request for change, approval/rollback plan, maintenance window, and a post-change review. Reduces unplanned outages from undocumented changes.' },
+  { d:'3', term:'Backup Types', def:'Full: copies all data every time — slowest backup, fastest restore. Incremental: only data changed since the last backup (full or incremental) — fastest backup, slower restore (needs full + all increments). Differential: data changed since last full — restore needs only full + latest differential. Snapshot: point-in-time image, often used for VMs.' },
+  { d:'3', term:'Performance Metrics', def:'Bandwidth: max data capacity of a link. Throughput: actual data delivered, usually less than bandwidth. Latency: delay for data to travel end to end. Jitter: variation in latency, disrupts VoIP/video. Packet loss: % of packets that never arrive.' },
 
   // Domain 4 – Network Security
   { d:'4', term:'CIA Triad', def:'Confidentiality: data only accessible to authorized users (encryption). Integrity: data hasn\'t been altered (hashing, checksums). Availability: systems accessible when needed (redundancy, backups, HA). Foundation of all security.' },
@@ -438,6 +452,10 @@ const ALL_CARDS = [
   { d:'4', term:'GDPR & PCI DSS', def:'GDPR: EU regulation for personal data protection. Requires data locality, breach notification, user consent. PCI DSS: security standards for organizations handling payment card data. Both enforce encryption, access controls, and auditing.' },
   { d:'4', term:'Network Segmentation', def:'Dividing a network into isolated segments using VLANs, firewalls, or ACLs. Benefits: contains breaches, limits lateral movement, enables different security policies per zone. Critical for IoT, OT/SCADA, and guest networks.' },
   { d:'4', term:'PKI & Certificates', def:'Public Key Infrastructure manages digital certificates (X.509). CA issues certificates proving identity. Used for HTTPS, S/MIME, VPN, 802.1X. Self-signed: not trusted by default. Certificate contains public key, expiry, and issuer info.' },
+  { d:'4', term:'AAA Framework', def:'Authentication: verifying who you are (credentials). Authorization: what you\'re allowed to do (permissions/policy). Accounting: logging what was done and when (audit trail). Implemented via RADIUS or TACACS+.' },
+  { d:'4', term:'IPSec & VPN Modes', def:'IPSec secures IP traffic using AH (integrity only) and ESP (encryption + integrity). Transport mode: encrypts payload only, used host-to-host. Tunnel mode: encrypts entire packet, used site-to-site. Full tunnel: all traffic routed through VPN. Split tunnel: only corporate traffic routed through VPN.' },
+  { d:'4', term:'Physical Security', def:'Controls that protect hardware and facilities. Badge/smart card access, biometrics (fingerprint/retina), mantrap (two interlocked doors preventing tailgating), security cameras, and locking cabinets/server rooms.' },
+  { d:'4', term:'Wireless Attacks', def:'Evil twin: rogue AP mimicking a legitimate SSID to intercept traffic. Deauthentication attack: forces clients off a network, often to capture a handshake. Rogue AP: unauthorized AP added to the network. WPS attack: brute-forces the weak WPS PIN. War driving: scanning for open/vulnerable Wi-Fi while mobile.' },
 
   // Domain 5 – Network Troubleshooting
   { d:'5', term:'Troubleshooting Methodology', def:'CompTIA 7 steps: 1-Identify problem, 2-Establish theory, 3-Test theory, 4-Plan of action, 5-Implement solution, 6-Verify functionality, 7-Document. OSI bottom-up: start at Physical, work up to Application.' },
@@ -450,6 +468,8 @@ const ALL_CARDS = [
   { d:'5', term:'Crosstalk & Interference', def:'Crosstalk: signal bleed between adjacent wire pairs in a cable (NEXT=near-end, FEXT=far-end). Caused by poor termination or wrong cable category. EMI/RFI: external electromagnetic interference. Fix: use STP cable, proper termination.' },
   { d:'5', term:'Duplex Mismatch', def:'One side of a link set to full-duplex, other to half-duplex. Causes intermittent connectivity, slowness, and CRC errors. Fix: manually configure both sides to the same duplex setting, or both to auto-negotiate.' },
   { d:'5', term:'LLDP / CDP', def:'Link Layer Discovery Protocol (LLDP): open standard. Cisco Discovery Protocol (CDP): Cisco-proprietary. Both discover neighboring devices and their capabilities at Layer 2. Used to map topology and identify switch/port connections.' },
+  { d:'5', term:'Cable Testing Tools', def:'Toner probe: traces a specific cable in a bundle via audible tone. TDR: locates breaks/shorts in copper by measuring reflected signal. OTDR: fiber equivalent of a TDR, pinpoints breaks and measures loss. Cable certifier: verifies a cable meets category standards. Loopback adapter: tests a port/NIC without a live network.' },
+  { d:'5', term:'Attenuation & dB Loss', def:'Attenuation is the weakening of a signal as it travels over distance or through connectors/splices. Measured in decibels (dB) — higher loss means a weaker received signal. Fiber: caused by distance, bends, and dirty connectors. Copper: caused by cable length and poor termination.' },
 ];
 
 /* ══════════════════════════════════
