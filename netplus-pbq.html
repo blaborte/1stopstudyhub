@@ -363,7 +363,7 @@
   <div class="hero-inner">
     <div class="exam-badge"><div class="bl-circle">BL</div><span>CompTIA Network+ N10-009</span></div>
     <h1>Performance-Based <span class="accent">Questions</span></h1>
-    <p class="hero-sub">Hands-on PBQ simulations covering cable identification, firewall configuration, and more. Select a PBQ below to begin.</p>
+    <p class="hero-sub">11 hands-on PBQ simulations covering cable identification &amp; termination, VLANs &amp; ACLs, firewall rules, wireless configuration, OSPF &amp; routing, and cable diagnostics. Select a PBQ below to begin.</p>
   </div>
 </div>
 
@@ -376,6 +376,12 @@
     <button class="pbq-nav-btn" onclick="showPBQ('pbq3',this)">📶 PBQ 3 — WiFi Setup</button>
     <button class="pbq-nav-btn" onclick="showPBQ('pbq4',this)">📡 PBQ 4 — Wireless Speeds</button>
     <button class="pbq-nav-btn" onclick="showPBQ('pbq5',this)">🔌 PBQ 5 — Cable to Application</button>
+    <button class="pbq-nav-btn" onclick="showPBQ('pbq6',this)">🏷️ PBQ 6 — VLAN &amp; ACL</button>
+    <button class="pbq-nav-btn" onclick="showPBQ('pbq7',this)">🧭 PBQ 7 — OSPF &amp; AD</button>
+    <button class="pbq-nav-btn" onclick="showPBQ('pbq8',this)">🧱 PBQ 8 — DMZ ACL Order</button>
+    <button class="pbq-nav-btn" onclick="showPBQ('pbq9',this)">🧪 PBQ 9 — Cable Certifier</button>
+    <button class="pbq-nav-btn" onclick="showPBQ('pbq10',this)">🔌 PBQ 10 — T-568B Wiremap</button>
+    <button class="pbq-nav-btn" onclick="showPBQ('pbq11',this)">🗺️ PBQ 11 — Routing Validation</button>
   </div>
 
   <!-- PBQ 1 SECTION -->
@@ -383,7 +389,7 @@
     <div class="pbq-card" id="pbq1">
     <div class="pbq-card-head">
       <div>
-        <div class="pbq-num">PBQ 1 of 1</div>
+        <div class="pbq-num">PBQ 1 of 11</div>
         <div class="pbq-title">Network Security Analyst — Cable Identification</div>
       </div>
       <span class="pbq-badge">DRAG &amp; DROP</span>
@@ -444,9 +450,9 @@
       </div>
 
       <div class="pbq-controls">
-        <button class="pbq-btn pbq-btn-check" onclick="checkAnswers()">&#10003; Check Answers</button>
-        <button class="pbq-btn pbq-btn-reset" onclick="resetAll()">&#8635; Reset</button>
-        <button class="pbq-btn pbq-btn-reveal" onclick="revealAnswers()">&#128065; Show Answers</button>
+        <button class="pbq-btn pbq-btn-check" onclick="pbq1Check()">&#10003; Check Answers</button>
+        <button class="pbq-btn pbq-btn-reset" onclick="pbq1Reset()">&#8635; Reset</button>
+        <button class="pbq-btn pbq-btn-reveal" onclick="pbq1Reveal()">&#128065; Show Answers</button>
       </div>
 
       <div class="pbq-result" id="pbq-result"></div>
@@ -460,7 +466,7 @@
     <div class="pbq-card">
     <div class="pbq-card-head">
       <div>
-        <div class="pbq-num">PBQ 2 of 3</div>
+        <div class="pbq-num">PBQ 2 of 11</div>
         <div class="pbq-title">Network Security Analyst &mdash; Firewall Rule Configuration</div>
       </div>
       <span class="pbq-badge">PERMIT / DENY</span>
@@ -607,7 +613,7 @@
         <button class="pbq-btn pbq-btn-reveal" onclick="revealAnswers()">&#128065; Show Answers</button>
       </div>
 
-      <div class="pbq-result" id="pbq-result"></div>
+      <div class="pbq-result" id="pbq2-result"></div>
 
     </div>
   </div>
@@ -619,7 +625,7 @@
     <div class="pbq-card">
     <div class="pbq-card-head">
       <div>
-        <div class="pbq-num">PBQ 3 of 4</div>
+        <div class="pbq-num">PBQ 3 of 11</div>
         <div class="pbq-title">Network Technician &mdash; Wireless AP Configuration</div>
       </div>
       <span class="pbq-badge" style="background:rgba(22,160,133,0.2);border-color:rgba(22,160,133,0.5);color:#7DCEA0">CONFIGURE AP</span>
@@ -808,7 +814,7 @@
     <div class="pbq-card">
     <div class="pbq-card-head">
       <div>
-        <div class="pbq-num">PBQ 4 of 5</div>
+        <div class="pbq-num">PBQ 4 of 11</div>
         <div class="pbq-title">Max Wireless Speeds &mdash; Match 802.11 Standards</div>
       </div>
       <span class="pbq-badge" style="background:rgba(214,137,16,0.2);border-color:rgba(214,137,16,0.5);color:#F9E79F">MATCH &amp; DROP</span>
@@ -882,7 +888,7 @@
     <div class="pbq-card">
     <div class="pbq-card-head">
       <div>
-        <div class="pbq-num">PBQ 5 of 5</div>
+        <div class="pbq-num">PBQ 5 of 11</div>
         <div class="pbq-title">Cable Attenuation &mdash; Match Cable to Application</div>
       </div>
       <span class="pbq-badge" style="background:rgba(22,160,133,0.2);border-color:rgba(22,160,133,0.5);color:#76D7C4">MATCH &amp; DROP</span>
@@ -944,6 +950,523 @@
       </div>
 
       <div class="pbq-result" id="ca5-result"></div>
+
+    </div>
+  </div>
+  </div>
+
+  <!-- PBQ 6 SECTION -->
+  <div class="pbq-section" id="section-pbq6">
+    <div class="pbq-card">
+    <div class="pbq-card-head">
+      <div>
+        <div class="pbq-num">PBQ 6 of 11</div>
+        <div class="pbq-title">Network Administrator &mdash; VLAN Tagging &amp; ACL Security</div>
+      </div>
+      <span class="pbq-badge" style="background:rgba(41,128,185,0.2);border-color:rgba(41,128,185,0.5);color:#85C1E9">CONFIGURE</span>
+    </div>
+    <div class="pbq-body">
+
+      <div class="scenario-label">Scenario</div>
+      <div class="scenario-text">A company is segmenting its access-layer switch so the Finance and Sales departments sit on separate broadcast domains. <strong>VLAN 10</strong> is reserved for Finance and <strong>VLAN 20</strong> for Sales. Port 3 uplinks to the core switch and must carry traffic for both VLANs. Once VLANs are assigned, you must also configure the Layer 3 ACL so Sales cannot initiate connections to the Finance file server, while normal internet access for both departments still works.</div>
+
+      <div class="task-label">Task 1 &mdash; Assign Switchport Modes</div>
+      <div class="task-desc">Select the correct port mode / VLAN assignment for each access-layer switchport.</div>
+
+      <div class="wifi-cfg">
+        <div class="wifi-cfg-head">
+          <span class="wifi-cfg-head-icon">&#x1F517;</span>
+          <span class="wifi-cfg-title">Switch Port Configuration &mdash; SW-ACCESS-01</span>
+        </div>
+        <div class="wifi-cfg-body">
+          <div class="cfg-row">
+            <div class="cfg-label">Port 1<span>Finance workstation</span></div>
+            <div class="cfg-input-cell">
+              <select class="cfg-select" id="pbq6-port1">
+                <option value="">— Select Mode/VLAN —</option>
+                <option value="vlan10">Access &ndash; VLAN 10 (Finance)</option>
+                <option value="vlan20">Access &ndash; VLAN 20 (Sales)</option>
+                <option value="trunk">802.1Q Trunk Port</option>
+              </select>
+            </div>
+          </div>
+          <div class="cfg-row">
+            <div class="cfg-label">Port 2<span>Sales workstation</span></div>
+            <div class="cfg-input-cell">
+              <select class="cfg-select" id="pbq6-port2">
+                <option value="">— Select Mode/VLAN —</option>
+                <option value="vlan10">Access &ndash; VLAN 10 (Finance)</option>
+                <option value="vlan20">Access &ndash; VLAN 20 (Sales)</option>
+                <option value="trunk">802.1Q Trunk Port</option>
+              </select>
+            </div>
+          </div>
+          <div class="cfg-row">
+            <div class="cfg-label">Port 3<span>Uplink to core switch</span></div>
+            <div class="cfg-input-cell">
+              <select class="cfg-select" id="pbq6-port3">
+                <option value="">— Select Mode/VLAN —</option>
+                <option value="vlan10">Access &ndash; VLAN 10 (Finance)</option>
+                <option value="vlan20">Access &ndash; VLAN 20 (Sales)</option>
+                <option value="trunk">802.1Q Trunk Port</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="task-label">Task 2 &mdash; Configure Inter-VLAN ACL Rules</div>
+      <div class="task-desc">Click <strong style="color:#27AE60">PERMIT</strong> or <strong style="color:#E74C3C">DENY</strong> for each rule on the Layer 3 switch's routed ACL.</div>
+
+      <table class="fw-table">
+        <thead>
+          <tr><th>#</th><th>Description</th><th>Source</th><th>Destination</th><th>Proto</th><th>Port</th><th>Action</th></tr>
+        </thead>
+        <tbody>
+          <tr id="pbq6-row-1" data-answer="deny" data-rationale="Sales must not reach the Finance file share (SMB) — this enforces VLAN isolation between departments.">
+            <td>1</td><td>Sales &rarr; Finance file server (SMB)</td>
+            <td class="fw-src">192.168.20.0/24</td><td class="fw-dst">192.168.10.50</td>
+            <td><span class="fw-proto">TCP</span></td><td class="fw-port">445</td>
+            <td class="action-cell"><div class="action-toggle">
+              <button class="action-btn permit" id="pbq6-btn-permit-1" onclick="pbq6SetAction(1,'permit')">PERMIT</button>
+              <button class="action-btn deny" id="pbq6-btn-deny-1" onclick="pbq6SetAction(1,'deny')">DENY</button>
+            </div></td>
+          </tr>
+          <tr id="pbq6-row-2" data-answer="permit" data-rationale="Finance still needs normal outbound HTTPS access to the internet.">
+            <td>2</td><td>Finance &rarr; Internet (HTTPS)</td>
+            <td class="fw-src">192.168.10.0/24</td><td class="fw-dst">ANY</td>
+            <td><span class="fw-proto">TCP</span></td><td class="fw-port">443</td>
+            <td class="action-cell"><div class="action-toggle">
+              <button class="action-btn permit" id="pbq6-btn-permit-2" onclick="pbq6SetAction(2,'permit')">PERMIT</button>
+              <button class="action-btn deny" id="pbq6-btn-deny-2" onclick="pbq6SetAction(2,'deny')">DENY</button>
+            </div></td>
+          </tr>
+          <tr id="pbq6-row-3" data-answer="permit" data-rationale="Sales also needs normal outbound HTTPS access to the internet — only access to the Finance server is restricted.">
+            <td>3</td><td>Sales &rarr; Internet (HTTPS)</td>
+            <td class="fw-src">192.168.20.0/24</td><td class="fw-dst">ANY</td>
+            <td><span class="fw-proto">TCP</span></td><td class="fw-port">443</td>
+            <td class="action-cell"><div class="action-toggle">
+              <button class="action-btn permit" id="pbq6-btn-permit-3" onclick="pbq6SetAction(3,'permit')">PERMIT</button>
+              <button class="action-btn deny" id="pbq6-btn-deny-3" onclick="pbq6SetAction(3,'deny')">DENY</button>
+            </div></td>
+          </tr>
+          <tr id="pbq6-row-4" data-answer="deny" data-rationale="RDP into the Finance file server from the open internet is a major attack surface — block it.">
+            <td>4</td><td>Internet &rarr; Finance file server (RDP)</td>
+            <td class="fw-src">ANY</td><td class="fw-dst">192.168.10.50</td>
+            <td><span class="fw-proto">TCP</span></td><td class="fw-port">3389</td>
+            <td class="action-cell"><div class="action-toggle">
+              <button class="action-btn permit" id="pbq6-btn-permit-4" onclick="pbq6SetAction(4,'permit')">PERMIT</button>
+              <button class="action-btn deny" id="pbq6-btn-deny-4" onclick="pbq6SetAction(4,'deny')">DENY</button>
+            </div></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="pbq-controls">
+        <button class="pbq-btn pbq-btn-check" onclick="pbq6Check()">&#10003; Check Answers</button>
+        <button class="pbq-btn pbq-btn-reset" onclick="pbq6Reset()">&#8635; Reset</button>
+        <button class="pbq-btn pbq-btn-reveal" onclick="pbq6Reveal()">&#128065; Show Answers</button>
+      </div>
+
+      <div class="pbq-result" id="pbq6-result"></div>
+
+    </div>
+  </div>
+  </div>
+
+  <!-- PBQ 7 SECTION -->
+  <div class="pbq-section" id="section-pbq7">
+    <div class="pbq-card">
+    <div class="pbq-card-head">
+      <div>
+        <div class="pbq-num">PBQ 7 of 11</div>
+        <div class="pbq-title">Network Engineer &mdash; OSPF Area 0 &amp; Administrative Distance</div>
+      </div>
+      <span class="pbq-badge" style="background:rgba(93,64,55,0.3);border-color:rgba(93,64,55,0.55);color:#D7BDE2">TROUBLESHOOT</span>
+    </div>
+    <div class="pbq-body">
+
+      <div class="scenario-label">Scenario</div>
+      <div class="scenario-text">Two routers, <strong>R1</strong> and <strong>R2</strong>, share a /30 link (10.0.12.0/30) that should belong to OSPF <strong>Area 0</strong>, but R2 is not forming a neighbor adjacency with R1. Separately, a technician also notices that a manually configured static route is being preferred over a better OSPF-learned route to the same destination. Answer the diagnostic questions below.</div>
+
+      <div class="task-label">Task &mdash; OSPF Adjacency &amp; Administrative Distance Diagnostics</div>
+      <div class="task-desc">Select the correct answer for each diagnostic question using the router console below.</div>
+
+      <div class="wifi-cfg">
+        <div class="wifi-cfg-head">
+          <span class="wifi-cfg-head-icon">&#x1F9ED;</span>
+          <span class="wifi-cfg-title">OSPF Troubleshooting Console</span>
+        </div>
+        <div class="wifi-cfg-body">
+          <div class="cfg-row">
+            <div class="cfg-label">Q1 &mdash; Adjacency Failure<span>R1: network 10.0.12.0/30 area 0 · R2: network 10.0.12.0/30 area 1</span></div>
+            <div class="cfg-input-cell">
+              <select class="cfg-select" id="pbq7-q1">
+                <option value="">— Select the fix —</option>
+                <option value="a">Change R2's area assignment to Area 0 to match R1</option>
+                <option value="b">Change R1's area assignment to Area 1 to match R2</option>
+                <option value="c">Change the subnet mask on R2 to /29</option>
+                <option value="d">Configure the interface as passive on both routers</option>
+              </select>
+            </div>
+          </div>
+          <div class="cfg-row">
+            <div class="cfg-label">Q2 &mdash; Default AD<span>What is the default administrative distance of OSPF?</span></div>
+            <div class="cfg-input-cell">
+              <select class="cfg-select" id="pbq7-q2">
+                <option value="">— Select AD —</option>
+                <option value="1">1</option>
+                <option value="90">90</option>
+                <option value="110">110</option>
+                <option value="120">120</option>
+              </select>
+            </div>
+          </div>
+          <div class="cfg-row">
+            <div class="cfg-label">Q3 &mdash; Route Selection<span>A static route (AD 1) and an OSPF route (AD 110) both exist for 192.168.50.0/24</span></div>
+            <div class="cfg-input-cell">
+              <select class="cfg-select" id="pbq7-q3">
+                <option value="">— Select outcome —</option>
+                <option value="a">The static route is installed — lower AD is preferred</option>
+                <option value="b">The OSPF route is installed — dynamic routes always win</option>
+                <option value="c">Both routes are installed and load-balanced</option>
+                <option value="d">Neither route is installed; a routing loop occurs</option>
+              </select>
+            </div>
+          </div>
+          <div class="cfg-row">
+            <div class="cfg-label">Q4 &mdash; Preferring OSPF<span>How can the admin make OSPF preferred over that static route?</span></div>
+            <div class="cfg-input-cell">
+              <select class="cfg-select" id="pbq7-q4">
+                <option value="">— Select action —</option>
+                <option value="a">Configure the static route with a higher AD (a floating static route)</option>
+                <option value="b">Delete OSPF and re-enable it</option>
+                <option value="c">Lower the OSPF cost to 0</option>
+                <option value="d">Increase the static route's metric only</option>
+              </select>
+            </div>
+          </div>
+          <div class="cfg-row">
+            <div class="cfg-label">Q5 &mdash; Network Type<span>Default OSPF network type on a point-to-point serial link</span></div>
+            <div class="cfg-input-cell">
+              <select class="cfg-select" id="pbq7-q5">
+                <option value="">— Select type —</option>
+                <option value="ptp">Point-to-Point</option>
+                <option value="bcast">Broadcast</option>
+                <option value="nbma">Non-Broadcast Multi-Access (NBMA)</option>
+                <option value="ptmp">Point-to-Multipoint</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pbq-controls">
+        <button class="pbq-btn pbq-btn-check" onclick="pbq7Check()">&#10003; Check Answers</button>
+        <button class="pbq-btn pbq-btn-reset" onclick="pbq7Reset()">&#8635; Reset</button>
+        <button class="pbq-btn pbq-btn-reveal" onclick="pbq7Reveal()">&#128065; Show Answers</button>
+      </div>
+
+      <div class="pbq-result" id="pbq7-result"></div>
+
+    </div>
+  </div>
+  </div>
+
+  <!-- PBQ 8 SECTION -->
+  <div class="pbq-section" id="section-pbq8">
+    <div class="pbq-card">
+    <div class="pbq-card-head">
+      <div>
+        <div class="pbq-num">PBQ 8 of 11</div>
+        <div class="pbq-title">Security Analyst &mdash; DMZ Stateful Firewall &amp; ACL Ordering</div>
+      </div>
+      <span class="pbq-badge" style="background:rgba(192,57,43,0.2);border-color:rgba(192,57,43,0.5);color:#F1948A">ORDER RULES</span>
+    </div>
+    <div class="pbq-body">
+
+      <div class="scenario-label">Scenario</div>
+      <div class="scenario-text">A stateful firewall protects a public-facing web server in the DMZ. Rules are evaluated <strong>top-down</strong> and processing stops at the first match, so order matters. The five rules below are listed out of order — an admin subnet still needs SSH access for maintenance, but SSH from the open internet must be blocked, and a final explicit deny-all must always sit at the bottom.</div>
+
+      <div class="task-label">Task &mdash; Place Each Rule in the Correct Evaluation Order</div>
+      <div class="task-desc">Assign each rule a position from 1 (evaluated first) to 5 (evaluated last) using the dropdowns. Each position may only be used once.</div>
+
+      <table class="fw-table">
+        <thead>
+          <tr><th>Order</th><th>Rule</th><th>Source</th><th>Destination</th><th>Proto / Port</th></tr>
+        </thead>
+        <tbody>
+          <tr id="pbq8-row-A">
+            <td class="action-cell"><select class="cfg-select" id="pbq8-order-A" style="max-width:70px;padding:6px"><option value="">–</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
+            <td>PERMIT &mdash; Public HTTPS</td>
+            <td class="fw-src">ANY</td><td class="fw-dst">DMZ Web Server</td>
+            <td class="fw-port">TCP 443</td>
+          </tr>
+          <tr id="pbq8-row-B">
+            <td class="action-cell"><select class="cfg-select" id="pbq8-order-B" style="max-width:70px;padding:6px"><option value="">–</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
+            <td>DENY &mdash; Block internet SSH</td>
+            <td class="fw-src">ANY</td><td class="fw-dst">DMZ Web Server</td>
+            <td class="fw-port">TCP 22</td>
+          </tr>
+          <tr id="pbq8-row-C">
+            <td class="action-cell"><select class="cfg-select" id="pbq8-order-C" style="max-width:70px;padding:6px"><option value="">–</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
+            <td>PERMIT &mdash; Admin SSH for maintenance</td>
+            <td class="fw-src">10.10.5.0/28 (Admin)</td><td class="fw-dst">DMZ Web Server</td>
+            <td class="fw-port">TCP 22</td>
+          </tr>
+          <tr id="pbq8-row-D">
+            <td class="action-cell"><select class="cfg-select" id="pbq8-order-D" style="max-width:70px;padding:6px"><option value="">–</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
+            <td>PERMIT &mdash; Public HTTP (redirects to HTTPS)</td>
+            <td class="fw-src">ANY</td><td class="fw-dst">DMZ Web Server</td>
+            <td class="fw-port">TCP 80</td>
+          </tr>
+          <tr id="pbq8-row-E">
+            <td class="action-cell"><select class="cfg-select" id="pbq8-order-E" style="max-width:70px;padding:6px"><option value="">–</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
+            <td>DENY &mdash; Explicit deny-all (final rule)</td>
+            <td class="fw-src">ANY</td><td class="fw-dst">ANY</td>
+            <td class="fw-port">ANY</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="pbq-controls">
+        <button class="pbq-btn pbq-btn-check" onclick="pbq8Check()">&#10003; Check Order</button>
+        <button class="pbq-btn pbq-btn-reset" onclick="pbq8Reset()">&#8635; Reset</button>
+        <button class="pbq-btn pbq-btn-reveal" onclick="pbq8Reveal()">&#128065; Show Correct Order</button>
+      </div>
+
+      <div class="pbq-result" id="pbq8-result"></div>
+
+    </div>
+  </div>
+  </div>
+
+  <!-- PBQ 9 SECTION -->
+  <div class="pbq-section" id="section-pbq9">
+    <div class="pbq-card">
+    <div class="pbq-card-head">
+      <div>
+        <div class="pbq-num">PBQ 9 of 11</div>
+        <div class="pbq-title">Field Technician &mdash; Cable Certifier &amp; Wiremap Diagnostics</div>
+      </div>
+      <span class="pbq-badge" style="background:rgba(52,73,94,0.3);border-color:rgba(52,73,94,0.55);color:#AAB7B8">DIAGNOSE</span>
+    </div>
+    <div class="pbq-body">
+
+      <div class="scenario-label">Scenario</div>
+      <div class="scenario-text">A field technician crimped a custom 3&nbsp;ft Cat6 patch cable. The connected device fails to negotiate a link. The cable certifier / TDR results are shown below.</div>
+
+      <div class="task-label">Certifier Display &mdash; Cable Test Results (Length: 3 ft)</div>
+      <table class="fw-table" style="margin-bottom:20px">
+        <thead><tr><th>Pair</th><th>Status</th><th>Fault Distance</th></tr></thead>
+        <tbody>
+          <tr><td>1, 2</td><td style="color:#E74C3C;font-weight:700">Open</td><td>3 ft</td></tr>
+          <tr><td>3, 6</td><td style="color:#D68910;font-weight:700">Short</td><td>3 ft</td></tr>
+          <tr><td>4, 5</td><td style="color:#E74C3C;font-weight:700">Open</td><td>3 ft</td></tr>
+          <tr><td>7, 8</td><td style="color:#E74C3C;font-weight:700">Open</td><td>3 ft</td></tr>
+        </tbody>
+      </table>
+
+      <div class="task-label">Task &mdash; Interpret the Results</div>
+      <div class="task-desc">Use the diagnostic console below to evaluate the crimp and identify the correct root cause and remediation.</div>
+
+      <div class="wifi-cfg">
+        <div class="wifi-cfg-head">
+          <span class="wifi-cfg-head-icon">&#x1F50C;</span>
+          <span class="wifi-cfg-title">Diagnostic Console</span>
+        </div>
+        <div class="wifi-cfg-body">
+          <div class="cfg-row">
+            <div class="cfg-label">Crimp Status<span>Was the cable properly crimped?</span></div>
+            <div class="cfg-input-cell">
+              <select class="cfg-select" id="pbq9-crimp">
+                <option value="">— Select —</option>
+                <option value="proper">Cable was properly crimped</option>
+                <option value="improper">Cable was NOT properly crimped</option>
+              </select>
+            </div>
+          </div>
+          <div class="cfg-row">
+            <div class="cfg-label">Root Cause<span>What caused the "Short" reading on pins 3 and 6?</span></div>
+            <div class="cfg-input-cell">
+              <select class="cfg-select" id="pbq9-cause">
+                <option value="">— Select cause —</option>
+                <option value="crossed_pins">Pins 3 and 6 were crimped into the same slot or crossed in the RJ-45 plug</option>
+                <option value="attenuation">Excessive signal attenuation over the 3 ft cable length</option>
+                <option value="split_pair">Split-pair anomaly from improper untwisting beyond TIA standards</option>
+              </select>
+            </div>
+          </div>
+          <div class="cfg-row">
+            <div class="cfg-label">Remediation<span>What corrective action should be taken?</span></div>
+            <div class="cfg-input-cell">
+              <select class="cfg-select" id="pbq9-fix">
+                <option value="">— Select action —</option>
+                <option value="recrimp">Cut off the damaged RJ-45 plug, re-strip conductors, and re-crimp to T568B</option>
+                <option value="media_converter">Install an inline fiber media converter to eliminate electrical shorts</option>
+                <option value="ignore">No action required — switches auto-correct wiremap shorts</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pbq-controls">
+        <button class="pbq-btn pbq-btn-check" onclick="pbq9Check()">&#10003; Check Diagnosis</button>
+        <button class="pbq-btn pbq-btn-reset" onclick="pbq9Reset()">&#8635; Reset</button>
+        <button class="pbq-btn pbq-btn-reveal" onclick="pbq9Reveal()">&#128065; Show Answers</button>
+      </div>
+
+      <div class="pbq-result" id="pbq9-result"></div>
+
+    </div>
+  </div>
+  </div>
+
+  <!-- PBQ 10 SECTION -->
+  <div class="pbq-section" id="section-pbq10">
+    <div class="pbq-card">
+    <div class="pbq-card-head">
+      <div>
+        <div class="pbq-num">PBQ 10 of 11</div>
+        <div class="pbq-title">Cable Installer &mdash; T-568B RJ-45 Wiremap Termination</div>
+      </div>
+      <span class="pbq-badge">DRAG &amp; DROP</span>
+    </div>
+    <div class="pbq-body">
+
+      <div class="scenario-label">Task</div>
+      <div class="scenario-text">Drag each wire color into the correct pin position (Pin 1 through Pin 8) to terminate an RJ-45 connector using the <strong>T-568B</strong> wiring standard.<br>
+        <span style="color:var(--muted);font-size:12px">&#x26A0; Exam tip: T-568A swaps the orange and green pairs (pins 1-2 &harr; 3-6) — pins 4, 5, 7, and 8 never change between the two standards.</span>
+      </div>
+
+      <div class="drag-pool-label">Available Wires (drag to a pin below)</div>
+      <div class="drag-pool" id="pbq10-drag-pool">
+        <div class="drag-chip" draggable="true" data-id="wo"><span class="grip">&#8942;&#8942;</span><span>White / Orange</span></div>
+        <div class="drag-chip" draggable="true" data-id="o"><span class="grip">&#8942;&#8942;</span><span>Orange</span></div>
+        <div class="drag-chip" draggable="true" data-id="wg"><span class="grip">&#8942;&#8942;</span><span>White / Green</span></div>
+        <div class="drag-chip" draggable="true" data-id="b"><span class="grip">&#8942;&#8942;</span><span>Blue</span></div>
+        <div class="drag-chip" draggable="true" data-id="wb"><span class="grip">&#8942;&#8942;</span><span>White / Blue</span></div>
+        <div class="drag-chip" draggable="true" data-id="g"><span class="grip">&#8942;&#8942;</span><span>Green</span></div>
+        <div class="drag-chip" draggable="true" data-id="wbr"><span class="grip">&#8942;&#8942;</span><span>White / Brown</span></div>
+        <div class="drag-chip" draggable="true" data-id="br"><span class="grip">&#8942;&#8942;</span><span>Brown</span></div>
+      </div>
+
+      <div style="margin-top:16px">
+        <div class="drop-table-label">RJ-45 Connector (T-568B)</div>
+        <table class="drop-table">
+          <thead><tr><th>Pin</th><th>Wire</th></tr></thead>
+          <tbody>
+            <tr><td>Pin 1</td><td><div class="drop-zone" id="pbq10-drop-1" data-pin="1" ondragover="pbq10DragOver(event)" ondragleave="pbq10DragLeave(event)" ondrop="pbq10Drop(event,'1')"><span class="drop-zone-hint">Drop here</span></div></td></tr>
+            <tr><td>Pin 2</td><td><div class="drop-zone" id="pbq10-drop-2" data-pin="2" ondragover="pbq10DragOver(event)" ondragleave="pbq10DragLeave(event)" ondrop="pbq10Drop(event,'2')"><span class="drop-zone-hint">Drop here</span></div></td></tr>
+            <tr><td>Pin 3</td><td><div class="drop-zone" id="pbq10-drop-3" data-pin="3" ondragover="pbq10DragOver(event)" ondragleave="pbq10DragLeave(event)" ondrop="pbq10Drop(event,'3')"><span class="drop-zone-hint">Drop here</span></div></td></tr>
+            <tr><td>Pin 4</td><td><div class="drop-zone" id="pbq10-drop-4" data-pin="4" ondragover="pbq10DragOver(event)" ondragleave="pbq10DragLeave(event)" ondrop="pbq10Drop(event,'4')"><span class="drop-zone-hint">Drop here</span></div></td></tr>
+            <tr><td>Pin 5</td><td><div class="drop-zone" id="pbq10-drop-5" data-pin="5" ondragover="pbq10DragOver(event)" ondragleave="pbq10DragLeave(event)" ondrop="pbq10Drop(event,'5')"><span class="drop-zone-hint">Drop here</span></div></td></tr>
+            <tr><td>Pin 6</td><td><div class="drop-zone" id="pbq10-drop-6" data-pin="6" ondragover="pbq10DragOver(event)" ondragleave="pbq10DragLeave(event)" ondrop="pbq10Drop(event,'6')"><span class="drop-zone-hint">Drop here</span></div></td></tr>
+            <tr><td>Pin 7</td><td><div class="drop-zone" id="pbq10-drop-7" data-pin="7" ondragover="pbq10DragOver(event)" ondragleave="pbq10DragLeave(event)" ondrop="pbq10Drop(event,'7')"><span class="drop-zone-hint">Drop here</span></div></td></tr>
+            <tr><td>Pin 8</td><td><div class="drop-zone" id="pbq10-drop-8" data-pin="8" ondragover="pbq10DragOver(event)" ondragleave="pbq10DragLeave(event)" ondrop="pbq10Drop(event,'8')"><span class="drop-zone-hint">Drop here</span></div></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="pbq-controls">
+        <button class="pbq-btn pbq-btn-check" onclick="pbq10Check()">&#10003; Check Answers</button>
+        <button class="pbq-btn pbq-btn-reset" onclick="pbq10Reset()">&#8635; Reset</button>
+        <button class="pbq-btn pbq-btn-reveal" onclick="pbq10Reveal()">&#128065; Show Answers</button>
+      </div>
+
+      <div class="pbq-result" id="pbq10-result"></div>
+
+    </div>
+  </div>
+  </div>
+
+  <!-- PBQ 11 SECTION -->
+  <div class="pbq-section" id="section-pbq11">
+    <div class="pbq-card">
+    <div class="pbq-card-head">
+      <div>
+        <div class="pbq-num">PBQ 11 of 11</div>
+        <div class="pbq-title">Network Engineer &mdash; Routing Validation: Site A to Site B</div>
+      </div>
+      <span class="pbq-badge" style="background:rgba(39,174,96,0.2);border-color:rgba(39,174,96,0.5);color:#7DCEA0">VALIDATE</span>
+    </div>
+    <div class="pbq-body">
+
+      <div class="scenario-label">Scenario</div>
+      <div class="scenario-text">A workstation at <strong>Site B</strong> (172.16.20.0/24) cannot reach a file server at <strong>Site A</strong> (10.0.5.0/24). The two sites are connected by a point-to-point WAN link (203.0.113.0/30). The current routing tables for both edge routers are shown below.</div>
+
+      <table class="fw-table" style="margin-bottom:12px">
+        <thead><tr><th colspan="3">R-SiteA Routing Table</th></tr><tr><th>Destination</th><th>Next Hop</th><th>Interface</th></tr></thead>
+        <tbody>
+          <tr><td>10.0.5.0/24</td><td>Directly connected</td><td>Gi0/1</td></tr>
+          <tr><td>203.0.113.0/30</td><td>Directly connected</td><td>Gi0/0</td></tr>
+          <tr><td>172.16.20.0/24</td><td>203.0.113.2</td><td>Gi0/0</td></tr>
+        </tbody>
+      </table>
+      <table class="fw-table" style="margin-bottom:20px">
+        <thead><tr><th colspan="3">R-SiteB Routing Table</th></tr><tr><th>Destination</th><th>Next Hop</th><th>Interface</th></tr></thead>
+        <tbody>
+          <tr><td>172.16.20.0/24</td><td>Directly connected</td><td>Gi0/1</td></tr>
+          <tr><td>203.0.113.0/30</td><td>Directly connected</td><td>Gi0/0</td></tr>
+        </tbody>
+      </table>
+
+      <div class="task-label">Task &mdash; Validate and Correct the Routing</div>
+      <div class="task-desc">Use the console below to identify the fault and the correct fix.</div>
+
+      <div class="wifi-cfg">
+        <div class="wifi-cfg-head">
+          <span class="wifi-cfg-head-icon">&#x1F5FA;</span>
+          <span class="wifi-cfg-title">Routing Validation Console</span>
+        </div>
+        <div class="wifi-cfg-body">
+          <div class="cfg-row">
+            <div class="cfg-label">Q1 &mdash; Fault Isolation<span>Which router is missing the route needed to reach the remote site?</span></div>
+            <div class="cfg-input-cell">
+              <select class="cfg-select" id="pbq11-q1">
+                <option value="">— Select router —</option>
+                <option value="a">R-SiteB — it has no route to 10.0.5.0/24</option>
+                <option value="b">R-SiteA — it has no route to 172.16.20.0/24</option>
+                <option value="c">Both routers are missing routes</option>
+                <option value="d">Neither — the workstation's gateway is misconfigured</option>
+              </select>
+            </div>
+          </div>
+          <div class="cfg-row">
+            <div class="cfg-label">Q2 &mdash; Corrective Command<span>Which static route should be added, and where?</span></div>
+            <div class="cfg-input-cell">
+              <select class="cfg-select" id="pbq11-q2">
+                <option value="">— Select command —</option>
+                <option value="a">On R-SiteB: ip route 10.0.5.0 255.255.255.0 203.0.113.1</option>
+                <option value="b">On R-SiteA: ip route 10.0.5.0 255.255.255.0 203.0.113.2</option>
+                <option value="c">On R-SiteB: ip route 172.16.20.0 255.255.255.0 203.0.113.1</option>
+                <option value="d">On R-SiteA: ip route 203.0.113.0 255.255.255.252 203.0.113.2</option>
+              </select>
+            </div>
+          </div>
+          <div class="cfg-row">
+            <div class="cfg-label">Q3 &mdash; Verification<span>Which command confirms the new route appears in the routing table?</span></div>
+            <div class="cfg-input-cell">
+              <select class="cfg-select" id="pbq11-q3">
+                <option value="">— Select command —</option>
+                <option value="a">show ip route</option>
+                <option value="b">show vlan brief</option>
+                <option value="c">show mac address-table</option>
+                <option value="d">show interface status</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pbq-controls">
+        <button class="pbq-btn pbq-btn-check" onclick="pbq11Check()">&#10003; Check Answers</button>
+        <button class="pbq-btn pbq-btn-reset" onclick="pbq11Reset()">&#8635; Reset</button>
+        <button class="pbq-btn pbq-btn-reveal" onclick="pbq11Reveal()">&#128065; Show Answers</button>
+      </div>
+
+      <div class="pbq-result" id="pbq11-result"></div>
 
     </div>
   </div>
@@ -1092,7 +1615,7 @@ function updatePoolHint() {
 }
 
 // ── CHECK ─────────────────────────────────────────────────────────────────────
-function checkAnswers() {
+function pbq1Check() {
   const result = document.getElementById('pbq-result');
   let correct = 0;
   const cables = Object.keys(ANSWERS);
@@ -1127,9 +1650,9 @@ function checkAnswers() {
 }
 
 // ── REVEAL ────────────────────────────────────────────────────────────────────
-function revealAnswers() {
+function pbq1Reveal() {
   // Reset first
-  resetAll();
+  pbq1Reset();
   // Place correct answers
   Object.entries(ANSWERS).forEach(([cable, chipId]) => {
     const chip = document.querySelector(`.drag-chip[data-id="${chipId}"]`);
@@ -1149,7 +1672,7 @@ function revealAnswers() {
 }
 
 // ── RESET ─────────────────────────────────────────────────────────────────────
-function resetAll() {
+function pbq1Reset() {
   const pool = document.getElementById('drag-pool');
   // Return all chips from drop zones to pool
   document.querySelectorAll('.drop-zone').forEach(zone => {
@@ -1206,7 +1729,7 @@ function setAction(num, action) {
 }
 
 function checkAnswers() {
-  const result = document.getElementById('pbq-result');
+  const result = document.getElementById('pbq2-result');
   const unanswered = [];
   for (let i = 1; i <= TOTAL; i++) {
     if (!selections[i]) unanswered.push(i);
@@ -1252,7 +1775,7 @@ function revealAnswers() {
     const row = document.getElementById('row' + i);
     setAction(i, row.dataset.answer);
   }
-  const result = document.getElementById('pbq-result');
+  const result = document.getElementById('pbq2-result');
   result.className = 'pbq-result show reveal';
   result.innerHTML = '<strong>&#128065; Answers revealed &mdash; study the rationale for each rule, then reset and try yourself!</strong>';
 }
@@ -1264,7 +1787,7 @@ function resetAll() {
     document.getElementById('btn-deny-'   + i).className = 'action-btn deny';
     document.getElementById('row' + i).classList.remove('row-correct','row-wrong');
   }
-  const result = document.getElementById('pbq-result');
+  const result = document.getElementById('pbq2-result');
   result.className = 'pbq-result';
   result.innerHTML = '';
 }
@@ -1688,6 +2211,536 @@ function ca5Reset() {
   chips.forEach(c => pool.appendChild(c));
   ca5InitChips();
   const result = document.getElementById('ca5-result');
+  result.className = 'pbq-result';
+  result.innerHTML = '';
+}
+
+
+/* ══ PBQ 6 — VLAN TAGGING & ACL SECURITY ══════════════════════════════ */
+const PBQ6_PORTS = {
+  'pbq6-port1': { val: 'vlan10', label: 'Port 1 (Finance)' },
+  'pbq6-port2': { val: 'vlan20', label: 'Port 2 (Sales)' },
+  'pbq6-port3': { val: 'trunk',  label: 'Port 3 (Uplink)' },
+};
+const PBQ6_ACL_TOTAL = 4;
+const pbq6Selections = {};
+
+function pbq6SetAction(num, action) {
+  pbq6Selections[num] = action;
+  const permitBtn = document.getElementById('pbq6-btn-permit-' + num);
+  const denyBtn   = document.getElementById('pbq6-btn-deny-' + num);
+  permitBtn.className = 'action-btn permit' + (action === 'permit' ? ' selected-permit' : '');
+  denyBtn.className   = 'action-btn deny'   + (action === 'deny'   ? ' selected-deny'   : '');
+  document.getElementById('pbq6-row-' + num).classList.remove('row-correct','row-wrong');
+}
+
+function pbq6Check() {
+  const result = document.getElementById('pbq6-result');
+  let correct = 0, total = 0, rows = '';
+
+  const portUnanswered = [];
+  for (const [id, ans] of Object.entries(PBQ6_PORTS)) {
+    const el = document.getElementById(id);
+    if (!el.value) { portUnanswered.push(ans.label); }
+  }
+  const aclUnanswered = [];
+  for (let i = 1; i <= PBQ6_ACL_TOTAL; i++) if (!pbq6Selections[i]) aclUnanswered.push(i);
+
+  if (portUnanswered.length || aclUnanswered.length) {
+    result.className = 'pbq-result show fail';
+    let msg = '<strong>&#9888; Please complete all fields before checking.</strong>';
+    if (portUnanswered.length) msg += '<br>Missing ports: ' + portUnanswered.join(', ');
+    if (aclUnanswered.length) msg += '<br>Missing ACL rules: Rule ' + aclUnanswered.join(', Rule ');
+    result.innerHTML = msg;
+    return;
+  }
+
+  for (const [id, ans] of Object.entries(PBQ6_PORTS)) {
+    const el = document.getElementById(id);
+    total++;
+    const isCorrect = el.value === ans.val;
+    if (isCorrect) correct++;
+    el.className = 'cfg-select ' + (isCorrect ? 'correct' : 'wrong');
+    const icon = isCorrect ? '&#10003;' : '&#10007;';
+    rows += '<div class="result-row"><span class="ri">' + icon + '</span><span style="font-weight:700;min-width:170px">' + ans.label + '</span>'
+      + (isCorrect ? '' : '<span style="color:#E74C3C">Got: ' + (el.options[el.selectedIndex].text) + '</span> &rarr; ')
+      + '<span style="color:#27AE60">' + (id === 'pbq6-port3' ? '802.1Q Trunk Port' : ('Access — ' + ans.val.toUpperCase())) + '</span></div>';
+  }
+
+  for (let i = 1; i <= PBQ6_ACL_TOTAL; i++) {
+    const row = document.getElementById('pbq6-row-' + i);
+    const answer = row.dataset.answer;
+    const rationale = row.dataset.rationale;
+    const got = pbq6Selections[i];
+    total++;
+    const isCorrect = got === answer;
+    if (isCorrect) correct++;
+    row.classList.remove('row-correct','row-wrong');
+    row.classList.add(isCorrect ? 'row-correct' : 'row-wrong');
+    const icon = isCorrect ? '&#10003;' : '&#10007;';
+    const gotLabel  = got    === 'permit' ? '<span style="color:#27AE60;font-weight:700">PERMIT</span>' : '<span style="color:#E74C3C;font-weight:700">DENY</span>';
+    const corrLabel = answer === 'permit' ? '<span style="color:#27AE60;font-weight:700">PERMIT</span>' : '<span style="color:#E74C3C;font-weight:700">DENY</span>';
+    rows += '<div class="result-row"><span class="ri">' + icon + '</span><span class="rnum">Rule ' + i + '</span>'
+      + (isCorrect ? corrLabel : ('Got ' + gotLabel + ' &rarr; Correct: ' + corrLabel))
+      + ' <span style="color:var(--muted);font-size:11px"> — ' + rationale + '</span></div>';
+  }
+
+  const pct = Math.round((correct / total) * 100);
+  result.className = 'pbq-result show ' + (correct === total ? 'pass' : 'fail');
+  result.innerHTML = '<strong>' + (correct === total ? '&#127881; Perfect Score! VLANs and ACL rules are all correct.' : correct + '/' + total + ' Correct (' + pct + '%)') + '</strong><div class="result-rows">' + rows + '</div>';
+}
+
+function pbq6Reveal() {
+  pbq6Reset();
+  for (const [id, ans] of Object.entries(PBQ6_PORTS)) {
+    document.getElementById(id).value = ans.val;
+  }
+  for (let i = 1; i <= PBQ6_ACL_TOTAL; i++) {
+    pbq6SetAction(i, document.getElementById('pbq6-row-' + i).dataset.answer);
+  }
+  const result = document.getElementById('pbq6-result');
+  result.className = 'pbq-result show reveal';
+  result.innerHTML = '<strong>&#128065; Answers revealed — study the VLAN and ACL logic, then reset and try yourself!</strong>';
+}
+
+function pbq6Reset() {
+  for (const id of Object.keys(PBQ6_PORTS)) {
+    const el = document.getElementById(id);
+    el.value = '';
+    el.className = 'cfg-select';
+  }
+  for (let i = 1; i <= PBQ6_ACL_TOTAL; i++) {
+    delete pbq6Selections[i];
+    document.getElementById('pbq6-btn-permit-' + i).className = 'action-btn permit';
+    document.getElementById('pbq6-btn-deny-' + i).className = 'action-btn deny';
+    document.getElementById('pbq6-row-' + i).classList.remove('row-correct','row-wrong');
+  }
+  const result = document.getElementById('pbq6-result');
+  result.className = 'pbq-result';
+  result.innerHTML = '';
+}
+
+
+/* ══ PBQ 7 — OSPF AREA 0 & ADMINISTRATIVE DISTANCE ═══════════════════ */
+const PBQ7_ANSWERS = {
+  'pbq7-q1': { val: 'a', label: 'Adjacency Failure', correct_text: "Change R2's area assignment to Area 0 to match R1", rationale: 'Both ends of an OSPF link must belong to the same area, or the neighbor relationship stays stuck in EXSTART/DOWN and never forms.' },
+  'pbq7-q2': { val: '110', label: 'Default AD of OSPF', correct_text: '110', rationale: 'OSPF has a default administrative distance of 110 — lower than RIP (120) but higher than EIGRP (90) and static routes (1).' },
+  'pbq7-q3': { val: 'a', label: 'Route Selection', correct_text: 'The static route is installed — lower AD is preferred', rationale: 'When multiple sources learn the same destination, the router always installs the route with the lowest administrative distance, regardless of protocol.' },
+  'pbq7-q4': { val: 'a', label: 'Preferring OSPF', correct_text: "Configure the static route with a higher AD (a floating static route)", rationale: 'Raising the static route\'s AD above 110 turns it into a floating static route that only activates as a backup if OSPF fails.' },
+  'pbq7-q5': { val: 'ptp', label: 'OSPF Network Type', correct_text: 'Point-to-Point', rationale: 'Serial point-to-point links default to the OSPF Point-to-Point network type, which skips DR/BDR election since only two routers can ever be on the link.' },
+};
+
+function pbq7Check() {
+  const result = document.getElementById('pbq7-result');
+  let correct = 0;
+  const total = Object.keys(PBQ7_ANSWERS).length;
+  const unanswered = [];
+  let rows = '';
+
+  for (const [id, ans] of Object.entries(PBQ7_ANSWERS)) {
+    const el = document.getElementById(id);
+    const val = el.value;
+    if (!val) { unanswered.push(ans.label); continue; }
+    const isCorrect = val === ans.val;
+    if (isCorrect) correct++;
+    el.className = 'cfg-select ' + (isCorrect ? 'correct' : 'wrong');
+    const icon = isCorrect ? '&#10003;' : '&#10007;';
+    rows += '<div class="result-row"><span class="ri">' + icon + '</span><span style="font-weight:700;min-width:160px">' + ans.label + '</span>';
+    if (!isCorrect) rows += '<span style="color:#E74C3C">Got: ' + el.options[el.selectedIndex].text + '</span> &rarr; ';
+    rows += '<span style="color:#27AE60">' + ans.correct_text + '</span> <span style="color:var(--muted);font-size:11px"> — ' + ans.rationale + '</span></div>';
+  }
+
+  if (unanswered.length) {
+    result.className = 'pbq-result show fail';
+    result.innerHTML = '<strong>&#9888; Please answer all questions. Missing: ' + unanswered.join(', ') + '</strong>';
+    return;
+  }
+
+  const pct = Math.round((correct / total) * 100);
+  result.className = 'pbq-result show ' + (correct === total ? 'pass' : 'fail');
+  result.innerHTML = '<strong>' + (correct === total ? '&#127881; Perfect Score! All 5 answers correct.' : correct + '/' + total + ' Correct (' + pct + '%)') + '</strong><div class="result-rows">' + rows + '</div>';
+}
+
+function pbq7Reveal() {
+  pbq7Reset();
+  for (const [id, ans] of Object.entries(PBQ7_ANSWERS)) {
+    const el = document.getElementById(id);
+    el.value = ans.val;
+    el.className = 'cfg-select correct';
+  }
+  const result = document.getElementById('pbq7-result');
+  result.className = 'pbq-result show reveal';
+  result.innerHTML = '<strong>&#128065; Correct answers revealed — study each rationale, then reset and try yourself!</strong>';
+}
+
+function pbq7Reset() {
+  for (const id of Object.keys(PBQ7_ANSWERS)) {
+    const el = document.getElementById(id);
+    el.value = '';
+    el.className = 'cfg-select';
+  }
+  const result = document.getElementById('pbq7-result');
+  result.className = 'pbq-result';
+  result.innerHTML = '';
+}
+
+
+/* ══ PBQ 8 — DMZ STATEFUL FIREWALL & ACL ORDERING ═════════════════════ */
+const PBQ8_ANSWERS = {
+  'C': { order: '1', label: 'Admin SSH permit', rationale: 'The specific admin-SSH permit must come before the general SSH deny, or the deny would shadow it and block admins too.' },
+  'B': { order: '2', label: 'Block internet SSH', rationale: 'With the specific permit already matched first, this general deny now safely blocks SSH from everyone else.' },
+  'A': { order: '3', label: 'Public HTTPS permit', rationale: 'General public-facing permits can sit after the SSH rules — order among them and rule D does not affect the outcome.' },
+  'D': { order: '4', label: 'Public HTTP permit', rationale: 'Also a general permit for public traffic; either 3 or 4 works as long as it is before the final deny-all.' },
+  'E': { order: '5', label: 'Explicit deny-all', rationale: 'The explicit deny-all must always be the last rule evaluated, catching anything not already matched.' },
+};
+const PBQ8_LETTERS = ['A','B','C','D','E'];
+
+function pbq8Check() {
+  const result = document.getElementById('pbq8-result');
+  const values = {};
+  const unanswered = [];
+  PBQ8_LETTERS.forEach(l => {
+    const el = document.getElementById('pbq8-order-' + l);
+    if (!el.value) unanswered.push(PBQ8_ANSWERS[l].label);
+    values[l] = el.value;
+  });
+
+  if (unanswered.length) {
+    result.className = 'pbq-result show fail';
+    result.innerHTML = '<strong>&#9888; Please assign an order to every rule. Missing: ' + unanswered.join(', ') + '</strong>';
+    return;
+  }
+
+  const used = Object.values(values);
+  const hasDuplicates = new Set(used).size !== used.length;
+
+  let correct = 0;
+  let rows = '';
+  PBQ8_LETTERS.forEach(l => {
+    const el = document.getElementById('pbq8-order-' + l);
+    const row = document.getElementById('pbq8-row-' + l);
+    const ans = PBQ8_ANSWERS[l];
+    const isCorrect = !hasDuplicates && values[l] === ans.order;
+    if (isCorrect) correct++;
+    el.className = 'cfg-select ' + (isCorrect ? 'correct' : 'wrong');
+    row.classList.remove('row-correct','row-wrong');
+    row.classList.add(isCorrect ? 'row-correct' : 'row-wrong');
+    const icon = isCorrect ? '&#10003;' : '&#10007;';
+    rows += '<div class="result-row"><span class="ri">' + icon + '</span><span style="font-weight:700;min-width:170px">' + ans.label + '</span>'
+      + (isCorrect ? '' : '<span style="color:#E74C3C">Got: ' + values[l] + '</span> &rarr; ')
+      + '<span style="color:#27AE60">Position ' + ans.order + '</span> <span style="color:var(--muted);font-size:11px"> — ' + ans.rationale + '</span></div>';
+  });
+
+  if (hasDuplicates) {
+    result.className = 'pbq-result show fail';
+    result.innerHTML = '<strong>&#9888; Each position (1-5) can only be used once. Fix the duplicates and check again.</strong>' + '<div class="result-rows">' + rows + '</div>';
+    return;
+  }
+
+  const pct = Math.round((correct / PBQ8_LETTERS.length) * 100);
+  result.className = 'pbq-result show ' + (correct === PBQ8_LETTERS.length ? 'pass' : 'fail');
+  result.innerHTML = '<strong>' + (correct === PBQ8_LETTERS.length ? '&#127881; Perfect Score! Rule order is correct.' : correct + '/' + PBQ8_LETTERS.length + ' Correct (' + pct + '%)') + '</strong><div class="result-rows">' + rows + '</div>';
+}
+
+function pbq8Reveal() {
+  pbq8Reset();
+  PBQ8_LETTERS.forEach(l => {
+    const el = document.getElementById('pbq8-order-' + l);
+    el.value = PBQ8_ANSWERS[l].order;
+    el.className = 'cfg-select correct';
+  });
+  const result = document.getElementById('pbq8-result');
+  result.className = 'pbq-result show reveal';
+  result.innerHTML = '<strong>&#128065; Correct order revealed — note how specific permits are placed before general denies, then reset and try yourself!</strong>';
+}
+
+function pbq8Reset() {
+  PBQ8_LETTERS.forEach(l => {
+    const el = document.getElementById('pbq8-order-' + l);
+    el.value = '';
+    el.className = 'cfg-select';
+    document.getElementById('pbq8-row-' + l).classList.remove('row-correct','row-wrong');
+  });
+  const result = document.getElementById('pbq8-result');
+  result.className = 'pbq-result';
+  result.innerHTML = '';
+}
+
+
+/* ══ PBQ 9 — CABLE CERTIFIER & WIREMAP DIAGNOSTICS ════════════════════ */
+const PBQ9_ANSWERS = {
+  'pbq9-crimp': { val: 'improper', label: 'Crimp Status', correct_text: 'Cable was NOT properly crimped', rationale: 'Open and short readings on multiple pairs indicate a bad crimp — a properly terminated cable would show no faults.' },
+  'pbq9-cause': { val: 'crossed_pins', label: 'Root Cause', correct_text: 'Pins 3 and 6 were crimped into the same slot or crossed', rationale: 'A "short" fault specifically means two conductors are electrically touching — consistent with pins 3 and 6 being crossed inside the plug.' },
+  'pbq9-fix':   { val: 'recrimp', label: 'Remediation', correct_text: 'Cut off the plug, re-strip, and re-crimp to T568B', rationale: 'Wiremap faults inside the plug cannot be repaired in place — the connector must be cut off and re-terminated correctly.' },
+};
+
+function pbq9Check() {
+  const result = document.getElementById('pbq9-result');
+  let correct = 0;
+  const total = Object.keys(PBQ9_ANSWERS).length;
+  const unanswered = [];
+  let rows = '';
+
+  for (const [id, ans] of Object.entries(PBQ9_ANSWERS)) {
+    const el = document.getElementById(id);
+    const val = el.value;
+    if (!val) { unanswered.push(ans.label); continue; }
+    const isCorrect = val === ans.val;
+    if (isCorrect) correct++;
+    el.className = 'cfg-select ' + (isCorrect ? 'correct' : 'wrong');
+    const icon = isCorrect ? '&#10003;' : '&#10007;';
+    rows += '<div class="result-row"><span class="ri">' + icon + '</span><span style="font-weight:700;min-width:120px">' + ans.label + '</span>';
+    if (!isCorrect) rows += '<span style="color:#E74C3C">Got: ' + el.options[el.selectedIndex].text + '</span> &rarr; ';
+    rows += '<span style="color:#27AE60">' + ans.correct_text + '</span> <span style="color:var(--muted);font-size:11px"> — ' + ans.rationale + '</span></div>';
+  }
+
+  if (unanswered.length) {
+    result.className = 'pbq-result show fail';
+    result.innerHTML = '<strong>&#9888; Please answer all questions. Missing: ' + unanswered.join(', ') + '</strong>';
+    return;
+  }
+
+  const pct = Math.round((correct / total) * 100);
+  result.className = 'pbq-result show ' + (correct === total ? 'pass' : 'fail');
+  result.innerHTML = '<strong>' + (correct === total ? '&#127881; Perfect Diagnosis!' : correct + '/' + total + ' Correct (' + pct + '%)') + '</strong><div class="result-rows">' + rows + '</div>';
+}
+
+function pbq9Reveal() {
+  pbq9Reset();
+  for (const [id, ans] of Object.entries(PBQ9_ANSWERS)) {
+    const el = document.getElementById(id);
+    el.value = ans.val;
+    el.className = 'cfg-select correct';
+  }
+  const result = document.getElementById('pbq9-result');
+  result.className = 'pbq-result show reveal';
+  result.innerHTML = '<strong>&#128065; Correct diagnosis revealed — study the rationale, then reset and try yourself!</strong>';
+}
+
+function pbq9Reset() {
+  for (const id of Object.keys(PBQ9_ANSWERS)) {
+    const el = document.getElementById(id);
+    el.value = '';
+    el.className = 'cfg-select';
+  }
+  const result = document.getElementById('pbq9-result');
+  result.className = 'pbq-result';
+  result.innerHTML = '';
+}
+
+
+/* ══ PBQ 10 — T-568B RJ-45 WIREMAP TERMINATION ════════════════════════ */
+const PBQ10_ANSWERS = {
+  '1': 'wo', '2': 'o', '3': 'wg', '4': 'b',
+  '5': 'wb', '6': 'g', '7': 'wbr', '8': 'br',
+};
+const PBQ10_LABELS = {
+  'wo': 'White / Orange', 'o': 'Orange', 'wg': 'White / Green', 'b': 'Blue',
+  'wb': 'White / Blue', 'g': 'Green', 'wbr': 'White / Brown', 'br': 'Brown',
+};
+
+let pbq10DragId = null;
+
+function pbq10BindChip(chip) {
+  chip.addEventListener('dragstart', e => {
+    pbq10DragId = chip.dataset.id;
+    chip.classList.add('dragging');
+    e.dataTransfer.effectAllowed = 'move';
+  });
+  chip.addEventListener('dragend', () => chip.classList.remove('dragging'));
+}
+document.querySelectorAll('#pbq10-drag-pool .drag-chip').forEach(pbq10BindChip);
+
+function pbq10DragOver(e)  { e.preventDefault(); e.currentTarget.classList.add('drag-over'); }
+function pbq10DragLeave(e) { e.currentTarget.classList.remove('drag-over'); }
+
+function pbq10Drop(e, targetPin) {
+  e.preventDefault();
+  e.currentTarget.classList.remove('drag-over');
+  if (!pbq10DragId) return;
+
+  const chip = document.querySelector('#section-pbq10 .drag-chip[data-id="' + pbq10DragId + '"]');
+  if (!chip) return;
+  chip.parentElement.removeChild(chip);
+
+  const targetZone = document.getElementById('pbq10-drop-' + targetPin);
+  const existing = targetZone.querySelector('.drag-chip');
+  if (existing) {
+    existing.parentElement.removeChild(existing);
+    existing.style.fontSize = '';
+    existing.style.padding = '';
+    existing.onclick = null;
+    document.getElementById('pbq10-drag-pool').appendChild(existing);
+    pbq10BindChip(existing);
+  }
+
+  const hint = targetZone.querySelector('.drop-zone-hint');
+  if (hint) hint.remove();
+
+  chip.style.fontSize = '11px';
+  chip.style.padding = '4px 10px';
+  chip.onclick = () => pbq10ReturnToPool(chip, targetPin);
+  targetZone.appendChild(chip);
+  pbq10BindChip(chip);
+
+  pbq10DragId = null;
+}
+
+function pbq10ReturnToPool(chip, fromPin) {
+  const zone = document.getElementById('pbq10-drop-' + fromPin);
+  zone.removeChild(chip);
+  if (!zone.querySelector('.drag-chip')) {
+    const hint = document.createElement('span');
+    hint.className = 'drop-zone-hint';
+    hint.textContent = 'Drop here';
+    zone.appendChild(hint);
+  }
+  chip.style.fontSize = '';
+  chip.style.padding = '';
+  chip.onclick = null;
+  document.getElementById('pbq10-drag-pool').appendChild(chip);
+  pbq10BindChip(chip);
+}
+
+function pbq10Check() {
+  const result = document.getElementById('pbq10-result');
+  let correct = 0;
+  const pins = Object.keys(PBQ10_ANSWERS);
+  let rows = '';
+  let complete = true;
+
+  pins.forEach(pin => {
+    const zone = document.getElementById('pbq10-drop-' + pin);
+    const chip = zone.querySelector('.drag-chip');
+    const placed = chip ? chip.dataset.id : null;
+    if (!placed) complete = false;
+    const expected = PBQ10_ANSWERS[pin];
+    const isCorrect = placed === expected;
+    if (isCorrect) correct++;
+    const icon = isCorrect ? '&#10003;' : '&#10007;';
+    const gotText = placed ? PBQ10_LABELS[placed] : '(empty)';
+    rows += '<div class="result-row"><span class="ri">' + icon + '</span><span class="cable">Pin ' + pin + '</span>'
+      + (isCorrect ? '<span class="correct-ans">' + PBQ10_LABELS[expected] + '</span>'
+                   : '<span class="got">Got: ' + gotText + '</span> &rarr; <span class="correct-ans">' + PBQ10_LABELS[expected] + '</span>')
+      + '</div>';
+  });
+
+  if (!complete) {
+    result.className = 'pbq-result show fail';
+    result.innerHTML = '<strong>&#9888; Please place a wire in all 8 pin slots before checking.</strong>';
+    return;
+  }
+
+  const pct = Math.round((correct / pins.length) * 100);
+  const pass = correct === pins.length;
+  result.className = 'pbq-result show ' + (pass ? 'pass' : 'fail');
+  result.innerHTML = '<strong>' + (pass ? '&#127881; Perfect T-568B Wiremap!' : correct + '/' + pins.length + ' Correct (' + pct + '%)') + '</strong><div class="result-rows">' + rows + '</div>';
+}
+
+function pbq10Reveal() {
+  pbq10Reset();
+  Object.entries(PBQ10_ANSWERS).forEach(([pin, colorId]) => {
+    const chip = document.querySelector('#pbq10-drag-pool .drag-chip[data-id="' + colorId + '"]');
+    const zone = document.getElementById('pbq10-drop-' + pin);
+    if (!chip || !zone) return;
+    chip.parentElement.removeChild(chip);
+    const hint = zone.querySelector('.drop-zone-hint');
+    if (hint) hint.remove();
+    chip.style.fontSize = '11px';
+    chip.style.padding = '4px 10px';
+    chip.onclick = () => pbq10ReturnToPool(chip, pin);
+    zone.appendChild(chip);
+  });
+  const result = document.getElementById('pbq10-result');
+  result.className = 'pbq-result show reveal';
+  result.innerHTML = '<strong>&#128065; T-568B wiremap revealed — study the pin order, then reset and try yourself!</strong>';
+}
+
+function pbq10Reset() {
+  const pool = document.getElementById('pbq10-drag-pool');
+  document.querySelectorAll('#section-pbq10 .drop-zone').forEach(zone => {
+    const chip = zone.querySelector('.drag-chip');
+    if (chip) {
+      zone.removeChild(chip);
+      chip.style.fontSize = '';
+      chip.style.padding = '';
+      chip.onclick = null;
+      pool.appendChild(chip);
+    }
+    if (!zone.querySelector('.drop-zone-hint')) {
+      const hint = document.createElement('span');
+      hint.className = 'drop-zone-hint';
+      hint.textContent = 'Drop here';
+      zone.appendChild(hint);
+    }
+  });
+  const order = ['wo','o','wg','b','wb','g','wbr','br'];
+  const chips = [...pool.querySelectorAll('.drag-chip')].sort((a,b) => order.indexOf(a.dataset.id) - order.indexOf(b.dataset.id));
+  chips.forEach(c => pool.appendChild(c));
+  pool.querySelectorAll('.drag-chip').forEach(pbq10BindChip);
+  const result = document.getElementById('pbq10-result');
+  result.className = 'pbq-result';
+  result.innerHTML = '';
+}
+
+
+/* ══ PBQ 11 — ROUTING VALIDATION: SITE A TO SITE B ════════════════════ */
+const PBQ11_ANSWERS = {
+  'pbq11-q1': { val: 'a', label: 'Fault Isolation', correct_text: 'R-SiteB — it has no route to 10.0.5.0/24', rationale: "R-SiteA already has a route to 172.16.20.0/24, but R-SiteB's table has no entry for 10.0.5.0/24 at all, so return traffic never makes it back." },
+  'pbq11-q2': { val: 'a', label: 'Corrective Command', correct_text: 'On R-SiteB: ip route 10.0.5.0 255.255.255.0 203.0.113.1', rationale: "The missing route belongs on R-SiteB, pointing to R-SiteA's WAN interface (203.0.113.1) as the next hop." },
+  'pbq11-q3': { val: 'a', label: 'Verification', correct_text: 'show ip route', rationale: 'show ip route displays the active routing table, confirming whether the new static route was installed correctly.' },
+};
+
+function pbq11Check() {
+  const result = document.getElementById('pbq11-result');
+  let correct = 0;
+  const total = Object.keys(PBQ11_ANSWERS).length;
+  const unanswered = [];
+  let rows = '';
+
+  for (const [id, ans] of Object.entries(PBQ11_ANSWERS)) {
+    const el = document.getElementById(id);
+    const val = el.value;
+    if (!val) { unanswered.push(ans.label); continue; }
+    const isCorrect = val === ans.val;
+    if (isCorrect) correct++;
+    el.className = 'cfg-select ' + (isCorrect ? 'correct' : 'wrong');
+    const icon = isCorrect ? '&#10003;' : '&#10007;';
+    rows += '<div class="result-row"><span class="ri">' + icon + '</span><span style="font-weight:700;min-width:140px">' + ans.label + '</span>';
+    if (!isCorrect) rows += '<span style="color:#E74C3C">Got: ' + el.options[el.selectedIndex].text + '</span> &rarr; ';
+    rows += '<span style="color:#27AE60">' + ans.correct_text + '</span> <span style="color:var(--muted);font-size:11px"> — ' + ans.rationale + '</span></div>';
+  }
+
+  if (unanswered.length) {
+    result.className = 'pbq-result show fail';
+    result.innerHTML = '<strong>&#9888; Please answer all questions. Missing: ' + unanswered.join(', ') + '</strong>';
+    return;
+  }
+
+  const pct = Math.round((correct / total) * 100);
+  result.className = 'pbq-result show ' + (correct === total ? 'pass' : 'fail');
+  result.innerHTML = '<strong>' + (correct === total ? '&#127881; Perfect Score! Routing fault correctly diagnosed.' : correct + '/' + total + ' Correct (' + pct + '%)') + '</strong><div class="result-rows">' + rows + '</div>';
+}
+
+function pbq11Reveal() {
+  pbq11Reset();
+  for (const [id, ans] of Object.entries(PBQ11_ANSWERS)) {
+    const el = document.getElementById(id);
+    el.value = ans.val;
+    el.className = 'cfg-select correct';
+  }
+  const result = document.getElementById('pbq11-result');
+  result.className = 'pbq-result show reveal';
+  result.innerHTML = '<strong>&#128065; Correct answers revealed — study the rationale, then reset and try yourself!</strong>';
+}
+
+function pbq11Reset() {
+  for (const id of Object.keys(PBQ11_ANSWERS)) {
+    const el = document.getElementById(id);
+    el.value = '';
+    el.className = 'cfg-select';
+  }
+  const result = document.getElementById('pbq11-result');
   result.className = 'pbq-result';
   result.innerHTML = '';
 }
