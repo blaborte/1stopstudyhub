@@ -137,7 +137,16 @@
     .feedback.show{display:block}
     .feedback.correct-fb{background:rgba(39,174,96,0.08);border-color:var(--correct-border);color:#1A6B3A}
     .feedback.wrong-fb{background:rgba(231,76,60,0.08);border-color:var(--wrong-border);color:#A93226}
-    .feedback strong{display:block;margin-bottom:4px;font-size:12px;letter-spacing:.03em}
+    .feedback strong{display:block;margin-bottom:6px;font-size:12px;letter-spacing:.03em}
+    .fb-line{display:block;padding:3px 0;line-height:1.55}
+    .fb-line b{font-weight:700;margin-right:2px}
+    .fb-correct-line{color:var(--correct)}
+    .fb-wrong-line{color:var(--wrong)}
+    .fb-explain{display:block;margin-top:6px}
+    .submit-row{margin-top:14px}
+    .btn-submit-answer{width:100%;padding:12px;border-radius:9px;background:var(--accent);border:none;color:#fff;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all .18s;letter-spacing:.02em}
+    .btn-submit-answer:hover:not(:disabled){background:var(--blue)}
+    .btn-submit-answer:disabled{opacity:.45;cursor:not-allowed}
     .q-controls{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;border-top:1px solid var(--border);background:rgba(234,244,251,0.5)}
     .btn{font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;padding:8px 18px;border-radius:8px;border:1px solid;cursor:pointer;transition:all .18s;letter-spacing:.02em}
     .btn-primary{background:var(--accent);border-color:var(--accent);color:#fff}
@@ -415,6 +424,7 @@
         </div>
         <div class="q-multi-note" id="q-multi-note" style="display:none">Select all that apply</div>
         <div class="options" id="q-options"></div>
+        <div class="submit-row" id="submit-row"><button class="btn-submit-answer" id="btn-submit" onclick="submitAnswer()" disabled>Submit Answer</button></div>
         <div class="feedback" id="q-feedback"></div>
       </div>
       <div class="q-controls">
@@ -849,6 +859,14 @@ function renderQuestion() {
   btnNext.textContent = curQ === sessionQ.length - 1 ? 'Finish →' : 'Next →';
   document.getElementById('btn-prev').disabled = curQ === 0;
 
+  const btnSubmit = document.getElementById('btn-submit');
+  if (revealed[curQ]) {
+    btnSubmit.style.display = 'none';
+  } else {
+    btnSubmit.style.display = '';
+    btnSubmit.disabled = !(answers[curQ] && answers[curQ].length > 0);
+  }
+
   buildNav();
 }
 
@@ -865,14 +883,20 @@ function selectOpt(idx, el) {
       answers[curQ].push(idx);
       el.classList.add('selected');
     }
-    document.getElementById('btn-next').disabled = answers[curQ].length === 0;
-    if (answers[curQ].length === q.ans.length) revealAnswer();
   } else {
     document.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
     answers[curQ] = [idx];
     el.classList.add('selected');
-    revealAnswer();
   }
+  document.getElementById('btn-next').disabled = answers[curQ].length === 0;
+  const btnSubmit = document.getElementById('btn-submit');
+  if (btnSubmit) btnSubmit.disabled = answers[curQ].length === 0;
+}
+
+function submitAnswer() {
+  if (revealed[curQ]) return;
+  if (!answers[curQ] || answers[curQ].length === 0) return;
+  revealAnswer();
 }
 
 function revealAnswer() {
@@ -890,17 +914,49 @@ function revealAnswer() {
     el.classList.remove('selected');
   });
 
+  const btnSubmit = document.getElementById('btn-submit');
+  if (btnSubmit) btnSubmit.style.display = 'none';
+
   showFeedback(q);
   document.getElementById('btn-next').disabled = false;
   updateScoreboard();
   buildNav();
 }
 
+function formatExplanation(q) {
+  const exp = q.exp || '';
+  const pattern = /([A-E](?:,\s*[A-E])*)\s*(?:\([^)]*\))?\s+(?:is|are)\s+(correct|wrong)\s*[:,]?\s*(?:because\s+)?/g;
+  let m, matches = [];
+  while ((m = pattern.exec(exp)) !== null) {
+    matches.push({letters: m[1], verdict: m[2], start: m.index, end: pattern.lastIndex});
+  }
+  const stripPrefix = s => (s || '').replace(/^[A-Z]\.\s*/, '');
+  if (matches.length < 2) {
+    const letters = q.ans.map(i => String.fromCharCode(65 + i)).join(', ');
+    const texts = q.ans.map(i => stripPrefix(q.opts[i])).join('; ');
+    let html = `<div class="fb-line fb-correct-line"><b>✓ ${letters}.</b> ${texts}</div>`;
+    if (exp) html += `<div class="fb-line fb-explain">${exp}</div>`;
+    return html;
+  }
+  const segs = matches.map((mt, i) => {
+    const end = (i + 1 < matches.length) ? matches[i+1].start : exp.length;
+    return {letters: mt.letters, verdict: mt.verdict, text: exp.slice(mt.end, end).trim()};
+  });
+  segs.sort((a, b) => (a.verdict === b.verdict) ? 0 : (a.verdict === 'correct' ? -1 : 1));
+  let html = '';
+  segs.forEach(s => {
+    const icon = s.verdict === 'correct' ? '✓' : '✗';
+    const cls = s.verdict === 'correct' ? 'fb-correct-line' : 'fb-wrong-line';
+    html += `<div class="fb-line ${cls}"><b>${icon} ${s.letters}.</b> ${s.text}</div>`;
+  });
+  return html;
+}
+
 function showFeedback(q) {
   const isCorrect = q.ans.slice().sort().join(',') === (answers[curQ] || []).slice().sort().join(',');
   const fb = document.getElementById('q-feedback');
   fb.className = 'feedback show ' + (isCorrect ? 'correct-fb' : 'wrong-fb');
-  fb.innerHTML = `<strong>${isCorrect ? '✓ Correct!' : '✗ Incorrect'}</strong>${q.exp}`;
+  fb.innerHTML = `<strong>${isCorrect ? '✓ Correct!' : '✗ Incorrect'}</strong>` + formatExplanation(q);
 }
 
 function handleNext() {
