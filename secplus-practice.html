@@ -451,6 +451,8 @@
       <div class="rs-item"><div class="rs-val" id="res-skip" style="color:var(--muted)">0</div><div class="rs-lbl">Skipped</div></div>
     </div>
     <div class="result-actions">
+      <button class="btn btn-outline" onclick="retakeSameSet()">↻ Retake Same Questions</button>
+      <button class="btn btn-outline" id="btn-retake-incorrect-unanswered" onclick="retakeIncorrectAndUnanswered()">⟳ Retake Incorrect + Unanswered</button>
       <button class="btn btn-primary" onclick="backToSetup()">↺ New Session</button>
       <button class="btn btn-outline" id="btn-pdf" onclick="downloadPDFReport()">⬇ Download PDF Report</button>
       <button class="btn btn-outline" onclick="location.href='network-plus.html'">← Back to Hub</button>
@@ -1076,6 +1078,18 @@ function endExam() {
   if (pct >= 72) { grade.className = 'result-grade pass'; grade.textContent = `${pct}% — PASS 🎉`; }
   else { grade.className = 'result-grade fail'; grade.textContent = `${pct}% — Keep Studying`; }
 
+  const btnRetakeBoth = document.getElementById('btn-retake-incorrect-unanswered');
+  if (btnRetakeBoth) {
+    const missedTotal = wrong + skipped;
+    if (missedTotal > 0) {
+      btnRetakeBoth.disabled = false;
+      btnRetakeBoth.textContent = `⟳ Retake ${missedTotal} Incorrect + Unanswered`;
+    } else {
+      btnRetakeBoth.disabled = true;
+      btnRetakeBoth.textContent = '⟳ Retake Incorrect + Unanswered';
+    }
+  }
+
   document.getElementById('results-screen').style.display = 'block';
   window.scrollTo({top:0,behavior:'smooth'});
 }
@@ -1222,6 +1236,57 @@ function downloadPDFReport() {
 
   const dateStr = new Date().toISOString().slice(0, 10);
   doc.save(`SecurityPlus-${testLabel.replace(/\s+/g, '')}-${dateStr}.pdf`);
+}
+
+function beginSession(questions, opts) {
+  opts = opts || {};
+  sessionQ = questions;
+  curQ = 0;
+  answers = new Array(sessionQ.length).fill(null);
+  revealed = new Array(sessionQ.length).fill(false);
+  correct = 0; wrong = 0;
+
+  document.getElementById('sc-total').textContent = sessionQ.length;
+  document.getElementById('session-q-pill').textContent = sessionQ.length + ' Qs';
+  document.getElementById('sbi-total').textContent = sessionQ.length;
+
+  const useTimer = opts.timed && selectedTime > 0;
+  if (useTimer) {
+    timeLeft = selectedTime;
+    const tLabel = formatTime(selectedTime);
+    document.getElementById('session-t-pill').textContent = '⏱ ' + tLabel;
+    document.getElementById('sbi-timer').textContent = tLabel;
+    document.getElementById('sbi-mode').textContent = 'Timed';
+    document.getElementById('timer-pill').style.display = 'inline-block';
+    document.getElementById('timer-pill').textContent = tLabel;
+    startTimer();
+  } else {
+    clearInterval(timerInterval);
+    document.getElementById('session-t-pill').textContent = 'Untimed';
+    document.getElementById('sbi-timer').textContent = '∞';
+    document.getElementById('sbi-mode').textContent = 'Untimed';
+    document.getElementById('timer-pill').style.display = 'none';
+  }
+
+  document.getElementById('results-screen').style.display = 'none';
+  document.getElementById('exam-screen').style.display = 'block';
+  renderQuestion();
+  updateScoreboard();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function retakeSameSet() {
+  if (sessionQ.length === 0) return;
+  beginSession(sessionQ.slice(), {timed: true});
+}
+
+function retakeIncorrectAndUnanswered() {
+  const missedQs = sessionQ.filter((q, i) => {
+    if (!revealed[i]) return true;
+    return !(q.ans.slice().sort().join(',') === (answers[i] || []).slice().sort().join(','));
+  });
+  if (missedQs.length === 0) return;
+  beginSession(missedQs, {timed: false});
 }
 
 function backToSetup() {
