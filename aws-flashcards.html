@@ -160,6 +160,7 @@
       <button class="filter-btn" data-domain="2" onclick="setFilter('2',this)">Security</button>
       <button class="filter-btn" data-domain="3" onclick="setFilter('3',this)">Technology</button>
       <button class="filter-btn" data-domain="4" onclick="setFilter('4',this)">Billing</button>
+      <button class="filter-btn" data-domain="5" onclick="setFilter('5',this)">Services</button>
     </div>
     <div class="action-group">
       <button class="btn btn-outline" onclick="shuffleDeck()">⇄ Shuffle</button>
@@ -212,8 +213,8 @@
 </div>
 <footer><p>Built by <a href="https://blaborte.github.io" target="_blank">Baltazar Laborte</a> · BL Cert Hub · AWS Cloud Practitioner CLF-C02</p></footer>
 <script>
-const DOMAIN_COLORS={'1':['#FF9900','rgba(255,153,0,0.12)'],'2':['#E74C3C','rgba(231,76,60,0.12)'],'3':['#2E86C1','rgba(46,134,193,0.12)'],'4':['#27AE60','rgba(39,174,96,0.12)']};
-const DOMAIN_NAMES={'1':'Cloud Concepts','2':'Security & Compliance','3':'Cloud Technology & Services','4':'Billing, Pricing & Support'};
+const DOMAIN_COLORS={'1':['#FF9900','rgba(255,153,0,0.12)'],'2':['#E74C3C','rgba(231,76,60,0.12)'],'3':['#2E86C1','rgba(46,134,193,0.12)'],'4':['#27AE60','rgba(39,174,96,0.12)'],'5':['#2E7D32','rgba(46,125,50,0.12)']};
+const DOMAIN_NAMES={'1':'Cloud Concepts','2':'Security & Compliance','3':'Cloud Technology & Services','4':'Billing, Pricing & Support','5':'AWS Services Reference'};
 const ALL_CARDS=[
   // Domain 1 – Cloud Concepts
   {d:'1',term:'Cloud Computing',def:'On-demand delivery of IT resources (compute, storage, databases, networking) over the internet with pay-as-you-go pricing. No upfront capital investment needed. Resources provisioned in minutes, not weeks.'},
@@ -275,6 +276,153 @@ const ALL_CARDS=[
   {d:'4',term:'Cost Allocation Tags',def:'Key-value labels (e.g., Project=Marketing, Env=Production) applied to AWS resources to categorize costs. After activation in the Billing console, tags appear in Cost Explorer and CUR, allowing cost analysis by project, team, or environment.'},
   {d:'4',term:'AWS Pricing Calculator',def:'Free online tool to estimate monthly AWS costs before building. Add services, configure them, and get a detailed cost breakdown. Useful for budgeting new projects, comparing architectures, and creating cost proposals. Share estimates via a public link.'},
   {d:'4',term:'Total Cost of Ownership (TCO)',def:'When comparing on-premises to cloud, TCO includes: hardware, software licenses, data center space, power, cooling, networking, staffing, and maintenance. AWS TCO Calculator helps quantify savings by migrating to AWS. Cloud typically reduces TCO by 30-50%.'},
+  // AWS Services Reference – Analytics
+  {d:'5',term:'Amazon Athena (Analytics)',def:'Serverless interactive query service that runs standard SQL directly against data stored in Amazon S3. No infrastructure to manage; pay per query based on data scanned.'},
+  {d:'5',term:'AWS Data Exchange (Analytics)',def:'Marketplace for finding, subscribing to, and using third-party data sets directly within AWS, delivered via S3 or APIs.'},
+  {d:'5',term:'Amazon EMR (Analytics)',def:'Managed big data platform (Elastic MapReduce) for running Hadoop, Spark, Hive, and other frameworks at scale for data processing and analytics.'},
+  {d:'5',term:'AWS Glue (Analytics)',def:'Serverless data integration (ETL) service that discovers, prepares, and combines data for analytics, ML, and app development. Includes a Data Catalog.'},
+  {d:'5',term:'Amazon Kinesis (Analytics)',def:'Family of services for real-time streaming data ingestion, processing, and analysis at scale, including Data Streams, Firehose, and Data Analytics.'},
+  {d:'5',term:'Amazon Managed Streaming for Apache Kafka (Amazon MSK) (Analytics)',def:'Fully managed service for building and running applications on Apache Kafka without operating Kafka clusters yourself.'},
+  {d:'5',term:'Amazon OpenSearch Service (Analytics)',def:'Managed service for deploying, operating, and scaling OpenSearch (formerly Elasticsearch) clusters for search, log analytics, and monitoring.'},
+  {d:'5',term:'Amazon QuickSight (Analytics)',def:'Serverless, ML-powered business intelligence service for building interactive dashboards and visualizations from various data sources.'},
+  {d:'5',term:'Amazon Redshift (Analytics)',def:'Fully managed, petabyte-scale cloud data warehouse for running complex analytic queries across large structured data sets.'},
+  // AWS Services Reference – Application Integration
+  {d:'5',term:'Amazon EventBridge (Application Integration)',def:'Serverless event bus service that connects applications using events from AWS services, SaaS apps, and custom sources for event-driven architectures.'},
+  {d:'5',term:'Amazon Simple Notification Service (Amazon SNS) (Application Integration)',def:'Fully managed pub/sub messaging service for sending notifications to distributed systems, microservices, and end users (email, SMS, push, SQS, Lambda).'},
+  {d:'5',term:'Amazon Simple Queue Service (Amazon SQS) (Application Integration)',def:'Fully managed message queuing service that decouples and scales microservices and distributed systems. Standard (at-least-once) and FIFO (exactly-once) queue types.'},
+  {d:'5',term:'AWS Step Functions (Application Integration)',def:'Serverless orchestration service for coordinating multiple AWS services into visual workflows (state machines) for business processes and applications.'},
+  // AWS Services Reference – Business Applications
+  {d:'5',term:'Amazon Connect (Business Applications)',def:'Cloud-based omnichannel contact center service for setting up customer service call centers without on-premises infrastructure.'},
+  {d:'5',term:'Amazon Simple Email Service (Amazon SES) (Business Applications)',def:'Scalable, cost-effective email service for sending and receiving transactional, marketing, and bulk email using your own applications.'},
+  // AWS Services Reference – Cloud Financial Management
+  {d:'5',term:'AWS Billing Conductor (Cloud Financial Management)',def:'Custom billing tool that lets you group, configure, and generate customized billing views and invoices for internal cost allocation, such as for reseller customers.'},
+  {d:'5',term:'AWS Budgets (Cloud Financial Management)',def:'Lets you set custom cost, usage, and Reserved Instance/Savings Plan coverage budgets with alerts when actual or forecasted spend exceeds thresholds.'},
+  {d:'5',term:'AWS Cost and Usage Report (Cloud Financial Management)',def:'The most comprehensive set of AWS cost and usage data, including metadata about services, pricing, and reservations, delivered to an S3 bucket.'},
+  {d:'5',term:'AWS Cost Explorer (Cloud Financial Management)',def:'Tool to visualize, understand, and manage AWS costs and usage over time with interactive graphs and forecasting.'},
+  {d:'5',term:'AWS Marketplace (Cloud Financial Management)',def:'Curated digital catalog for finding, buying, deploying, and managing third-party software, data, and services that run on AWS.'},
+  // AWS Services Reference – Compute
+  {d:'5',term:'AWS Batch (Compute)',def:'Fully managed service for running hundreds of thousands of batch computing jobs, automatically provisioning the optimal compute resources.'},
+  {d:'5',term:'Amazon EC2 (Compute)',def:'Elastic Compute Cloud — resizable virtual servers in the cloud with a wide choice of instance types, purchasing options, and full control over the OS.'},
+  {d:'5',term:'AWS Elastic Beanstalk (Compute)',def:'Easy-to-use PaaS for deploying and scaling web applications; upload code and Beanstalk handles provisioning, load balancing, and scaling.'},
+  {d:'5',term:'Amazon Lightsail (Compute)',def:'Simplified virtual private server (VPS) offering with easy-to-use pricing, ideal for simple websites and applications and less complex workloads.'},
+  {d:'5',term:'AWS Local Zones (Compute)',def:'Infrastructure deployments that place AWS compute, storage, and other services closer to large population centers for single-digit millisecond latency.'},
+  {d:'5',term:'AWS Outposts (Compute)',def:'Fully managed service that extends AWS infrastructure, services, and tools to virtually any on-premises or edge location.'},
+  {d:'5',term:'AWS Wavelength (Compute)',def:'Embeds AWS compute and storage services within 5G telecom providers\' networks for ultra-low-latency applications at the mobile edge.'},
+  // AWS Services Reference – Containers
+  {d:'5',term:'Amazon Elastic Container Registry (Amazon ECR) (Containers)',def:'Fully managed Docker container registry for storing, managing, and deploying container images securely.'},
+  {d:'5',term:'Amazon Elastic Container Service (Amazon ECS) (Containers)',def:'Fully managed container orchestration service for running and scaling Docker containers, using AWS\'s own orchestration engine.'},
+  {d:'5',term:'Amazon Elastic Kubernetes Service (Amazon EKS) (Containers)',def:'Fully managed service for running Kubernetes clusters on AWS without needing to install and operate your own Kubernetes control plane.'},
+  // AWS Services Reference – Customer Engagement
+  {d:'5',term:'AWS Activate for Startups (Customer Engagement)',def:'Program that gives eligible startups AWS credits, training, and support to help them build on AWS.'},
+  {d:'5',term:'AWS IQ (Customer Engagement)',def:'(Legacy) Platform that connected customers with AWS Certified third-party experts for on-demand project work.'},
+  {d:'5',term:'AWS Managed Services (AMS) (Customer Engagement)',def:'Provides ongoing infrastructure management for AWS, operating infrastructure on a customer\'s behalf following AWS best practices.'},
+  {d:'5',term:'AWS Support (Customer Engagement)',def:'Range of plans (Basic, Developer, Business, Enterprise On-Ramp, Enterprise) providing technical support, guidance, and access to Trusted Advisor checks.'},
+  // AWS Services Reference – Database
+  {d:'5',term:'Amazon Aurora (Database)',def:'MySQL- and PostgreSQL-compatible relational database built for the cloud, offering up to 5x the throughput of standard MySQL with high availability.'},
+  {d:'5',term:'Amazon DynamoDB (Database)',def:'Fully managed, serverless NoSQL key-value and document database delivering single-digit millisecond performance at any scale.'},
+  {d:'5',term:'Amazon MemoryDB for Redis (Database)',def:'Redis-compatible, durable, in-memory database service delivering ultra-fast performance for modern applications.'},
+  {d:'5',term:'Amazon Neptune (Database)',def:'Fully managed graph database service for building applications that work with highly connected data sets, supporting Gremlin, SPARQL, and openCypher.'},
+  {d:'5',term:'Amazon RDS (Database)',def:'Relational Database Service — managed relational databases supporting MySQL, PostgreSQL, MariaDB, Oracle, SQL Server, and Aurora, handling patching, backups, and failover.'},
+  // AWS Services Reference – Developer Tools
+  {d:'5',term:'AWS AppConfig (Developer Tools)',def:'Feature of Systems Manager for deploying application configuration changes safely and quickly, separate from application code.'},
+  {d:'5',term:'AWS CLI (Developer Tools)',def:'Unified command line tool for managing and automating AWS services from a terminal.'},
+  {d:'5',term:'AWS Cloud9 (Developer Tools)',def:'Cloud-based integrated development environment (IDE) for writing, running, and debugging code with just a browser.'},
+  {d:'5',term:'AWS CloudShell (Developer Tools)',def:'Browser-based, pre-authenticated shell providing command-line access to AWS resources directly from the console.'},
+  {d:'5',term:'AWS CodeArtifact (Developer Tools)',def:'Fully managed artifact repository service for securely storing, publishing, and sharing software packages (npm, Maven, PyPI, etc.).'},
+  {d:'5',term:'AWS CodeBuild (Developer Tools)',def:'Fully managed continuous integration service that compiles source code, runs tests, and produces deployable software packages.'},
+  {d:'5',term:'AWS CodeCommit (Developer Tools)',def:'(Legacy) Fully managed source control service hosting private Git repositories.'},
+  {d:'5',term:'AWS CodeDeploy (Developer Tools)',def:'Service that automates code deployments to EC2, on-premises servers, Lambda, or ECS, reducing downtime during deployment.'},
+  {d:'5',term:'AWS CodePipeline (Developer Tools)',def:'Fully managed continuous delivery service that automates release pipelines for fast, reliable application and infrastructure updates.'},
+  {d:'5',term:'AWS CodeStar (Developer Tools)',def:'(Legacy) Unified interface for quickly developing, building, and deploying applications, integrating CI/CD tooling on AWS.'},
+  {d:'5',term:'AWS X-Ray (Developer Tools)',def:'Service that helps developers analyze and debug distributed applications by tracing requests as they travel through microservices.'},
+  // AWS Services Reference – End User Computing
+  {d:'5',term:'Amazon AppStream 2.0 (End User Computing)',def:'Fully managed application streaming service that lets you stream desktop applications from AWS to any device via a browser, without rewriting them.'},
+  {d:'5',term:'Amazon WorkSpaces (End User Computing)',def:'Managed, secure cloud desktop-as-a-service (DaaS) providing persistent virtual Windows or Linux desktops.'},
+  {d:'5',term:'Amazon WorkSpaces Web (End User Computing)',def:'Low-cost, fully managed service for delivering secure, browser-based access to internal websites and SaaS applications without a full desktop client.'},
+  // AWS Services Reference – Frontend Web and Mobile
+  {d:'5',term:'AWS Amplify (Frontend Web and Mobile)',def:'Set of tools and services for building, deploying, and hosting full-stack web and mobile applications quickly, with built-in CI/CD and backend features.'},
+  {d:'5',term:'AWS AppSync (Frontend Web and Mobile)',def:'Managed GraphQL and Pub/Sub API service that simplifies application development by letting apps query, update, and subscribe to data from multiple sources.'},
+  {d:'5',term:'AWS Device Farm (Frontend Web and Mobile)',def:'App testing service that lets you test Android, iOS, and web apps across a large collection of physical and virtual devices.'},
+  // AWS Services Reference – Internet of Things (IoT)
+  {d:'5',term:'AWS IoT Core (Internet of Things (IoT))',def:'Managed cloud service that lets connected devices easily and securely interact with cloud applications and other devices.'},
+  {d:'5',term:'AWS IoT Greengrass (Internet of Things (IoT))',def:'Edge runtime and cloud service that extends AWS to edge devices, enabling local compute, messaging, data management, and ML inference.'},
+  // AWS Services Reference – Machine Learning
+  {d:'5',term:'Amazon Comprehend (Machine Learning)',def:'Natural language processing (NLP) service that uses ML to find insights and relationships in text, such as sentiment, entities, and key phrases.'},
+  {d:'5',term:'Amazon Kendra (Machine Learning)',def:'Intelligent enterprise search service powered by ML that returns specific answers to questions instead of just a list of documents.'},
+  {d:'5',term:'Amazon Lex (Machine Learning)',def:'Service for building conversational interfaces (chatbots and voice bots) using the same deep learning technology that powers Alexa.'},
+  {d:'5',term:'Amazon Polly (Machine Learning)',def:'Text-to-speech service that turns text into lifelike speech using deep learning.'},
+  {d:'5',term:'Amazon Rekognition (Machine Learning)',def:'Image and video analysis service that uses deep learning to identify objects, people, text, scenes, and inappropriate content.'},
+  {d:'5',term:'Amazon SageMaker (Machine Learning)',def:'Fully managed service that provides every developer and data scientist the ability to build, train, and deploy machine learning models at scale.'},
+  {d:'5',term:'Amazon Textract (Machine Learning)',def:'Service that automatically extracts text, handwriting, and data from scanned documents, going beyond simple OCR.'},
+  {d:'5',term:'Amazon Transcribe (Machine Learning)',def:'Automatic speech recognition (ASR) service that converts audio to text.'},
+  {d:'5',term:'Amazon Translate (Machine Learning)',def:'Neural machine translation service that delivers fast, high-quality language translation.'},
+  // AWS Services Reference – Management and Governance
+  {d:'5',term:'AWS Auto Scaling (Management and Governance)',def:'Monitors applications and automatically adjusts capacity across multiple services (EC2, ECS, DynamoDB, Aurora) to maintain steady, predictable performance at lowest cost.'},
+  {d:'5',term:'AWS CloudFormation (Management and Governance)',def:'Infrastructure as Code service for modeling and provisioning AWS resources using JSON or YAML templates, enabling repeatable stack deployments.'},
+  {d:'5',term:'AWS CloudTrail (Management and Governance)',def:'Records API calls and account activity across your AWS account for governance, compliance, operational auditing, and risk auditing.'},
+  {d:'5',term:'Amazon CloudWatch (Management and Governance)',def:'Monitoring and observability service that collects metrics, logs, and events, and lets you set alarms and dashboards for AWS resources and applications.'},
+  {d:'5',term:'AWS Compute Optimizer (Management and Governance)',def:'Recommendation service that analyzes configuration and utilization metrics to recommend optimal AWS resource configurations for cost and performance.'},
+  {d:'5',term:'AWS Config (Management and Governance)',def:'Service that assesses, audits, and evaluates configurations of AWS resources, tracking configuration changes and compliance over time.'},
+  {d:'5',term:'AWS Control Tower (Management and Governance)',def:'Service that sets up and governs a secure, multi-account AWS environment based on best practices, using guardrails and Organizations.'},
+  {d:'5',term:'AWS Health Dashboard (Management and Governance)',def:'Provides alerts and remediation guidance about AWS events that may affect your account\'s resources, personalized to your usage.'},
+  {d:'5',term:'AWS Launch Wizard (Management and Governance)',def:'Guided way to size, configure, and deploy AWS resources for third-party applications like SQL Server or SAP without manually identifying resources.'},
+  {d:'5',term:'AWS License Manager (Management and Governance)',def:'Service that makes it easier to manage software licenses from vendors such as Microsoft, SAP, Oracle, and IBM across AWS and on-premises.'},
+  {d:'5',term:'AWS Management Console (Management and Governance)',def:'Web-based interface for accessing and managing AWS services.'},
+  {d:'5',term:'AWS Organizations (Management and Governance)',def:'Account management service for centrally governing and consolidating multiple AWS accounts, with consolidated billing and service control policies (SCPs).'},
+  {d:'5',term:'AWS Resource Groups and Tag Editor (Management and Governance)',def:'Tools for organizing AWS resources by tags and managing tags across multiple resources and regions at once.'},
+  {d:'5',term:'AWS Service Catalog (Management and Governance)',def:'Lets organizations create and manage curated catalogs of approved IT services for use on AWS, enforcing governance and compliance.'},
+  {d:'5',term:'AWS Systems Manager (Management and Governance)',def:'Operations hub that provides visibility and control of infrastructure on AWS, including patching, automation, and Session Manager for secure shell access.'},
+  {d:'5',term:'AWS Trusted Advisor (Management and Governance)',def:'Automated advisor that inspects your AWS environment and provides recommendations across cost optimization, performance, security, fault tolerance, and service limits.'},
+  {d:'5',term:'AWS Well-Architected Tool (Management and Governance)',def:'Free tool that helps you review workloads against AWS best practices across the six pillars of the Well-Architected Framework.'},
+  // AWS Services Reference – Migration and Transfer
+  {d:'5',term:'AWS Application Discovery Service (Migration and Transfer)',def:'Helps plan migration projects by gathering information about on-premises data centers, including server usage and dependency mapping.'},
+  {d:'5',term:'AWS Application Migration Service (Migration and Transfer)',def:'Automated lift-and-shift (rehost) solution that simplifies migrating applications from physical, virtual, or cloud infrastructure to AWS.'},
+  {d:'5',term:'AWS Database Migration Service (AWS DMS) (Migration and Transfer)',def:'Service that helps migrate databases to AWS quickly and securely, supporting homogeneous and heterogeneous migrations with minimal downtime.'},
+  {d:'5',term:'AWS Migration Hub (Migration and Transfer)',def:'Central place to track the progress of application migrations across multiple AWS and partner migration tools.'},
+  {d:'5',term:'AWS Schema Conversion Tool (AWS SCT) (Migration and Transfer)',def:'Tool that converts database schemas from one engine to another (e.g., Oracle to PostgreSQL) to support heterogeneous database migrations.'},
+  {d:'5',term:'AWS Snow Family (Migration and Transfer)',def:'Physical devices (Snowcone, Snowball, Snowmobile) for securely transferring large amounts of data into and out of AWS, or for edge computing in disconnected environments.'},
+  {d:'5',term:'AWS Transfer Family (Migration and Transfer)',def:'Fully managed support for file transfers directly into and out of Amazon S3 or EFS using SFTP, FTPS, FTP, and AS2.'},
+  // AWS Services Reference – Networking and Content Delivery
+  {d:'5',term:'Amazon API Gateway (Networking and Content Delivery)',def:'Fully managed service for creating, publishing, maintaining, monitoring, and securing REST, HTTP, and WebSocket APIs at any scale.'},
+  {d:'5',term:'Amazon CloudFront (Networking and Content Delivery)',def:'Fast content delivery network (CDN) that securely delivers data, videos, applications, and APIs globally with low latency via edge locations.'},
+  {d:'5',term:'AWS Direct Connect (Networking and Content Delivery)',def:'Dedicated network connection from on-premises to AWS, bypassing the public internet for more consistent network performance.'},
+  {d:'5',term:'AWS Global Accelerator (Networking and Content Delivery)',def:'Networking service that improves availability and performance of applications by directing traffic through AWS\'s global network infrastructure using static anycast IPs.'},
+  {d:'5',term:'Amazon Route 53 (Networking and Content Delivery)',def:'Highly available and scalable Domain Name System (DNS) web service, also offering domain registration and health checking.'},
+  {d:'5',term:'Amazon VPC (Networking and Content Delivery)',def:'Virtual Private Cloud — logically isolated section of AWS where you launch resources in a virtual network you define, including subnets, route tables, and gateways.'},
+  {d:'5',term:'AWS VPN (Networking and Content Delivery)',def:'Service for establishing secure, encrypted connections between your on-premises networks or remote users and your AWS VPC.'},
+  // AWS Services Reference – Security, Identity, and Compliance
+  {d:'5',term:'AWS Artifact (Security, Identity, and Compliance)',def:'Central resource for on-demand access to AWS compliance reports and agreements, such as SOC and PCI reports.'},
+  {d:'5',term:'AWS Audit Manager (Security, Identity, and Compliance)',def:'Service that continuously audits AWS usage to simplify risk assessment and compliance with regulations and industry standards.'},
+  {d:'5',term:'AWS Certificate Manager (ACM) (Security, Identity, and Compliance)',def:'Service for provisioning, managing, and deploying public and private SSL/TLS certificates for use with AWS services.'},
+  {d:'5',term:'AWS CloudHSM (Security, Identity, and Compliance)',def:'Cloud-based hardware security module (HSM) that lets you generate and use your own encryption keys on FIPS 140-2 validated hardware.'},
+  {d:'5',term:'Amazon Cognito (Security, Identity, and Compliance)',def:'Service that provides authentication, authorization, and user management for web and mobile applications, including user pools and identity pools.'},
+  {d:'5',term:'Amazon Detective (Security, Identity, and Compliance)',def:'Security service that analyzes and visualizes data from CloudTrail, VPC Flow Logs, and GuardDuty to help investigate the root cause of security findings.'},
+  {d:'5',term:'AWS Directory Service (Security, Identity, and Compliance)',def:'Managed Microsoft Active Directory in AWS, enabling directory-aware workloads and AWS resources to use managed AD in the cloud.'},
+  {d:'5',term:'AWS Firewall Manager (Security, Identity, and Compliance)',def:'Security management service that lets you centrally configure and manage firewall rules (WAF, Shield, security groups) across accounts and resources.'},
+  {d:'5',term:'Amazon GuardDuty (Security, Identity, and Compliance)',def:'Managed threat detection service that continuously monitors for malicious activity and unauthorized behavior using ML and threat intelligence.'},
+  {d:'5',term:'AWS Identity and Access Management (IAM) (Security, Identity, and Compliance)',def:'Service for securely controlling access to AWS resources by managing users, groups, roles, and permissions policies.'},
+  {d:'5',term:'AWS IAM Identity Center (AWS Single Sign-On) (Security, Identity, and Compliance)',def:'Service that centrally manages SSO access to multiple AWS accounts and business applications.'},
+  {d:'5',term:'Amazon Inspector (Security, Identity, and Compliance)',def:'Automated vulnerability management service that continuously scans EC2, container images, and Lambda functions for software vulnerabilities and unintended network exposure.'},
+  {d:'5',term:'AWS Key Management Service (AWS KMS) (Security, Identity, and Compliance)',def:'Managed service for creating and controlling the cryptographic keys used to encrypt data across AWS services and applications.'},
+  {d:'5',term:'Amazon Macie (Security, Identity, and Compliance)',def:'ML-powered security service that automatically discovers, classifies, and helps protect sensitive data such as PII stored in Amazon S3.'},
+  {d:'5',term:'AWS Network Firewall (Security, Identity, and Compliance)',def:'Managed network firewall and intrusion detection/prevention service for filtering traffic at the VPC level.'},
+  {d:'5',term:'AWS Resource Access Manager (AWS RAM) (Security, Identity, and Compliance)',def:'Service that lets you securely share AWS resources across accounts, within your organization, or with third-party accounts.'},
+  {d:'5',term:'AWS Secrets Manager (Security, Identity, and Compliance)',def:'Service for securely storing, retrieving, and automatically rotating database credentials, API keys, and other secrets.'},
+  {d:'5',term:'AWS Security Hub (Security, Identity, and Compliance)',def:'Service that provides a comprehensive view of security alerts and compliance status across AWS accounts by aggregating findings from multiple services.'},
+  {d:'5',term:'AWS Shield (Security, Identity, and Compliance)',def:'Managed Distributed Denial of Service (DDoS) protection service, with Standard (free, automatic) and Advanced (paid, enhanced) tiers.'},
+  {d:'5',term:'AWS WAF (Security, Identity, and Compliance)',def:'Web Application Firewall that protects web applications from common exploits like SQL injection and cross-site scripting by filtering HTTP/HTTPS requests.'},
+  // AWS Services Reference – Serverless
+  {d:'5',term:'AWS Fargate (Serverless)',def:'Serverless compute engine for containers that works with ECS and EKS, removing the need to provision or manage servers.'},
+  {d:'5',term:'AWS Lambda (Serverless)',def:'Serverless compute service that runs code in response to events without provisioning or managing servers, automatically scaling and billing per use.'},
+  // AWS Services Reference – Storage
+  {d:'5',term:'AWS Backup (Storage)',def:'Fully managed, centralized backup service for automating and managing backups across AWS services such as EBS, RDS, DynamoDB, and EFS.'},
+  {d:'5',term:'Amazon Elastic Block Store (Amazon EBS) (Storage)',def:'Persistent block storage volumes for use with EC2 instances, automatically replicated within an Availability Zone.'},
+  {d:'5',term:'Amazon Elastic File System (Amazon EFS) (Storage)',def:'Fully managed, scalable, elastic NFS file system for use with AWS compute services, shareable across multiple instances.'},
+  {d:'5',term:'AWS Elastic Disaster Recovery (Storage)',def:'Service that minimizes downtime and data loss by enabling fast, reliable recovery of on-premises or cloud applications to AWS.'},
+  {d:'5',term:'Amazon FSx (Storage)',def:'Fully managed file storage service offering purpose-built file systems, including Windows File Server, Lustre, NetApp ONTAP, and OpenZFS.'},
+  {d:'5',term:'Amazon S3 (Storage)',def:'Simple Storage Service — highly durable, scalable object storage for any amount of data, used for backups, data lakes, and static websites.'},
+  {d:'5',term:'Amazon S3 Glacier (Storage)',def:'Low-cost storage classes within S3 designed for data archiving and long-term backup, with retrieval times from milliseconds to hours.'},
+  {d:'5',term:'AWS Storage Gateway (Storage)',def:'Hybrid cloud storage service connecting on-premises environments to AWS storage, providing seamless integration with S3, EBS, and other services.'},
 ];
 
 let deck=[],status={},curIdx=0,isFlipped=false,activeFilter='all';
