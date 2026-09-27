@@ -81,6 +81,12 @@
     .quiz-fb.show{display:block}
     .quiz-fb.ok{background:rgba(39,174,96,0.08);border-color:rgba(39,174,96,0.28);color:#1A6B3A}
     .quiz-fb.bad{background:rgba(231,76,60,0.08);border-color:rgba(231,76,60,0.28);color:#A93226}
+    .quiz-fb-head{font-weight:600;margin-bottom:8px}
+    .quiz-exp-line{display:flex;gap:8px;padding:6px 0;border-top:1px dashed var(--border);color:var(--text);font-size:12.5px;line-height:1.45}
+    .quiz-exp-line b{font-family:"Space Mono",monospace;font-size:12px}
+    .quiz-exp-line.is-ans .quiz-exp-mark{color:#27AE60}
+    .quiz-exp-mark{color:#E74C3C;font-weight:700;flex-shrink:0;width:12px}
+    .quiz-exp-you{font-size:11px;color:var(--muted);font-style:italic}
     .quiz-ctrl{display:flex;align-items:center;justify-content:space-between}
     .quiz-score-lbl{font-family:"Space Mono",monospace;font-size:12px;color:var(--muted)}
     .btn-primary{background:var(--accent);border:1px solid var(--accent);color:#fff;padding:8px 18px;border-radius:8px;font-family:"DM Sans",sans-serif;font-size:12px;font-weight:500;cursor:pointer;transition:all .18s}
@@ -278,31 +284,113 @@ function calculate() {
 
 /* ── SUBNET QUIZ ── */
 const SQ_QUESTIONS = [
-  {lbl:'How many usable hosts does this subnet provide?', text:'/24', sub:'Class C default subnet',ans:'254',opts:['254','255','256','252']},
-  {lbl:'How many usable hosts does this subnet provide?', text:'/25', sub:'Half of a /24',ans:'126',opts:['126','128','127','124']},
-  {lbl:'How many usable hosts does this subnet provide?', text:'/26', sub:'Quarter of a /24',ans:'62',opts:['62','64','60','63']},
-  {lbl:'How many usable hosts does this subnet provide?', text:'/27', sub:'Eighth of a /24',ans:'30',opts:['30','32','28','14']},
-  {lbl:'How many usable hosts does this subnet provide?', text:'/28', sub:'',ans:'14',opts:['14','16','30','12']},
-  {lbl:'How many usable hosts does this subnet provide?', text:'/29', sub:'',ans:'6',opts:['6','8','14','4']},
-  {lbl:'How many usable hosts does this subnet provide?', text:'/30', sub:'Point-to-point link',ans:'2',opts:['2','4','6','0']},
-  {lbl:'What is the subnet mask for this CIDR prefix?', text:'/24', sub:'',ans:'255.255.255.0',opts:['255.255.255.0','255.255.0.0','255.255.255.128','255.0.0.0']},
-  {lbl:'What is the subnet mask for this CIDR prefix?', text:'/25', sub:'',ans:'255.255.255.128',opts:['255.255.255.128','255.255.255.0','255.255.255.192','255.255.255.224']},
-  {lbl:'What is the subnet mask for this CIDR prefix?', text:'/26', sub:'',ans:'255.255.255.192',opts:['255.255.255.192','255.255.255.128','255.255.255.224','255.255.255.0']},
-  {lbl:'What is the subnet mask for this CIDR prefix?', text:'/27', sub:'',ans:'255.255.255.224',opts:['255.255.255.224','255.255.255.192','255.255.255.240','255.255.255.128']},
-  {lbl:'What is the subnet mask for this CIDR prefix?', text:'/28', sub:'',ans:'255.255.255.240',opts:['255.255.255.240','255.255.255.224','255.255.255.248','255.255.255.192']},
-  {lbl:'What is the subnet mask for this CIDR prefix?', text:'/30', sub:'',ans:'255.255.255.252',opts:['255.255.255.252','255.255.255.248','255.255.255.240','255.255.255.254']},
-  {lbl:'How many subnets can you create by splitting a /24 with this prefix?', text:'/25', sub:'',ans:'2',opts:['2','4','8','16']},
-  {lbl:'How many subnets can you create by splitting a /24 with this prefix?', text:'/26', sub:'',ans:'4',opts:['4','2','8','16']},
-  {lbl:'How many subnets can you create by splitting a /24 with this prefix?', text:'/27', sub:'',ans:'8',opts:['8','4','16','32']},
-  {lbl:'How many subnets can you create by splitting a /24 with this prefix?', text:'/28', sub:'',ans:'16',opts:['16','8','32','64']},
-  {lbl:'What CIDR prefix is typically used for point-to-point WAN links?', text:'Point-to-Point Link', sub:'Only 2 usable hosts needed',ans:'/30',opts:['/30','/29','/31','/28']},
-  {lbl:'What is the broadcast address for this network?', text:'192.168.1.0/24', sub:'',ans:'192.168.1.255',opts:['192.168.1.255','192.168.1.254','192.168.0.255','192.168.1.128']},
-  {lbl:'What is the network address for this host?', text:'10.0.0.130/25', sub:'Hint: /25 = 255.255.255.128',ans:'10.0.0.128',opts:['10.0.0.128','10.0.0.0','10.0.0.130','10.0.1.0']},
+  {lbl:'How many usable hosts does this subnet provide?', text:'/24', sub:'Class C default subnet',ans:'254',opts:['254','255','256','252'],exp:{
+    '254':'/24 leaves 8 host bits: 2^8 = 256 addresses, minus 2 (network + broadcast) = 254 usable.',
+    '255':'Only subtracts 1. Both the network address and the broadcast address are reserved, so subtract 2.',
+    '256':'That is the total number of addresses (2^8), not the usable hosts.',
+    '252':'Subtracts 4. Only 2 addresses are reserved per subnet.'}},
+  {lbl:'How many usable hosts does this subnet provide?', text:'/25', sub:'Half of a /24',ans:'126',opts:['126','128','127','124'],exp:{
+    '126':'/25 leaves 7 host bits: 2^7 = 128, minus 2 = 126 usable.',
+    '128':'That is the total address count (2^7), before removing network and broadcast.',
+    '127':'Only subtracts 1. Network and broadcast are both reserved.',
+    '124':'Subtracts 4. Only 2 addresses are reserved.'}},
+  {lbl:'How many usable hosts does this subnet provide?', text:'/26', sub:'Quarter of a /24',ans:'62',opts:['62','64','60','63'],exp:{
+    '62':'/26 leaves 6 host bits: 2^6 = 64, minus 2 = 62 usable.',
+    '64':'That is the total address count (block size), not usable hosts.',
+    '60':'Subtracts 4. Only network and broadcast (2) are reserved.',
+    '63':'Only subtracts 1. You must remove both network and broadcast.'}},
+  {lbl:'How many usable hosts does this subnet provide?', text:'/27', sub:'Eighth of a /24',ans:'30',opts:['30','32','28','14'],exp:{
+    '30':'/27 leaves 5 host bits: 2^5 = 32, minus 2 = 30 usable.',
+    '32':'That is the total address count (block size of 32).',
+    '28':'Subtracts 4. Only 2 addresses are reserved.',
+    '14':'That is the usable count for a /28 (4 host bits), not a /27.'}},
+  {lbl:'How many usable hosts does this subnet provide?', text:'/28', sub:'',ans:'14',opts:['14','16','30','12'],exp:{
+    '14':'/28 leaves 4 host bits: 2^4 = 16, minus 2 = 14 usable.',
+    '16':'That is the total address count (block size of 16).',
+    '30':'That is the usable count for a /27 (5 host bits).',
+    '12':'Subtracts 4. Only 2 addresses are reserved.'}},
+  {lbl:'How many usable hosts does this subnet provide?', text:'/29', sub:'',ans:'6',opts:['6','8','14','4'],exp:{
+    '6':'/29 leaves 3 host bits: 2^3 = 8, minus 2 = 6 usable.',
+    '8':'That is the total address count (block size of 8).',
+    '14':'That is the usable count for a /28 (4 host bits).',
+    '4':'Subtracts 4 instead of 2 (and 4 is the block size of a /30).'}},
+  {lbl:'How many usable hosts does this subnet provide?', text:'/30', sub:'Point-to-point link',ans:'2',opts:['2','4','6','0'],exp:{
+    '2':'/30 leaves 2 host bits: 2^2 = 4, minus 2 = 2 usable — one per end of the link.',
+    '4':'That is the total address count (block size of 4).',
+    '6':'That is the usable count for a /29 (3 host bits).',
+    '0':'A /30 still has 2 usable hosts. (Under the classic rule, 0 would describe a /31.)'}},
+  {lbl:'What is the subnet mask for this CIDR prefix?', text:'/24', sub:'',ans:'255.255.255.0',opts:['255.255.255.0','255.255.0.0','255.255.255.128','255.0.0.0'],exp:{
+    '255.255.255.0':'24 network bits = three full octets of 1s (255.255.255) and an empty fourth octet.',
+    '255.255.0.0':'Only 16 network bits — that is a /16.',
+    '255.255.255.128':'One extra bit in the fourth octet — that is a /25.',
+    '255.0.0.0':'Only 8 network bits — that is a /8.'}},
+  {lbl:'What is the subnet mask for this CIDR prefix?', text:'/25', sub:'',ans:'255.255.255.128',opts:['255.255.255.128','255.255.255.0','255.255.255.192','255.255.255.224'],exp:{
+    '255.255.255.128':'/25 borrows 1 bit in the fourth octet: 128 = 10000000.',
+    '255.255.255.0':'No bits in the fourth octet — that is a /24.',
+    '255.255.255.192':'Two bits (128+64) in the fourth octet — that is a /26.',
+    '255.255.255.224':'Three bits (128+64+32) — that is a /27.'}},
+  {lbl:'What is the subnet mask for this CIDR prefix?', text:'/26', sub:'',ans:'255.255.255.192',opts:['255.255.255.192','255.255.255.128','255.255.255.224','255.255.255.0'],exp:{
+    '255.255.255.192':'/26 borrows 2 bits in the fourth octet: 128 + 64 = 192 (11000000).',
+    '255.255.255.128':'Only one bit (128) — that is a /25.',
+    '255.255.255.224':'Three bits (128+64+32) — that is a /27.',
+    '255.255.255.0':'No bits in the fourth octet — that is a /24.'}},
+  {lbl:'What is the subnet mask for this CIDR prefix?', text:'/27', sub:'',ans:'255.255.255.224',opts:['255.255.255.224','255.255.255.192','255.255.255.240','255.255.255.128'],exp:{
+    '255.255.255.224':'/27 borrows 3 bits: 128 + 64 + 32 = 224 (11100000).',
+    '255.255.255.192':'Only two bits (128+64) — that is a /26.',
+    '255.255.255.240':'Four bits (128+64+32+16) — that is a /28.',
+    '255.255.255.128':'Only one bit — that is a /25.'}},
+  {lbl:'What is the subnet mask for this CIDR prefix?', text:'/28', sub:'',ans:'255.255.255.240',opts:['255.255.255.240','255.255.255.224','255.255.255.248','255.255.255.192'],exp:{
+    '255.255.255.240':'/28 borrows 4 bits: 128 + 64 + 32 + 16 = 240 (11110000).',
+    '255.255.255.224':'Only three bits — that is a /27.',
+    '255.255.255.248':'Five bits (…+8) — that is a /29.',
+    '255.255.255.192':'Only two bits — that is a /26.'}},
+  {lbl:'What is the subnet mask for this CIDR prefix?', text:'/30', sub:'',ans:'255.255.255.252',opts:['255.255.255.252','255.255.255.248','255.255.255.240','255.255.255.254'],exp:{
+    '255.255.255.252':'/30 borrows 6 bits: 128+64+32+16+8+4 = 252 (11111100).',
+    '255.255.255.248':'Five bits — that is a /29.',
+    '255.255.255.240':'Four bits — that is a /28.',
+    '255.255.255.254':'Seven bits — that is a /31.'}},
+  {lbl:'How many subnets can you create by splitting a /24 with this prefix?', text:'/25', sub:'',ans:'2',opts:['2','4','8','16'],exp:{
+    '2':'Going from /24 to /25 borrows 1 bit: 2^1 = 2 subnets.',
+    '4':'That needs 2 borrowed bits — a /26.',
+    '8':'That needs 3 borrowed bits — a /27.',
+    '16':'That needs 4 borrowed bits — a /28.'}},
+  {lbl:'How many subnets can you create by splitting a /24 with this prefix?', text:'/26', sub:'',ans:'4',opts:['4','2','8','16'],exp:{
+    '4':'Going from /24 to /26 borrows 2 bits: 2^2 = 4 subnets.',
+    '2':'That is only 1 borrowed bit — a /25.',
+    '8':'That needs 3 borrowed bits — a /27.',
+    '16':'That needs 4 borrowed bits — a /28.'}},
+  {lbl:'How many subnets can you create by splitting a /24 with this prefix?', text:'/27', sub:'',ans:'8',opts:['8','4','16','32'],exp:{
+    '8':'Going from /24 to /27 borrows 3 bits: 2^3 = 8 subnets.',
+    '4':'That is only 2 borrowed bits — a /26.',
+    '16':'That needs 4 borrowed bits — a /28.',
+    '32':'That needs 5 borrowed bits — a /29.'}},
+  {lbl:'How many subnets can you create by splitting a /24 with this prefix?', text:'/28', sub:'',ans:'16',opts:['16','8','32','64'],exp:{
+    '16':'Going from /24 to /28 borrows 4 bits: 2^4 = 16 subnets.',
+    '8':'That is only 3 borrowed bits — a /27.',
+    '32':'That needs 5 borrowed bits — a /29.',
+    '64':'That needs 6 borrowed bits — a /30.'}},
+  {lbl:'What CIDR prefix is typically used for point-to-point WAN links?', text:'Point-to-Point Link', sub:'Only 2 usable hosts needed',ans:'/30',opts:['/30','/29','/31','/28'],exp:{
+    '/30':'A /30 gives exactly 2 usable hosts — one for each router on the link. The classic exam answer.',
+    '/29':'6 usable hosts, so 4 addresses go to waste on a 2-device link.',
+    '/31':'Allowed on point-to-point links by RFC 3021, but /30 is the traditional, "typical" answer.',
+    '/28':'14 usable hosts — far too many for a 2-device link.'}},
+  {lbl:'What is the broadcast address for this network?', text:'192.168.1.0/24', sub:'',ans:'192.168.1.255',opts:['192.168.1.255','192.168.1.254','192.168.0.255','192.168.1.128'],exp:{
+    '192.168.1.255':'Set all 8 host bits to 1 in the last octet: 192.168.1.255.',
+    '192.168.1.254':'That is the last usable host, one below the broadcast.',
+    '192.168.0.255':'Wrong network — the third octet is 1, not 0.',
+    '192.168.1.128':'That would be the network address of the second /25, not the /24 broadcast.'}},
+  {lbl:'What is the network address for this host?', text:'10.0.0.130/25', sub:'Hint: /25 = 255.255.255.128',ans:'10.0.0.128',opts:['10.0.0.128','10.0.0.0','10.0.0.130','10.0.1.0'],exp:{
+    '10.0.0.128':'/25 block size is 128, so subnets start at .0 and .128. 130 falls in the .128–.255 block.',
+    '10.0.0.0':'That is the network for the first /25 (.0–.127); 130 is outside that range.',
+    '10.0.0.130':'That is the host address itself, not the network address.',
+    '10.0.1.0':'Different network entirely — the third octet changed.'}},
 ];
 
 let sqDeck=[], sqIdx=0, sqScore=0, sqAnswered=0;
+const SQ_QBOX_HTML = document.querySelector('.quiz-q-box').innerHTML;
 
 function initSQ() {
+  document.querySelector('.quiz-q-box').innerHTML = SQ_QBOX_HTML;
   sqDeck = [...SQ_QUESTIONS].sort(()=>Math.random()-0.5).slice(0,10);
   sqIdx=0; sqScore=0; sqAnswered=0;
   document.getElementById('sq-score').textContent='Score: 0 / 0';
@@ -325,12 +413,13 @@ function renderSQ() {
   shuffled.forEach(o => {
     const btn = document.createElement('button');
     btn.className='quiz-opt'; btn.textContent=o;
-    btn.onclick=()=>checkSQ(o, q.ans);
+    btn.onclick=()=>checkSQ(o, q);
     optsDiv.appendChild(btn);
   });
 }
 
-function checkSQ(chosen, correct) {
+function checkSQ(chosen, q) {
+  const correct = q.ans;
   document.querySelectorAll('.quiz-opt').forEach(b=>b.classList.add('disabled'));
   document.querySelectorAll('.quiz-opt').forEach(b=>{if(b.textContent===correct)b.classList.add('correct')});
   sqAnswered++;
@@ -338,14 +427,23 @@ function checkSQ(chosen, correct) {
   if(chosen===correct){
     sqScore++;
     document.querySelectorAll('.quiz-opt').forEach(b=>{if(b.textContent===chosen)b.classList.add('correct')});
-    fb.className='quiz-fb show ok'; fb.textContent='✓ Correct!';
+    fb.className='quiz-fb show ok'; fb.innerHTML='<div class="quiz-fb-head">✓ Correct!</div>'+sqExplain(q, chosen);
   } else {
     document.querySelectorAll('.quiz-opt').forEach(b=>{if(b.textContent===chosen)b.classList.add('wrong')});
-    fb.className='quiz-fb show bad'; fb.textContent=`✗ Incorrect. The answer is: ${correct}`;
+    fb.className='quiz-fb show bad'; fb.innerHTML=`<div class="quiz-fb-head">✗ Incorrect. The answer is: ${correct}</div>`+sqExplain(q, chosen);
   }
   document.getElementById('sq-score').textContent=`Score: ${sqScore} / ${sqAnswered}`;
   document.getElementById('sq-badge').textContent=`${sqScore} / ${sqAnswered}`;
   document.getElementById('sq-next').disabled=false;
+}
+
+function sqExplain(q, chosen){
+  if(!q.exp) return '';
+  return q.opts.map(o=>{
+    const ok = o===q.ans;
+    const mine = o===chosen && !ok ? ' <span class="quiz-exp-you">(your pick)</span>' : '';
+    return `<div class="quiz-exp-line ${ok?'is-ans':''}"><span class="quiz-exp-mark">${ok?'✓':'✗'}</span><span><b>${o}</b>${mine} — ${q.exp[o]||''}</span></div>`;
+  }).join('');
 }
 
 function nextSQ(){sqIdx++;renderSQ()}
