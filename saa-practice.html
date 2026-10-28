@@ -1,0 +1,1314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Practice Tests — AWS Solutions Architect Associate SAA-C03 | BL Cert Hub</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
+  <style>
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    :root{
+      --navy:#0B1D3A;--blue:#1A5276;--accent:#2E86C1;--sky:#5DADE2;
+      --light:#EAF4FB;--mid:#D6EAF8;--white:#fff;--text:#0B1D3A;--muted:#5D7A8C;
+      --border:rgba(30,80,130,0.13);
+      --correct:#27AE60;--correct-bg:rgba(39,174,96,0.07);--correct-border:rgba(39,174,96,0.28);
+      --wrong:#E74C3C;--wrong-bg:rgba(231,76,60,0.07);--wrong-border:rgba(231,76,60,0.28);
+    }
+    html{scroll-behavior:smooth}
+    body{font-family:'DM Sans',sans-serif;background:var(--light);color:var(--text);min-height:100vh}
+
+    /* NAV */
+    nav{background:var(--navy);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:56px;position:sticky;top:0;z-index:100;border-bottom:1px solid rgba(93,173,226,0.15)}
+    .nav-brand{display:flex;align-items:center;gap:10px;text-decoration:none}
+    .bl-circle{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#2E86C1,#5DADE2);display:flex;align-items:center;justify-content:center;font-family:'Space Mono',monospace;font-size:10px;font-weight:700;color:#fff;flex-shrink:0}
+    .nav-brand span{font-size:13px;font-weight:500;color:rgba(255,255,255,0.85);letter-spacing:.02em}
+    .nav-links{display:flex;gap:6px}
+    .nav-links a{font-size:12px;font-weight:500;color:rgba(255,255,255,0.6);text-decoration:none;padding:6px 12px;border-radius:6px;transition:all .18s}
+    .nav-links a:hover{color:#fff;background:rgba(255,255,255,0.08)}
+    .nav-links a.active{color:var(--sky);background:rgba(93,173,226,0.12)}
+
+    /* HERO */
+    .hero{background:linear-gradient(135deg,#0B1D3A 0%,#1A5276 55%,#2E86C1 100%);padding:3rem 2rem 2.5rem;position:relative;overflow:hidden}
+    .hero-grid-pattern{position:absolute;inset:0;background-image:linear-gradient(rgba(93,173,226,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(93,173,226,0.04) 1px,transparent 1px);background-size:32px 32px;pointer-events:none}
+    .hero-bg-ring{position:absolute;border-radius:50%;border:40px solid rgba(93,173,226,0.08);pointer-events:none}
+    .hero-bg-ring.r1{width:300px;height:300px;top:-70px;right:-50px}
+    .hero-bg-ring.r2{width:180px;height:180px;bottom:-60px;left:40%;border-width:22px}
+    .hero-inner{position:relative;max-width:880px;margin:0 auto}
+    .exam-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.18);border-radius:20px;padding:5px 14px 5px 5px;margin-bottom:1.25rem}
+    .exam-badge .bl-circle{width:26px;height:26px;font-size:9px}
+    .exam-badge span{font-size:12px;color:rgba(255,255,255,0.8);font-weight:500}
+    .hero h1{font-family:'Space Mono',monospace;font-size:clamp(22px,3.5vw,38px);font-weight:700;color:#fff;line-height:1.2;margin-bottom:.5rem}
+    .hero h1 .accent{color:var(--sky)}
+    .hero-sub{font-size:14px;color:rgba(255,255,255,0.6);font-weight:300;line-height:1.7;max-width:500px}
+
+    /* WRAP */
+    .exam-wrap{max-width:880px;margin:0 auto;padding:2rem 2rem 3rem}
+
+    /* ── SETUP SCREEN ── */
+    #setup-screen{display:block}
+    .setup-title{font-family:'Space Mono',monospace;font-size:14px;font-weight:700;color:var(--navy);margin-bottom:1rem}
+    .setup-section{background:var(--white);border:1px solid var(--border);border-radius:14px;padding:24px;margin-bottom:16px;box-shadow:0 2px 8px rgba(11,29,58,0.06)}
+    .setup-section-label{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+    .setup-section-label::after{content:'';flex:1;height:1px;background:var(--border)}
+    .option-grid{display:grid;gap:10px}
+    .option-grid.cols-auto{grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+    .option-grid.cols-3{grid-template-columns:repeat(3,1fr)}
+    .option-grid.cols-5{grid-template-columns:repeat(5,1fr)}
+    .option-grid.cols-6{grid-template-columns:repeat(6,1fr)}
+    .opt-btn{
+      padding:12px 10px;border-radius:10px;border:1.5px solid var(--border);
+      background:var(--light);cursor:pointer;text-align:center;
+      transition:all .18s;font-family:'DM Sans',sans-serif;
+    }
+    .opt-btn:hover{border-color:var(--accent);background:rgba(46,134,193,0.05)}
+    .opt-btn.selected{border-color:var(--accent);background:rgba(46,134,193,0.1);color:var(--accent)}
+    .opt-btn .ob-val{font-family:'Space Mono',monospace;font-size:16px;font-weight:700;color:var(--navy);display:block;margin-bottom:2px}
+    .opt-btn.selected .ob-val{color:var(--accent)}
+    .opt-btn .ob-lbl{font-size:11px;color:var(--muted)}
+    .opt-btn.selected .ob-lbl{color:var(--accent)}
+    .start-btn{width:100%;padding:14px;border-radius:10px;background:var(--accent);border:none;color:#fff;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:600;cursor:pointer;transition:all .18s;letter-spacing:.02em;margin-top:8px}
+    .start-btn:hover{background:var(--blue)}
+
+    /* ── EXAM SCREEN ── */
+    #exam-screen{display:none}
+
+    /* SESSION BAR */
+    .session-bar{background:var(--white);border:1px solid var(--border);border-radius:12px;margin-bottom:1.25rem;overflow:hidden;box-shadow:0 2px 8px rgba(11,29,58,0.06)}
+    .session-bar-head{display:flex;align-items:center;justify-content:space-between;padding:11px 18px;cursor:pointer;user-select:none;transition:background .15s}
+    .session-bar-head:hover{background:rgba(46,134,193,0.03)}
+    .session-bar-pills{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+    .s-pill{font-size:11px;font-weight:500;padding:4px 12px;border-radius:20px;background:rgba(46,134,193,0.08);color:var(--accent);border:1px solid rgba(46,134,193,0.18);white-space:nowrap}
+    .s-pill.timer-pill{background:var(--navy);color:var(--sky);border-color:transparent;font-family:'Space Mono',monospace;font-weight:700}
+    .s-pill.timer-pill.warning{color:#F39C12}
+    .s-pill.timer-pill.danger{color:#E74C3C;animation:pulse .8s infinite}
+    @keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+    .bar-chevron{font-size:11px;color:var(--muted);transition:transform .25s;flex-shrink:0;margin-left:8px}
+    .bar-chevron.open{transform:rotate(180deg)}
+    .session-bar-body{max-height:0;overflow:hidden;transition:max-height .3s ease}
+    .session-bar-body.open{max-height:160px}
+    .session-bar-inner{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:0 18px 14px;border-top:1px solid var(--border);padding-top:12px;margin-top:0}
+    .sbi-item{text-align:center;background:var(--light);border-radius:8px;padding:10px}
+    .sbi-val{font-family:'Space Mono',monospace;font-size:15px;font-weight:700;color:var(--navy)}
+    .sbi-lbl{font-size:10px;color:var(--muted);margin-top:2px}
+
+    /* SCOREBOARD */
+    .scoreboard{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:1.5rem}
+    .score-card{background:var(--navy);border-radius:12px;padding:14px;text-align:center}
+    .score-val{font-family:'Space Mono',monospace;font-size:20px;font-weight:700;color:var(--sky)}
+    .score-lbl{font-size:10px;color:rgba(255,255,255,0.45);margin-top:4px}
+
+    /* PROGRESS */
+    .progress-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+    .progress-label{font-size:12px;font-weight:500;color:var(--text)}
+    .progress-pct{font-family:'Space Mono',monospace;font-size:12px;color:var(--accent);font-weight:700}
+    .progress-track{height:6px;background:var(--mid);border-radius:3px;overflow:hidden;margin-bottom:1.25rem}
+    .progress-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--blue),var(--sky));border-radius:3px;transition:width .4s}
+
+    /* Q NAV PILLS */
+    .section-label{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);display:flex;align-items:center;gap:10px;margin-bottom:.75rem}
+    .section-label::after{content:'';flex:1;height:1px;background:var(--border)}
+    .q-nav{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:1.25rem}
+    .q-pill{width:30px;height:30px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:'Space Mono',monospace;font-size:10px;font-weight:700;border:1px solid var(--border);background:var(--white);color:var(--muted);cursor:pointer;transition:all .15s}
+    .q-pill:hover{border-color:var(--accent);color:var(--accent)}
+    .q-pill.current{background:var(--accent);border-color:var(--accent);color:#fff}
+    .q-pill.ans-correct{background:rgba(39,174,96,0.15);border-color:var(--correct);color:var(--correct)}
+    .q-pill.ans-wrong{background:rgba(231,76,60,0.15);border-color:var(--wrong);color:var(--wrong)}
+    .q-pill.ans-skip{background:var(--mid);border-color:var(--border);color:var(--muted)}
+
+    /* QUESTION */
+    .question-card{background:var(--white);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:1.5rem;box-shadow:0 2px 12px rgba(11,29,58,0.07)}
+    .q-body{padding:22px 22px 18px}
+    .q-text{font-size:14px;font-weight:500;color:var(--text);line-height:1.7;margin-bottom:12px}
+    .q-meta-row{display:flex;align-items:center;gap:8px;margin-bottom:14px}
+    .q-num{font-family:'Space Mono',monospace;font-size:11px;font-weight:700;color:var(--muted)}
+    .q-domain-badge{font-size:10px;font-weight:500;padding:3px 10px;border-radius:10px;background:rgba(46,134,193,0.08);color:var(--accent);border:1px solid rgba(46,134,193,0.18)}
+    .q-multi-note{font-size:11px;color:var(--muted);font-style:italic;margin-bottom:12px}
+    .options{display:flex;flex-direction:column;gap:8px}
+    .option{display:flex;align-items:flex-start;gap:12px;padding:11px 16px;border-radius:9px;border:1px solid var(--border);background:var(--light);cursor:pointer;transition:all .16s;font-size:13px;color:var(--text);line-height:1.5;user-select:none}
+    .option:hover:not(.disabled){border-color:var(--accent);background:rgba(46,134,193,0.05)}
+    .option.selected{border-color:var(--accent);background:rgba(46,134,193,0.08)}
+    .option.correct{border-color:var(--correct);background:var(--correct-bg);color:#1A6B3A}
+    .option.wrong{border-color:var(--wrong);background:var(--wrong-bg);color:#A93226}
+    .option.disabled{pointer-events:none}
+    .opt-key{width:26px;height:26px;border-radius:50%;flex-shrink:0;background:var(--mid);display:flex;align-items:center;justify-content:center;font-family:'Space Mono',monospace;font-size:10px;font-weight:700;color:var(--blue);transition:all .16s;margin-top:1px}
+    .option.correct .opt-key{background:var(--correct);color:#fff}
+    .option.wrong .opt-key{background:var(--wrong);color:#fff}
+    .option.selected .opt-key{background:var(--accent);color:#fff}
+    .feedback{display:none;margin-top:14px;padding:13px 16px;border-radius:9px;font-size:13px;line-height:1.65;border:1px solid}
+    .feedback.show{display:block}
+    .feedback.correct-fb{background:rgba(39,174,96,0.08);border-color:var(--correct-border);color:#1A6B3A}
+    .feedback.wrong-fb{background:rgba(231,76,60,0.08);border-color:var(--wrong-border);color:#A93226}
+    .feedback strong{display:block;margin-bottom:6px;font-size:12px;letter-spacing:.03em}
+    .fb-line{display:block;padding:3px 0;line-height:1.55}
+    .fb-line b{font-weight:700;margin-right:2px}
+    .fb-correct-line{color:var(--correct)}
+    .fb-wrong-line{color:var(--wrong)}
+    .fb-explain{display:block;margin-top:6px}
+    .submit-row{margin-top:14px}
+    .btn-submit-answer{width:100%;padding:12px;border-radius:9px;background:var(--accent);border:none;color:#fff;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all .18s;letter-spacing:.02em}
+    .btn-submit-answer:hover:not(:disabled){background:var(--blue)}
+    .btn-submit-answer:disabled{opacity:.45;cursor:not-allowed}
+    .q-controls{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;border-top:1px solid var(--border);background:rgba(234,244,251,0.5)}
+    .btn{font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;padding:8px 18px;border-radius:8px;border:1px solid;cursor:pointer;transition:all .18s;letter-spacing:.02em}
+    .btn-primary{background:var(--accent);border-color:var(--accent);color:#fff}
+    .btn-primary:hover{background:var(--blue);border-color:var(--blue)}
+    .btn-primary:disabled{opacity:.4;pointer-events:none}
+    .btn-outline{background:transparent;border-color:var(--border);color:var(--text)}
+    .btn-outline:hover{border-color:var(--accent);color:var(--accent)}
+    .btn-danger{background:transparent;border-color:rgba(231,76,60,0.3);color:var(--wrong)}
+    .btn-danger:hover{background:rgba(231,76,60,0.07)}
+
+    /* RESULTS */
+    #results-screen{display:none;background:var(--white);border:1px solid var(--border);border-radius:14px;padding:3rem 2rem;text-align:center;box-shadow:0 2px 12px rgba(11,29,58,0.07)}
+    .result-score{font-family:'Space Mono',monospace;font-size:52px;font-weight:700;color:var(--accent);line-height:1}
+    .result-label{font-size:14px;color:var(--muted);margin-top:6px;margin-bottom:2rem}
+    .result-grade{display:inline-block;font-family:'Space Mono',monospace;font-size:13px;font-weight:700;padding:6px 20px;border-radius:8px;margin-bottom:2rem}
+    .result-grade.pass{background:rgba(39,174,96,0.1);color:var(--correct);border:1px solid var(--correct-border)}
+    .result-grade.fail{background:rgba(231,76,60,0.1);color:var(--wrong);border:1px solid var(--wrong-border)}
+    .result-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:2rem;max-width:400px;margin-left:auto;margin-right:auto}
+    .rs-item{background:var(--light);border-radius:10px;padding:12px}
+    .rs-val{font-family:'Space Mono',monospace;font-size:20px;font-weight:700}
+    .rs-lbl{font-size:10px;color:var(--muted);margin-top:3px}
+    .result-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+
+    /* FOOTER */
+    footer{background:var(--navy);padding:1.25rem 2rem;text-align:center;border-top:1px solid rgba(93,173,226,0.12)}
+    footer p{font-size:12px;color:rgba(255,255,255,0.3)}
+    footer a{color:var(--sky);text-decoration:none}
+
+    @media(max-width:600px){
+      .exam-wrap{padding:1.25rem}
+      .scoreboard{grid-template-columns:repeat(2,1fr)}
+      .option-grid.cols-6{grid-template-columns:repeat(3,1fr)}
+      .option-grid.cols-5{grid-template-columns:repeat(2,1fr)}
+      .option-grid.cols-3{grid-template-columns:1fr}
+      nav{padding:0 1.25rem}
+      .hero{padding:2rem 1.25rem 2rem}
+    }
+
+    /* ── DARK MODE ── */
+    html.dark {
+      --light:  #131b27;
+      --mid:    #1a2535;
+      --white:  #1e2a3a;
+      --text:   #d4e6f7;
+      --muted:  #7aa3c0;
+      --border: rgba(93,173,226,0.14);
+      --shadow: 0 2px 12px rgba(0,0,0,0.35);
+    }
+    html.dark body { background: var(--light); color: var(--text); }
+    html.dark nav  { background: #0a1220; border-color: rgba(93,173,226,0.12); }
+    html.dark footer { background: #0a1220; }
+    html.dark .exam-card,
+    html.dark .tool-card,
+    html.dark .question-card,
+    html.dark .widget,
+    html.dark .session-bar,
+    html.dark .setup-section,
+    html.dark .domain-weights,
+    html.dark .mode-bar,
+    html.dark .controls-bar,
+    html.dark .fc-area + .grade-note,
+    html.dark .acronym-card,
+    html.dark .card-mini,
+    html.dark .score-card,
+    html.dark .stat-pill,
+    html.dark .sum-card,
+    html.dark .fc-nav-btn,
+    html.dark .domain-header,
+    html.dark .obj-header { background: var(--white); border-color: var(--border); }
+    html.dark .domain-body { background: var(--white); border-color: var(--border); }
+    html.dark .score-card,
+    html.dark .sum-card { background: #0e1929; }
+    html.dark .question-box,
+    html.dark .opt-btn,
+    html.dark .option,
+    html.dark .sbi-item,
+    html.dark .rs-item,
+    html.dark .setup-section { background: var(--mid); }
+    html.dark .option { border-color: var(--border); color: var(--text); }
+    html.dark .option:hover:not(.disabled) { background: rgba(93,173,226,0.08); }
+    html.dark .fc-scene .fc-front { background: #0d1929; }
+    html.dark .fc-scene .fc-back  { background: #122040; }
+    html.dark .progress-track,
+    html.dark .prog-track,
+    html.dark .mini-bar,
+    html.dark .dw-bar-track { background: var(--mid); }
+    html.dark .cert-name,
+    html.dark .tool-name,
+    html.dark .cs-val,
+    html.dark .stat-val,
+    html.dark .sbi-val,
+    html.dark .rs-val,
+    html.dark .obj-title,
+    html.dark .domain-title { color: var(--text); }
+    html.dark .cert-vendor,
+    html.dark .cert-desc,
+    html.dark .tool-desc,
+    html.dark .cs-lbl,
+    html.dark .stat-lbl,
+    html.dark .score-lbl,
+    html.dark .sum-lbl,
+    html.dark .ac-def,
+    html.dark .card-mini-term,
+    html.dark .card-mini-status { color: var(--muted); }
+    html.dark .section-label::after,
+    html.dark .card-stats { border-color: var(--border); }
+    html.dark .port-table td { background: var(--white); border-color: var(--border); color: var(--text); }
+    html.dark .port-table th { background: #0a1220; }
+    html.dark .alpha-heading { background: var(--mid); color: var(--text); }
+    html.dark .search-input { background: var(--mid); border-color: var(--border); color: var(--text); }
+    html.dark .search-input:focus { background: var(--white); }
+    html.dark .alpha-btn,
+    html.dark .filter-btn,
+    html.dark .mode-tab,
+    html.dark .grade-btn,
+    html.dark .btn-outline { background: var(--mid); border-color: var(--border); color: var(--muted); }
+    html.dark .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+    html.dark .q-controls { background: rgba(0,0,0,0.15); border-color: var(--border); }
+    html.dark .feedback.correct-fb { background: rgba(39,174,96,0.12); }
+    html.dark .feedback.wrong-fb   { background: rgba(231,76,60,0.12); }
+    html.dark #results-screen { background: var(--white); }
+    html.dark .result-label { color: var(--muted); }
+    html.dark .acronym-card.is-mastered { background: rgba(46,125,50,0.1); }
+    html.dark .card-mini.is-mastered { background: rgba(46,125,50,0.1); }
+    html.dark .card-mini.is-reviewing { background: rgba(184,134,11,0.1); }
+    html.dark .stat-pill { background: var(--white); border-color: var(--border); color: var(--muted); }
+    html.dark .fc-dot { background: rgba(93,173,226,0.2); }
+    html.dark .session-bar-inner { border-color: var(--border); }
+    html.dark .q-header { background: #0a1220; }
+    html.dark .q-meta-row .q-num { color: var(--muted); }
+
+    /* Dark-mode toggle button */
+    .theme-btn {
+      width: 34px; height: 34px; border-radius: 8px;
+      border: 1px solid rgba(255,255,255,0.18);
+      background: rgba(255,255,255,0.08);
+      color: rgba(255,255,255,0.75);
+      cursor: pointer; font-size: 15px;
+      display: flex; align-items: center; justify-content: center;
+      transition: all .18s; flex-shrink: 0;
+    }
+    .theme-btn:hover { background: rgba(255,255,255,0.15); color: #fff; }
+
+
+    html.dark{--light:#131b27;--mid:#1a2535;--white:#1e2a3a;--text:#d4e6f7;--muted:#7aa3c0;--border:rgba(93,173,226,0.14)}
+    html.dark body{background:var(--light);color:var(--text)}
+    html.dark nav,html.dark footer{background:#0a1220}
+    html.dark .setup-section,html.dark .session-bar,html.dark .question-card,html.dark #results-screen{background:var(--white);border-color:var(--border)}
+    html.dark .question-box,html.dark .opt-btn,html.dark .option,html.dark .sbi-item,html.dark .rs-item{background:var(--mid)}
+    html.dark .option{border-color:var(--border);color:var(--text)}
+    html.dark .q-controls{background:rgba(0,0,0,0.15);border-color:var(--border)}
+    html.dark .q-meta-row .q-num{color:var(--muted)}
+    html.dark .q-header{background:#0a1220}
+    html.dark .score-card{background:#0e1929}
+    html.dark .section-label::after{background:var(--border)}
+    html.dark .q-pill{background:var(--white);border-color:var(--border)}
+    html.dark .session-bar-inner{border-color:var(--border)}
+    html.dark .setup-section-label::after{background:var(--border)}
+    .theme-btn{width:34px;height:34px;border-radius:8px;border:1px solid rgba(255,255,255,0.18);background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.75);cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;transition:all .18s;flex-shrink:0}
+    .theme-btn:hover{background:rgba(255,255,255,0.15);color:#fff}
+
+  
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
+</head>
+<body>
+<script>
+(function(){const K="bl-theme";function apply(d){document.documentElement.classList.toggle("dark",d);const b=document.getElementById("theme-btn");if(b)b.textContent=d?"☀":"☾"}apply(localStorage.getItem(K)==="dark");window.__toggleTheme=function(){const d=!document.documentElement.classList.contains("dark");localStorage.setItem(K,d?"dark":"light");apply(d)};window.addEventListener("storage",function(e){if(e.key===K)apply(e.newValue==="dark")})})();
+</script>
+
+<nav>
+  <a class="nav-brand" href="index.html"><div class="bl-circle">BL</div><span>BL Cert Hub</span></a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="saa-home.html">AWS SAA</a>
+    <a href="#" class="active">Practice Tests</a>
+    <button class="theme-btn" id="theme-btn" onclick="__toggleTheme()" title="Toggle dark mode">&#9790;</button>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-grid-pattern"></div>
+  <div class="hero-bg-ring r1"></div>
+  <div class="hero-bg-ring r2"></div>
+  <div class="hero-inner">
+    <div class="exam-badge"><div class="bl-circle">BL</div><span>AWS Certified Solutions Architect – Associate SAA-C03</span></div>
+    <h1>Practice <span class="accent">Tests</span></h1>
+    <p class="hero-sub">20 original questions across all 4 SAA-C03 domains, each with per-option rationale. Choose session length and timer, then start.</p>
+  </div>
+</div>
+
+<div class="exam-wrap">
+
+  <!-- SETUP SCREEN -->
+  <div id="setup-screen">
+    <div class="setup-section">
+      <div class="setup-section-label">Select Practice Test(s) — tap to toggle, pick one or more</div>
+      <div class="option-grid cols-auto" id="test-select-grid">
+        <div class="opt-btn selected" data-test="1" onclick="toggleTest(this,1)"><span class="ob-val">Practice Test 1</span><span class="ob-lbl">20 Questions</span></div>
+      </div>
+    </div>
+    <div class="setup-section">
+      <div class="setup-section-label">Number of Questions</div>
+      <div class="option-grid cols-6" id="q-count-grid">
+        <div class="opt-btn selected" data-count="10" onclick="selectCount(this,10)"><span class="ob-val">10</span><span class="ob-lbl">Quick</span></div>
+        <div class="opt-btn" data-count="20" onclick="selectCount(this,20)"><span class="ob-val">20</span><span class="ob-lbl">Short</span></div>
+        <div class="opt-btn" data-count="30" onclick="selectCount(this,30)"><span class="ob-val">30</span><span class="ob-lbl">Medium</span></div>
+        <div class="opt-btn" data-count="50" onclick="selectCount(this,50)"><span class="ob-val">50</span><span class="ob-lbl">Standard</span></div>
+        <div class="opt-btn" data-count="100" onclick="selectCount(this,100)"><span class="ob-val">100</span><span class="ob-lbl">Extended</span></div>
+        <div class="opt-btn" id="all-q-btn" data-count="20" onclick="selectCount(this, parseInt(this.dataset.count))"><span class="ob-val">All</span><span class="ob-lbl">20 Qs</span></div>
+      </div>
+    </div>
+    <div class="setup-section">
+      <div class="setup-section-label">Timer</div>
+      <div class="option-grid cols-3" id="timer-grid">
+        <div class="opt-btn selected" data-time="0" onclick="selectTimer(this,0)"><span class="ob-val">None</span><span class="ob-lbl">Untimed</span></div>
+        <div class="opt-btn" data-time="600" onclick="selectTimer(this,600)"><span class="ob-val">10m</span><span class="ob-lbl">10 Minutes</span></div>
+        <div class="opt-btn" data-time="1200" onclick="selectTimer(this,1200)"><span class="ob-val">20m</span><span class="ob-lbl">20 Minutes</span></div>
+        <div class="opt-btn" data-time="1800" onclick="selectTimer(this,1800)"><span class="ob-val">30m</span><span class="ob-lbl">30 Minutes</span></div>
+        <div class="opt-btn" data-time="3600" onclick="selectTimer(this,3600)"><span class="ob-val">1h</span><span class="ob-lbl">1 Hour</span></div>
+        <div class="opt-btn" data-time="5400" onclick="selectTimer(this,5400)"><span class="ob-val">1.5h</span><span class="ob-lbl">1.5 Hours</span></div>
+      </div>
+    </div>
+    <button class="start-btn" onclick="startExam()">Start Practice Test →</button>
+  </div>
+
+  <!-- EXAM SCREEN -->
+  <div id="exam-screen">
+    <div class="session-bar">
+      <div class="session-bar-head" onclick="toggleSessionBar()">
+        <div class="session-bar-pills">
+          <span class="s-pill" id="session-q-pill">10 Questions</span>
+          <span class="s-pill" id="session-t-pill">Untimed</span>
+          <span class="s-pill timer-pill" id="timer-pill" style="display:none">00:00</span>
+        </div>
+        <span class="bar-chevron" id="bar-chevron">▼</span>
+      </div>
+      <div class="session-bar-body" id="session-bar-body">
+        <div class="session-bar-inner">
+          <div class="sbi-item"><div class="sbi-val" id="sbi-total">—</div><div class="sbi-lbl">Total Questions</div></div>
+          <div class="sbi-item"><div class="sbi-val" id="sbi-timer">—</div><div class="sbi-lbl">Time Limit</div></div>
+          <div class="sbi-item"><div class="sbi-val" id="sbi-mode">Untimed</div><div class="sbi-lbl">Mode</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="scoreboard">
+      <div class="score-card"><div class="score-val" id="sc-total">—</div><div class="score-lbl">Questions</div></div>
+      <div class="score-card"><div class="score-val" id="sc-answered">0</div><div class="score-lbl">Answered</div></div>
+      <div class="score-card"><div class="score-val" id="sc-correct">0</div><div class="score-lbl">Correct</div></div>
+      <div class="score-card"><div class="score-val" id="sc-pct">0%</div><div class="score-lbl">Score</div></div>
+    </div>
+    <div class="progress-row">
+      <span class="progress-label" id="prog-label">Question 1</span>
+      <span class="progress-pct" id="prog-pct">0%</span>
+    </div>
+    <div class="progress-track"><div class="progress-fill" id="prog-bar"></div></div>
+    <div class="section-label">Jump to Question</div>
+    <div class="q-nav" id="q-nav"></div>
+    <div class="question-card" id="q-card">
+      <div class="q-body">
+        <div class="q-text" id="q-text"></div>
+        <div class="q-meta-row">
+          <span class="q-num" id="q-num-label">Question 1</span>
+          <span class="q-domain-badge" id="q-domain-label"></span>
+        </div>
+        <div class="q-multi-note" id="q-multi-note" style="display:none">Select all that apply</div>
+        <div class="options" id="q-options"></div>
+        <div class="submit-row" id="submit-row"><button class="btn-submit-answer" id="btn-submit" onclick="submitAnswer()" disabled>Submit Answer</button></div>
+        <div class="feedback" id="q-feedback"></div>
+      </div>
+      <div class="q-controls">
+        <button class="btn btn-outline" onclick="goTo(curQ-1)" id="btn-prev">← Prev</button>
+        <button class="btn btn-danger" onclick="endExam()">End Test</button>
+        <button class="btn btn-primary" id="btn-next" onclick="handleNext()" disabled>Next →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- RESULTS SCREEN -->
+  <div id="results-screen">
+    <div class="result-score" id="res-score">0/0</div>
+    <div class="result-label" id="res-label">AWS Solutions Architect Practice Test Complete</div>
+    <div class="result-grade" id="res-grade">—</div>
+    <div class="result-stats">
+      <div class="rs-item"><div class="rs-val" id="res-correct" style="color:var(--correct)">0</div><div class="rs-lbl">Correct</div></div>
+      <div class="rs-item"><div class="rs-val" id="res-wrong" style="color:var(--wrong)">0</div><div class="rs-lbl">Incorrect</div></div>
+      <div class="rs-item"><div class="rs-val" id="res-skip" style="color:var(--muted)">0</div><div class="rs-lbl">Skipped</div></div>
+    </div>
+    <div class="result-actions">
+      <button class="btn btn-outline" onclick="retakeSameSet()">↻ Retake Same Questions</button>
+      <button class="btn btn-outline" id="btn-retake-incorrect-unanswered" onclick="retakeIncorrectAndUnanswered()">⟳ Retake Incorrect + Unanswered</button>
+      <button class="btn btn-primary" onclick="backToSetup()">↺ New Session</button>
+      <button class="btn btn-outline" id="btn-pdf" onclick="downloadPDFReport()">⬇ Download PDF Report</button>
+      <button class="btn btn-outline" onclick="location.href='saa-home.html'">← Back to Hub</button>
+    </div>
+  </div>
+
+</div>
+
+<footer><p>Built by <a href="https://blaborte.github.io" target="_blank">Baltazar Laborte</a> · BL Cert Hub · AWS Solutions Architect Associate SAA-C03</p></footer>
+
+<script>
+const SAA_Q = [
+ {
+  "d": "1",
+  "q": "A company needs an application in Account A to read objects from an S3 bucket in Account B without sharing long-term credentials. What is the MOST secure approach?",
+  "opts": [
+   "A. Create an IAM user in Account B and embed its access keys in the application",
+   "B. Create an IAM role in Account B that trusts Account A, and have the application assume it via STS",
+   "C. Make the bucket public and restrict access by IP address",
+   "D. Copy the bucket contents to Account A every night"
+  ],
+  "ans": [
+   1
+  ],
+  "exp": "B is correct: an IAM role in Account B with a trust policy for Account A lets the application obtain temporary credentials through STS AssumeRole, so no long-term keys exist. A is wrong because embedded long-term access keys can leak and must be rotated manually, which is the pattern roles are designed to avoid. C is wrong because making a bucket public exposes data to everyone, and IP restrictions are not a substitute for identity-based access control. D is wrong because nightly copies add cost and latency and the data is stale between copies, so this is not a secure access mechanism.",
+  "domain": "Design Secure Architectures"
+ },
+ {
+  "d": "1",
+  "q": "A security team must encrypt S3 objects at rest, control who can use the key, and audit every use of the key. Which solution meets these requirements?",
+  "opts": [
+   "A. SSE-S3 with AWS-managed keys",
+   "B. Client-side encryption with keys stored on the application server",
+   "C. SSE-KMS with a customer managed key and CloudTrail logging",
+   "D. Encrypting only the EBS volumes of the application servers"
+  ],
+  "ans": [
+   2
+  ],
+  "exp": "C is correct: SSE-KMS with a customer managed key provides key policies for access control, optional rotation, and every KMS API call is recorded in CloudTrail. A is wrong because SSE-S3 encrypts data but gives you no control over key policy and no per-use audit trail. B is wrong because storing keys on the application server makes key management and auditing your responsibility and weakens control. D is wrong because EBS encryption does not protect objects stored in S3.",
+  "domain": "Design Secure Architectures"
+ },
+ {
+  "d": "1",
+  "q": "A web server subnet is receiving malicious traffic from a single known IP address. Which VPC feature can explicitly DENY that address?",
+  "opts": [
+   "A. Security group inbound rule",
+   "B. Network ACL deny rule",
+   "C. Route table entry",
+   "D. IAM policy"
+  ],
+  "ans": [
+   1
+  ],
+  "exp": "B is correct: network ACLs support explicit deny rules and are evaluated at the subnet boundary, so a deny rule for the offending IP blocks it. A is wrong because security groups only contain allow rules, so they cannot explicitly deny a specific address. C is wrong because route tables control where traffic is sent, not whether specific source addresses are permitted. D is wrong because IAM policies govern API permissions, not network packets.",
+  "domain": "Design Secure Architectures"
+ },
+ {
+  "d": "1",
+  "q": "A company uses AWS Organizations and must prevent every member account from launching resources outside two approved Regions. What should the architect use?",
+  "opts": [
+   "A. IAM permission boundaries in each account",
+   "B. Service control policies (SCPs) attached to the organization root or OUs",
+   "C. AWS Config rules with manual remediation",
+   "D. Security groups in each VPC"
+  ],
+  "ans": [
+   1
+  ],
+  "exp": "B is correct: SCPs set the maximum permissions for accounts in an organization and can deny actions in unapproved Regions centrally, even for account administrators. A is wrong because permission boundaries must be configured per IAM entity in each account, which is not a central guardrail. C is wrong because Config rules detect noncompliance after the fact and manual remediation does not prevent the launch. D is wrong because security groups filter network traffic and have no effect on which Regions can be used.",
+  "domain": "Design Secure Architectures"
+ },
+ {
+  "d": "1",
+  "q": "An application needs database credentials that rotate automatically every 30 days without code changes to the rotation process. Which service fits?",
+  "opts": [
+   "A. AWS Secrets Manager",
+   "B. AWS Systems Manager Session Manager",
+   "C. Amazon Inspector",
+   "D. AWS Certificate Manager"
+  ],
+  "ans": [
+   0
+  ],
+  "exp": "A is correct: Secrets Manager stores credentials and supports built-in automatic rotation for supported databases using Lambda rotation functions. B is wrong because Session Manager provides shell access to instances without SSH, not secret storage or rotation. C is wrong because Inspector scans workloads for vulnerabilities and does not store credentials. D is wrong because Certificate Manager provisions and renews TLS certificates, not database credentials.",
+  "domain": "Design Secure Architectures"
+ },
+ {
+  "d": "1",
+  "q": "A public web application behind an Application Load Balancer must be protected from SQL injection and cross-site scripting attacks. Which service should be used?",
+  "opts": [
+   "A. AWS Shield Standard",
+   "B. AWS WAF",
+   "C. Amazon GuardDuty",
+   "D. AWS Direct Connect"
+  ],
+  "ans": [
+   1
+  ],
+  "exp": "B is correct: AWS WAF inspects HTTP(S) requests and can use managed or custom rules to block SQL injection and XSS, and it attaches to an ALB. A is wrong because Shield Standard protects against common network and transport layer DDoS attacks, not application-layer injection patterns. C is wrong because GuardDuty detects threats from logs and does not block requests inline. D is wrong because Direct Connect is a dedicated network link and provides no web attack filtering.",
+  "domain": "Design Secure Architectures"
+ },
+ {
+  "d": "1",
+  "q": "EC2 instances in private subnets must read from S3 without traffic traversing the internet, at no additional hourly charge. What should be configured?",
+  "opts": [
+   "A. A NAT gateway in a public subnet",
+   "B. An S3 gateway VPC endpoint",
+   "C. An interface endpoint for every instance",
+   "D. A site-to-site VPN to S3"
+  ],
+  "ans": [
+   1
+  ],
+  "exp": "B is correct: an S3 gateway endpoint adds a route in the route table that keeps traffic on the AWS network and has no hourly or data processing charge. A is wrong because a NAT gateway sends traffic out through an internet gateway path and adds hourly and per-GB charges. C is wrong because interface endpoints (PrivateLink) carry hourly and data charges and are not per-instance, so this is more costly than the gateway endpoint. D is wrong because site-to-site VPN connects networks to a VPC and is not how S3 is reached.",
+  "domain": "Design Secure Architectures"
+ },
+ {
+  "d": "2",
+  "q": "A critical RDS database must survive an Availability Zone failure with automatic failover and no manual intervention. Which feature should be enabled?",
+  "opts": [
+   "A. Read replica in the same AZ",
+   "B. RDS Multi-AZ deployment",
+   "C. Manual snapshots every hour",
+   "D. Larger instance class"
+  ],
+  "ans": [
+   1
+  ],
+  "exp": "B is correct: Multi-AZ keeps a synchronous standby in another AZ and fails over automatically if the primary or its AZ becomes unavailable. A is wrong because a read replica in the same AZ shares the failure domain and is not an automatic failover mechanism. C is wrong because manual snapshots help recovery but restoring is manual and slow, not automatic failover. D is wrong because a larger instance adds capacity but does nothing for AZ failure.",
+  "domain": "Design Resilient Architectures"
+ },
+ {
+  "d": "2",
+  "q": "A read-heavy reporting workload is slowing down the primary RDS database. How can the architect offload the reads?",
+  "opts": [
+   "A. Enable Multi-AZ and point reports at the standby",
+   "B. Create one or more read replicas and direct reporting queries to them",
+   "C. Increase backup retention",
+   "D. Move the database to S3"
+  ],
+  "ans": [
+   1
+  ],
+  "exp": "B is correct: read replicas use asynchronous replication and serve read traffic, offloading queries from the primary. A is wrong because the Multi-AZ standby in a standard deployment is not readable, it exists only for failover. C is wrong because backup retention changes how long backups are kept and does not offload queries. D is wrong because S3 is object storage and cannot host a relational database engine.",
+  "domain": "Design Resilient Architectures"
+ },
+ {
+  "d": "2",
+  "q": "An order processing system has a web tier that sometimes overwhelms the backend workers during spikes. Which change decouples the tiers and prevents lost orders?",
+  "opts": [
+   "A. Place an Amazon SQS queue between the web tier and the workers",
+   "B. Connect the tiers with a larger load balancer",
+   "C. Add a CloudFront distribution in front of the workers",
+   "D. Store orders in instance store volumes"
+  ],
+  "ans": [
+   0
+  ],
+  "exp": "A is correct: SQS buffers messages durably so workers pull at their own pace and spikes do not cause dropped requests. B is wrong because a load balancer distributes requests but does not buffer them when workers are saturated. C is wrong because CloudFront caches content at edge locations and does not queue backend work. D is wrong because instance store data is lost when an instance stops or fails, which risks losing orders.",
+  "domain": "Design Resilient Architectures"
+ },
+ {
+  "d": "2",
+  "q": "A company needs a disaster recovery strategy with a minimal always-on core (data replicated, servers off) that can be scaled up during a disaster, at low cost. Which strategy is this?",
+  "opts": [
+   "A. Backup and restore",
+   "B. Pilot light",
+   "C. Warm standby",
+   "D. Multi-site active-active"
+  ],
+  "ans": [
+   1
+  ],
+  "exp": "B is correct: pilot light keeps core components such as replicated data running while compute is provisioned only during recovery, balancing cost and recovery time. A is wrong because backup and restore keeps nothing running and has the slowest recovery time. C is wrong because warm standby runs a scaled-down but fully functional copy continuously, which costs more than a pilot light. D is wrong because multi-site active-active runs full capacity in more than one site, which is the most expensive option.",
+  "domain": "Design Resilient Architectures"
+ },
+ {
+  "d": "2",
+  "q": "A website must route users to a secondary Region automatically if the primary Region application becomes unhealthy. Which Route 53 configuration achieves this?",
+  "opts": [
+   "A. Simple routing with two records",
+   "B. Failover routing with health checks",
+   "C. Weighted routing at 50/50 with no health checks",
+   "D. Geolocation routing only"
+  ],
+  "ans": [
+   1
+  ],
+  "exp": "B is correct: failover routing with health checks returns the primary record while healthy and switches to the secondary when the health check fails. A is wrong because simple routing returns values without checking health, so unhealthy endpoints can still be returned. C is wrong because weighted routing without health checks keeps sending traffic to a failed Region. D is wrong because geolocation routing directs users by location and does not provide failover on its own.",
+  "domain": "Design Resilient Architectures"
+ },
+ {
+  "d": "3",
+  "q": "A gaming application uses DynamoDB and needs read latency reduced from milliseconds to microseconds with minimal code changes. What should be added?",
+  "opts": [
+   "A. Amazon ElastiCache for Memcached with custom caching logic",
+   "B. DynamoDB Accelerator (DAX)",
+   "C. Amazon RDS read replica",
+   "D. S3 Transfer Acceleration"
+  ],
+  "ans": [
+   1
+  ],
+  "exp": "B is correct: DAX is a fully managed in-memory cache for DynamoDB that is API-compatible, giving microsecond reads with little application change. A is wrong because ElastiCache can cache data but requires you to write and maintain the caching logic in the application. C is wrong because RDS read replicas apply to relational databases, not DynamoDB tables. D is wrong because S3 Transfer Acceleration speeds uploads to S3 and is unrelated to DynamoDB.",
+  "domain": "Design High-Performing Architectures"
+ },
+ {
+  "d": "3",
+  "q": "Users around the world download large static assets from an S3 bucket in one Region and report slow loads. Which service improves performance?",
+  "opts": [
+   "A. Amazon CloudFront",
+   "B. AWS Direct Connect",
+   "C. Amazon EBS Multi-Attach",
+   "D. AWS Backup"
+  ],
+  "ans": [
+   0
+  ],
+  "exp": "A is correct: CloudFront caches content at edge locations close to users, reducing latency for static assets. B is wrong because Direct Connect is a private network link from an on-premises site and does not help global internet users. C is wrong because EBS Multi-Attach lets certain volumes attach to multiple instances and has nothing to do with content delivery. D is wrong because AWS Backup centralizes backups and does not speed up downloads.",
+  "domain": "Design High-Performing Architectures"
+ },
+ {
+  "d": "3",
+  "q": "A latency-sensitive database on EC2 requires consistently high IOPS (over 64,000) and sub-millisecond latency. Which storage should be chosen?",
+  "opts": [
+   "A. EBS Provisioned IOPS SSD (io2 Block Express)",
+   "B. EBS Cold HDD (sc1)",
+   "C. S3 Standard",
+   "D. EBS Throughput Optimized HDD (st1)"
+  ],
+  "ans": [
+   0
+  ],
+  "exp": "A is correct: io2 Block Express volumes deliver high provisioned IOPS with sub-millisecond latency for demanding databases. B is wrong because Cold HDD is the lowest-cost HDD for infrequently accessed data and provides low IOPS. C is wrong because S3 is object storage and cannot be used as a block device for a database. D is wrong because Throughput Optimized HDD targets large sequential workloads, not high random IOPS.",
+  "domain": "Design High-Performing Architectures"
+ },
+ {
+  "d": "3",
+  "q": "Linux application servers in several Availability Zones need a shared file system with POSIX semantics that scales automatically. Which service meets this?",
+  "opts": [
+   "A. Amazon EBS",
+   "B. Amazon EFS",
+   "C. Amazon S3 Glacier",
+   "D. Amazon FSx for Windows File Server"
+  ],
+  "ans": [
+   1
+  ],
+  "exp": "B is correct: EFS is a managed NFS file system that can be mounted by many Linux instances across AZs and grows and shrinks automatically. A is wrong because EBS volumes attach to a single instance (with limited Multi-Attach cases) and are tied to one AZ. C is wrong because S3 Glacier is archival object storage and not a mountable POSIX file system. D is wrong because FSx for Windows File Server serves SMB for Windows workloads, not NFS for Linux.",
+  "domain": "Design High-Performing Architectures"
+ },
+ {
+  "d": "4",
+  "q": "A company runs a steady-state production workload for the next three years across various instance families and wants the lowest cost with flexibility. What should the architect purchase?",
+  "opts": [
+   "A. On-Demand Instances",
+   "B. Compute Savings Plan with a 3-year commitment",
+   "C. Spot Instances",
+   "D. Dedicated Hosts"
+  ],
+  "ans": [
+   1
+  ],
+  "exp": "B is correct: a Compute Savings Plan offers large discounts for a committed spend and applies across instance families, Regions, and even Fargate and Lambda. A is wrong because On-Demand has no commitment but is the most expensive for steady workloads. C is wrong because Spot can be interrupted, which is risky for a steady production workload. D is wrong because Dedicated Hosts are for licensing or compliance needs and are not the lowest-cost option.",
+  "domain": "Design Cost-Optimized Architectures"
+ },
+ {
+  "d": "4",
+  "q": "A nightly batch job is fault tolerant and can restart if interrupted. Which purchasing option minimizes cost?",
+  "opts": [
+   "A. On-Demand Instances",
+   "B. Spot Instances",
+   "C. Reserved Instances (1-year)",
+   "D. Dedicated Instances"
+  ],
+  "ans": [
+   1
+  ],
+  "exp": "B is correct: Spot Instances use spare capacity at steep discounts and suit fault-tolerant, interruptible workloads. A is wrong because On-Demand costs more than Spot and gives no benefit for an interruptible job. C is wrong because a 1-year reservation commits to payment for a job that only runs part of the day. D is wrong because Dedicated Instances add a premium for single-tenant hardware that this job does not need.",
+  "domain": "Design Cost-Optimized Architectures"
+ },
+ {
+  "d": "4",
+  "q": "Data in S3 has unpredictable access patterns and the team wants automatic cost savings without retrieval fees or operational effort. Which storage class should be used?",
+  "opts": [
+   "A. S3 Standard-IA",
+   "B. S3 Intelligent-Tiering",
+   "C. S3 Glacier Deep Archive",
+   "D. S3 One Zone-IA"
+  ],
+  "ans": [
+   1
+  ],
+  "exp": "B is correct: S3 Intelligent-Tiering moves objects between access tiers automatically based on usage and has no retrieval charges. A is wrong because Standard-IA charges retrieval fees and does not adapt if the access pattern changes. C is wrong because Deep Archive is for rarely accessed archives with retrieval taking hours, unsuitable for unpredictable access. D is wrong because One Zone-IA stores data in a single AZ with retrieval fees, which adds risk and does not adapt automatically.",
+  "domain": "Design Cost-Optimized Architectures"
+ },
+ {
+  "d": "4",
+  "q": "A compliance archive must be kept for 10 years, is almost never read, and can tolerate retrieval within 12 hours. Which option gives the lowest storage cost?",
+  "opts": [
+   "A. S3 Standard",
+   "B. S3 Glacier Deep Archive",
+   "C. S3 Intelligent-Tiering",
+   "D. EBS Cold HDD"
+  ],
+  "ans": [
+   1
+  ],
+  "exp": "B is correct: S3 Glacier Deep Archive is the lowest-cost S3 storage class, designed for long-term retention with retrieval within hours. A is wrong because S3 Standard is priced for frequent access and costs far more for archival data. C is wrong because Intelligent-Tiering adds per-object monitoring fees and is intended for data with unknown access patterns. D is wrong because EBS Cold HDD is attached block storage and costs more than archive object storage for this use.",
+  "domain": "Design Cost-Optimized Architectures"
+ }
+];
+const DOMAIN_COLORS={"1":"#E74C3C","2":"#2E86C1","3":"#FF9900","4":"#27AE60"};
+const DOMAIN_NAMES={"1": "Design Secure Architectures", "2": "Design Resilient Architectures", "3": "Design High-Performing Architectures", "4": "Design Cost-Optimized Architectures"};
+let sessionQ = [];
+let curQ = 0;
+let answers = [];
+let revealed = [];
+let correct = 0, wrong = 0;
+let selectedTests = [1];
+let selectedCount = 10;
+let selectedTime = 0;
+let timerInterval = null;
+let timeLeft = 0;
+
+const TEST_NAMES = {1: 'SAA-C03 Practice Test 1'};
+const ALL_TEST_IDS = [1];
+
+function getPoolForTest(t) { return SAA_Q; }
+function getCombinedPool() {
+  let combined = [];
+  selectedTests.slice().sort().forEach(t => { combined = combined.concat(getPoolForTest(t)); });
+  return combined;
+}
+function getSelectedLabel() {
+  if (ALL_TEST_IDS.every(id => selectedTests.includes(id))) return 'All Practice Tests';
+  return selectedTests.slice().sort().map(t => TEST_NAMES[t]).join(' + ');
+}
+
+/* ══════════════════════════════════════
+   SETUP
+══════════════════════════════════════ */
+function selectCount(el, n) {
+  document.querySelectorAll('#q-count-grid .opt-btn').forEach(b => b.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedCount = n;
+}
+function selectTimer(el, t) {
+  document.querySelectorAll('#timer-grid .opt-btn').forEach(b => b.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedTime = t;
+}
+function toggleTest(el, t) {
+  if (t === 'all') {
+    const alreadyAll = ALL_TEST_IDS.every(id => selectedTests.includes(id));
+    selectedTests = alreadyAll ? [1] : [...ALL_TEST_IDS];
+  } else if (selectedTests.includes(t)) {
+    if (selectedTests.length > 1) selectedTests = selectedTests.filter(x => x !== t);
+    // if it's the last one selected, ignore the click so at least one exam stays active
+  } else {
+    selectedTests.push(t);
+  }
+
+  // Sync button highlighting
+  document.querySelectorAll('#test-select-grid .opt-btn').forEach(b => {
+    const bt = b.dataset.test;
+    if (bt === 'all') b.classList.toggle('selected', ALL_TEST_IDS.every(id => selectedTests.includes(id)));
+    else b.classList.toggle('selected', selectedTests.includes(parseInt(bt)));
+  });
+
+  // Update question count options based on combined pool size
+  const poolSize = getCombinedPool().length;
+  const allBtn = document.getElementById('all-q-btn');
+  if (allBtn) {
+    allBtn.querySelector('.ob-val').textContent = 'All';
+    allBtn.querySelector('.ob-lbl').textContent = poolSize + ' Qs';
+    allBtn.dataset.count = poolSize;
+  }
+}
+
+function toggleSessionBar() {
+  const body = document.getElementById('session-bar-body');
+  const chev = document.getElementById('bar-chevron');
+  body.classList.toggle('open');
+  chev.classList.toggle('open');
+}
+
+function startExam() {
+  const pool = getCombinedPool();
+  const shuffled = [...pool].sort(() => Math.random() - 0.5);
+  sessionQ = shuffled.slice(0, Math.min(selectedCount, pool.length));
+  curQ = 0;
+  answers = new Array(sessionQ.length).fill(null);
+  revealed = new Array(sessionQ.length).fill(false);
+  correct = 0; wrong = 0;
+
+  document.getElementById('sc-total').textContent = sessionQ.length;
+  document.getElementById('session-q-pill').textContent = sessionQ.length + ' Qs';
+  document.getElementById('sbi-total').textContent = sessionQ.length;
+
+  if (selectedTime > 0) {
+    timeLeft = selectedTime;
+    const tLabel = formatTime(selectedTime);
+    document.getElementById('session-t-pill').textContent = '⏱ ' + tLabel;
+    document.getElementById('sbi-timer').textContent = tLabel;
+    document.getElementById('sbi-mode').textContent = 'Timed';
+    document.getElementById('timer-pill').style.display = 'inline-block';
+    document.getElementById('timer-pill').textContent = tLabel;
+    startTimer();
+  } else {
+    document.getElementById('session-t-pill').textContent = 'Untimed';
+    document.getElementById('sbi-timer').textContent = '∞';
+    document.getElementById('sbi-mode').textContent = 'Untimed';
+    document.getElementById('timer-pill').style.display = 'none';
+  }
+
+  document.getElementById('setup-screen').style.display = 'none';
+  document.getElementById('exam-screen').style.display = 'block';
+  renderQuestion();
+  updateScoreboard();
+}
+
+/* ══════════════════════════════════════
+   TIMER
+══════════════════════════════════════ */
+function startTimer() {
+  clearInterval(timerInterval);
+  timerInterval = setInterval(() => {
+    timeLeft--;
+    const pill = document.getElementById('timer-pill');
+    const tStr = formatTime(timeLeft);
+    pill.textContent = tStr;
+    document.getElementById('session-t-pill').textContent = '⏱ ' + tStr;
+    pill.className = 's-pill timer-pill';
+    if (timeLeft <= 60) pill.classList.add('danger');
+    else if (timeLeft <= 180) pill.classList.add('warning');
+    if (timeLeft <= 0) { clearInterval(timerInterval); endExam(); }
+  }, 1000);
+}
+function formatTime(s) {
+  const h = Math.floor(s / 3600);
+  const m = Math.floor((s % 3600) / 60);
+  const sec = s % 60;
+  if (h > 0) return `${h}:${String(m).padStart(2,'0')}:${String(sec).padStart(2,'0')}`;
+  return `${String(m).padStart(2,'0')}:${String(sec).padStart(2,'0')}`;
+}
+
+/* ══════════════════════════════════════
+   RENDER QUESTION
+══════════════════════════════════════ */
+function renderQuestion() {
+  const q = sessionQ[curQ];
+  document.getElementById('q-num-label').textContent = `Question ${curQ + 1}`;
+  document.getElementById('q-domain-label').textContent = q.domain;
+  document.getElementById('q-text').textContent = q.q;
+  document.getElementById('q-multi-note').style.display = q.multi ? 'block' : 'none';
+
+  const pct = Math.round(((curQ + 1) / sessionQ.length) * 100);
+  document.getElementById('prog-label').textContent = `Question ${curQ + 1} of ${sessionQ.length}`;
+  document.getElementById('prog-pct').textContent = pct + '%';
+  document.getElementById('prog-bar').style.width = pct + '%';
+
+  const fb = document.getElementById('q-feedback');
+  fb.className = 'feedback'; fb.innerHTML = '';
+
+  const opts = document.getElementById('q-options');
+  opts.innerHTML = '';
+  q.opts.forEach((o, i) => {
+    const el = document.createElement('div');
+    el.className = 'option';
+    el.dataset.idx = i;
+    el.innerHTML = `<div class="opt-key">${o.charAt(0)}</div><span>${o.slice(3)}</span>`;
+    el.onclick = () => selectOpt(i, el);
+    if (revealed[curQ]) {
+      el.classList.add('disabled');
+      if (q.ans.includes(i)) el.classList.add('correct');
+      else if (answers[curQ] && answers[curQ].includes(i)) el.classList.add('wrong');
+    } else if (answers[curQ] && answers[curQ].includes(i)) {
+      el.classList.add('selected');
+    }
+    opts.appendChild(el);
+  });
+
+  if (revealed[curQ] && answers[curQ] && answers[curQ].length > 0) showFeedback(q);
+
+  const btnNext = document.getElementById('btn-next');
+  btnNext.disabled = !(answers[curQ] && answers[curQ].length > 0);
+  btnNext.textContent = curQ === sessionQ.length - 1 ? 'Finish →' : 'Next →';
+  document.getElementById('btn-prev').disabled = curQ === 0;
+
+  const btnSubmit = document.getElementById('btn-submit');
+  if (revealed[curQ]) {
+    btnSubmit.style.display = 'none';
+  } else {
+    btnSubmit.style.display = '';
+    btnSubmit.disabled = !(answers[curQ] && answers[curQ].length > 0);
+  }
+
+  buildNav();
+}
+
+function selectOpt(idx, el) {
+  if (revealed[curQ]) return;
+  const q = sessionQ[curQ];
+  if (!answers[curQ]) answers[curQ] = [];
+
+  if (q.multi) {
+    if (answers[curQ].includes(idx)) {
+      answers[curQ] = answers[curQ].filter(i => i !== idx);
+      el.classList.remove('selected');
+    } else {
+      answers[curQ].push(idx);
+      el.classList.add('selected');
+    }
+  } else {
+    document.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+    answers[curQ] = [idx];
+    el.classList.add('selected');
+  }
+  document.getElementById('btn-next').disabled = answers[curQ].length === 0;
+  const btnSubmit = document.getElementById('btn-submit');
+  if (btnSubmit) btnSubmit.disabled = answers[curQ].length === 0;
+}
+
+function submitAnswer() {
+  if (revealed[curQ]) return;
+  if (!answers[curQ] || answers[curQ].length === 0) return;
+  revealAnswer();
+}
+
+function revealAnswer() {
+  if (revealed[curQ]) return;
+  revealed[curQ] = true;
+  const q = sessionQ[curQ];
+  const isCorrect = q.ans.slice().sort().join(',') === answers[curQ].slice().sort().join(',');
+  if (isCorrect) correct++; else wrong++;
+
+  document.querySelectorAll('.option').forEach(el => {
+    el.classList.add('disabled');
+    const i = parseInt(el.dataset.idx);
+    if (q.ans.includes(i)) el.classList.add('correct');
+    else if (answers[curQ].includes(i)) el.classList.add('wrong');
+    el.classList.remove('selected');
+  });
+
+  const btnSubmit = document.getElementById('btn-submit');
+  if (btnSubmit) btnSubmit.style.display = 'none';
+
+  showFeedback(q);
+  document.getElementById('btn-next').disabled = false;
+  updateScoreboard();
+  buildNav();
+}
+
+function formatExplanation(q) {
+  const exp = q.exp || '';
+  const pattern = /([A-E](?:,\s*[A-E])*)\s*(?:\([^)]*\))?\s+(?:is|are)\s+(correct|wrong)\s*[:,]?\s*(?:because\s+)?/g;
+  let m, matches = [];
+  while ((m = pattern.exec(exp)) !== null) {
+    matches.push({letters: m[1], verdict: m[2], start: m.index, end: pattern.lastIndex});
+  }
+  const stripPrefix = s => (s || '').replace(/^[A-Z]\.\s*/, '');
+  if (matches.length < 2) {
+    const letters = q.ans.map(i => String.fromCharCode(65 + i)).join(', ');
+    const texts = q.ans.map(i => stripPrefix(q.opts[i])).join('; ');
+    let html = `<div class="fb-line fb-correct-line"><b>✓ ${letters}.</b> ${texts}</div>`;
+    if (exp) html += `<div class="fb-line fb-explain">${exp}</div>`;
+    return html;
+  }
+  const segs = matches.map((mt, i) => {
+    const end = (i + 1 < matches.length) ? matches[i+1].start : exp.length;
+    return {letters: mt.letters, verdict: mt.verdict, text: exp.slice(mt.end, end).trim()};
+  });
+  segs.sort((a, b) => (a.verdict === b.verdict) ? 0 : (a.verdict === 'correct' ? -1 : 1));
+  let html = '';
+  segs.forEach(s => {
+    const icon = s.verdict === 'correct' ? '✓' : '✗';
+    const cls = s.verdict === 'correct' ? 'fb-correct-line' : 'fb-wrong-line';
+    html += `<div class="fb-line ${cls}"><b>${icon} ${s.letters}.</b> ${s.text}</div>`;
+  });
+  return html;
+}
+
+function showFeedback(q) {
+  const isCorrect = q.ans.slice().sort().join(',') === (answers[curQ] || []).slice().sort().join(',');
+  const fb = document.getElementById('q-feedback');
+  fb.className = 'feedback show ' + (isCorrect ? 'correct-fb' : 'wrong-fb');
+  fb.innerHTML = `<strong>${isCorrect ? '✓ Correct!' : '✗ Incorrect'}</strong>` + formatExplanation(q);
+}
+
+function handleNext() {
+  if (!revealed[curQ] && answers[curQ] && answers[curQ].length > 0) { revealAnswer(); return; }
+  if (curQ < sessionQ.length - 1) { goTo(curQ + 1); }
+  else { endExam(); }
+}
+
+function goTo(i) {
+  if (i < 0 || i >= sessionQ.length) return;
+  curQ = i;
+  renderQuestion();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function buildNav() {
+  const nav = document.getElementById('q-nav');
+  nav.innerHTML = '';
+  sessionQ.forEach((_, i) => {
+    const pill = document.createElement('div');
+    pill.className = 'q-pill';
+    pill.textContent = i + 1;
+    pill.onclick = () => goTo(i);
+    if (i === curQ) pill.classList.add('current');
+    else if (revealed[i]) {
+      const q = sessionQ[i];
+      const isCorr = q.ans.slice().sort().join(',') === (answers[i]||[]).slice().sort().join(',');
+      pill.classList.add(isCorr ? 'ans-correct' : 'ans-wrong');
+    } else if (answers[i] && answers[i].length > 0) pill.classList.add('ans-skip');
+    nav.appendChild(pill);
+  });
+}
+
+function updateScoreboard() {
+  const answered = revealed.filter(Boolean).length;
+  const pct = answered > 0 ? Math.round((correct / answered) * 100) : 0;
+  document.getElementById('sc-answered').textContent = answered;
+  document.getElementById('sc-correct').textContent = correct;
+  document.getElementById('sc-pct').textContent = pct + '%';
+}
+
+/* ══════════════════════════════════════
+   END / RESULTS
+══════════════════════════════════════ */
+function endExam() {
+  clearInterval(timerInterval);
+  const total = sessionQ.length;
+  const skipped = total - correct - wrong;
+  const pct = Math.round((correct / total) * 100);
+
+  document.getElementById('exam-screen').style.display = 'none';
+  document.getElementById('res-score').textContent = `${correct}/${total}`;
+  document.getElementById('res-correct').textContent = correct;
+  document.getElementById('res-wrong').textContent = wrong;
+  document.getElementById('res-skip').textContent = skipped;
+
+  const grade = document.getElementById('res-grade');
+  const resLbl = document.getElementById('res-label');
+  if (resLbl) resLbl.textContent = getSelectedLabel() + ' Complete';
+  if (pct >= 72) { grade.className = 'result-grade pass'; grade.textContent = `${pct}% — PASS 🎉`; }
+  else { grade.className = 'result-grade fail'; grade.textContent = `${pct}% — Keep Studying`; }
+
+  const btnRetakeBoth = document.getElementById('btn-retake-incorrect-unanswered');
+  if (btnRetakeBoth) {
+    const missedTotal = wrong + skipped;
+    if (missedTotal > 0) {
+      btnRetakeBoth.disabled = false;
+      btnRetakeBoth.textContent = `⟳ Retake ${missedTotal} Incorrect + Unanswered`;
+    } else {
+      btnRetakeBoth.disabled = true;
+      btnRetakeBoth.textContent = '⟳ Retake Incorrect + Unanswered';
+    }
+  }
+
+  document.getElementById('results-screen').style.display = 'block';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* ══════════════════════════════════════
+   PDF REPORT
+══════════════════════════════════════ */
+function downloadPDFReport() {
+  if (!window.jspdf) { alert('PDF library is still loading — please try again in a second.'); return; }
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({ unit: 'pt', format: 'letter' });
+  const pageW = doc.internal.pageSize.getWidth();
+  const pageH = doc.internal.pageSize.getHeight();
+  const margin = 48;
+  const contentW = pageW - margin * 2;
+  let y = margin;
+
+  const NAVY = [11, 29, 58];
+  const ACCENT = [46, 134, 193];
+  const CORRECT = [39, 174, 96];
+  const WRONG = [231, 76, 60];
+  const MUTED = [93, 122, 140];
+
+  function checkPageBreak(neededHeight) {
+    if (y + neededHeight > pageH - margin) {
+      doc.addPage();
+      y = margin;
+    }
+  }
+
+  function addWrappedText(text, x, width, opts = {}) {
+    const fontSize = opts.fontSize || 10;
+    const lineHeight = opts.lineHeight || fontSize * 1.35;
+    doc.setFontSize(fontSize);
+    doc.setFont('helvetica', opts.style || 'normal');
+    doc.setTextColor(...(opts.color || [20, 20, 20]));
+    const lines = doc.splitTextToSize(text, width);
+    lines.forEach(line => {
+      checkPageBreak(lineHeight);
+      doc.text(line, x, y);
+      y += lineHeight;
+    });
+    return lines.length * lineHeight;
+  }
+
+  const total = sessionQ.length;
+  const skipped = total - correct - wrong;
+  const pct = Math.round((correct / total) * 100);
+  const testLabel = getSelectedLabel();
+
+  // ── Header ──
+  doc.setFillColor(...NAVY);
+  doc.rect(0, 0, pageW, 86, 'F');
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(16);
+  doc.setTextColor(255, 255, 255);
+  doc.text('AWS Certified Solutions Architect – Associate SAA-C03 — Practice Test Report', margin, 36);
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(10);
+  doc.setTextColor(200, 220, 235);
+  doc.text(`${testLabel} · ${new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}`, margin, 56);
+  doc.text('BL Cert Hub · blaborte.github.io', margin, 72);
+  y = 116;
+
+  // ── Score summary ──
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(22);
+  doc.setTextColor(pct >= 72 ? CORRECT[0] : WRONG[0], pct >= 72 ? CORRECT[1] : WRONG[1], pct >= 72 ? CORRECT[2] : WRONG[2]);
+  doc.text(`${correct}/${total} — ${pct}% (${pct >= 72 ? 'PASS' : 'Keep Studying'})`, margin, y);
+  y += 22;
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(10);
+  doc.setTextColor(...MUTED);
+  doc.text(`Correct: ${correct}   ·   Incorrect: ${wrong}   ·   Skipped: ${skipped}`, margin, y);
+  y += 28;
+  doc.setDrawColor(220, 220, 220);
+  doc.line(margin, y, pageW - margin, y);
+  y += 20;
+
+  // ── Questions ──
+  sessionQ.forEach((q, i) => {
+    checkPageBreak(40);
+    const userAns = answers[i] || [];
+    const wasAnswered = revealed[i] && userAns.length > 0;
+    const isCorrect = wasAnswered && q.ans.slice().sort().join(',') === userAns.slice().sort().join(',');
+    const status = !wasAnswered ? 'SKIPPED' : (isCorrect ? 'CORRECT' : 'INCORRECT');
+    const statusColor = !wasAnswered ? MUTED : (isCorrect ? CORRECT : WRONG);
+
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(11);
+    doc.setTextColor(...NAVY);
+    doc.text(`Q${i + 1}.`, margin, y);
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(9);
+    doc.setTextColor(...ACCENT);
+    doc.text(q.domain || '', margin + 28, y);
+    doc.setFont('helvetica', 'bold');
+    doc.setTextColor(...statusColor);
+    doc.text(status, pageW - margin, y, { align: 'right' });
+    y += 16;
+
+    y += addWrappedText(q.q, margin, contentW, { fontSize: 10.5, style: 'normal', color: [20, 20, 20] });
+    y += 4;
+
+    q.opts.forEach((optRaw, idx) => {
+      const hasPrefix = /^[A-Z]\.\s/.test(optRaw);
+      const optText = hasPrefix ? optRaw.slice(3) : optRaw;
+      const letter = String.fromCharCode(65 + idx);
+      const isRightAnswer = q.ans.includes(idx);
+      const wasPicked = userAns.includes(idx);
+      let color = [60, 60, 60];
+      let tag = '';
+      if (isRightAnswer) { color = CORRECT; tag = '  [correct answer]'; }
+      if (wasPicked && !isRightAnswer) { color = WRONG; tag = '  [your answer]'; }
+      else if (wasPicked && isRightAnswer) { tag = '  [your answer - correct]'; }
+      checkPageBreak(14);
+      y += addWrappedText(`${letter}. ${optText}${tag}`, margin + 12, contentW - 12, { fontSize: 9.5, color });
+    });
+    y += 4;
+
+    checkPageBreak(20);
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(9);
+    doc.setTextColor(...MUTED);
+    doc.text('Explanation:', margin + 12, y);
+    y += 12;
+    y += addWrappedText(q.exp, margin + 12, contentW - 12, { fontSize: 9, color: [90, 90, 90] });
+
+    y += 14;
+    doc.setDrawColor(230, 230, 230);
+    doc.line(margin, y, pageW - margin, y);
+    y += 16;
+  });
+
+  const pageCount = doc.internal.getNumberOfPages();
+  for (let p = 1; p <= pageCount; p++) {
+    doc.setPage(p);
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(8);
+    doc.setTextColor(...MUTED);
+    doc.text(`Page ${p} of ${pageCount}`, pageW - margin, pageH - 24, { align: 'right' });
+    doc.text('BL Cert Hub — Personal, non-commercial study material', margin, pageH - 24);
+  }
+
+  const dateStr = new Date().toISOString().slice(0, 10);
+  doc.save(`AWS-CCP-${testLabel.replace(/\s+/g, '')}-${dateStr}.pdf`);
+}
+
+function beginSession(questions, opts) {
+  opts = opts || {};
+  sessionQ = questions;
+  curQ = 0;
+  answers = new Array(sessionQ.length).fill(null);
+  revealed = new Array(sessionQ.length).fill(false);
+  correct = 0; wrong = 0;
+
+  document.getElementById('sc-total').textContent = sessionQ.length;
+  document.getElementById('session-q-pill').textContent = sessionQ.length + ' Qs';
+  document.getElementById('sbi-total').textContent = sessionQ.length;
+
+  const useTimer = opts.timed && selectedTime > 0;
+  if (useTimer) {
+    timeLeft = selectedTime;
+    const tLabel = formatTime(selectedTime);
+    document.getElementById('session-t-pill').textContent = '⏱ ' + tLabel;
+    document.getElementById('sbi-timer').textContent = tLabel;
+    document.getElementById('sbi-mode').textContent = 'Timed';
+    document.getElementById('timer-pill').style.display = 'inline-block';
+    document.getElementById('timer-pill').textContent = tLabel;
+    startTimer();
+  } else {
+    clearInterval(timerInterval);
+    document.getElementById('session-t-pill').textContent = 'Untimed';
+    document.getElementById('sbi-timer').textContent = '∞';
+    document.getElementById('sbi-mode').textContent = 'Untimed';
+    document.getElementById('timer-pill').style.display = 'none';
+  }
+
+  document.getElementById('results-screen').style.display = 'none';
+  document.getElementById('exam-screen').style.display = 'block';
+  renderQuestion();
+  updateScoreboard();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function retakeSameSet() {
+  if (sessionQ.length === 0) return;
+  beginSession(sessionQ.slice(), {timed: true});
+}
+
+function retakeIncorrectAndUnanswered() {
+  const missedQs = sessionQ.filter((q, i) => {
+    if (!revealed[i]) return true;
+    return !(q.ans.slice().sort().join(',') === (answers[i] || []).slice().sort().join(','));
+  });
+  if (missedQs.length === 0) return;
+  beginSession(missedQs, {timed: false});
+}
+
+function backToSetup() {
+  clearInterval(timerInterval);
+  document.getElementById('results-screen').style.display = 'none';
+  document.getElementById('exam-screen').style.display = 'none';
+  document.getElementById('setup-screen').style.display = 'block';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+</script>
+</body>
+</html>
